@@ -254,7 +254,7 @@ public class RestaurantTimingEditActivity extends AppCompatActivity implements C
             filePart = MultipartBody.Part.createFormData("avatar", GlobalData.REGISTER_AVATAR.getName(),
                     RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_AVATAR));
 
-        Call<Profile> call = apiInterface.timingUpdate(map, filePart);
+        Call<Profile> call = apiInterface.signUp(map, filePart);
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
