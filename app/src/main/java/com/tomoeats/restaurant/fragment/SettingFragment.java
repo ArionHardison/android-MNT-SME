@@ -15,18 +15,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.adapter.SettingAdapter;
+import com.tomoeats.restaurant.controller.GetProfile;
+import com.tomoeats.restaurant.controller.ProfileListener;
+import com.tomoeats.restaurant.helper.ConnectionHelper;
+import com.tomoeats.restaurant.helper.CustomDialog;
+import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.model.Setting;
+import com.tomoeats.restaurant.network.ApiClient;
+import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class SettingFragment extends Fragment {
+public class SettingFragment extends Fragment implements ProfileListener {
 
     @BindView(R.id.back_img)
     ImageView backImg;
@@ -41,6 +52,24 @@ public class SettingFragment extends Fragment {
     @BindView(R.id.title)
     TextView title;
 
+    @BindView(R.id.profile_img)
+    ImageView profileImg;
+
+    @BindView(R.id.shop_name)
+    TextView shop_name;
+
+    @BindView(R.id.shop_cuisines)
+    TextView shop_cuisines;
+
+    @BindView(R.id.address)
+    TextView address;
+
+    ConnectionHelper connectionHelper;
+    CustomDialog customDialog;
+
+    ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -48,8 +77,13 @@ public class SettingFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         context = getActivity();
         activity = getActivity();
-
+        initViews();
         return view;
+    }
+
+    private void initViews() {
+        connectionHelper = new ConnectionHelper(getActivity());
+        customDialog = new CustomDialog(getActivity());
     }
 
     @Override
@@ -79,4 +113,46 @@ public class SettingFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (connectionHelper.isConnectingToInternet())
+            getProfile();
+        else
+            Utils.displayMessage(getActivity(), getString(R.string.oops_no_internet));
+    }
+
+    private void getProfile() {
+        if(connectionHelper.isConnectingToInternet()){
+            customDialog.show();
+            new GetProfile(apiInterface, this);
+        }else{
+            Utils.displayMessage(getActivity(), getResources().getString(R.string.oops_no_internet));
+        }
+    }
+
+
+
+
+    @Override
+    public void onSuccess(Profile profile) {
+        customDialog.dismiss();
+        Glide.with(getActivity()).load(profile.getAvatar())
+                .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(profileImg);
+        shop_name.setText(profile.getName());
+        if (profile.getCuisines().size() > 1)
+            shop_cuisines.setText("Multi Cuisine");
+        else {
+            String cuisines = profile.getCuisines().get(0).getName();
+            shop_cuisines.setText(cuisines);
+        }
+
+        address.setText(profile.getMapsAddress());
+    }
+
+    @Override
+    public void onFailure(String error) {
+        customDialog.dismiss();
+        Utils.displayMessage(getActivity(),getString(R.string.something_went_wrong));
+    }
 }

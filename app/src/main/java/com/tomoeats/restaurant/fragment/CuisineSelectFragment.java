@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
+import com.tomoeats.restaurant.activity.EditRestaurantActivity;
 import com.tomoeats.restaurant.activity.RegisterActivity;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.model.Cuisine;
@@ -79,7 +80,10 @@ public class CuisineSelectFragment extends DialogFragment {
     @OnClick(R.id.done)
     public void onViewClicked() {
         CUISINES = mAdapter.getSelectedValues();
-        ((RegisterActivity) getActivity()).bindCuisine();
+        if (getActivity() instanceof RegisterActivity)
+            ((RegisterActivity) getActivity()).bindCuisine();
+        else if (getActivity() instanceof EditRestaurantActivity)
+            ((EditRestaurantActivity) getActivity()).bindCuisine();
         dismiss();
     }
 

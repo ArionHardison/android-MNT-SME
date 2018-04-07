@@ -16,6 +16,7 @@ import com.tomoeats.restaurant.fragment.HomeFragment;
 import com.tomoeats.restaurant.fragment.RevenueFragment;
 import com.tomoeats.restaurant.fragment.SettingFragment;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
+import com.tomoeats.restaurant.helper.CustomDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     FragmentTransaction transaction;
+
 
     @SuppressLint("ResourceAsColor")
     @Override

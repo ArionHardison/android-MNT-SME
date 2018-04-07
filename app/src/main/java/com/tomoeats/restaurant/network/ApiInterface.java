@@ -43,9 +43,13 @@ public interface ApiInterface {
     @GET("api/shop/profile")
     Call<Profile> getProfile(@QueryMap HashMap<String, String> params);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("api/shop/profile/{id}")
-    Call<Profile> updateProfile(@Path("id") int id,@QueryMap HashMap<String, String> params);
+    Call<Profile> updateProfileWithFile(@Path("id") int id,@PartMap HashMap<String, RequestBody> params,@Part MultipartBody.Part filename);
+
+    @Multipart
+    @POST("api/shop/profile/{id}")
+    Call<Profile> updateProfile(@Path("id") int id,@PartMap HashMap<String, RequestBody> params);
 //
 //    @Multipart
 //    @POST("api/user/profile")

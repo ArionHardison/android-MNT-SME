@@ -304,7 +304,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.register_btn:
-                validateRegister();
+                callRegister();
 //                startActivity(new Intent(context, RestaurantTimingActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 //                finish();
                 break;
@@ -337,7 +337,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void validateRegister() {
+    private void callRegister() {
         name = etName.getText().toString().trim();
         email = etEmail.getText().toString().trim();
         mobile = etMobile.getText().toString().trim();

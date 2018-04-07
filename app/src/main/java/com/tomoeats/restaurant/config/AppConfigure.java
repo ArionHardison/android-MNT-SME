@@ -7,7 +7,7 @@ package com.tomoeats.restaurant.config;
 public class AppConfigure {
 
     public static String BASE_URL="http://tomoeats.com/";
-    public static String CLIENT_SECRET = "2VaR1pVajHiT2H14pQVv84JWGFALssU9vXDJr0ow";
+    public static String CLIENT_SECRET = "6xTYMO9Y4dsmLTT8R9IfLS5AImcMqhnjJ1H3kFQV";
     public static String CLIENT_ID = "2";
     public static String GRANT_TYPE = "password";
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,11 +16,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.model.LatLng;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.controller.GetProfile;
 import com.tomoeats.restaurant.controller.ProfileListener;
@@ -29,17 +34,13 @@ import com.tomoeats.restaurant.countrypicker.CountryPickerListener;
 import com.tomoeats.restaurant.countrypicker.StatusPicker;
 import com.tomoeats.restaurant.fragment.CuisineSelectFragment;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
+import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.model.Cuisine;
 import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.util.Collections;
@@ -51,9 +52,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.tomoeats.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 import static com.tomoeats.restaurant.utils.TextUtils.isValidEmail;
@@ -132,6 +137,10 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     private CountryPicker mCountryPicker;
     private int id;
 
+    CustomDialog customDialog;
+    double latitude;
+    double longitude;
+    String country_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +154,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     private void initViews() {
         title.setText(getResources().getString(R.string.edit_restaurant));
         backImg.setVisibility(View.VISIBLE);
+        customDialog = new CustomDialog(EditRestaurantActivity.this);
 
         connectionHelper = new ConnectionHelper(getApplicationContext());
 
@@ -166,18 +176,36 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 mCountryPicker.dismiss();
             }
         });
+
+        getUserCountryInfo();
+
+    }
+
+    private void getUserCountryInfo() {
+        Country country = Country.getCountryFromSIM(EditRestaurantActivity.this);
+        if (country != null) {
+            countryImg.setImageResource(country.getFlag());
+            txtCountryNumber.setText(country.getDialCode());
+            country_code = country.getDialCode();
+        } else {
+            Country us = new Country("US", "United States", "+1", R.drawable.flag_us);
+            countryImg.setImageResource(us.getFlag());
+            txtCountryNumber.setText(us.getDialCode());
+            country_code = us.getDialCode();
+        }
     }
 
 
     private void callProfile() {
         if(connectionHelper.isConnectingToInternet()){
+            customDialog.show();
             new GetProfile(apiInterface, EditRestaurantActivity.this);
         }else{
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.oops_no_internet));
         }
     }
 
-    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker})
+    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker,R.id.cuisine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -205,7 +233,23 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             case R.id.llStatusPicker:
                 new StatusPicker().show(getSupportFragmentManager(), "STATUS_PICKER");
                 break;
+
+            case R.id.cuisine:
+                new CuisineSelectFragment().show(getSupportFragmentManager(), "cuisineSelectFragment");
+                break;
         }
+    }
+
+    public void bindCuisine() {
+        StringBuilder cuisneStr = new StringBuilder();
+        for (int i=0;i<CuisineSelectFragment.CUISINES.size();i++){
+            if(i==0)
+                cuisneStr.append(CuisineSelectFragment.CUISINES.get(i).getName());
+            else
+                cuisneStr.append(",").append(CuisineSelectFragment.CUISINES.get(i).getName());
+        }
+
+        cuisine.setText(cuisneStr.toString());
     }
 
 
@@ -222,6 +266,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         delivery_time = etMaximumDeliveryTime.getText().toString().trim();
         description = etDescription.getText().toString().trim();
 
+
         if (name.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_name));
         else if (email.isEmpty())
@@ -230,7 +275,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_valid_mail_id));
         else if (mobile.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_phone_number));
-        else if (password.isEmpty())
+        /*else if (password.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_password));
         else if (!password.isEmpty() && password.length()<5)
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
@@ -239,7 +284,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         else if (!confirmPassword.isEmpty() && confirmPassword.length()<5)
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
         else if (!confirmPassword.equals(password))
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
+            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.password_and_confirm_password_doesnot_match));*/
         else if(offer_min_amount.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_amount));
         else if(delivery_time.isEmpty())
@@ -250,8 +295,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_landmark));
         else if (CuisineSelectFragment.CUISINES.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.invalid_cuisine));
-        else if (GlobalData.REGISTER_AVATAR == null)
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_select_avatar));
+        /*else if (GlobalData.REGISTER_AVATAR == null)
+            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_select_avatar));*/
         else {
             if (connectionHelper.isConnectingToInternet()) {
                 HashMap<String, RequestBody> map = new HashMap<>();
@@ -268,8 +313,13 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("phone", RequestBody.create(MediaType.parse("text/plain"), mobile));
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
-                map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
-                map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
+                if (location != null) {
+                    map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
+                    map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
+                }else{
+                    map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latitude)));
+                    map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longitude)));
+                }
 
 
                 for (int i = 0; i < CuisineSelectFragment.CUISINES.size(); i++) {
@@ -277,6 +327,11 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                     map.put("cuisine_id[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(obj.getId())));
                 }
 
+                MultipartBody.Part filePart = null;
+                if (GlobalData.REGISTER_AVATAR != null)
+                    filePart = MultipartBody.Part.createFormData("avatar", GlobalData.REGISTER_AVATAR.getName(), RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_AVATAR));
+
+                updateProfile(map,filePart);
 
             }else{
                 Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.oops_no_internet));
@@ -285,14 +340,52 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
     }
 
+    private void updateProfile(HashMap<String, RequestBody> map,MultipartBody.Part filePart) {
+        customDialog.show();
+        Call<Profile> call = null;
+        if(filePart==null)
+            call = apiInterface.updateProfile(id,map);
+        else
+            call = apiInterface.updateProfileWithFile(id,map,filePart);
+
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                customDialog.dismiss();
+                if(response.body()!=null){
+                    Utils.displayMessage(EditRestaurantActivity.this,getString(R.string.restaurant_updated_successfully));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onBackPressed();
+                        }
+                    },1000);
+
+                }else{
+                    Utils.displayMessage(EditRestaurantActivity.this,getString(R.string.something_went_wrong));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.something_went_wrong));
+            }
+        });
+    }
 
 
     @Override
     public void onSuccess(Profile profile) {
+        customDialog.dismiss();
         id =profile.getId();
         etName.setText(profile.getName());
         etEmail.setText(profile.getEmail());
 
+        latitude = profile.getLatitude();
+        longitude = profile.getLongitude();
+
+        CuisineSelectFragment.CUISINES=profile.getCuisines();
         String strCusine = "";
         for (int i = 0; i < profile.getCuisines().size(); i++) {
             if (i == 0)
@@ -324,7 +417,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
     @Override
     public void onFailure(String error) {
-
+        customDialog.dismiss();
+        Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.something_went_wrong));
     }
 
     public void bindStatus(CharSequence s) {

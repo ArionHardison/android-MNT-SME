@@ -11,6 +11,7 @@ import com.tomoeats.restaurant.network.ApiInterface;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.tomoeats.restaurant.utils.Constants;
 
 import java.util.HashMap;
 
@@ -37,7 +38,10 @@ public class GetProfile {
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
-                if (response.isSuccessful()) profileListener.onSuccess(response.body());
+                if (response.isSuccessful()) {
+                    SharedHelper.putKey(MyApplication.getInstance(), Constants.PREF.PROFILE_ID, "" + response.body().getId());
+                    profileListener.onSuccess(response.body());
+                }
                 else try {
                     ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
                     profileListener.onFailure(serverError.getError());
