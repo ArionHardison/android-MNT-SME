@@ -1,0 +1,161 @@
+package com.tomoeats.restaurant.fragment;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.tomoeats.restaurant.R;
+import com.tomoeats.restaurant.activity.RegisterActivity;
+import com.tomoeats.restaurant.helper.ConnectionHelper;
+import com.tomoeats.restaurant.model.Cuisine;
+import com.tomoeats.restaurant.network.ApiClient;
+import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class CuisineSelectFragment extends DialogFragment {
+
+    ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+    @BindView(R.id.cuisine_rv)
+    RecyclerView cuisineRv;
+    @BindView(R.id.done)
+    Button done;
+    Unbinder unbinder;
+    RecyclerViewAdapter mAdapter;
+    List<Cuisine> list = new ArrayList<>();
+    public static List<Cuisine> CUISINES = new ArrayList<>();
+
+    ConnectionHelper connectionHelper;
+
+    public CuisineSelectFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_cuisine_select, container, false);
+
+        unbinder = ButterKnife.bind(this, view);
+
+        mAdapter = new RecyclerViewAdapter(list);
+        cuisineRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        cuisineRv.setAdapter(mAdapter);
+
+        connectionHelper = new ConnectionHelper(getActivity());
+
+
+        if(connectionHelper.isConnectingToInternet())
+        getCuisines();
+        else
+            Utils.displayMessage(getActivity(), getString(R.string.oops_no_internet));
+
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.done)
+    public void onViewClicked() {
+        CUISINES = mAdapter.getSelectedValues();
+        ((RegisterActivity) getActivity()).bindCuisine();
+        dismiss();
+    }
+
+    private void getCuisines() {
+        Call<List<Cuisine>> call = apiInterface.getCuisines();
+        call.enqueue(new Callback<List<Cuisine>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Cuisine>> call, @NonNull Response<List<Cuisine>> response) {
+                if (response.isSuccessful()) {
+                    list.clear();
+                    list.addAll(response.body());
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Cuisine>> call, @NonNull Throwable t) {
+                if(isAdded()){
+                    Utils.displayMessage(getActivity(), getString(R.string.something_went_wrong));
+                }
+
+            }
+        });
+
+    }
+
+    public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+
+        private List<Cuisine> mModelList;
+
+        RecyclerViewAdapter(List<Cuisine> modelList) {
+            mModelList = modelList;
+        }
+
+        @NonNull
+        @Override
+        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_cuisine, parent, false);
+            return new MyViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+            final Cuisine model = mModelList.get(position);
+            holder.textView.setText(model.getName());
+            holder.view.setBackgroundColor(model.isSelected() ? Color.CYAN : Color.WHITE);
+            holder.textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    model.setSelected(!model.isSelected());
+                    holder.view.setBackgroundColor(model.isSelected() ? Color.CYAN : Color.WHITE);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return mModelList == null ? 0 : mModelList.size();
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+
+            private View view;
+            private TextView textView;
+
+            private MyViewHolder(View itemView) {
+                super(itemView);
+                view = itemView;
+                textView = itemView.findViewById(R.id.name);
+            }
+        }
+
+        List<Cuisine> getSelectedValues() {
+            List<Cuisine> mm = new ArrayList<>();
+            for (Cuisine obj : mModelList) if (obj.isSelected()) mm.add(obj);
+            return mm;
+        }
+    }
+}

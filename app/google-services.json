@@ -1,0 +1,156 @@
+{
+  "project_info": {
+    "project_number": "899390128939",
+    "firebase_url": "https://tomoeats-b9c95.firebaseio.com",
+    "project_id": "tomoeats-b9c95",
+    "storage_bucket": "tomoeats-b9c95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899390128939:android:e37c8c0dd5cef6b5",
+        "android_client_info": {
+          "package_name": "com.tomoeats.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899390128939-7ma1c6raa6nu1vh54bkk73mgek2hae7p.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "899390128939-t5ft41jn48ilp1kgk8qd3r4srbc5l4am.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tomoeats.app",
+            "certificate_hash": "3656cc1b1e68b1342a0be15d5585e2a5c35a8e42"
+          }
+        },
+        {
+          "client_id": "899390128939-sfo5flcmruc5unc9ht5ic39amgkhrj3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC7kf4ciJOrQmeBlb41j9GUqHyL-Y4BAk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899390128939-7ma1c6raa6nu1vh54bkk73mgek2hae7p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "899390128939-ghd5k2eqgrs0q4h25ggsj89331fnk50p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tomoeats.app"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899390128939:android:1c7cff403842e257",
+        "android_client_info": {
+          "package_name": "com.tomoeats.provider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899390128939-7ma1c6raa6nu1vh54bkk73mgek2hae7p.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "899390128939-rf1sbcv0n2ivb7rklduui8ieugijirp2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tomoeats.provider",
+            "certificate_hash": "3656cc1b1e68b1342a0be15d5585e2a5c35a8e42"
+          }
+        },
+        {
+          "client_id": "899390128939-sfo5flcmruc5unc9ht5ic39amgkhrj3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC7kf4ciJOrQmeBlb41j9GUqHyL-Y4BAk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899390128939-7ma1c6raa6nu1vh54bkk73mgek2hae7p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "899390128939-ghd5k2eqgrs0q4h25ggsj89331fnk50p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tomoeats.app"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899390128939:android:7ce983f9b2203eb4",
+        "android_client_info": {
+          "package_name": "com.tomoeats.restaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899390128939-7ma1c6raa6nu1vh54bkk73mgek2hae7p.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "899390128939-sfo5flcmruc5unc9ht5ic39amgkhrj3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC7kf4ciJOrQmeBlb41j9GUqHyL-Y4BAk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
