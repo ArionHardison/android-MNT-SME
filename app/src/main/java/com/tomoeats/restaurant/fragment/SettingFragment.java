@@ -2,6 +2,7 @@ package com.tomoeats.restaurant.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,11 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tomoeats.restaurant.R;
+import com.tomoeats.restaurant.activity.EditRestaurantActivity;
+import com.tomoeats.restaurant.activity.RestaurantTimingActivity;
 import com.tomoeats.restaurant.adapter.SettingAdapter;
 import com.tomoeats.restaurant.controller.GetProfile;
 import com.tomoeats.restaurant.controller.ProfileListener;
@@ -67,6 +71,9 @@ public class SettingFragment extends Fragment implements ProfileListener {
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
 
+    @BindView(R.id.lnrProfile)
+    LinearLayout lnrProfile;
+
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
 
@@ -105,6 +112,18 @@ public class SettingFragment extends Fragment implements ProfileListener {
         settingRv.setHasFixedSize(true);
         settingAdapter = new SettingAdapter(settingArrayList, context,activity);
         settingRv.setAdapter(settingAdapter);
+    }
+
+
+    @OnClick({R.id.lnrProfile})
+    public  void onViewClicked(View view){
+
+        switch (view.getId()){
+            case R.id.lnrProfile:
+                context.startActivity(new Intent(context, EditRestaurantActivity.class));
+                break;
+        }
+
     }
 
     @Override

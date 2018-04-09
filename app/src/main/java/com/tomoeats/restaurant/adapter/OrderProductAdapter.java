@@ -52,6 +52,8 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
         }
     }
 
+
+
     @Override
     public int getSectionCount() {
         return list.size();

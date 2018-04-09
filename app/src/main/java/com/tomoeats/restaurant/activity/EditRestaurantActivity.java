@@ -121,6 +121,9 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     TextView tvStatus;
     @BindView(R.id.llStatusPicker)
     LinearLayout llStatusPicker;
+    @BindView(R.id.lnrPassword)
+    LinearLayout lnrPassword;
+
 
 
     ConnectionHelper connectionHelper;
@@ -177,6 +180,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             }
         });
 
+        lnrPassword.setVisibility(View.GONE);
+
         getUserCountryInfo();
 
     }
@@ -205,7 +210,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         }
     }
 
-    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker,R.id.cuisine})
+    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -237,6 +242,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             case R.id.cuisine:
                 new CuisineSelectFragment().show(getSupportFragmentManager(), "cuisineSelectFragment");
                 break;
+
         }
     }
 
@@ -273,6 +279,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_mail_id));
         else if (!isValidEmail(email))
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_valid_mail_id));
+        else if (CuisineSelectFragment.CUISINES.isEmpty())
+            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.invalid_cuisine));
         else if (mobile.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_phone_number));
         /*else if (password.isEmpty())
@@ -293,8 +301,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_fill_your_address));
         else if (landmark.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_landmark));
-        else if (CuisineSelectFragment.CUISINES.isEmpty())
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.invalid_cuisine));
+
         /*else if (GlobalData.REGISTER_AVATAR == null)
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_select_avatar));*/
         else {

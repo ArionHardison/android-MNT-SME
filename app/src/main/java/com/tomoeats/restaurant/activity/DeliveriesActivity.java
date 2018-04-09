@@ -1,7 +1,9 @@
 package com.tomoeats.restaurant.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -80,7 +82,7 @@ public class DeliveriesActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.filter_img:
-                FilterDialogFragment filterDialogFragment = new FilterDialogFragment();
+                FilterDialogFragment filterDialogFragment =FilterDialogFragment.newInstance(transporters);
                 filterDialogFragment.show(getSupportFragmentManager(), "FilterDialogFragment");
                 break;
         }

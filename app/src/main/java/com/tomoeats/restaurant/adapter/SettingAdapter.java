@@ -62,7 +62,9 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
         } else if (title.equalsIgnoreCase(context.getString(R.string.edit_restaurant))) {
             context.startActivity(new Intent(context, EditRestaurantActivity.class));
         } else if (title.equalsIgnoreCase(context.getString(R.string.edit_timing))) {
-            context.startActivity(new Intent(context, RestaurantTimingActivity.class));
+            Intent intent = new Intent(context, RestaurantTimingActivity.class);
+            intent.putExtra("from", "Settings");
+            context.startActivity(intent);
         } else if (title.equalsIgnoreCase(context.getString(R.string.deliveries))) {
             context.startActivity(new Intent(context, DeliveriesActivity.class));
         } else if (title.equalsIgnoreCase(context.getString(R.string.change_password))) {

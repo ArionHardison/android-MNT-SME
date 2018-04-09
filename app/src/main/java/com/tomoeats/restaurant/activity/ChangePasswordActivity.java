@@ -3,6 +3,7 @@ package com.tomoeats.restaurant.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -11,15 +12,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
+import com.tomoeats.restaurant.model.ChangePassword;
+import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Utils;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -64,9 +75,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
         backImg.setVisibility(View.VISIBLE);
         title.setText(getString(R.string.change_password));
 
-        etPasswordEyeImg.setTag(0);
-        etCurrentPasswordEyeImg.setTag(0);
-        etConfirmPasswordEyeImg.setTag(0);
+        etPasswordEyeImg.setTag(1);
+        etCurrentPasswordEyeImg.setTag(1);
+        etConfirmPasswordEyeImg.setTag(1);
 
 
     }
@@ -79,11 +90,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 break;
             case R.id.et_current_password_eye_img:
                 if (etCurrentPasswordEyeImg.getTag().equals(1)) {
-                    etConfirmPassword.setTransformationMethod(null);
+                    etCurrentPassword.setTransformationMethod(null);
                     etCurrentPasswordEyeImg.setImageResource(R.drawable.ic_eye_close);
                     etCurrentPasswordEyeImg.setTag(0);
                 } else {
-                    etConfirmPassword.setTransformationMethod(new PasswordTransformationMethod());
+                    etCurrentPassword.setTransformationMethod(new PasswordTransformationMethod());
                     etCurrentPasswordEyeImg.setImageResource(R.drawable.ic_eye_open);
                     etCurrentPasswordEyeImg.setTag(1);
                 }
@@ -112,8 +123,72 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.save_btn:
-                onBackPressed();
+                if(connectionHelper.isConnectingToInternet())
+                changePassword();
+                else
+                    Utils.displayMessage(activity, getResources().getString(R.string.oops_no_internet));
                 break;
         }
     }
+
+    private void changePassword() {
+        String strCurrentPassword = etCurrentPassword.getText().toString().trim();
+        String strPassword = etPassword.getText().toString().trim();
+        String strConfirmPassword = etConfirmPassword.getText().toString().trim();
+
+        if(strCurrentPassword.isEmpty()){
+            Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_password));
+        }else if(strCurrentPassword.length()<5){
+            Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
+        }else if(strPassword.isEmpty()){
+            Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_new_password));
+        }else if(strCurrentPassword.length()<5){
+            Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
+        }else if(strConfirmPassword.isEmpty()){
+            Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_new_password));
+        }else if(!strConfirmPassword.equals(strPassword)){
+            Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
+        }else{
+            HashMap<String, String> map = new HashMap<>();
+            map.put("password_old", strCurrentPassword);
+            map.put("password", strPassword);
+            map.put("password_confirmation", strConfirmPassword);
+            callChangePassword(map);
+        }
+    }
+
+    private void callChangePassword(HashMap<String, String> params) {
+        customDialog.show();
+        Call<ChangePassword> call = apiInterface.changePassword(params);
+        call.enqueue(new Callback<ChangePassword>() {
+            @Override
+            public void onResponse(Call<ChangePassword> call, Response<ChangePassword> response) {
+                customDialog.dismiss();
+                if (response.isSuccessful()) {
+                    Utils.displayMessage(ChangePasswordActivity.this,getString(R.string.password_updated_successfully));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onBackPressed();
+                        }
+                    },1000);
+                }else{
+                    try {
+                        ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
+                        Utils.displayMessage(activity, serverError.getError());
+                    } catch (JsonSyntaxException e) {
+                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChangePassword> call, Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+            }
+        });
+    }
+
+
 }

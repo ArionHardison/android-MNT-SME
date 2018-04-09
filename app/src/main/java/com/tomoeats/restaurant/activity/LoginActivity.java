@@ -27,6 +27,7 @@ import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

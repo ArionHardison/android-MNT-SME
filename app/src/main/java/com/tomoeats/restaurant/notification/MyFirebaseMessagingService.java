@@ -27,7 +27,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getData() != null) {
             Log.d(TAG, "From: " + remoteMessage.getFrom());
-            Log.d(TAG, "Notification Message Body: " + remoteMessage.getData());
+            Log.d(TAG, "Notification ChangePassword Body: " + remoteMessage.getData());
             //Calling method to generate notification
             String message = remoteMessage.getData().get("message");
             if(!message.toLowerCase().contains("dispute")){

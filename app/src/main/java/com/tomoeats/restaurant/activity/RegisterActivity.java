@@ -237,24 +237,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void login(HashMap<String, String> map) {
-        Call<AuthToken> call = apiInterface.postLogin(map);
-        call.enqueue(new Callback<AuthToken>() {
-            @Override
-            public void onResponse(@NonNull Call<AuthToken> call, @NonNull Response<AuthToken> response) {
-                if (response.body() != null) {
-                    SharedHelper.putKey(context, "access_token", response.body().getTokenType() + " " + response.body().getAccessToken());
-                    GlobalData.accessToken = SharedHelper.getKey(context, "access_token");
-
-//                    getProfile();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<AuthToken> call, @NonNull Throwable t) {
-            }
-        });
-    }
 
     public void getDeviceToken() {
         try {
@@ -304,7 +286,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.register_btn:
-                callRegister();
+                signupCall();
 //                startActivity(new Intent(context, RestaurantTimingActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 //                finish();
                 break;
@@ -337,7 +319,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void callRegister() {
+    private void signupCall() {
         name = etName.getText().toString().trim();
         email = etEmail.getText().toString().trim();
         mobile = etMobile.getText().toString().trim();
@@ -356,6 +338,8 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_mail_id));
         else if (!isValidEmail(email))
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_valid_mail_id));
+        else if (CuisineSelectFragment.CUISINES.isEmpty())
+            Utils.displayMessage(activity, getResources().getString(R.string.invalid_cuisine));
         else if (mobile.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_phone_number));
         else if (password.isEmpty())
@@ -368,6 +352,8 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
         else if (!confirmPassword.equals(password))
             Utils.displayMessage(activity, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
+        else if (GlobalData.REGISTER_AVATAR == null)
+            Utils.displayMessage(activity, getResources().getString(R.string.please_select_avatar));
         else if(offer_min_amount.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_amount));
         else if(delivery_time.isEmpty())
@@ -376,10 +362,7 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_fill_your_address));
         else if (landmark.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_landmark));
-        else if (CuisineSelectFragment.CUISINES.isEmpty())
-            Utils.displayMessage(activity, getResources().getString(R.string.invalid_cuisine));
-        else if (GlobalData.REGISTER_AVATAR == null)
-            Utils.displayMessage(activity, getResources().getString(R.string.please_select_avatar));
+
         else {
             if (isInternet) {
                 HashMap<String, RequestBody> map = new HashMap<>();

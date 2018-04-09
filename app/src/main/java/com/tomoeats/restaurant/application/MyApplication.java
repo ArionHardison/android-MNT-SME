@@ -2,6 +2,7 @@ package com.tomoeats.restaurant.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 
 import com.tomoeats.restaurant.helper.SharedHelper;
@@ -27,6 +28,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
         mAppController = this;
     }
 

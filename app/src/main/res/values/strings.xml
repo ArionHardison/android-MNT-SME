@@ -232,6 +232,7 @@
     <string name="please_enter_mail_id">Please enter mail id</string>
     <string name="please_enter_valid_mail_id">Please enter valid mail id</string>
     <string name="please_enter_password">Please enter password</string>
+    <string name="please_enter_new_password">Please enter new password</string>
     <string name="please_enter_minimum_length_password">Please enter atleast 6 characters in password</string>
     <string name="please_enter_name">Please enter name</string>
     <string name="please_enter_phone_number">Please enter phone number</string>
@@ -275,5 +276,8 @@
     <string name="status_banned">Banned</string>
     <string name="splash_tomoeats_partner">TOMOEATS\nPartner</string>
     <string name="restaurant_updated_successfully">Restaurant Updated Successfully</string>
+    <string name="password_updated_successfully">Password Updated Successfully</string>
+    <string name="restaurant_timing_updated_successfully">Restaurant Timing Updated Successfully</string>
+    <string name="action_save">Save</string>
 
 </resources>

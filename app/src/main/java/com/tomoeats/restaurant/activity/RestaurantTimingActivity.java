@@ -3,6 +3,7 @@ package com.tomoeats.restaurant.activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -19,14 +20,17 @@ import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.config.AppConfigure;
 import com.tomoeats.restaurant.controller.GetProfile;
 import com.tomoeats.restaurant.controller.ProfileListener;
+import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.helper.SharedHelper;
 import com.tomoeats.restaurant.model.AuthToken;
 import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.model.ServerError;
+import com.tomoeats.restaurant.model.Timing;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -36,6 +40,7 @@ import org.json.JSONObject;
 import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -122,18 +127,29 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     CheckBox wednesdayCheck;
     @BindView(R.id.confirm_btn)
     Button confirmBtn;
+    @BindView(R.id.LLBottomLay)
+    LinearLayout LLBottomLay;
 
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+
+    String strFrom="Register";
+    ConnectionHelper connectionHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_timing);
-
         ButterKnife.bind(this);
-        customDialog = new CustomDialog(this);
+        initViews();
+    }
 
+    private void initViews() {
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null && bundle.containsKey("from")){
+            strFrom = bundle.getString("from");
+        }
+        customDialog = new CustomDialog(this);
         //Handle via edit screen
         everyDaySwitch.setChecked(true);
         everyDayTimeLay.setVisibility(View.VISIBLE);
@@ -152,6 +168,8 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
         });
 
+        connectionHelper = new ConnectionHelper(this);
+
         mondayCheck.setOnCheckedChangeListener(this);
         tuedayCheck.setOnCheckedChangeListener(this);
         wednesdayCheck.setOnCheckedChangeListener(this);
@@ -159,6 +177,29 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
         fridayCheck.setOnCheckedChangeListener(this);
         saturdayCheck.setOnCheckedChangeListener(this);
         sundayCheck.setOnCheckedChangeListener(this);
+
+        //If this screen called from setting fragment we are reusing this screen to update timing in profile api
+        if(!strFrom.equalsIgnoreCase("Register")){
+            //dont't make it gone since it will hide the entire layout in screen
+            LLBottomLay.setVisibility(View.INVISIBLE);
+            confirmBtn.setText(R.string.action_save);
+            callProfile();
+        }else{
+            LLBottomLay.setVisibility(View.VISIBLE);
+            confirmBtn.setText(R.string.confirm);
+        }
+
+
+    }
+
+
+    private void callProfile() {
+        if(connectionHelper.isConnectingToInternet()){
+            customDialog.show();
+            new GetProfile(apiInterface, this);
+        }else{
+            Utils.displayMessage(this, getResources().getString(R.string.oops_no_internet));
+        }
     }
 
     @Override
@@ -211,37 +252,37 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
             map.put("hours_closing[ALL]", RequestBody.create(MediaType.parse("text/plain"), txtCloseTime.getText().toString()));
         } else {
             if (mondayCheck.isChecked()) {
-                map.put("day[]", RequestBody.create(MediaType.parse("text/plain"), "MON"));
+                map.put("day[0]", RequestBody.create(MediaType.parse("text/plain"), "MON"));
                 map.put("hours_opening[MON]", RequestBody.create(MediaType.parse("text/plain"), monTxtOpenTime.getText().toString()));
                 map.put("hours_closing[MON]", RequestBody.create(MediaType.parse("text/plain"), monTxtCloseTime.getText().toString()));
             }
             if (tuedayCheck.isChecked()) {
-                map.put("day[]", RequestBody.create(MediaType.parse("text/plain"), "TUE"));
+                map.put("day[1]", RequestBody.create(MediaType.parse("text/plain"), "TUE"));
                 map.put("hours_opening[TUE]", RequestBody.create(MediaType.parse("text/plain"), tueTxtOpenTime.getText().toString()));
                 map.put("hours_closing[TUE]", RequestBody.create(MediaType.parse("text/plain"), tueTxtCloseTime.getText().toString()));
             }
             if (wednesdayCheck.isChecked()) {
-                map.put("day[]", RequestBody.create(MediaType.parse("text/plain"), "WED"));
+                map.put("day[2]", RequestBody.create(MediaType.parse("text/plain"), "WED"));
                 map.put("hours_opening[WED]", RequestBody.create(MediaType.parse("text/plain"), wedTxtOpenTime.getText().toString()));
                 map.put("hours_closing[WED]", RequestBody.create(MediaType.parse("text/plain"), wedTxtCloseTime.getText().toString()));
             }
             if (thursdayCheck.isChecked()) {
-                map.put("day[]", RequestBody.create(MediaType.parse("text/plain"), "THU"));
+                map.put("day[3]", RequestBody.create(MediaType.parse("text/plain"), "THU"));
                 map.put("hours_opening[THU]", RequestBody.create(MediaType.parse("text/plain"), thurTxtOpenTime.getText().toString()));
                 map.put("hours_closing[THU]", RequestBody.create(MediaType.parse("text/plain"), thurTxtCloseTime.getText().toString()));
             }
             if (fridayCheck.isChecked()) {
-                map.put("day[]", RequestBody.create(MediaType.parse("text/plain"), "FRI"));
+                map.put("day[4]", RequestBody.create(MediaType.parse("text/plain"), "FRI"));
                 map.put("hours_opening[FRI]", RequestBody.create(MediaType.parse("text/plain"), fridTxtOpenTime.getText().toString()));
                 map.put("hours_closing[FRI]", RequestBody.create(MediaType.parse("text/plain"), fridTxtCloseTime.getText().toString()));
             }
             if (saturdayCheck.isChecked()) {
-                map.put("day[]", RequestBody.create(MediaType.parse("text/plain"), "SAT"));
+                map.put("day[5]", RequestBody.create(MediaType.parse("text/plain"), "SAT"));
                 map.put("hours_opening[SAT]", RequestBody.create(MediaType.parse("text/plain"), satTxtOpenTime.getText().toString()));
                 map.put("hours_closing[SAT]", RequestBody.create(MediaType.parse("text/plain"), satTxtCloseTime.getText().toString()));
             }
             if (sundayCheck.isChecked()) {
-                map.put("day[]", RequestBody.create(MediaType.parse("text/plain"), "SUN"));
+                map.put("day[6]", RequestBody.create(MediaType.parse("text/plain"), "SUN"));
                 map.put("hours_opening[SUN]", RequestBody.create(MediaType.parse("text/plain"), sunTxtOpenTime.getText().toString()));
                 map.put("hours_closing[SUN]", RequestBody.create(MediaType.parse("text/plain"), sunTxtCloseTime.getText().toString()));
             }
@@ -331,8 +372,106 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
     @OnClick(R.id.confirm_btn)
     public void onViewClicked() {
-        signUp();
+        if(connectionHelper.isConnectingToInternet()){
+            if(!strFrom.equalsIgnoreCase("Register")){
+                updateProfile();
+            }else{
+                signUp();
+            }
+        }else{
+            Utils.displayMessage(RestaurantTimingActivity.this,getString(R.string.oops_no_internet));
+        }
     }
+
+    private void updateProfile() {
+        HashMap<String, RequestBody> map = new HashMap<>();
+
+        if (everyDaySwitch.isChecked()) {
+            if (txtOpenTime.getText().toString().isEmpty()) {
+                Utils.displayMessage(this, getString(R.string.invalid_open_time));
+                return;
+            }
+            if (txtCloseTime.getText().toString().isEmpty()) {
+                Utils.displayMessage(this, getString(R.string.invalid_close_time));
+                return;
+            }
+            map.put("day[]", RequestBody.create(MediaType.parse("text/plain"), "ALL"));
+            map.put("hours_opening[ALL]", RequestBody.create(MediaType.parse("text/plain"), txtOpenTime.getText().toString()));
+            map.put("hours_closing[ALL]", RequestBody.create(MediaType.parse("text/plain"), txtCloseTime.getText().toString()));
+        } else {
+            if (mondayCheck.isChecked()) {
+                map.put("day[0]", RequestBody.create(MediaType.parse("text/plain"), "MON"));
+                map.put("hours_opening[MON]", RequestBody.create(MediaType.parse("text/plain"), monTxtOpenTime.getText().toString()));
+                map.put("hours_closing[MON]", RequestBody.create(MediaType.parse("text/plain"), monTxtCloseTime.getText().toString()));
+            }
+            if (tuedayCheck.isChecked()) {
+                map.put("day[1]", RequestBody.create(MediaType.parse("text/plain"), "TUE"));
+                map.put("hours_opening[TUE]", RequestBody.create(MediaType.parse("text/plain"), tueTxtOpenTime.getText().toString()));
+                map.put("hours_closing[TUE]", RequestBody.create(MediaType.parse("text/plain"), tueTxtCloseTime.getText().toString()));
+            }
+            if (wednesdayCheck.isChecked()) {
+                map.put("day[2]", RequestBody.create(MediaType.parse("text/plain"), "WED"));
+                map.put("hours_opening[WED]", RequestBody.create(MediaType.parse("text/plain"), wedTxtOpenTime.getText().toString()));
+                map.put("hours_closing[WED]", RequestBody.create(MediaType.parse("text/plain"), wedTxtCloseTime.getText().toString()));
+            }
+            if (thursdayCheck.isChecked()) {
+                map.put("day[3]", RequestBody.create(MediaType.parse("text/plain"), "THU"));
+                map.put("hours_opening[THU]", RequestBody.create(MediaType.parse("text/plain"), thurTxtOpenTime.getText().toString()));
+                map.put("hours_closing[THU]", RequestBody.create(MediaType.parse("text/plain"), thurTxtCloseTime.getText().toString()));
+            }
+            if (fridayCheck.isChecked()) {
+                map.put("day[4]", RequestBody.create(MediaType.parse("text/plain"), "FRI"));
+                map.put("hours_opening[FRI]", RequestBody.create(MediaType.parse("text/plain"), fridTxtOpenTime.getText().toString()));
+                map.put("hours_closing[FRI]", RequestBody.create(MediaType.parse("text/plain"), fridTxtCloseTime.getText().toString()));
+            }
+            if (saturdayCheck.isChecked()) {
+                map.put("day[5]", RequestBody.create(MediaType.parse("text/plain"), "SAT"));
+                map.put("hours_opening[SAT]", RequestBody.create(MediaType.parse("text/plain"), satTxtOpenTime.getText().toString()));
+                map.put("hours_closing[SAT]", RequestBody.create(MediaType.parse("text/plain"), satTxtCloseTime.getText().toString()));
+            }
+            if (sundayCheck.isChecked()) {
+                map.put("day[6]", RequestBody.create(MediaType.parse("text/plain"), "SUN"));
+                map.put("hours_opening[SUN]", RequestBody.create(MediaType.parse("text/plain"), sunTxtOpenTime.getText().toString()));
+                map.put("hours_closing[SUN]", RequestBody.create(MediaType.parse("text/plain"), sunTxtCloseTime.getText().toString()));
+            }
+        }
+
+        customDialog.show();
+        updateProfile(map);
+
+    }
+
+    private void updateProfile(HashMap<String, RequestBody> map) {
+        customDialog.show();
+        int id =  Integer.parseInt(SharedHelper.getKey(RestaurantTimingActivity.this, Constants.PREF.PROFILE_ID));
+        Call<Profile> call = null;
+        call = apiInterface.updateProfile(id,map);
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                customDialog.dismiss();
+                if(response.body()!=null){
+                    Utils.displayMessage(RestaurantTimingActivity.this,getString(R.string.restaurant_timing_updated_successfully));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onBackPressed();
+                        }
+                    },1000);
+
+                }else{
+                    Utils.displayMessage(RestaurantTimingActivity.this,getString(R.string.something_went_wrong));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(RestaurantTimingActivity.this, getString(R.string.something_went_wrong));
+            }
+        });
+    }
+
 
     private void timePicker(final TextView view) {
         Calendar mcurrentTime = Calendar.getInstance();
@@ -408,10 +547,72 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     @Override
     public void onSuccess(Profile profile) {
         customDialog.dismiss();
-        SharedHelper.putKey(RestaurantTimingActivity.this, "logged", "true");
-        GlobalData.profile = profile;
-        startActivity(new Intent(RestaurantTimingActivity.this, HomeActivity.class));
-        finish();
+        if(strFrom.equalsIgnoreCase("Register")){
+            SharedHelper.putKey(RestaurantTimingActivity.this, "logged", "true");
+            GlobalData.profile = profile;
+            startActivity(new Intent(RestaurantTimingActivity.this, HomeActivity.class));
+            finish();
+        }else{
+            List<Timing> timingList= profile.getTimings();
+            updateUI(timingList);
+        }
+
+    }
+
+    private void updateUI(List<Timing> timingList) {
+        if(timingList.size()==1 && timingList.get(0).getDay().equalsIgnoreCase("ALL")){
+            everyDaySwitch.setChecked(true);
+            txtOpenTime.setText(timingList.get(0).getStartTime());
+            txtCloseTime.setText(timingList.get(0).getEndTime());
+        }else{
+            everyDaySwitch.setChecked(false);
+            for (int i = 0; i <timingList.size() ; i++) {
+                Timing timing = timingList.get(i);
+                switch (timingList.get(i).getDay()){
+                    case "MON":
+                        mondayCheck.setChecked(true);
+                        monTxtOpenTime.setText(timing.getStartTime());
+                        monTxtCloseTime.setText(timing.getEndTime());
+                        break;
+
+                    case "TUE":
+                        tuedayCheck.setChecked(true);
+                        tueTxtOpenTime.setText(timing.getStartTime());
+                        tueTxtCloseTime.setText(timing.getEndTime());
+                        break;
+
+                    case "WED":
+                        wednesdayCheck.setChecked(true);
+                        wedTxtOpenTime.setText(timing.getStartTime());
+                        wedTxtCloseTime.setText(timing.getEndTime());
+                        break;
+
+                    case "THU":
+                        thursdayCheck.setChecked(true);
+                        thurTxtOpenTime.setText(timing.getStartTime());
+                        thurTxtCloseTime.setText(timing.getEndTime());
+                        break;
+
+                    case "FRI":
+                        fridayCheck.setChecked(true);
+                        fridTxtOpenTime.setText(timing.getStartTime());
+                        fridTxtCloseTime.setText(timing.getEndTime());
+                        break;
+
+                    case "SAT":
+                        saturdayCheck.setChecked(true);
+                        satTxtOpenTime.setText(timing.getStartTime());
+                        satTxtCloseTime.setText(timing.getEndTime());
+                        break;
+
+                    case "SUN":
+                        sundayCheck.setChecked(true);
+                        sunTxtOpenTime.setText(timing.getStartTime());
+                        sunTxtCloseTime.setText(timing.getEndTime());
+                        break;
+                }
+            }
+        }
     }
 
     @Override

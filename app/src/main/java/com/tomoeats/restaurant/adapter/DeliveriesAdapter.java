@@ -77,6 +77,10 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.My
             if(invoice!=null && invoice.getNet()!=0){
                 holder.totalAmt.setText(GlobalData.profile.getCurrency() +String.valueOf(invoice.getNet()));
             }
+
+            if(order.getStatus()!=null){
+                holder.statusTxt.setText(order.getStatus());
+            }
         }
     }
 

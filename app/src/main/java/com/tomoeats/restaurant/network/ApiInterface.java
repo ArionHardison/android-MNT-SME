@@ -8,6 +8,7 @@ package com.tomoeats.restaurant.network;
 import com.tomoeats.restaurant.model.Addon;
 import com.tomoeats.restaurant.model.AuthToken;
 import com.tomoeats.restaurant.model.Category;
+import com.tomoeats.restaurant.model.ChangePassword;
 import com.tomoeats.restaurant.model.Cuisine;
 import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.IncomingOrders;
@@ -67,9 +68,6 @@ public interface ApiInterface {
     @POST("api/shop/register")
     Call<Profile> signUp(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
 
-    @FormUrlEncoded
-    @POST("oauth/token")
-    Call<AuthToken> postLogin(@FieldMap HashMap<String, String> params);
 
 
     @GET("api/shop/cuisines")
@@ -99,6 +97,12 @@ public interface ApiInterface {
     /*------------- CATEGORY --------------------*/
     @GET("api/shop/categories")
     Call<List<Category>> getCategory();
+
+
+    /*---------------Change Password---------------*/
+    @FormUrlEncoded
+    @POST("api/shop/password")
+    Call<ChangePassword> changePassword(@FieldMap HashMap<String, String> params);
 
 /*
     @FormUrlEncoded
@@ -176,7 +180,7 @@ public interface ApiInterface {
 //    Call<Address> updateAddress(@Path("id") int id, @Body Address address);
 //
 //    @DELETE("api/user/address/{id}")
-//    Call<Message> deleteAddress(@Path("id") int id);
+//    Call<ChangePassword> deleteAddress(@Path("id") int id);
 //
 //    /*-------------FAVORITE--------------------*/
 //
@@ -215,7 +219,7 @@ public interface ApiInterface {
 //
 //    @FormUrlEncoded
 //    @POST("api/user/rating")
-//    Call<Message> rate(@FieldMap HashMap<String, String> params);
+//    Call<ChangePassword> rate(@FieldMap HashMap<String, String> params);
 //
 //    @FormUrlEncoded
 //    @POST("api/user/reorder")
@@ -256,14 +260,14 @@ public interface ApiInterface {
 //
 //    @FormUrlEncoded
 //    @POST("api/user/card")
-//    Call<Message> addCard(@Field("stripe_token") String stripeToken);
+//    Call<ChangePassword> addCard(@Field("stripe_token") String stripeToken);
 //
 //    @FormUrlEncoded
 //    @POST("api/user/add/money")
 //    Call<AddMoney> addMoney(@FieldMap HashMap<String, String> params);
 //
 //    @DELETE("api/user/card/{id}")
-//    Call<Message> deleteCard(@Path("id") int id);
+//    Call<ChangePassword> deleteCard(@Path("id") int id);
 
 
 }
