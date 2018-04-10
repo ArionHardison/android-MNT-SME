@@ -2,18 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tomoeats.restaurant.fragment.UpcomingVisitFragment">
+    tools:context="com.tomoeats.restaurant.fragment.PastVisitFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/upcoming_rv"
+        android:id="@+id/cancel_rv"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"/>
 
-    <TextClock
+    <TextView
         android:id="@+id/lblNoRecords"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:text="@string/no_results_found"/>
-
 
 </FrameLayout>

@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily" tools:ignore="NewApi">@font/nunito_regular</item>
     </style>
+
+
+
 </resources>

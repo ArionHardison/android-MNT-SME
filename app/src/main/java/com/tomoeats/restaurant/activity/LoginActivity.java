@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         etPasswordEyeImg.setTag(1);
 
         //Test
-        etEmail.setText("demo@foodie.com");
+        etEmail.setText("harapriya@appoets.com");
         etPassword.setText("123456");
     }
 

@@ -10,13 +10,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
 import com.tomoeats.restaurant.adapter.RequestAdapter;
+import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.Order;
+import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,20 +30,30 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CancelOrderFragment extends Fragment implements PastVisitFragment.CancelledListListener {
+public class CancelOrderFragment extends Fragment {
 
-    @BindView(R.id.past_rv)
-    RecyclerView pastRv;
+    @BindView(R.id.cancel_rv)
+    RecyclerView cancelRv;
+
+    @BindView(R.id.lblNoRecords)
+    TextView lblNoRecords;
+
     private Unbinder unbinder;
     private Context context;
     private Activity activity;
+    private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     List<Order> orderList = new ArrayList<>();
     RequestAdapter requestAdapter;
+
+    public static PastVisitFragment.CancelledListListener cancelledListListener;
 
     public CancelOrderFragment() {
         // Required empty public constructor
@@ -60,27 +76,34 @@ public class CancelOrderFragment extends Fragment implements PastVisitFragment.C
         super.onCreate(savedInstanceState);
         if (activity == null)
             activity = getActivity();
-        PastVisitFragment.cancelledListListener = this;
+    }
+
+    public void setCancelledListListener(PastVisitFragment.CancelledListListener cancelledListListener) {
+        this.cancelledListListener = cancelledListListener;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_past_visit, container, false);
+        View view = inflater.inflate(R.layout.fragment_cancelled_order, container, false);
         unbinder = ButterKnife.bind(this, view);
+        setupAdapter();
 
-        requestAdapter = new RequestAdapter(orderList, context);
-        pastRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        pastRv.setHasFixedSize(true);
-        pastRv.setAdapter(requestAdapter);
-        HistoryActivity.showDialog();
         return view;
+    }
+
+    private void setupAdapter() {
+        requestAdapter = new RequestAdapter(orderList, context);
+        cancelRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        cancelRv.setHasFixedSize(true);
+        cancelRv.setAdapter(requestAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        getHistory();
     }
 
     @Override
@@ -89,15 +112,54 @@ public class CancelOrderFragment extends Fragment implements PastVisitFragment.C
         unbinder.unbind();
     }
 
-    @Override
-    public void setCancelledListener(List<Order> cancelledOrder) {
-        HistoryActivity.dismissDialog();
-        if (cancelledOrder != null && cancelledOrder.size() > 0) {
-            orderList = cancelledOrder;
-            requestAdapter.setList(orderList);
-            requestAdapter.notifyDataSetChanged();
-        } else {
+    private void getHistory() {
+        HistoryActivity.showDialog();
+        Call<HistoryModel> call = apiInterface.getHistory();
+        call.enqueue(new Callback<HistoryModel>() {
+            @Override
+            public void onResponse(Call<HistoryModel> call, Response<HistoryModel> response) {
+                HistoryActivity.dismissDialog();
+                if (response.isSuccessful()) {
+                    orderList.clear();
+                    HistoryModel historyModel = response.body();
+                    if (historyModel != null) {
+                        if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0) {
+                            lblNoRecords.setVisibility(View.GONE);
+                            cancelRv.setVisibility(View.VISIBLE);
+                            orderList = historyModel.getCOMPLETED();
+                            requestAdapter.setList(orderList);
+                            requestAdapter.notifyDataSetChanged();
+                        } else {
+                            lblNoRecords.setVisibility(View.VISIBLE);
+                            cancelRv.setVisibility(View.GONE);
+                        }
+                        if (cancelledListListener != null)
+                            if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0) {
+                                cancelledListListener.setCancelledListener(historyModel.getCANCELLED());
+                            } else {
+                                cancelledListListener.setCancelledListener(new ArrayList<Order>());
+                            }
+                    }
+                } else {
+                    Gson gson = new Gson();
+                    try {
+                        ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
+                        Utils.displayMessage(activity, serverError.getError());
+                    } catch (JsonSyntaxException e) {
+                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+                    }
+                }
+            }
 
-        }
+            @Override
+            public void onFailure(Call<HistoryModel> call, Throwable t) {
+                HistoryActivity.dismissDialog();
+                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+            }
+        });
+    }
+
+    public interface CancelledListListener {
+        void setCancelledListener(List<Order> cancelledOrder);
     }
 }

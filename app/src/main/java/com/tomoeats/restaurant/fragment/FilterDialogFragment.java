@@ -2,12 +2,12 @@ package com.tomoeats.restaurant.fragment;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +18,17 @@ import android.widget.TextView;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
-import com.google.gson.Gson;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.tomoeats.restaurant.R;
+import com.tomoeats.restaurant.messages.FilterDialogFragmentMessage;
+import com.tomoeats.restaurant.messages.communicator.DataMessage;
 import com.tomoeats.restaurant.model.Transporter;
+import com.tomoeats.restaurant.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,9 +39,9 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilterDialogFragment extends DialogFragment implements CalendarDatePickerDialogFragment.OnDateSetListener {
+public class FilterDialogFragment extends DialogFragment implements CalendarDatePickerDialogFragment.OnDateSetListener,DataMessage<FilterDialogFragmentMessage> {
 
-    String TAG = FilterDialogFragment.this.getClass().getSimpleName();
+    String TAG = FilterDialogFragment.this.getClass().getName();
 
     @BindView(R.id.reset_img)
     ImageView resetImg;
@@ -67,8 +70,22 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     private static final String FROM_DATE="from_date";
     private static final String TO_DATE="to_date";
 
+    int selected_id = 0;
+    int selected_pos=0;
+    String strFromDate="";
+    String strToDate="";
+
+    DataMessage<FilterDialogFragmentMessage> dataMessage;
+    FilterDialogFragmentMessage message;
+
     public FilterDialogFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        dataMessage = (DataMessage)context;
     }
 
     private static List<Transporter> listTransporter;
@@ -94,23 +111,58 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     }
 
     private void initData() {
+
         List<String> lstNames = new ArrayList<>();
-        Bundle bundle = this.getArguments();
+        final HashMap<String,Integer> hshDPIds = new HashMap<>();
+        hshDPIds.put(getString(R.string.select_delievery_person),0);
+
+
         if (listTransporter != null) {
             for (int i = 0; i < listTransporter.size(); i++) {
-                lstNames.add(listTransporter.get(i).getName());
+                String name = listTransporter.get(i).getName().trim();
+                name = Utils.toFirstCharUpperAll(name);
+                lstNames.add(name);
+                hshDPIds.put(name,listTransporter.get(i).getId());
             }
 
             Collections.sort(lstNames);
+            lstNames.add(0,getString(R.string.select_delievery_person));
             statusSpin.setItems(lstNames);
 
             statusSpin.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
                 @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                    Log.e(TAG, "Selected Items==>>> "+item);
+                    selected_id = hshDPIds.get(item);
+                    selected_pos = position;
                 }
             });
         }
+
+        prepareData();
+    }
+
+    private void prepareData() {
+        if (message!=null){
+            statusSpin.setSelectedIndex(message.getSelectePos());
+            txtFromDate.setText(message.getFormattedFromDate());
+            toDateTxt.setText(message.getFormattedToDate());
+
+            strFromDate = message.getFromDate();
+            strToDate = message.getToDate();
+            selected_id = message.getDelieveryPersonId();
+            selected_pos = message.getSelectePos();
+        }
+    }
+
+
+    private void resetData() {
+        txtFromDate.setText("");
+        toDateTxt.setText("");
+        statusSpin.setSelectedIndex(0);
+        selected_pos = 0;
+        selected_id = 0;
+        strFromDate ="";
+        strToDate="";
     }
 
 
@@ -134,6 +186,8 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
 
         minDay = new MonthAdapter.CalendarDay();
         minDay.setDay(current_year, current_month,current_day);
+
+
     }
 
 
@@ -147,6 +201,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.reset_img:
+                resetData();
                 break;
             case R.id.from_date_lay:
                 getCurrentDate();
@@ -160,6 +215,10 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
                 cdp.show(getActivity().getSupportFragmentManager(), FROM_DATE);
                 break;
             case R.id.to_date_lay:
+                if(!validateDate()) {
+                    Utils.showAlertDialog(getActivity(), "Please select from date");
+                    return;
+                }
                 getCurrentDate();
                 CalendarDatePickerDialogFragment cdp2 = new CalendarDatePickerDialogFragment();
                 cdp2.setOnDateSetListener(this);
@@ -171,17 +230,68 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
                 cdp2.show(getActivity().getSupportFragmentManager(), TO_DATE);
                 break;
             case R.id.filter_btn:
+               //validateFilter();
+                sendMessageToScreen();
                 break;
         }
+    }
+
+    public boolean validateDate(){
+        String strFromDate = txtFromDate.getText().toString();
+        String strToDate = toDateTxt.getText().toString();
+        if(strFromDate.isEmpty()&& !strToDate.isEmpty())
+            return false;
+        return true;
+    }
+
+    private void validateFilter(){
+        String strFromDate = txtFromDate.getText().toString();
+        String strToDate = toDateTxt.getText().toString();
+        if (selected_id==0){
+            Utils.showAlertDialog(getContext(),"Please select a delivery person.");
+        }else if(strFromDate.isEmpty()){
+            Utils.showAlertDialog(getContext(),"Please select a start date");
+        }else if(strToDate.isEmpty()){
+            Utils.showAlertDialog(getContext(),"Please select a end date");
+        }else{
+            sendMessageToScreen();
+        }
+    }
+
+    private void sendMessageToScreen() {
+        if(message==null)
+            message = new FilterDialogFragmentMessage();
+        if(selected_pos==0){
+            message.clear();
+        }else {
+            message.setDelieveryPersonId(selected_id);
+            message.setFromDate(strFromDate);
+            message.setToDate(strToDate);
+            message.setSelectePos(selected_pos);
+            message.setFormattedFromDate(txtFromDate.getText().toString());
+            message.setFormattedToDate(toDateTxt.getText().toString());
+
+        }
+        dataMessage.onReceiveData(message);
+        dismiss();
     }
 
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
         String date =year+"-"+String.format("%02d", monthOfYear) +"-"+String.format("%02d", dayOfMonth);
+        String formattedDate =String.format("%02d", dayOfMonth)+":"+String.format("%02d", monthOfYear) +":"+year;
         if(dialog.getTag().equals(FROM_DATE)){
-            txtFromDate.setText(date);
+            strFromDate = date;
+            txtFromDate.setText(formattedDate);
         }else{
-            toDateTxt.setText(date);
+            strToDate = date;
+            toDateTxt.setText(formattedDate);
         }
+    }
+
+    @Override
+    public void onReceiveData(FilterDialogFragmentMessage message) {
+        this.message = message;
+        Utils.displayMessage(getActivity(),"Received data"+message.getDelieveryPersonId());
     }
 }

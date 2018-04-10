@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
@@ -38,6 +39,10 @@ public class UpcomingVisitFragment extends Fragment {
 
     @BindView(R.id.upcoming_rv)
     RecyclerView upcomingRv;
+
+    @BindView(R.id.lblNoRecords)
+    TextView lblNoRecords;
+
     Unbinder unbinder;
     Context context;
     Activity activity;
@@ -105,11 +110,14 @@ public class UpcomingVisitFragment extends Fragment {
                     if (response.body() != null) {
                         IncomingOrders incomingOrders = response.body();
                         if (incomingOrders != null && incomingOrders.getOrders() != null && incomingOrders.getOrders().size() > 0) {
+                            lblNoRecords.setVisibility(View.GONE);
+                            upcomingRv.setVisibility(View.VISIBLE);
                             orderList.addAll(incomingOrders.getOrders());
                             requestAdapter.setList(orderList);
                             requestAdapter.notifyDataSetChanged();
                         } else {
-
+                            lblNoRecords.setVisibility(View.VISIBLE);
+                            upcomingRv.setVisibility(View.GONE);
                         }
                     }
 

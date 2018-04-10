@@ -202,6 +202,9 @@ public interface ApiInterface {
     @GET("api/shop/history")
     Call<HistoryModel> getHistory();
 
+    @GET("api/shop/history")
+    Call<HistoryModel> getFilterHistory(@QueryMap HashMap<String, String> params);
+
     @GET("api/shop/transporterlist")
     Call<List<Transporter>> getTransporter();
 

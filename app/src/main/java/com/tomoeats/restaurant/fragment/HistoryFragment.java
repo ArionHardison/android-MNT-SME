@@ -43,7 +43,7 @@ public class HistoryFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         adapter.addFragment(new UpcomingVisitFragment(),getString(R.string.upcoming));
         adapter.addFragment(new PastVisitFragment(), getString(R.string.past));
-        adapter.addFragment(new PastVisitFragment(), getString(R.string.cancelled));
+        adapter.addFragment(new CancelOrderFragment(), getString(R.string.cancelled));
         viewPager.setAdapter(adapter);
         //set ViewPager
         tabLayout.setupWithViewPager(viewPager);

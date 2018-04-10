@@ -2,10 +2,16 @@ package com.tomoeats.restaurant.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tomoeats.restaurant.R;
+import com.tomoeats.restaurant.activity.LoginActivity;
+import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.helper.SharedHelper;
 import com.tomoeats.restaurant.network.ApiInterface;
 
@@ -40,6 +46,20 @@ public class Utils {
                 ee.printStackTrace();
             }
         }
+    }
+
+    public static void showAlertDialog(final Context context,String message){
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(context.getString(R.string.app_name));
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     public static boolean checktimings(String time) {

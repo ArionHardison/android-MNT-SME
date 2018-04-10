@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
@@ -37,6 +38,10 @@ public class PastVisitFragment extends Fragment {
 
     @BindView(R.id.past_rv)
     RecyclerView pastRv;
+
+    @BindView(R.id.lblNoRecords)
+    TextView lblNoRecords;
+
     private Unbinder unbinder;
     private Context context;
     private Activity activity;
@@ -116,11 +121,14 @@ public class PastVisitFragment extends Fragment {
                     HistoryModel historyModel = response.body();
                     if (historyModel != null) {
                         if (historyModel.getCOMPLETED() != null && historyModel.getCOMPLETED().size() > 0) {
+                            lblNoRecords.setVisibility(View.GONE);
+                            pastRv.setVisibility(View.VISIBLE);
                             orderList = historyModel.getCOMPLETED();
                             requestAdapter.setList(orderList);
                             requestAdapter.notifyDataSetChanged();
                         } else {
-
+                            lblNoRecords.setVisibility(View.VISIBLE);
+                            pastRv.setVisibility(View.GONE);
                         }
                         if (cancelledListListener != null)
                             if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0) {

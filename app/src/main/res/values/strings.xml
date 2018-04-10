@@ -53,6 +53,7 @@
     <string name="change_password">Change Password</string>
     <string name="payment">Payment</string>
     <string name="profile">Profile</string>
+    <string name="ongoing">Ongoing</string>
     <string name="upcoming">Upcoming</string>
     <string name="cancelled">Cancelled</string>
     <string name="past">Past</string>
@@ -279,5 +280,6 @@
     <string name="password_updated_successfully">Password Updated Successfully</string>
     <string name="restaurant_timing_updated_successfully">Restaurant Timing Updated Successfully</string>
     <string name="action_save">Save</string>
+    <string name="select_delievery_person">Select Delivery Person</string>
 
 </resources>

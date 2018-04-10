@@ -2,13 +2,16 @@ package com.tomoeats.restaurant.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
@@ -47,10 +50,13 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
         final Setting setting = list.get(position);
         holder.title.setText(setting.getTitle());
         holder.icon.setImageResource(setting.getIcon());
-        holder.title.setOnClickListener(new View.OnClickListener() {
+        holder.llMain.setTag(position);
+        holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = holder.title.getText().toString();
+                int pos = (int) view.getTag();
+                Setting data = list.get(pos);
+                String title = data.getTitle();
                 redirectPage(title);
             }
         });
@@ -70,12 +76,60 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
         } else if (title.equalsIgnoreCase(context.getString(R.string.change_password))) {
             context.startActivity(new Intent(context, ChangePasswordActivity.class));
         } else if (title.equalsIgnoreCase(context.getString(R.string.logout))) {
-            SharedHelper.clearSharedPreferences(context);
-            GlobalData.accessToken = "";
-            context.startActivity(new Intent(context, LoginActivity.class));
-            activity.finish();
+            showLogoutAlertDialog();
+        }else if (title.equalsIgnoreCase(context.getString(R.string.delete_account))){
+            showDeleteAccountAlertDialog();
         }
     }
+
+    private void showLogoutAlertDialog() {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(context.getString(R.string.app_name));
+        builder.setMessage("Would you like to logout ?");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                SharedHelper.clearSharedPreferences(context);
+                GlobalData.accessToken = "";
+                context.startActivity(new Intent(context, LoginActivity.class));
+                activity.finish();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void showDeleteAccountAlertDialog() {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(context.getString(R.string.app_name));
+        builder.setMessage("Are you sure you want to delete this restaurant ?");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                SharedHelper.clearSharedPreferences(context);
+                GlobalData.accessToken = "";
+                context.startActivity(new Intent(context, LoginActivity.class));
+                activity.finish();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
 
     @Override
     public int getItemCount() {
@@ -98,11 +152,13 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
 
         TextView title;
         ImageView icon;
+        LinearLayout llMain;
 
         MyViewHolder(View view) {
             super(view);
             icon = view.findViewById(R.id.setting_icon);
             title = view.findViewById(R.id.setting_title);
+            llMain = view.findViewById(R.id.llMain);
         }
     }
 }

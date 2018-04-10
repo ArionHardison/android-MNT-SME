@@ -84,7 +84,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         setSpinnerAdpater();
 
         if (getIntent() != null && getIntent().getExtras() != null) {
-            Category category = (Category) getIntent().getSerializableExtra("Category");
+            Category category = (Category) getIntent().getParcelableExtra("Category");
             if (category != null) {
                 setCategoryDetails(category);
             }
