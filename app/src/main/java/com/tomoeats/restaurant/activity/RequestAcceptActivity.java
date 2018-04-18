@@ -145,8 +145,8 @@ public class RequestAcceptActivity extends AppCompatActivity {
         orderProductRv.setHasFixedSize(true);
         orderProductRv.setAdapter(orderProductAdapter);
 
-        Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST())/100);
-        Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST())/100);
+        Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST()+"")/100);
+        Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST()+"")/100);
 
         double gross_amount = order.getInvoice().getGross() - order.getInvoice().getDiscount();
 

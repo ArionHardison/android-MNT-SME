@@ -119,10 +119,11 @@
                     android:textSize="@dimen/text_medium" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
-                    android:src="@android:drawable/arrow_down_float"
+                    android:src="@drawable/ic_drop_down"
                     android:tint="@color/grey" />
 
             </LinearLayout>

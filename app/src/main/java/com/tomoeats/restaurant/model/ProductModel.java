@@ -1,5 +1,7 @@
 package com.tomoeats.restaurant.model;
 
+import com.tomoeats.restaurant.model.product.ProductResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +9,10 @@ import java.util.List;
  * Created by Tamil on 3/1/2018.
  */
 
-public class CategoryList {
+public class ProductModel {
 
     String header;
-    List<Product> productList = new ArrayList<>();
+    List<ProductResponse> productList = new ArrayList<>();
 
     public String getHeader() {
         return header;
@@ -20,11 +22,11 @@ public class CategoryList {
         this.header = header;
     }
 
-    public List<Product> getProductList() {
+    public List<ProductResponse> getProductList() {
         return productList;
     }
 
-    public void setProductList(List<Product> availables) {
+    public void setProductList(List<ProductResponse> availables) {
         this.productList = availables;
     }
 }

@@ -1,234 +1,228 @@
 package com.tomoeats.restaurant.model;
 
-/**
- * Created by Tamil on 3/16/2018.
- */
 
-
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Invoice {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("order_id")
-    @Expose
-    private Integer orderId;
-    @SerializedName("quantity")
-    @Expose
-    private Integer quantity;
-    @SerializedName("paid")
-    @Expose
-    private Integer paid;
-    @SerializedName("gross")
-    @Expose
-    private Double gross;
-    @SerializedName("discount")
-    @Expose
-    private Double discount;
-    @SerializedName("delivery_charge")
-    @Expose
-    private Double deliveryCharge;
-    @SerializedName("wallet_amount")
-    @Expose
-    private Integer walletAmount;
-    @SerializedName("payable")
-    @Expose
-    private Integer payable;
-    @SerializedName("tax")
-    @Expose
-    private Double tax;
-    @SerializedName("net")
-    @Expose
-    private Double net;
-    @SerializedName("total_pay")
-    @Expose
-    private Integer totalPay;
-    @SerializedName("tender_pay")
-    @Expose
-    private Integer tenderPay;
-    @SerializedName("ripple_price")
-    @Expose
-    private String ripplePrice;
-    @SerializedName("payment_mode")
-    @Expose
-    private String paymentMode;
-    @SerializedName("payment_id")
-    @Expose
-    private String paymentId;
-    @SerializedName("CGST")
-    @Expose
-    private String cGST;
-    @SerializedName("SGST")
-    @Expose
-    private String sGST;
-    @SerializedName("status")
-    @Expose
-    private String status;
-    @SerializedName("created_at")
-    @Expose
-    private String createdAt;
+public class Invoice{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("payment_mode")
+	private String paymentMode;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("quantity")
+	private int quantity;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
+	@SerializedName("gross")
+	private Double gross;
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
+	@SerializedName("discount")
+	private Double discount;
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+	@SerializedName("created_at")
+	private String createdAt;
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+	@SerializedName("tax")
+	private Double tax;
 
-    public Integer getPaid() {
-        return paid;
-    }
+	@SerializedName("total_pay")
+	private Double totalPay;
 
-    public void setPaid(Integer paid) {
-        this.paid = paid;
-    }
+	@SerializedName("ripple_price")
+	private String ripplePrice;
 
-    public Double getGross() {
-        return gross;
-    }
+	@SerializedName("delivery_charge")
+	private Double deliveryCharge;
 
-    public void setGross(Double gross) {
-        this.gross = gross;
-    }
+	@SerializedName("SGST")
+	private double sGST;
 
-    public Double getDiscount() {
-        return discount;
-    }
+	@SerializedName("payable")
+	private Double payable;
 
-    public void setDiscount(Double discount) {
-        this.discount = discount;
-    }
+	@SerializedName("payment_id")
+	private String paymentId;
 
-    public Double getDeliveryCharge() {
-        return deliveryCharge;
-    }
+	@SerializedName("paid")
+	private Double paid;
 
-    public void setDeliveryCharge(Double deliveryCharge) {
-        this.deliveryCharge = deliveryCharge;
-    }
+	@SerializedName("tender_pay")
+	private Double tenderPay;
 
-    public Integer getWalletAmount() {
-        return walletAmount;
-    }
+	@SerializedName("CGST")
+	private double cGST;
 
-    public void setWalletAmount(Integer walletAmount) {
-        this.walletAmount = walletAmount;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public Integer getPayable() {
-        return payable;
-    }
+	@SerializedName("net")
+	private Double net;
 
-    public void setPayable(Integer payable) {
-        this.payable = payable;
-    }
+	@SerializedName("order_id")
+	private int orderId;
 
-    public Double getTax() {
-        return tax;
-    }
+	@SerializedName("wallet_amount")
+	private Double walletAmount;
 
-    public void setTax(Double tax) {
-        this.tax = tax;
-    }
+	@SerializedName("status")
+	private String status;
 
-    public Double getNet() {
-        return net;
-    }
+	public void setPaymentMode(String paymentMode){
+		this.paymentMode = paymentMode;
+	}
 
-    public void setNet(Double net) {
-        this.net = net;
-    }
+	public String getPaymentMode(){
+		return paymentMode;
+	}
 
-    public Integer getTotalPay() {
-        return totalPay;
-    }
+	public void setQuantity(int quantity){
+		this.quantity = quantity;
+	}
 
-    public void setTotalPay(Integer totalPay) {
-        this.totalPay = totalPay;
-    }
+	public int getQuantity(){
+		return quantity;
+	}
 
-    public Integer getTenderPay() {
-        return tenderPay;
-    }
+	public void setGross(Double gross){
+		this.gross = gross;
+	}
 
-    public void setTenderPay(Integer tenderPay) {
-        this.tenderPay = tenderPay;
-    }
+	public Double getGross(){
+		return gross;
+	}
 
-    public String getRipplePrice() {
-        return ripplePrice;
-    }
+	public void setDiscount(Double discount){
+		this.discount = discount;
+	}
 
-    public void setRipplePrice(String ripplePrice) {
-        this.ripplePrice = ripplePrice;
-    }
+	public Double getDiscount(){
+		return discount;
+	}
 
-    public String getPaymentMode() {
-        return paymentMode;
-    }
+	public void setCreatedAt(String createdAt){
+		this.createdAt = createdAt;
+	}
 
-    public void setPaymentMode(String paymentMode) {
-        this.paymentMode = paymentMode;
-    }
+	public String getCreatedAt(){
+		return createdAt;
+	}
 
-    public String getPaymentId() {
-        return paymentId;
-    }
+	public void setTax(Double tax){
+		this.tax = tax;
+	}
 
-    public void setPaymentId(String paymentId) {
-        this.paymentId = paymentId;
-    }
+	public Double getTax(){
+		return tax;
+	}
 
-    public String getCGST() {
-        return cGST;
-    }
+	public void setTotalPay(Double totalPay){
+		this.totalPay = totalPay;
+	}
 
-    public void setCGST(String cGST) {
-        this.cGST = cGST;
-    }
+	public Double getTotalPay(){
+		return totalPay;
+	}
 
-    public String getSGST() {
-        return sGST;
-    }
+	public void setRipplePrice(String ripplePrice){
+		this.ripplePrice = ripplePrice;
+	}
 
-    public void setSGST(String sGST) {
-        this.sGST = sGST;
-    }
+	public String getRipplePrice(){
+		return ripplePrice;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setDeliveryCharge(Double deliveryCharge){
+		this.deliveryCharge = deliveryCharge;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public Double getDeliveryCharge(){
+		return deliveryCharge;
+	}
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
+	public void setSGST(double sGST){
+		this.sGST = sGST;
+	}
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
+	public double getSGST(){
+		return sGST;
+	}
 
+	public void setPayable(Double payable){
+		this.payable = payable;
+	}
+
+	public Double getPayable(){
+		return payable;
+	}
+
+	public void setPaymentId(String paymentId){
+		this.paymentId = paymentId;
+	}
+
+	public String getPaymentId(){
+		return paymentId;
+	}
+
+	public void setPaid(Double paid){
+		this.paid = paid;
+	}
+
+	public Double getPaid(){
+		return paid;
+	}
+
+	public void setTenderPay(Double tenderPay){
+		this.tenderPay = tenderPay;
+	}
+
+	public Double getTenderPay(){
+		return tenderPay;
+	}
+
+	public void setCGST(double cGST){
+		this.cGST = cGST;
+	}
+
+	public double getCGST(){
+		return cGST;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setNet(Double net){
+		this.net = net;
+	}
+
+	public Double getNet(){
+		return net;
+	}
+
+	public void setOrderId(int orderId){
+		this.orderId = orderId;
+	}
+
+	public int getOrderId(){
+		return orderId;
+	}
+
+	public void setWalletAmount(Double walletAmount){
+		this.walletAmount = walletAmount;
+	}
+
+	public Double getWalletAmount(){
+		return walletAmount;
+	}
+
+	public void setStatus(String status){
+		this.status = status;
+	}
+
+	public String getStatus(){
+		return status;
+	}
 }

@@ -1,5 +1,6 @@
 package com.tomoeats.restaurant.fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
+import com.tomoeats.restaurant.activity.AddProductActivity;
 import com.tomoeats.restaurant.activity.EditRestaurantActivity;
 import com.tomoeats.restaurant.activity.RegisterActivity;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
@@ -45,9 +47,16 @@ public class CuisineSelectFragment extends DialogFragment {
     public static List<Cuisine> CUISINES = new ArrayList<>();
 
     ConnectionHelper connectionHelper;
+    boolean singleSelection;
 
     public CuisineSelectFragment() {
         // Required empty public constructor
+    }
+
+    @SuppressLint("ValidFragment")
+    public CuisineSelectFragment(boolean singleSelection) {
+        // Required empty public constructor
+        this.singleSelection =singleSelection;
     }
 
     @Override
@@ -56,7 +65,7 @@ public class CuisineSelectFragment extends DialogFragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-        mAdapter = new RecyclerViewAdapter(list);
+        mAdapter = new RecyclerViewAdapter(list,singleSelection);
         cuisineRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         cuisineRv.setAdapter(mAdapter);
 
@@ -84,6 +93,8 @@ public class CuisineSelectFragment extends DialogFragment {
             ((RegisterActivity) getActivity()).bindCuisine();
         else if (getActivity() instanceof EditRestaurantActivity)
             ((EditRestaurantActivity) getActivity()).bindCuisine();
+        else if (getActivity() instanceof AddProductActivity)
+            ((AddProductActivity) getActivity()).bindCuisine();
         dismiss();
     }
 
@@ -113,9 +124,11 @@ public class CuisineSelectFragment extends DialogFragment {
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
         private List<Cuisine> mModelList;
+        boolean isSingleSelection;
 
-        RecyclerViewAdapter(List<Cuisine> modelList) {
+        RecyclerViewAdapter(List<Cuisine> modelList,boolean isSingleSelection) {
             mModelList = modelList;
+            this.isSingleSelection = isSingleSelection;
         }
 
         @NonNull

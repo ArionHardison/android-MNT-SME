@@ -48,6 +48,26 @@ public class Utils {
         }
     }
 
+
+    public static String getTimeFromString(String time) {
+        System.out.println("Time : " + time);
+        String value = "";
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, hh:mm aa");
+
+            if (time != null) {
+                Date date = df.parse(time);
+                value = sdf.format(date);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+        }
+        return value;
+    }
+
     public static void showAlertDialog(final Context context,String message){
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);

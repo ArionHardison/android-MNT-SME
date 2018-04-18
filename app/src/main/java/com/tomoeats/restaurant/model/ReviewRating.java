@@ -1,130 +1,129 @@
 package com.tomoeats.restaurant.model;
 
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
-public class ReviewRating {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("order_id")
-    @Expose
-    private Integer orderId;
-    @SerializedName("user_id")
-    @Expose
-    private Integer userId;
-    @SerializedName("user_rating")
-    @Expose
-    private Integer userRating;
-    @SerializedName("user_comment")
-    @Expose
-    private Object userComment;
-    @SerializedName("transporter_id")
-    @Expose
-    private Object transporterId;
-    @SerializedName("transporter_rating")
-    @Expose
-    private Object transporterRating;
-    @SerializedName("transporter_comment")
-    @Expose
-    private Object transporterComment;
-    @SerializedName("shop_id")
-    @Expose
-    private Object shopId;
-    @SerializedName("shop_rating")
-    @Expose
-    private Object shopRating;
-    @SerializedName("shop_comment")
-    @Expose
-    private Object shopComment;
+public class Reviewrating{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("shop_id")
+	private Object shopId;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("shop_rating")
+	private Object shopRating;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
+	@SerializedName("shop_comment")
+	private Object shopComment;
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
+	@SerializedName("user_id")
+	private int userId;
 
-    public Integer getUserId() {
-        return userId;
-    }
+	@SerializedName("transporter_comment")
+	private Object transporterComment;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	@SerializedName("transporter_rating")
+	private int transporterRating;
 
-    public Integer getUserRating() {
-        return userRating;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public void setUserRating(Integer userRating) {
-        this.userRating = userRating;
-    }
+	@SerializedName("order_id")
+	private int orderId;
 
-    public Object getUserComment() {
-        return userComment;
-    }
+	@SerializedName("user_comment")
+	private Object userComment;
 
-    public void setUserComment(Object userComment) {
-        this.userComment = userComment;
-    }
+	@SerializedName("transporter_id")
+	private int transporterId;
 
-    public Object getTransporterId() {
-        return transporterId;
-    }
+	@SerializedName("user_rating")
+	private int userRating;
 
-    public void setTransporterId(Object transporterId) {
-        this.transporterId = transporterId;
-    }
+	public void setShopId(Object shopId){
+		this.shopId = shopId;
+	}
 
-    public Object getTransporterRating() {
-        return transporterRating;
-    }
+	public Object getShopId(){
+		return shopId;
+	}
 
-    public void setTransporterRating(Object transporterRating) {
-        this.transporterRating = transporterRating;
-    }
+	public void setShopRating(Object shopRating){
+		this.shopRating = shopRating;
+	}
 
-    public Object getTransporterComment() {
-        return transporterComment;
-    }
+	public Object getShopRating(){
+		return shopRating;
+	}
 
-    public void setTransporterComment(Object transporterComment) {
-        this.transporterComment = transporterComment;
-    }
+	public void setShopComment(Object shopComment){
+		this.shopComment = shopComment;
+	}
 
-    public Object getShopId() {
-        return shopId;
-    }
+	public Object getShopComment(){
+		return shopComment;
+	}
 
-    public void setShopId(Object shopId) {
-        this.shopId = shopId;
-    }
+	public void setUserId(int userId){
+		this.userId = userId;
+	}
 
-    public Object getShopRating() {
-        return shopRating;
-    }
+	public int getUserId(){
+		return userId;
+	}
 
-    public void setShopRating(Object shopRating) {
-        this.shopRating = shopRating;
-    }
+	public void setTransporterComment(Object transporterComment){
+		this.transporterComment = transporterComment;
+	}
 
-    public Object getShopComment() {
-        return shopComment;
-    }
+	public Object getTransporterComment(){
+		return transporterComment;
+	}
 
-    public void setShopComment(Object shopComment) {
-        this.shopComment = shopComment;
-    }
+	public void setTransporterRating(int transporterRating){
+		this.transporterRating = transporterRating;
+	}
 
+	public int getTransporterRating(){
+		return transporterRating;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setOrderId(int orderId){
+		this.orderId = orderId;
+	}
+
+	public int getOrderId(){
+		return orderId;
+	}
+
+	public void setUserComment(Object userComment){
+		this.userComment = userComment;
+	}
+
+	public Object getUserComment(){
+		return userComment;
+	}
+
+	public void setTransporterId(int transporterId){
+		this.transporterId = transporterId;
+	}
+
+	public int getTransporterId(){
+		return transporterId;
+	}
+
+	public void setUserRating(int userRating){
+		this.userRating = userRating;
+	}
+
+	public int getUserRating(){
+		return userRating;
+	}
 }

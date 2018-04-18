@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
-import com.tomoeats.restaurant.adapter.RequestAdapter;
+import com.tomoeats.restaurant.adapter.HistoryAdapter;
 import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.Order;
 import com.tomoeats.restaurant.model.ServerError;
@@ -48,7 +48,7 @@ public class PastVisitFragment extends Fragment {
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     List<Order> orderList = new ArrayList<>();
-    RequestAdapter requestAdapter;
+    HistoryAdapter historyAdapter;
 
     public static CancelledListListener cancelledListListener;
 
@@ -91,10 +91,10 @@ public class PastVisitFragment extends Fragment {
     }
 
     private void setupAdapter() {
-        requestAdapter = new RequestAdapter(orderList, context);
+        historyAdapter = new HistoryAdapter(orderList, context);
         pastRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         pastRv.setHasFixedSize(true);
-        pastRv.setAdapter(requestAdapter);
+        pastRv.setAdapter(historyAdapter);
     }
 
     @Override
@@ -124,8 +124,8 @@ public class PastVisitFragment extends Fragment {
                             lblNoRecords.setVisibility(View.GONE);
                             pastRv.setVisibility(View.VISIBLE);
                             orderList = historyModel.getCOMPLETED();
-                            requestAdapter.setList(orderList);
-                            requestAdapter.notifyDataSetChanged();
+                            historyAdapter.setList(orderList);
+                            historyAdapter.notifyDataSetChanged();
                         } else {
                             lblNoRecords.setVisibility(View.VISIBLE);
                             pastRv.setVisibility(View.GONE);

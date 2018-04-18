@@ -7,37 +7,48 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
+import com.tomoeats.restaurant.helper.SharedHelper;
 import com.tomoeats.restaurant.model.Category;
 import com.tomoeats.restaurant.model.Image;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Constants;
+import com.tomoeats.restaurant.utils.Utils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.tomoeats.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 
@@ -52,7 +63,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     @BindView(R.id.et_description)
     EditText etDescription;
     @BindView(R.id.status_spin)
-    Spinner statusSpin;
+    MaterialSpinner statusSpin;
     @BindView(R.id.category_img)
     ImageView categoryImg;
     @BindView(R.id.save_btn)
@@ -67,8 +78,9 @@ public class AddCategoryActivity extends AppCompatActivity {
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     private Category categoryDetails;
-
-
+    File categoryImageFile;
+    ArrayList<String>lstItems = new ArrayList<>();
+    String strCategoryName,strDescription,strCategoryOrder,strStatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,10 +104,12 @@ public class AddCategoryActivity extends AppCompatActivity {
     }
 
     private void setSpinnerAdpater() {
-        String[] status = {getString(R.string.enable), getString(R.string.disable)};
-        ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, status);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        statusSpin.setAdapter(aa);
+        lstItems.add(getString(R.string.enable));
+        lstItems.add(getString(R.string.disable));
+        statusSpin.setItems(lstItems);
+        statusSpin.setOnItemSelectedListener((view, position, id, item) -> {
+
+        });
     }
 
     @OnClick({R.id.back_img, R.id.category_img, R.id.save_btn})
@@ -108,18 +122,96 @@ public class AddCategoryActivity extends AppCompatActivity {
                 galleryIntent();
                 break;
             case R.id.save_btn:
-                onBackPressed();
+                if (validateFields()){
+                    if (connectionHelper.isConnectingToInternet()){
+                        String shop_id = SharedHelper.getKey(this, Constants.PREF.PROFILE_ID);
+                        HashMap<String, RequestBody> params = new HashMap<>();
+                        params.put("name",RequestBody.create(MediaType.parse("text/plain"),strCategoryName));
+                        params.put("description",RequestBody.create(MediaType.parse("text/plain"),strDescription));
+                        params.put("status",RequestBody.create(MediaType.parse("text/plain"),strStatus.toLowerCase()));
+                        params.put("shop_id",RequestBody.create(MediaType.parse("text/plain"), shop_id));
+                        params.put("position",RequestBody.create(MediaType.parse("text/plain"), strCategoryOrder));
+                        addCategory(params);
+                    }else{
+                        Utils.displayMessage(this,getString(R.string.oops_no_internet));
+                    }
+                }
+
                 break;
         }
     }
 
-    public void setCategoryDetails(Category categoryDetails) {
+    private boolean validateFields(){
+
+         strCategoryName = etAddonsName.getText().toString().trim();
+         strDescription = etDescription.getText().toString().trim();
+         strCategoryOrder = categoryOrderPicker.getText().toString().trim();
+         strStatus = lstItems.get(statusSpin.getSelectedIndex());
+
+        if (strCategoryName.isEmpty()){
+            Utils.displayMessage(this,getString(R.string.please_select_category_name));
+            return false;
+        }else if (strDescription.isEmpty()){
+            Utils.displayMessage(this,getString(R.string.please_enter_category_description));
+            return false;
+        }else if (strStatus.isEmpty()){
+            Utils.displayMessage(this,getString(R.string.please_select_status));
+            return false;
+        }else if (categoryImageFile==null){
+            Utils.displayMessage(this,getString(R.string.please_select_category_image));
+            return false;
+        }
+        return true;
+    }
+
+    private void addCategory(HashMap<String, RequestBody> params) {
+        customDialog.show();
+        MultipartBody.Part filePart = null;
+        if (categoryImageFile != null)
+            filePart = MultipartBody.Part.createFormData("avatar", categoryImageFile.getName(),
+                    RequestBody.create(MediaType.parse("image/*"), categoryImageFile));
+
+
+        Call<Category> call = apiInterface.addCategory(params,filePart);
+        call.enqueue(new Callback<Category>() {
+            @Override
+            public void onResponse(Call<Category> call, Response<Category> response) {
+                customDialog.dismiss();
+                if (response.isSuccessful()){
+                    Utils.displayMessage(AddCategoryActivity.this,getString(R.string.category_added_successfully));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onBackPressed();
+                        }
+                    },1000);
+                }else {
+                    Utils.displayMessage(AddCategoryActivity.this,"failed");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Category> call, Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(AddCategoryActivity.this,t.toString());
+            }
+        });
+    }
+
+    private void setCategoryDetails(Category categoryDetails) {
         this.categoryDetails = categoryDetails;
+
         if (categoryDetails.getName() != null)
             etAddonsName.setText(categoryDetails.getName());
         if (categoryDetails.getDescription() != null)
             etDescription.setText(categoryDetails.getDescription());
-        categoryOrderPicker.setText(String.valueOf(categoryDetails.getPosition()));
+
+        String categoryOrder = String.valueOf(categoryDetails.getPosition());
+        if (categoryOrder != null && !categoryOrder.equalsIgnoreCase("null"))
+            categoryOrderPicker.setText(categoryOrder);
+        else
+            categoryOrderPicker.setText("");
 
         if (categoryDetails.getImages() != null && categoryDetails.getImages().size() > 0) {
             List<Image> images = categoryDetails.getImages();
@@ -132,9 +224,9 @@ public class AddCategoryActivity extends AppCompatActivity {
 
         if (categoryDetails.getStatus() != null) {
             if (categoryDetails.getStatus().equalsIgnoreCase(getString(R.string.enable)))
-                statusSpin.setSelection(0);
+                statusSpin.setSelectedIndex(0);
             else
-                statusSpin.setSelection(1);
+                statusSpin.setSelectedIndex(1);
         }
     }
 
@@ -173,7 +265,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
             @Override
             public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                GlobalData.REGISTER_AVATAR = imageFile;
+                categoryImageFile = imageFile;
                 Glide
                         .with(context)
                         .load(imageFile)

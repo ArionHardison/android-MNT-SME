@@ -1,152 +1,162 @@
 package com.tomoeats.restaurant.model;
 
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Transporter {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("email")
-    @Expose
-    private String email;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
-    @SerializedName("avatar")
-    @Expose
-    private String avatar;
-    @SerializedName("address")
-    @Expose
-    private String address;
-    @SerializedName("latitude")
-    @Expose
-    private Float latitude;
-    @SerializedName("longitude")
-    @Expose
-    private Float longitude;
-    @SerializedName("otp")
-    @Expose
-    private String otp;
-    @SerializedName("device_token")
-    @Expose
-    private String deviceToken;
-    @SerializedName("device_id")
-    @Expose
-    private String deviceId;
-    @SerializedName("device_type")
-    @Expose
-    private String deviceType;
-    @SerializedName("status")
-    @Expose
-    private String status;
+public class Transporter{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("address")
+	private String address;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("device_id")
+	private String deviceId;
 
-    public String getName() {
-        return name;
-    }
+	@SerializedName("latitude")
+	private double latitude;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@SerializedName("rating")
+	private int rating;
 
-    public String getEmail() {
-        return email;
-    }
+	@SerializedName("otp")
+	private String otp;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	@SerializedName("device_type")
+	private String deviceType;
 
-    public String getPhone() {
-        return phone;
-    }
+	@SerializedName("avatar")
+	private Object avatar;
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	@SerializedName("phone")
+	private String phone;
 
-    public String getAvatar() {
-        return avatar;
-    }
+	@SerializedName("device_token")
+	private String deviceToken;
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+	@SerializedName("name")
+	private String name;
 
-    public String getAddress() {
-        return address;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	@SerializedName("email")
+	private String email;
 
-    public Float getLatitude() {
-        return latitude;
-    }
+	@SerializedName("longitude")
+	private double longitude;
 
-    public void setLatitude(Float latitude) {
-        this.latitude = latitude;
-    }
+	@SerializedName("status")
+	private String status;
 
-    public Float getLongitude() {
-        return longitude;
-    }
+	public void setAddress(String address){
+		this.address = address;
+	}
 
-    public void setLongitude(Float longitude) {
-        this.longitude = longitude;
-    }
+	public String getAddress(){
+		return address;
+	}
 
-    public String getOtp() {
-        return otp;
-    }
+	public void setDeviceId(String deviceId){
+		this.deviceId = deviceId;
+	}
 
-    public void setOtp(String otp) {
-        this.otp = otp;
-    }
+	public String getDeviceId(){
+		return deviceId;
+	}
 
-    public String getDeviceToken() {
-        return deviceToken;
-    }
+	public void setLatitude(double latitude){
+		this.latitude = latitude;
+	}
 
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
-    }
+	public double getLatitude(){
+		return latitude;
+	}
 
-    public String getDeviceId() {
-        return deviceId;
-    }
+	public void setRating(int rating){
+		this.rating = rating;
+	}
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
+	public int getRating(){
+		return rating;
+	}
 
-    public String getDeviceType() {
-        return deviceType;
-    }
+	public void setOtp(String otp){
+		this.otp = otp;
+	}
 
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
-    }
+	public String getOtp(){
+		return otp;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setDeviceType(String deviceType){
+		this.deviceType = deviceType;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public String getDeviceType(){
+		return deviceType;
+	}
 
+	public void setAvatar(Object avatar){
+		this.avatar = avatar;
+	}
+
+	public Object getAvatar(){
+		return avatar;
+	}
+
+	public void setPhone(String phone){
+		this.phone = phone;
+	}
+
+	public String getPhone(){
+		return phone;
+	}
+
+	public void setDeviceToken(String deviceToken){
+		this.deviceToken = deviceToken;
+	}
+
+	public String getDeviceToken(){
+		return deviceToken;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+
+	public String getName(){
+		return name;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setEmail(String email){
+		this.email = email;
+	}
+
+	public String getEmail(){
+		return email;
+	}
+
+	public void setLongitude(double longitude){
+		this.longitude = longitude;
+	}
+
+	public double getLongitude(){
+		return longitude;
+	}
+
+	public void setStatus(String status){
+		this.status = status;
+	}
+
+	public String getStatus(){
+		return status;
+	}
 }

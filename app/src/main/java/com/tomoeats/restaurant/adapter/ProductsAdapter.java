@@ -1,6 +1,8 @@
 package com.tomoeats.restaurant.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,20 +12,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.tomoeats.restaurant.R;
-import com.tomoeats.restaurant.model.CategoryList;
+import com.tomoeats.restaurant.model.Addon;
+import com.tomoeats.restaurant.model.Category;
+import com.tomoeats.restaurant.model.Image;
+import com.tomoeats.restaurant.model.ProductModel;
 import com.tomoeats.restaurant.model.Product;
+import com.tomoeats.restaurant.model.product.ProductResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapter.ViewHolder> {
 
-    private List<CategoryList> list = new ArrayList<>();
+    private List<ProductModel> list = new ArrayList<>();
     private LayoutInflater inflater;
     Context context;
 
-    public ProductsAdapter(Context context, List<CategoryList> list) {
+    private ProductsAdapter.ProductAdapterListener productAdapterListener;
+
+
+    public ProductsAdapter(Context context, List<ProductModel> list) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.list = list;
@@ -68,27 +79,85 @@ public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapte
         });
     }
 
+    public void setList(List<ProductModel> list) {
+        this.list = list;
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int section, int relativePosition, int absolutePosition) {
 
-        Product object = list.get(section).getProductList().get(relativePosition);
+        final ProductResponse object = list.get(section).getProductList().get(relativePosition);
         holder.productName.setText(object.getName());
-//        if (object.getAddOns().equalsIgnoreCase("")) {
-//            holder.addOns.setVisibility(View.GONE);
-//            holder.noAddOns.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.addOns.setVisibility(View.VISIBLE);
-//            holder.noAddOns.setVisibility(View.GONE);
-//        }
-//        System.out.println(object.getName());
-////        Glide.with(context).load(object.getShop().getAvatar()).into(holder.productImg);
-//        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (productAdapterListener != null)
+                    productAdapterListener.onProductClick(object);
+            }
+        });
 
+        holder.closeImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (productAdapterListener != null) {
+                    AlertDialog.Builder cancelAlert = new AlertDialog.Builder(context);
+                    cancelAlert.setTitle(context.getResources().getString(R.string.add_ons));
+                    cancelAlert.setMessage(context.getResources().getString(R.string.are_you_sure_want_to_delete_product));
+                    cancelAlert.setPositiveButton(context.getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                            productAdapterListener.onProductDeleteClick(object);
+                        }
+                    });
+                    cancelAlert.setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    });
+                    cancelAlert.show();
+                }
+            }
+        });
+
+        if (object.getImages() != null && object.getImages().size() > 0) {
+            List<Image> images = object.getImages();
+            if (images != null && images.size() > 0) {
+                String img = images.get(0).getUrl();
+                Glide.with(context).load(img)
+                        .apply(new RequestOptions().centerCrop().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(holder.productImg);
+            }
+        }
+
+        if(object.getAddons()!=null&&object.getAddons().size()>0){
+            List<Addon> addonsList = object.getAddons();
+            String addOnNames="";
+            for (int i = 0; i < addonsList.size(); i++) {
+                if (i==0){
+                    addOnNames = addonsList.get(i).getAddon().getName();
+                }else{
+                    addOnNames = addOnNames+","+addonsList.get(i).getAddon().getName();
+                }
+            }
+            holder.addOns.setVisibility(View.VISIBLE);
+            holder.noAddOns.setVisibility(View.GONE);
+
+            holder.addOns.setText(addOnNames);
+        }else{
+            holder.addOns.setVisibility(View.GONE);
+            holder.noAddOns.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+
+    public interface ProductAdapterListener {
+        void onProductClick(ProductResponse category);
+
+        void onProductDeleteClick(ProductResponse category);
+    }
+
+    public void setProductAdapterListener(ProductsAdapter.ProductAdapterListener productAdapterListener) {
+        this.productAdapterListener = productAdapterListener;
     }
 
 
@@ -98,6 +167,7 @@ public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapte
         TextView addOns;
         TextView productName;
         ImageView productImg;
+        ImageView closeImg;
         RelativeLayout itemLayout;
 
         public ViewHolder(View itemView, boolean isHeader) {
@@ -110,6 +180,7 @@ public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapte
                 noAddOns = (TextView) itemView.findViewById(R.id.no_addons_txt);
                 addOns = (TextView) itemView.findViewById(R.id.addons_name_txt);
                 productImg = (ImageView) itemView.findViewById(R.id.product_img);
+                closeImg = (ImageView) itemView.findViewById(R.id.close_img);
             }
 
         }

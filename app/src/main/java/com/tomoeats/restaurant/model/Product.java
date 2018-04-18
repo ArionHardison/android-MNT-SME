@@ -1,168 +1,218 @@
 package com.tomoeats.restaurant.model;
 
-/**
- * Created by Tamil on 3/1/2018.
- */
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.List;
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Product {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("shop_id")
-    @Expose
-    private Integer shopId;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("description")
-    @Expose
-    private String description;
-    @SerializedName("position")
-    @Expose
-    private Integer position;
-    @SerializedName("food_type")
-    @Expose
-    private String foodType;
-    @SerializedName("cuisine_id")
-    @Expose
-    private Integer cuisineId;
-    @SerializedName("avalability")
-    @Expose
-    private Integer avalability;
-    @SerializedName("max_quantity")
-    @Expose
-    private Integer maxQuantity;
-    @SerializedName("featured")
-    @Expose
-    private Integer featured;
-    @SerializedName("addon_status")
-    @Expose
-    private Integer addonStatus;
-    @SerializedName("status")
-    @Expose
-    private String status;
-    @SerializedName("prices")
-    @Expose
-    private Prices prices;
-    @SerializedName("images")
-    @Expose
-    private List<Image> images = null;
+public class Product implements Parcelable{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("featured")
+	private int featured;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("images")
+	private List<Image> images;
 
-    public Integer getShopId() {
-        return shopId;
-    }
+	@SerializedName("max_quantity")
+	private int maxQuantity;
 
-    public void setShopId(Integer shopId) {
-        this.shopId = shopId;
-    }
+	@SerializedName("description")
+	private String description;
 
-    public String getName() {
-        return name;
-    }
+	@SerializedName("cuisine_id")
+	private int cuisineId;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@SerializedName("avalability")
+	private int avalability;
 
-    public String getDescription() {
-        return description;
-    }
+	@SerializedName("food_type")
+	private String foodType;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	@SerializedName("shop_id")
+	private int shopId;
 
-    public Integer getPosition() {
-        return position;
-    }
+	@SerializedName("addon_status")
+	private int addonStatus;
 
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
+	@SerializedName("name")
+	private String name;
 
-    public String getFoodType() {
-        return foodType;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public void setFoodType(String foodType) {
-        this.foodType = foodType;
-    }
+	@SerializedName("position")
+	private int position;
 
-    public Integer getCuisineId() {
-        return cuisineId;
-    }
+	@SerializedName("prices")
+	private Prices prices;
 
-    public void setCuisineId(Integer cuisineId) {
-        this.cuisineId = cuisineId;
-    }
+	@SerializedName("status")
+	private String status;
 
-    public Integer getAvalability() {
-        return avalability;
-    }
+	public void setFeatured(int featured){
+		this.featured = featured;
+	}
 
-    public void setAvalability(Integer avalability) {
-        this.avalability = avalability;
-    }
+	public int getFeatured(){
+		return featured;
+	}
 
-    public Integer getMaxQuantity() {
-        return maxQuantity;
-    }
+	public void setImages(List<Image> images){
+		this.images = images;
+	}
 
-    public void setMaxQuantity(Integer maxQuantity) {
-        this.maxQuantity = maxQuantity;
-    }
+	public List<Image> getImages(){
+		return images;
+	}
 
-    public Integer getFeatured() {
-        return featured;
-    }
+	public void setMaxQuantity(int maxQuantity){
+		this.maxQuantity = maxQuantity;
+	}
 
-    public void setFeatured(Integer featured) {
-        this.featured = featured;
-    }
+	public int getMaxQuantity(){
+		return maxQuantity;
+	}
 
-    public Integer getAddonStatus() {
-        return addonStatus;
-    }
+	public void setDescription(String description){
+		this.description = description;
+	}
 
-    public void setAddonStatus(Integer addonStatus) {
-        this.addonStatus = addonStatus;
-    }
+	public String getDescription(){
+		return description;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setCuisineId(int cuisineId){
+		this.cuisineId = cuisineId;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public int getCuisineId(){
+		return cuisineId;
+	}
 
-    public Prices getPrices() {
-        return prices;
-    }
+	public void setAvalability(int avalability){
+		this.avalability = avalability;
+	}
 
-    public void setPrices(Prices prices) {
-        this.prices = prices;
-    }
+	public int getAvalability(){
+		return avalability;
+	}
 
-    public List<Image> getImages() {
-        return images;
-    }
+	public void setFoodType(String foodType){
+		this.foodType = foodType;
+	}
 
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
+	public String getFoodType(){
+		return foodType;
+	}
+
+	public void setShopId(int shopId){
+		this.shopId = shopId;
+	}
+
+	public int getShopId(){
+		return shopId;
+	}
+
+	public void setAddonStatus(int addonStatus){
+		this.addonStatus = addonStatus;
+	}
+
+	public int getAddonStatus(){
+		return addonStatus;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+
+	public String getName(){
+		return name;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setPosition(int position){
+		this.position = position;
+	}
+
+	public int getPosition(){
+		return position;
+	}
+
+	public void setPrices(Prices prices){
+		this.prices = prices;
+	}
+
+	public Prices getPrices(){
+		return prices;
+	}
+
+	public void setStatus(String status){
+		this.status = status;
+	}
+
+	public String getStatus(){
+		return status;
+	}
+
+	protected Product(Parcel in) {
+		featured = in.readInt();
+		maxQuantity = in.readInt();
+		description = in.readString();
+		cuisineId = in.readInt();
+		avalability = in.readInt();
+		foodType = in.readString();
+		shopId = in.readInt();
+		addonStatus = in.readInt();
+		name = in.readString();
+		id = in.readInt();
+		position = in.readInt();
+		prices = (Prices) in.readValue(Prices.class.getClassLoader());
+		status = in.readString();
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(featured);
+		dest.writeInt(maxQuantity);
+		dest.writeString(description);
+		dest.writeInt(cuisineId);
+		dest.writeInt(avalability);
+		dest.writeString(foodType);
+		dest.writeInt(shopId);
+		dest.writeInt(addonStatus);
+		dest.writeString(name);
+		dest.writeInt(id);
+		dest.writeInt(position);
+		dest.writeValue(prices);
+		dest.writeString(status);
+	}
+
+	@SuppressWarnings("unused")
+	public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
+		@Override
+		public Product createFromParcel(Parcel in) {
+			return new Product(in);
+		}
+
+		@Override
+		public Product[] newArray(int size) {
+			return new Product[size];
+		}
+	};
 
 }

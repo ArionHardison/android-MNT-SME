@@ -5,7 +5,9 @@ import com.tomoeats.restaurant.model.Order;
 import com.tomoeats.restaurant.model.Profile;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.RequestBody;
 
@@ -20,9 +22,11 @@ public class GlobalData {
     public static String password = "";
     public static Profile profile;
     public static Order selectedOrder;
+    public static com.tomoeats.restaurant.model.ordernew.Order isselectedOrder;
     public static Addon selectedAddon;
     public static HashMap<String, RequestBody> registerMap = new HashMap<>();
     public static File REGISTER_AVATAR = null;
+    public static List<String> ORDER_STATUS = Arrays.asList("ORDERED", "RECEIVED", "ASSIGNED", "PROCESSING", "REACHED", "PICKEDUP", "ARRIVED", "COMPLETED");
 
 
 }

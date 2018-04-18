@@ -43,15 +43,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/shop_name"
-                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:text="Subway"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_medium" />
+                android:textSize="@dimen/text_small_large" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/shop_cuisines"
                 android:layout_marginTop="@dimen/activity_vertical_margin_half"
                 android:orientation="horizontal">
 
@@ -59,6 +59,7 @@
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
                     android:contentDescription="@string/app_name"
+                    android:layout_gravity="center"
                     android:src="@drawable/ic_location" />
 
                 <TextView
@@ -66,6 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="United Kingdom"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_2sdp"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/text_tiny" />
 

@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         etPasswordEyeImg.setTag(1);
 
         //Test
-        etEmail.setText("harapriya@appoets.com");
+        etEmail.setText("kssm24@gmail.com");
         etPassword.setText("123456");
     }
 
@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
 //                finish();
                 break;
             case R.id.txt_forgot_password:
+                startActivity(new Intent(context,ForgotPassword.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
         }
     }

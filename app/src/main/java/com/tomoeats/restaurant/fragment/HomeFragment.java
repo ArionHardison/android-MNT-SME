@@ -83,6 +83,8 @@ public class HomeFragment extends Fragment {
     TextView shopName;
     @BindView(R.id.shop_address)
     TextView shopAddress;
+    @BindView(R.id.lblNoRecords)
+    TextView lblNoRecords;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -128,10 +130,6 @@ public class HomeFragment extends Fragment {
         if (GlobalData.profile != null && GlobalData.profile.getAddress() != null)
             shopAddress.setText(GlobalData.profile.getAddress());
 
-        requestAdapter = new RequestAdapter(orderList, context);
-        incomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        incomingRv.setHasFixedSize(true);
-        incomingRv.setAdapter(requestAdapter);
 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -152,6 +150,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    private void prepareAdapter() {
+        requestAdapter = new RequestAdapter(orderList, context);
+        incomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        incomingRv.setHasFixedSize(true);
+        incomingRv.setAdapter(requestAdapter);
     }
 
     @Override
@@ -181,9 +186,22 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<IncomingOrders> call, Response<IncomingOrders> response) {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
-                    orderList.clear();
-                    orderList.addAll(response.body().getOrders());
-                    requestAdapter.notifyDataSetChanged();
+                    if (response.body().getOrders().size()>0){
+                        incomingRv.setVisibility(View.VISIBLE);
+                        lblNoRecords.setVisibility(View.GONE);
+                        orderList.clear();
+                        orderList.addAll(response.body().getOrders());
+                        if(requestAdapter==null){
+                            prepareAdapter();
+                        }else{
+                            requestAdapter.notifyDataSetChanged();
+
+                        }
+                    }else{
+                        incomingRv.setVisibility(View.GONE);
+                        lblNoRecords.setVisibility(View.VISIBLE);
+                    }
+
                 } else {
                     Gson gson = new Gson();
                     try {

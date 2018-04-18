@@ -10,17 +10,24 @@ import com.tomoeats.restaurant.model.AuthToken;
 import com.tomoeats.restaurant.model.Category;
 import com.tomoeats.restaurant.model.ChangePassword;
 import com.tomoeats.restaurant.model.Cuisine;
+import com.tomoeats.restaurant.model.ForgotPasswordResponse;
 import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.IncomingOrders;
 import com.tomoeats.restaurant.model.Order;
+import com.tomoeats.restaurant.model.Product;
 import com.tomoeats.restaurant.model.Profile;
+import com.tomoeats.restaurant.model.ResetPasswordResponse;
+import com.tomoeats.restaurant.model.RevenueResponse;
 import com.tomoeats.restaurant.model.Transporter;
+import com.tomoeats.restaurant.model.ordernew.OrderResponse;
+import com.tomoeats.restaurant.model.product.ProductResponse;
 
 import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -77,6 +84,12 @@ public interface ApiInterface {
     @PATCH("api/shop/order/{id}")
     Call<Order> updateOrderStatus(@Path("id") int id, @FieldMap HashMap<String, String> params);
 
+    @GET("api/shop/order/{id}")
+    Call<OrderResponse> getParticularOrders(@Path("id") int id);
+
+    @GET("api/shop/products")
+    Call<List<ProductResponse>> getProductList();
+
 
     /*-------------ADD-ONS--------------------*/
     @GET("api/shop/addons")
@@ -98,11 +111,56 @@ public interface ApiInterface {
     @GET("api/shop/categories")
     Call<List<Category>> getCategory();
 
+    @Multipart
+    @POST("api/shop/categories")
+    Call<Category> addCategory(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
+
+    @DELETE("api/shop/categories/{id}")
+    Call<List<Category>> deleteCategory(@Path("id") int id);
 
     /*---------------Change Password---------------*/
     @FormUrlEncoded
     @POST("api/shop/password")
     Call<ChangePassword> changePassword(@FieldMap HashMap<String, String> params);
+
+    @FormUrlEncoded
+    @POST("api/shop/forgot/password")
+    Call<ForgotPasswordResponse> forgotPassword(@FieldMap HashMap<String, String> params);
+
+    @FormUrlEncoded
+    @POST("api/shop/verifyotp")
+    Call<ForgotPasswordResponse> verifyOTP(@FieldMap HashMap<String, String> params);
+
+
+    @FormUrlEncoded
+    @POST("api/shop/reset/password")
+    Call<ResetPasswordResponse> resetPassword(@FieldMap HashMap<String, String> params);
+
+    /*........Revenue Fragment......*/
+
+    @GET("api/shop/revenue")
+    Call<RevenueResponse> getRevenueDetails();
+
+    @Multipart
+    @POST("api/shop/products")
+    Call<ProductResponse> addProduct(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1,@Part MultipartBody.Part filepart2);
+
+
+    @Multipart
+    @POST("api/shop/products/{id}")
+    Call<ProductResponse> updateProduct(@Path("id") int id,@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1,@Part MultipartBody.Part filepart2);
+
+    @DELETE("api/shop/products/{id}")
+    Call<ResponseBody> deleteProduct(@Path("id") int id);
+
+    /*....Account....*/
+
+    @DELETE("api/shop/remove/{id}")
+    Call<ResponseBody> deleteAccount(@Path("id") String id);
+
+    @GET("api/shop/logout")
+    Call<ResponseBody> logOut();
+
 
 /*
     @FormUrlEncoded

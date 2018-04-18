@@ -1,155 +1,151 @@
 package com.tomoeats.restaurant.model;
 
-/**
- * Created by Tamil on 3/16/2018.
- */
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Address {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("user_id")
-    @Expose
-    private Integer userId;
-    @SerializedName("building")
-    @Expose
-    private String building;
-    @SerializedName("street")
-    @Expose
-    private Object street;
-    @SerializedName("city")
-    @Expose
-    private String city;
-    @SerializedName("state")
-    @Expose
-    private String state;
-    @SerializedName("country")
-    @Expose
-    private String country;
-    @SerializedName("pincode")
-    @Expose
-    private String pincode;
-    @SerializedName("landmark")
-    @Expose
-    private String landmark;
-    @SerializedName("map_address")
-    @Expose
-    private String mapAddress;
-    @SerializedName("latitude")
-    @Expose
-    private Double latitude;
-    @SerializedName("longitude")
-    @Expose
-    private Double longitude;
-    @SerializedName("type")
-    @Expose
-    private String type;
+public class Address{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("country")
+	private String country;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("pincode")
+	private String pincode;
 
-    public Integer getUserId() {
-        return userId;
-    }
+	@SerializedName("city")
+	private String city;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	@SerializedName("latitude")
+	private double latitude;
 
-    public String getBuilding() {
-        return building;
-    }
+	@SerializedName("type")
+	private String type;
 
-    public void setBuilding(String building) {
-        this.building = building;
-    }
+	@SerializedName("building")
+	private String building;
 
-    public Object getStreet() {
-        return street;
-    }
+	@SerializedName("user_id")
+	private int userId;
 
-    public void setStreet(Object street) {
-        this.street = street;
-    }
+	@SerializedName("street")
+	private Object street;
 
-    public String getCity() {
-        return city;
-    }
+	@SerializedName("map_address")
+	private String mapAddress;
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public String getState() {
-        return state;
-    }
+	@SerializedName("state")
+	private String state;
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	@SerializedName("landmark")
+	private String landmark;
 
-    public String getCountry() {
-        return country;
-    }
+	@SerializedName("longitude")
+	private double longitude;
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+	public void setCountry(String country){
+		this.country = country;
+	}
 
-    public String getPincode() {
-        return pincode;
-    }
+	public String getCountry(){
+		return country;
+	}
 
-    public void setPincode(String pincode) {
-        this.pincode = pincode;
-    }
+	public void setPincode(String pincode){
+		this.pincode = pincode;
+	}
 
-    public String getLandmark() {
-        return landmark;
-    }
+	public String getPincode(){
+		return pincode;
+	}
 
-    public void setLandmark(String landmark) {
-        this.landmark = landmark;
-    }
+	public void setCity(String city){
+		this.city = city;
+	}
 
-    public String getMapAddress() {
-        return mapAddress;
-    }
+	public String getCity(){
+		return city;
+	}
 
-    public void setMapAddress(String mapAddress) {
-        this.mapAddress = mapAddress;
-    }
+	public void setLatitude(double latitude){
+		this.latitude = latitude;
+	}
 
-    public Double getLatitude() {
-        return latitude;
-    }
+	public double getLatitude(){
+		return latitude;
+	}
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
+	public void setType(String type){
+		this.type = type;
+	}
 
-    public Double getLongitude() {
-        return longitude;
-    }
+	public String getType(){
+		return type;
+	}
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
+	public void setBuilding(String building){
+		this.building = building;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getBuilding(){
+		return building;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setUserId(int userId){
+		this.userId = userId;
+	}
 
+	public int getUserId(){
+		return userId;
+	}
+
+	public void setStreet(Object street){
+		this.street = street;
+	}
+
+	public Object getStreet(){
+		return street;
+	}
+
+	public void setMapAddress(String mapAddress){
+		this.mapAddress = mapAddress;
+	}
+
+	public String getMapAddress(){
+		return mapAddress;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setState(String state){
+		this.state = state;
+	}
+
+	public String getState(){
+		return state;
+	}
+
+	public void setLandmark(String landmark){
+		this.landmark = landmark;
+	}
+
+	public String getLandmark(){
+		return landmark;
+	}
+
+	public void setLongitude(double longitude){
+		this.longitude = longitude;
+	}
+
+	public double getLongitude(){
+		return longitude;
+	}
 }

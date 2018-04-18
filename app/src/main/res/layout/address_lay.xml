@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:padding="@dimen/_6sdp"
-            android:tag="$ "
+            android:tag="@string/currency_value_tag"
             android:inputType="numberDecimal"
             android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/text_medium" />
@@ -186,7 +186,7 @@
         android:layout_height="@dimen/edit_text_size"
         android:layout_marginTop="@dimen/_4sdp"
         android:background="@drawable/edit_text_rounded_corner_bg"
-        android:imeOptions="actionNext"
+        android:imeOptions="actionDone"
         android:inputType="textPostalAddress"
         android:maxLines="1"
         android:padding="@dimen/_6sdp"

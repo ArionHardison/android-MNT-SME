@@ -1,166 +1,162 @@
 package com.tomoeats.restaurant.model;
 
-/**
- * Created by Tamil on 3/16/2018.
- */
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
-public class User {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("email")
-    @Expose
-    private String email;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
-    @SerializedName("avatar")
-    @Expose
-    private String avatar;
-    @SerializedName("device_token")
-    @Expose
-    private String deviceToken;
-    @SerializedName("device_id")
-    @Expose
-    private String deviceId;
-    @SerializedName("device_type")
-    @Expose
-    private String deviceType;
-    @SerializedName("login_by")
-    @Expose
-    private String loginBy;
-    @SerializedName("social_unique_id")
-    @Expose
-    private String socialUniqueId;
-    @SerializedName("stripe_cust_id")
-    @Expose
-    private Object stripeCustId;
-    @SerializedName("wallet_balance")
-    @Expose
-    private Integer walletBalance;
-    @SerializedName("otp")
-    @Expose
-    private String otp;
-    @SerializedName("braintree_id")
-    @Expose
-    private Object braintreeId;
+public class User{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("stripe_cust_id")
+	private Object stripeCustId;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("device_id")
+	private String deviceId;
 
-    public String getName() {
-        return name;
-    }
+	@SerializedName("wallet_balance")
+	private int walletBalance;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@SerializedName("device_type")
+	private String deviceType;
 
-    public String getEmail() {
-        return email;
-    }
+	@SerializedName("otp")
+	private String otp;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	@SerializedName("avatar")
+	private Object avatar;
 
-    public String getPhone() {
-        return phone;
-    }
+	@SerializedName("phone")
+	private String phone;
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	@SerializedName("social_unique_id")
+	private String socialUniqueId;
 
-    public String getAvatar() {
-        return avatar;
-    }
+	@SerializedName("device_token")
+	private String deviceToken;
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+	@SerializedName("name")
+	private String name;
 
-    public String getDeviceToken() {
-        return deviceToken;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
-    }
+	@SerializedName("login_by")
+	private String loginBy;
 
-    public String getDeviceId() {
-        return deviceId;
-    }
+	@SerializedName("email")
+	private String email;
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
+	@SerializedName("braintree_id")
+	private Object braintreeId;
 
-    public String getDeviceType() {
-        return deviceType;
-    }
+	public void setStripeCustId(Object stripeCustId){
+		this.stripeCustId = stripeCustId;
+	}
 
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
-    }
+	public Object getStripeCustId(){
+		return stripeCustId;
+	}
 
-    public String getLoginBy() {
-        return loginBy;
-    }
+	public void setDeviceId(String deviceId){
+		this.deviceId = deviceId;
+	}
 
-    public void setLoginBy(String loginBy) {
-        this.loginBy = loginBy;
-    }
+	public String getDeviceId(){
+		return deviceId;
+	}
 
-    public String getSocialUniqueId() {
-        return socialUniqueId;
-    }
+	public void setWalletBalance(int walletBalance){
+		this.walletBalance = walletBalance;
+	}
 
-    public void setSocialUniqueId(String socialUniqueId) {
-        this.socialUniqueId = socialUniqueId;
-    }
+	public int getWalletBalance(){
+		return walletBalance;
+	}
 
-    public Object getStripeCustId() {
-        return stripeCustId;
-    }
+	public void setDeviceType(String deviceType){
+		this.deviceType = deviceType;
+	}
 
-    public void setStripeCustId(Object stripeCustId) {
-        this.stripeCustId = stripeCustId;
-    }
+	public String getDeviceType(){
+		return deviceType;
+	}
 
-    public Integer getWalletBalance() {
-        return walletBalance;
-    }
+	public void setOtp(String otp){
+		this.otp = otp;
+	}
 
-    public void setWalletBalance(Integer walletBalance) {
-        this.walletBalance = walletBalance;
-    }
+	public String getOtp(){
+		return otp;
+	}
 
-    public String getOtp() {
-        return otp;
-    }
+	public void setAvatar(Object avatar){
+		this.avatar = avatar;
+	}
 
-    public void setOtp(String otp) {
-        this.otp = otp;
-    }
+	public Object getAvatar(){
+		return avatar;
+	}
 
-    public Object getBraintreeId() {
-        return braintreeId;
-    }
+	public void setPhone(String phone){
+		this.phone = phone;
+	}
 
-    public void setBraintreeId(Object braintreeId) {
-        this.braintreeId = braintreeId;
-    }
+	public String getPhone(){
+		return phone;
+	}
 
+	public void setSocialUniqueId(String socialUniqueId){
+		this.socialUniqueId = socialUniqueId;
+	}
+
+	public String getSocialUniqueId(){
+		return socialUniqueId;
+	}
+
+	public void setDeviceToken(String deviceToken){
+		this.deviceToken = deviceToken;
+	}
+
+	public String getDeviceToken(){
+		return deviceToken;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+
+	public String getName(){
+		return name;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setLoginBy(String loginBy){
+		this.loginBy = loginBy;
+	}
+
+	public String getLoginBy(){
+		return loginBy;
+	}
+
+	public void setEmail(String email){
+		this.email = email;
+	}
+
+	public String getEmail(){
+		return email;
+	}
+
+	public void setBraintreeId(Object braintreeId){
+		this.braintreeId = braintreeId;
+	}
+
+	public Object getBraintreeId(){
+		return braintreeId;
+	}
 }

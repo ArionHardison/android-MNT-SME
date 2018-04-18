@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
-import com.tomoeats.restaurant.adapter.RequestAdapter;
+import com.tomoeats.restaurant.adapter.HistoryAdapter;
 import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.IncomingOrders;
 import com.tomoeats.restaurant.model.Order;
@@ -47,7 +47,7 @@ public class UpcomingVisitFragment extends Fragment {
     Context context;
     Activity activity;
 
-    RequestAdapter requestAdapter;
+    HistoryAdapter historyAdapter;
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     List<Order> orderList = new ArrayList<>();
@@ -92,10 +92,10 @@ public class UpcomingVisitFragment extends Fragment {
     }
 
     private void setupAdapter() {
-        requestAdapter = new RequestAdapter(orderList, context);
+        historyAdapter = new HistoryAdapter(orderList, context);
         upcomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         upcomingRv.setHasFixedSize(true);
-        upcomingRv.setAdapter(requestAdapter);
+        upcomingRv.setAdapter(historyAdapter);
     }
 
     private void getOnGoingOrders() {
@@ -113,8 +113,8 @@ public class UpcomingVisitFragment extends Fragment {
                             lblNoRecords.setVisibility(View.GONE);
                             upcomingRv.setVisibility(View.VISIBLE);
                             orderList.addAll(incomingOrders.getOrders());
-                            requestAdapter.setList(orderList);
-                            requestAdapter.notifyDataSetChanged();
+                            historyAdapter.setList(orderList);
+                            historyAdapter.notifyDataSetChanged();
                         } else {
                             lblNoRecords.setVisibility(View.VISIBLE);
                             upcomingRv.setVisibility(View.GONE);

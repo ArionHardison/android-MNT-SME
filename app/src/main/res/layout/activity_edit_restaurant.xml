@@ -59,10 +59,11 @@
                         android:textSize="@dimen/text_medium" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
                         android:contentDescription="@string/app_name"
-                        android:src="@android:drawable/arrow_down_float"
+                        android:src="@drawable/ic_drop_down"
                         android:tint="@color/grey" />
 
                 </LinearLayout>
@@ -87,7 +88,7 @@
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_80sdp"
                         android:layout_centerInParent="true"
-                        android:src="@color/grey" />
+                        android:src="@drawable/ic_placeholder_image" />
 
                 </RelativeLayout>
 

@@ -26,6 +26,15 @@
                 android:src="@drawable/logo" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/colorSecondaryText"
+                android:text="TOMOEATS"/>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -65,10 +74,11 @@
                     android:textSize="@dimen/text_medium" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
-                    android:src="@android:drawable/arrow_down_float"
+                    android:src="@drawable/ic_drop_down"
                     android:tint="@color/grey" />
 
             </LinearLayout>

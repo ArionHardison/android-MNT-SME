@@ -5,9 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
@@ -15,11 +13,8 @@ import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.application.MyApplication;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.model.CartAddon;
-import com.tomoeats.restaurant.model.CategoryList;
 import com.tomoeats.restaurant.model.Item;
-import com.tomoeats.restaurant.model.Product;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 

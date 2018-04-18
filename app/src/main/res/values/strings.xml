@@ -161,10 +161,10 @@
     <string name="add_ons">Add-ons</string>
     <string name="category">Category</string>
     <string name="product">Product</string>
-    <string name="products">Products</string>
+    <string name="products">Product List</string>
     <string name="dishes">Dishes</string>
     <string name="add_add_ons">Add Addons</string>
-    <string name="add_ons_list">AddOns List</string>
+    <string name="add_ons_list">Addons List</string>
     <string name="create_add_ons">Create AddOns</string>
     <string name="add_products">Add Products</string>
     <string name="add_category">Add Category</string>
@@ -185,7 +185,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="featured_image_upload">Featured image upload</string>
-    <string name="add_product">Add Product</string>
+    <string name="add_product">Create Product</string>
     <string name="every_day">Everyday</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
@@ -260,6 +260,7 @@
     <string name="addons_updated_successfully">Addons updated Successfully</string>
     <string name="are_you_sure_want_to_delete_addon">Are you sure want to delete this addon?</string>
     <string name="are_you_sure_want_to_delete_category">Are you sure want to delete this category?</string>
+    <string name="are_you_sure_want_to_delete_product">Are you sure want to delete this product?</string>
     <string name="update_add_ons">Update AddOns</string>
     <string name="please_select_avatar">Please select avatar</string>
     <string name="please_enter_all_fields">Pleae enter all fields</string>
@@ -269,17 +270,71 @@
     <string name="invalid_cuisine">Please select cuisine</string>
     <string name="done">Done</string>
     <string name="next">Next</string>
-    <string name="enable">Enable</string>
-    <string name="disable">Disable</string>
+    <string name="enable">Enabled</string>
+    <string name="disable">Disabled</string>
     <string name="dispute_created">Dispute Created</string>
     <string name="status_active">Active</string>
     <string name="status_onboarding">OnBoarding</string>
     <string name="status_banned">Banned</string>
+
+
+    <!--<string name="splash_tomoeats_partner">TOMOEATS\nRestaurant</string>-->
     <string name="splash_tomoeats_partner">TOMOEATS\nPartner</string>
     <string name="restaurant_updated_successfully">Restaurant Updated Successfully</string>
     <string name="password_updated_successfully">Password Updated Successfully</string>
     <string name="restaurant_timing_updated_successfully">Restaurant Timing Updated Successfully</string>
     <string name="action_save">Save</string>
     <string name="select_delievery_person">Select Delivery Person</string>
+    <string name="item_order_price">Price</string>
+    <string name="currency_value">$</string>
+    <string name="currency_value_tag">$ </string>
+    <string name="schedule_at">Scheduled at : </string>
+    <string name="schedule_at_format">Scheduled at : %1$s %2$s %3$d</string>
+
+    <!--Order Flow Title-->
+    <string name="order_placed">Order Placed</string>
+    <string name="order_confirmed">Order Confirmed</string>
+    <string name="order_processed">Order Processed</string>
+    <string name="order_pickedup">Order Pickedup</string>
+    <string name="order_delivered">Order Delivered</string>
+    <string name="order_cancelled">Order Cancelled</string>
+
+    <!--Order Flow Description-->
+    <string name="description_1">We have received your order.</string>
+    <string name="description_2">Your order has been confirmed.</string>
+    <string name="description_3">Your food is getting cooked.</string>
+    <string name="description_4">Your food is on its way.</string>
+    <string name="description_5">Enjoy your meal.</string>
+
+    <!--Product-->
+    <string name="error_msg_product_name">Please enter product name</string>
+    <string name="error_msg_product_description">Please enter product description</string>
+    <string name="error_msg_product_order">Please enter product order</string>
+    <string name="error_msg_product_category">Please select category</string>
+    <string name="product_select_catefory">Select Category</string>
+    <string name="error_msg_product_select_featured_image">Please select featured image</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="change">Change</string>
+    <string name="please_enter_otp">Please Enter OTP</string>
+    <string name="please_new_password">Please Enter New Password</string>
+    <string name="order_received">Order Received</string>
+    <string name="ordered_delievered">Ordered Delievered</string>
+    <string name="today_earnings">Today Earnings</string>
+    <string name="monthly_earnings">Monthly Earnings</string>
+    <string name="discount_type">Discount Type</string>
+    <string name="please_enter_price">Please Enter Price</string>
+    <string name="please_select_discount_type">Please select discount type</string>
+    <string name="select_addons">Select Addons</string>
+    <string name="category_added_successfully">Category Added Successfully</string>
+    <string name="product_added_successfully">Product Added Successfully</string>
+    <string name="no_addons">No Addons</string>
+    <string name="please_select_category_name">Please select category name</string>
+    <string name="please_enter_category_description">Please enter category description</string>
+    <string name="please_select_status">Please select status</string>
+    <string name="please_select_category_image">Please select category image</string>
+    <string name="please_select_product_image">Please select product image</string>
+    <string name="category_list">Category List</string>
+
 
 </resources>

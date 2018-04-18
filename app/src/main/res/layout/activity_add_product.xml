@@ -66,6 +66,25 @@
                 android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:text="Product Cuisine"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+            <TextView
+                android:id="@+id/cuisine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_size"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/edit_text_rounded_corner_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="@dimen/_6sdp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_medium" />
 
 
             <TextView
@@ -77,47 +96,26 @@
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
 
-            <Spinner
+            <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/status_spin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_size"
+                android:layout_height="@dimen/material_spinner_height"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:background="@drawable/edit_text_rounded_corner_bg"
                 android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/category"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
-
-            <Spinner
-                android:id="@+id/category_spin"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_size"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/edit_text_rounded_corner_bg"
-                android:padding="@dimen/_4sdp"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_medium" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="@string/category_order"
+                android:text="Product Order"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
 
             <EditText
-                android:id="@+id/category_order_picker"
+                android:id="@+id/et_product_order"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_size"
                 android:layout_marginTop="@dimen/_4sdp"
@@ -133,11 +131,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:fontFamily="@font/nunito_semi_bold"
+                android:text="@string/category"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/category_spin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/material_spinner_height"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/edit_text_rounded_corner_bg"
+                android:padding="@dimen/_4sdp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_medium" />
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semi_bold"
                 android:text="@string/image_upload"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
 
             <RelativeLayout
+                android:id="@+id/rlProductImage"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
@@ -148,7 +168,7 @@
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
                     android:layout_centerInParent="true"
-                    android:src="@color/grey" />
+                    android:src="@drawable/ic_placeholder_image" />
 
             </RelativeLayout>
 
@@ -168,6 +188,7 @@
                 android:layout_height="wrap_content">
 
                 <RadioButton
+                    android:id="@+id/rbYes"
                     android:textSize="@dimen/text_small"
                     android:textColor="@color/colorSecondaryText"
                     android:text="@string/yes"
@@ -175,9 +196,11 @@
                     android:layout_height="wrap_content" />
 
                 <RadioButton
+                    android:id="@+id/rbNo"
                     android:textSize="@dimen/text_small"
                     android:textColor="@color/colorSecondaryText"
                     android:text="@string/no"
+                    android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RadioGroup>
@@ -199,6 +222,7 @@
                     android:textSize="@dimen/text_tiny" />
 
                 <RelativeLayout
+                    android:id="@+id/rlFeaturedImage"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
@@ -209,10 +233,14 @@
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_80sdp"
                         android:layout_centerInParent="true"
-                        android:src="@color/grey" />
+                        android:src="@drawable/ic_placeholder_image" />
 
                 </RelativeLayout>
 
+                <!--This is dummy view to show bottom imageview-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_80sdp"/>
 
 
             </LinearLayout>
@@ -224,16 +252,22 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/colorWhite">
     <Button
-        android:id="@+id/save_btn"
+        android:id="@+id/next_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:background="@drawable/rounded_button"
-        android:text="@string/save"
+        android:text="@string/next"
         android:textColor="@color/colorTextWhite"
         android:textSize="@dimen/text_medium" />
+
+
+</LinearLayout>
 
 </RelativeLayout>

@@ -19,6 +19,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -79,7 +84,8 @@ dependencies {
     implementation 'com.afollestad:sectioned-recyclerview:0.2.3'
 
     //      BarChart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    //implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 
     //      Loader
     implementation 'com.wang.avi:library:2.1.3'
@@ -87,6 +93,9 @@ dependencies {
 
     //Date picker
     implementation 'com.code-troopers.betterpickers:library:3.1.0'
+
+    //Pin Entry
+    implementation 'me.philio:pinentryview:1.0.6'
 
 }
 

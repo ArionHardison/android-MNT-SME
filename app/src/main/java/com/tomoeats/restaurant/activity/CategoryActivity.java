@@ -63,7 +63,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         ButterKnife.bind(this);
-        title.setText(getString(R.string.category));
+        title.setText(R.string.category_list);
         backImg.setVisibility(View.VISIBLE);
         context = CategoryActivity.this;
         activity = CategoryActivity.this;
@@ -152,10 +152,10 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
 
     public void deleteCategory(final Category addon) {
         customDialog.show();
-        Call<List<Addon>> call = apiInterface.deleteAddon(addon.getId());
-        call.enqueue(new Callback<List<Addon>>() {
+        Call<List<Category>> call = apiInterface.deleteCategory(addon.getId());
+        call.enqueue(new Callback<List<Category>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Addon>> call, @NonNull Response<List<Addon>> response) {
+            public void onResponse(@NonNull Call<List<Category>> call, @NonNull Response<List<Category>> response) {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
                     categoryAdapter.remove(addon);
@@ -171,7 +171,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Addon>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<Category>> call, @NonNull Throwable t) {
                 customDialog.dismiss();
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }

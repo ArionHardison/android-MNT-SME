@@ -57,7 +57,8 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
                         && SharedHelper.getKey(context, "logged") != null) {
                     if (connectionHelper.isConnectingToInternet())
                         new GetProfile(apiInterface, SplashActivity.this);
-                    else displayMessage(getString(R.string.oops_no_internet));
+                    else
+                        Utils.displayMessage(SplashActivity.this,getString(R.string.oops_no_internet));
                 } else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     finish();
@@ -67,17 +68,6 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
 
     }
 
-    public void displayMessage(String toastString) {
-        try {
-            Snackbar.make(getCurrentFocus(), toastString, Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-        } catch (Exception e) {
-            try {
-                Toast.makeText(context, "" + toastString, Toast.LENGTH_SHORT).show();
-            } catch (Exception ee) {
-                ee.printStackTrace();
-            }
-        }
-    }
 
     public void getDeviceToken() {
         try {

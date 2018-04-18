@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
+import com.tomoeats.restaurant.adapter.HistoryAdapter;
 import com.tomoeats.restaurant.adapter.RequestAdapter;
 import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.Order;
@@ -51,7 +52,7 @@ public class CancelOrderFragment extends Fragment {
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     List<Order> orderList = new ArrayList<>();
-    RequestAdapter requestAdapter;
+    HistoryAdapter historyAdapter;
 
     public static PastVisitFragment.CancelledListListener cancelledListListener;
 
@@ -94,10 +95,10 @@ public class CancelOrderFragment extends Fragment {
     }
 
     private void setupAdapter() {
-        requestAdapter = new RequestAdapter(orderList, context);
+        historyAdapter = new HistoryAdapter(orderList, context);
         cancelRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         cancelRv.setHasFixedSize(true);
-        cancelRv.setAdapter(requestAdapter);
+        cancelRv.setAdapter(historyAdapter);
     }
 
     @Override
@@ -127,8 +128,8 @@ public class CancelOrderFragment extends Fragment {
                             lblNoRecords.setVisibility(View.GONE);
                             cancelRv.setVisibility(View.VISIBLE);
                             orderList = historyModel.getCOMPLETED();
-                            requestAdapter.setList(orderList);
-                            requestAdapter.notifyDataSetChanged();
+                            historyAdapter.setList(orderList);
+                            historyAdapter.notifyDataSetChanged();
                         } else {
                             lblNoRecords.setVisibility(View.VISIBLE);
                             cancelRv.setVisibility(View.GONE);

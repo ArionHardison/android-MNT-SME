@@ -1,255 +1,283 @@
 package com.tomoeats.restaurant.model;
 
-/**
- * Created by Tamil on 3/16/2018.
- */
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Shop {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("email")
-    @Expose
-    private String email;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
-    @SerializedName("avatar")
-    @Expose
-    private String avatar;
-    @SerializedName("default_banner")
-    @Expose
-    private String defaultBanner;
-    @SerializedName("description")
-    @Expose
-    private String description;
-    @SerializedName("offer_min_amount")
-    @Expose
-    private Integer offerMinAmount;
-    @SerializedName("offer_percent")
-    @Expose
-    private Integer offerPercent;
-    @SerializedName("estimated_delivery_time")
-    @Expose
-    private Integer estimatedDeliveryTime;
-    @SerializedName("address")
-    @Expose
-    private String address;
-    @SerializedName("maps_address")
-    @Expose
-    private String mapsAddress;
-    @SerializedName("latitude")
-    @Expose
-    private Double latitude;
-    @SerializedName("longitude")
-    @Expose
-    private Double longitude;
-    @SerializedName("pure_veg")
-    @Expose
-    private Integer pureVeg;
-    @SerializedName("popular")
-    @Expose
-    private Integer popular;
-    @SerializedName("rating")
-    @Expose
-    private Integer rating;
-    @SerializedName("rating_status")
-    @Expose
-    private Integer ratingStatus;
-    @SerializedName("status")
-    @Expose
-    private String status;
-    @SerializedName("created_at")
-    @Expose
-    private Object createdAt;
-    @SerializedName("updated_at")
-    @Expose
-    private String updatedAt;
-    @SerializedName("deleted_at")
-    @Expose
-    private Object deletedAt;
+public class Shop{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("latitude")
+	private double latitude;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("rating")
+	private int rating;
 
-    public String getName() {
-        return name;
-    }
+	@SerializedName("description")
+	private String description;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@SerializedName("created_at")
+	private Object createdAt;
 
-    public String getEmail() {
-        return email;
-    }
+	@SerializedName("device_type")
+	private String deviceType;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	@SerializedName("pure_veg")
+	private int pureVeg;
 
-    public String getPhone() {
-        return phone;
-    }
+	@SerializedName("updated_at")
+	private String updatedAt;
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	@SerializedName("estimated_delivery_time")
+	private int estimatedDeliveryTime;
 
-    public String getAvatar() {
-        return avatar;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+	@SerializedName("default_banner")
+	private Object defaultBanner;
 
-    public String getDefaultBanner() {
-        return defaultBanner;
-    }
+	@SerializedName("maps_address")
+	private String mapsAddress;
 
-    public void setDefaultBanner(String defaultBanner) {
-        this.defaultBanner = defaultBanner;
-    }
+	@SerializedName("popular")
+	private int popular;
 
-    public String getDescription() {
-        return description;
-    }
+	@SerializedName("email")
+	private String email;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	@SerializedName("offer_min_amount")
+	private int offerMinAmount;
 
-    public Integer getOfferMinAmount() {
-        return offerMinAmount;
-    }
+	@SerializedName("longitude")
+	private double longitude;
 
-    public void setOfferMinAmount(Integer offerMinAmount) {
-        this.offerMinAmount = offerMinAmount;
-    }
+	@SerializedName("offer_percent")
+	private int offerPercent;
 
-    public Integer getOfferPercent() {
-        return offerPercent;
-    }
+	@SerializedName("address")
+	private String address;
 
-    public void setOfferPercent(Integer offerPercent) {
-        this.offerPercent = offerPercent;
-    }
+	@SerializedName("device_id")
+	private String deviceId;
 
-    public Integer getEstimatedDeliveryTime() {
-        return estimatedDeliveryTime;
-    }
+	@SerializedName("avatar")
+	private String avatar;
 
-    public void setEstimatedDeliveryTime(Integer estimatedDeliveryTime) {
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
-    }
+	@SerializedName("deleted_at")
+	private Object deletedAt;
 
-    public String getAddress() {
-        return address;
-    }
+	@SerializedName("rating_status")
+	private int ratingStatus;
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	@SerializedName("phone")
+	private String phone;
 
-    public String getMapsAddress() {
-        return mapsAddress;
-    }
+	@SerializedName("device_token")
+	private String deviceToken;
 
-    public void setMapsAddress(String mapsAddress) {
-        this.mapsAddress = mapsAddress;
-    }
+	@SerializedName("name")
+	private String name;
 
-    public Double getLatitude() {
-        return latitude;
-    }
+	@SerializedName("status")
+	private String status;
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
+	public void setLatitude(double latitude){
+		this.latitude = latitude;
+	}
 
-    public Double getLongitude() {
-        return longitude;
-    }
+	public double getLatitude(){
+		return latitude;
+	}
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
+	public void setRating(int rating){
+		this.rating = rating;
+	}
 
-    public Integer getPureVeg() {
-        return pureVeg;
-    }
+	public int getRating(){
+		return rating;
+	}
 
-    public void setPureVeg(Integer pureVeg) {
-        this.pureVeg = pureVeg;
-    }
+	public void setDescription(String description){
+		this.description = description;
+	}
 
-    public Integer getPopular() {
-        return popular;
-    }
+	public String getDescription(){
+		return description;
+	}
 
-    public void setPopular(Integer popular) {
-        this.popular = popular;
-    }
+	public void setCreatedAt(Object createdAt){
+		this.createdAt = createdAt;
+	}
 
-    public Integer getRating() {
-        return rating;
-    }
+	public Object getCreatedAt(){
+		return createdAt;
+	}
 
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
+	public void setDeviceType(String deviceType){
+		this.deviceType = deviceType;
+	}
 
-    public Integer getRatingStatus() {
-        return ratingStatus;
-    }
+	public String getDeviceType(){
+		return deviceType;
+	}
 
-    public void setRatingStatus(Integer ratingStatus) {
-        this.ratingStatus = ratingStatus;
-    }
+	public void setPureVeg(int pureVeg){
+		this.pureVeg = pureVeg;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public int getPureVeg(){
+		return pureVeg;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public void setUpdatedAt(String updatedAt){
+		this.updatedAt = updatedAt;
+	}
 
-    public Object getCreatedAt() {
-        return createdAt;
-    }
+	public String getUpdatedAt(){
+		return updatedAt;
+	}
 
-    public void setCreatedAt(Object createdAt) {
-        this.createdAt = createdAt;
-    }
+	public void setEstimatedDeliveryTime(int estimatedDeliveryTime){
+		this.estimatedDeliveryTime = estimatedDeliveryTime;
+	}
 
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
+	public int getEstimatedDeliveryTime(){
+		return estimatedDeliveryTime;
+	}
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public void setId(int id){
+		this.id = id;
+	}
 
-    public Object getDeletedAt() {
-        return deletedAt;
-    }
+	public int getId(){
+		return id;
+	}
 
-    public void setDeletedAt(Object deletedAt) {
-        this.deletedAt = deletedAt;
-    }
+	public void setDefaultBanner(Object defaultBanner){
+		this.defaultBanner = defaultBanner;
+	}
 
+	public Object getDefaultBanner(){
+		return defaultBanner;
+	}
+
+	public void setMapsAddress(String mapsAddress){
+		this.mapsAddress = mapsAddress;
+	}
+
+	public String getMapsAddress(){
+		return mapsAddress;
+	}
+
+	public void setPopular(int popular){
+		this.popular = popular;
+	}
+
+	public int getPopular(){
+		return popular;
+	}
+
+	public void setEmail(String email){
+		this.email = email;
+	}
+
+	public String getEmail(){
+		return email;
+	}
+
+	public void setOfferMinAmount(int offerMinAmount){
+		this.offerMinAmount = offerMinAmount;
+	}
+
+	public int getOfferMinAmount(){
+		return offerMinAmount;
+	}
+
+	public void setLongitude(double longitude){
+		this.longitude = longitude;
+	}
+
+	public double getLongitude(){
+		return longitude;
+	}
+
+	public void setOfferPercent(int offerPercent){
+		this.offerPercent = offerPercent;
+	}
+
+	public int getOfferPercent(){
+		return offerPercent;
+	}
+
+	public void setAddress(String address){
+		this.address = address;
+	}
+
+	public String getAddress(){
+		return address;
+	}
+
+	public void setDeviceId(String deviceId){
+		this.deviceId = deviceId;
+	}
+
+	public String getDeviceId(){
+		return deviceId;
+	}
+
+	public void setAvatar(String avatar){
+		this.avatar = avatar;
+	}
+
+	public String getAvatar(){
+		return avatar;
+	}
+
+	public void setDeletedAt(Object deletedAt){
+		this.deletedAt = deletedAt;
+	}
+
+	public Object getDeletedAt(){
+		return deletedAt;
+	}
+
+	public void setRatingStatus(int ratingStatus){
+		this.ratingStatus = ratingStatus;
+	}
+
+	public int getRatingStatus(){
+		return ratingStatus;
+	}
+
+	public void setPhone(String phone){
+		this.phone = phone;
+	}
+
+	public String getPhone(){
+		return phone;
+	}
+
+	public void setDeviceToken(String deviceToken){
+		this.deviceToken = deviceToken;
+	}
+
+	public String getDeviceToken(){
+		return deviceToken;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+
+	public String getName(){
+		return name;
+	}
+
+	public void setStatus(String status){
+		this.status = status;
+	}
+
+	public String getStatus(){
+		return status;
+	}
 }
-

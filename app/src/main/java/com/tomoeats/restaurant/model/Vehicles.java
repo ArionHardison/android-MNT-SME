@@ -1,53 +1,52 @@
 package com.tomoeats.restaurant.model;
 
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Vehicles {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("transporter_id")
-    @Expose
-    private Integer transporterId;
-    @SerializedName("vehicle_no")
-    @Expose
-    private String vehicleNo;
-    @SerializedName("deleted_at")
-    @Expose
-    private Object deletedAt;
+public class Vehicles{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("vehicle_no")
+	private String vehicleNo;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public Integer getTransporterId() {
-        return transporterId;
-    }
+	@SerializedName("deleted_at")
+	private Object deletedAt;
 
-    public void setTransporterId(Integer transporterId) {
-        this.transporterId = transporterId;
-    }
+	@SerializedName("transporter_id")
+	private int transporterId;
 
-    public String getVehicleNo() {
-        return vehicleNo;
-    }
+	public void setVehicleNo(String vehicleNo){
+		this.vehicleNo = vehicleNo;
+	}
 
-    public void setVehicleNo(String vehicleNo) {
-        this.vehicleNo = vehicleNo;
-    }
+	public String getVehicleNo(){
+		return vehicleNo;
+	}
 
-    public Object getDeletedAt() {
-        return deletedAt;
-    }
+	public void setId(int id){
+		this.id = id;
+	}
 
-    public void setDeletedAt(Object deletedAt) {
-        this.deletedAt = deletedAt;
-    }
+	public int getId(){
+		return id;
+	}
 
+	public void setDeletedAt(Object deletedAt){
+		this.deletedAt = deletedAt;
+	}
+
+	public Object getDeletedAt(){
+		return deletedAt;
+	}
+
+	public void setTransporterId(int transporterId){
+		this.transporterId = transporterId;
+	}
+
+	public int getTransporterId(){
+		return transporterId;
+	}
 }

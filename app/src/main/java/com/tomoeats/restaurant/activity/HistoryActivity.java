@@ -76,11 +76,11 @@ public class HistoryActivity extends AppCompatActivity {
         finish();
     }
 
-    public static void showDialog(){
-        if(customDialog!=null && !customDialog.isShowing()){
-        customDialog.setCancelable(false);
-        customDialog.show();
-    }
+    public static void showDialog() {
+        if (customDialog != null && !customDialog.isShowing()) {
+            customDialog.setCancelable(false);
+            customDialog.show();
+        }
     }
 
     public static void dismissDialog(){

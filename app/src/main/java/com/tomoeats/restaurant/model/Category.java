@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Category implements Parcelable{
@@ -28,7 +29,7 @@ public class Category implements Parcelable{
     private String description;
     @SerializedName("position")
     @Expose
-    private Object position;
+    private Integer position;
     @SerializedName("status")
     @Expose
     private String status;
@@ -39,68 +40,6 @@ public class Category implements Parcelable{
     @Expose
     private List<Product> products;
 
-    protected Category(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            parentId = null;
-        } else {
-            parentId = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            shopId = null;
-        } else {
-            shopId = in.readInt();
-        }
-        name = in.readString();
-        description = in.readString();
-        status = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(id);
-        }
-        if (parentId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(parentId);
-        }
-        if (shopId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(shopId);
-        }
-        dest.writeString(name);
-        dest.writeString(description);
-        dest.writeString(status);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Category> CREATOR = new Creator<Category>() {
-        @Override
-        public Category createFromParcel(Parcel in) {
-            return new Category(in);
-        }
-
-        @Override
-        public Category[] newArray(int size) {
-            return new Category[size];
-        }
-    };
 
     public Integer getId() {
         return id;
@@ -142,11 +81,11 @@ public class Category implements Parcelable{
         this.description = description;
     }
 
-    public Object getPosition() {
+    public Integer getPosition() {
         return position;
     }
 
-    public void setPosition(Object position) {
+    public void setPosition(Integer position) {
         this.position = position;
     }
 
@@ -173,4 +112,88 @@ public class Category implements Parcelable{
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+
+    protected Category(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        parentId = in.readByte() == 0x00 ? null : in.readInt();
+        shopId = in.readByte() == 0x00 ? null : in.readInt();
+        name = in.readString();
+        description = in.readString();
+        position = in.readByte() == 0x00 ? null : in.readInt();
+        status = in.readString();
+        if (in.readByte() == 0x01) {
+            images = new ArrayList<Image>();
+            in.readList(images, Image.class.getClassLoader());
+        } else {
+            images = null;
+        }
+        if (in.readByte() == 0x01) {
+            products = new ArrayList<Product>();
+            in.readList(products, Product.class.getClassLoader());
+        } else {
+            products = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        if (parentId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(parentId);
+        }
+        if (shopId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(shopId);
+        }
+        dest.writeString(name);
+        dest.writeString(description);
+        if (position == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(position);
+        }
+        dest.writeString(status);
+        if (images == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(images);
+        }
+        if (products == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(products);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
+        @Override
+        public Category createFromParcel(Parcel in) {
+            return new Category(in);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
 }

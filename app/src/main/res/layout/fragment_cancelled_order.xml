@@ -7,7 +7,6 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cancel_rv"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"/>
 
     <TextView
@@ -15,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:visibility="gone"
         android:text="@string/no_results_found"/>
 
 </FrameLayout>

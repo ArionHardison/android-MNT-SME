@@ -1,79 +1,74 @@
 package com.tomoeats.restaurant.model;
 
-/**
- * Created by Tamil on 3/16/2018.
- */
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Prices {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("price")
-    @Expose
-    private Double price;
-    @SerializedName("orignal_price")
-    @Expose
-    private Integer orignalPrice;
-    @SerializedName("currency")
-    @Expose
-    private String currency;
-    @SerializedName("discount")
-    @Expose
-    private Integer discount;
-    @SerializedName("discount_type")
-    @Expose
-    private String discountType;
+public class Prices{
 
-    public Integer getId() {
-        return id;
-    }
+	@SerializedName("price")
+	private int price;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@SerializedName("discount")
+	private int discount;
 
-    public Double getPrice() {
-        return price;
-    }
+	@SerializedName("currency")
+	private String currency;
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+	@SerializedName("id")
+	private int id;
 
-    public Integer getOrignalPrice() {
-        return orignalPrice;
-    }
+	@SerializedName("discount_type")
+	private String discountType;
 
-    public void setOrignalPrice(Integer orignalPrice) {
-        this.orignalPrice = orignalPrice;
-    }
+	@SerializedName("orignal_price")
+	private int orignalPrice;
 
-    public String getCurrency() {
-        return currency;
-    }
+	public void setPrice(int price){
+		this.price = price;
+	}
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
+	public int getPrice(){
+		return price;
+	}
 
-    public Integer getDiscount() {
-        return discount;
-    }
+	public void setDiscount(int discount){
+		this.discount = discount;
+	}
 
-    public void setDiscount(Integer discount) {
-        this.discount = discount;
-    }
+	public int getDiscount(){
+		return discount;
+	}
 
-    public String getDiscountType() {
-        return discountType;
-    }
+	public void setCurrency(String currency){
+		this.currency = currency;
+	}
 
-    public void setDiscountType(String discountType) {
-        this.discountType = discountType;
-    }
+	public String getCurrency(){
+		return currency;
+	}
 
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setDiscountType(String discountType){
+		this.discountType = discountType;
+	}
+
+	public String getDiscountType(){
+		return discountType;
+	}
+
+	public void setOrignalPrice(int orignalPrice){
+		this.orignalPrice = orignalPrice;
+	}
+
+	public int getOrignalPrice(){
+		return orignalPrice;
+	}
 }

@@ -14,28 +14,52 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.ChangePasswordActivity;
 import com.tomoeats.restaurant.activity.DeliveriesActivity;
 import com.tomoeats.restaurant.activity.EditRestaurantActivity;
 import com.tomoeats.restaurant.activity.HistoryActivity;
 import com.tomoeats.restaurant.activity.LoginActivity;
+import com.tomoeats.restaurant.activity.ProductsActivity;
 import com.tomoeats.restaurant.activity.RestaurantTimingActivity;
+import com.tomoeats.restaurant.helper.ConnectionHelper;
+import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.helper.SharedHelper;
+import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.model.Setting;
+import com.tomoeats.restaurant.network.ApiClient;
+import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Constants;
+import com.tomoeats.restaurant.utils.Utils;
 
 import java.util.List;
+
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHolder> {
     private List<Setting> list;
     private Context context;
     private Activity activity;
 
+    ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+    CustomDialog customDialog;
+    ConnectionHelper connectionHelper;
+
+
     public SettingAdapter(List<Setting> list, Context con, Activity activity) {
         this.list = list;
         this.context = con;
         this.activity = activity;
+
+        customDialog = new CustomDialog(context);
+        connectionHelper = new ConnectionHelper(context);
     }
 
     @NonNull
@@ -91,10 +115,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                SharedHelper.clearSharedPreferences(context);
-                GlobalData.accessToken = "";
-                context.startActivity(new Intent(context, LoginActivity.class));
-                activity.finish();
+                logOut();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -106,6 +127,35 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
         builder.show();
     }
 
+    private void logOut() {
+        customDialog.show();
+       // String shop_id = SharedHelper.getKey(context, Constants.PREF.PROFILE_ID);
+        Call<ResponseBody>call = apiInterface.logOut();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                customDialog.dismiss();
+                if(response.isSuccessful()){
+                    clearAndExit();
+                }else{
+                    Gson gson = new Gson();
+                    try {
+                        ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
+                        Utils.displayMessage(activity, serverError.getError());
+                    } catch (JsonSyntaxException e) {
+                        Utils.displayMessage(activity, activity.getString(R.string.something_went_wrong));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(activity, activity.getString(R.string.something_went_wrong));
+            }
+        });
+    }
+
     private void showDeleteAccountAlertDialog() {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
@@ -115,10 +165,13 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                SharedHelper.clearSharedPreferences(context);
-                GlobalData.accessToken = "";
-                context.startActivity(new Intent(context, LoginActivity.class));
-                activity.finish();
+                if (connectionHelper.isConnectingToInternet()){
+                    deleteAccount();
+                }else{
+                    Utils.displayMessage(activity,context.getString(R.string.oops_no_internet));
+                }
+
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -128,6 +181,43 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             }
         });
         builder.show();
+    }
+
+    private void deleteAccount() {
+        customDialog.show();
+        String shop_id = SharedHelper.getKey(context, Constants.PREF.PROFILE_ID);
+        Call<ResponseBody>call = apiInterface.deleteAccount(shop_id);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                customDialog.dismiss();
+                if(response.isSuccessful()){
+                    clearAndExit();
+                }else{
+                    Gson gson = new Gson();
+                    try {
+                        ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
+                        Utils.displayMessage(activity, serverError.getError());
+                    } catch (JsonSyntaxException e) {
+                        Utils.displayMessage(activity, activity.getString(R.string.something_went_wrong));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(activity, activity.getString(R.string.something_went_wrong));
+            }
+        });
+    }
+
+
+    private void clearAndExit() {
+        SharedHelper.clearSharedPreferences(context);
+        GlobalData.accessToken = "";
+        context.startActivity(new Intent(context, LoginActivity.class));
+        activity.finish();
     }
 
 
