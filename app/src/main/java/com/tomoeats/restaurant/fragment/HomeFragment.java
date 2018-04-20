@@ -16,6 +16,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.adapter.RequestAdapter;
+import com.tomoeats.restaurant.controller.GetProfile;
+import com.tomoeats.restaurant.controller.ProfileListener;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.model.IncomingOrders;
 import com.tomoeats.restaurant.model.Order;
+import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
@@ -52,7 +56,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ProfileListener {
 
 
     @BindView(R.id.toolbar)
@@ -122,13 +126,6 @@ public class HomeFragment extends Fragment {
         isInternet = connectionHelper.isConnectingToInternet();
         customDialog = new CustomDialog(context);
 
-        if (GlobalData.profile != null && GlobalData.profile.getAddress() != null)
-            Glide.with(context).load(GlobalData.profile.getAvatar())
-                    .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(shopImg);
-        if (GlobalData.profile != null && GlobalData.profile.getName() != null)
-            shopName.setText(GlobalData.profile.getName());
-        if (GlobalData.profile != null && GlobalData.profile.getAddress() != null)
-            shopAddress.setText(GlobalData.profile.getAddress());
 
 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -152,6 +149,17 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void updateUI(Profile profile) {
+        if (profile != null && profile.getAddress() != null)
+            Glide.with(context).load(profile.getAvatar())
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
+        if (profile != null && profile.getName() != null)
+            shopName.setText(profile.getName());
+        if (profile != null && profile.getAddress() != null)
+            shopAddress.setText(profile.getMapsAddress());
+    }
+
+
     private void prepareAdapter() {
         requestAdapter = new RequestAdapter(orderList, context);
         incomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -167,8 +175,17 @@ public class HomeFragment extends Fragment {
         else
             Utils.displayMessage(activity, getString(R.string.oops_no_internet));
 
+        getProfile();
+
+
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
                 new IntentFilter(Constants.BROADCAST.UPDATE_ORDERS));
+    }
+
+    private void getProfile() {
+        if(connectionHelper.isConnectingToInternet()){
+            new GetProfile(apiInterface, this);
+        }
     }
 
     @Override
@@ -227,5 +244,15 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onSuccess(Profile profile) {
+        updateUI(profile);
+    }
+
+    @Override
+    public void onFailure(String error) {
+        Log.e(TAG,error);
     }
 }

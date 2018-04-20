@@ -75,6 +75,8 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
         final String prefix = activity.getResources().getString(R.string.currency_value);
         if(!data.getPrice().isEmpty() && !data.getPrice().startsWith(prefix)){
             holder.etPrice.setText(prefix+data.getPrice());
+        }else if(!data.getPrice().isEmpty()&& data.getPrice().startsWith(prefix)){
+            holder.etPrice.setText(data.getPrice());
         }else{
             holder.etPrice.setText(prefix);
         }

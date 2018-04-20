@@ -21,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.EditRestaurantActivity;
-import com.tomoeats.restaurant.activity.RestaurantTimingActivity;
 import com.tomoeats.restaurant.adapter.SettingAdapter;
 import com.tomoeats.restaurant.controller.GetProfile;
 import com.tomoeats.restaurant.controller.ProfileListener;
@@ -157,7 +156,7 @@ public class SettingFragment extends Fragment implements ProfileListener {
     public void onSuccess(Profile profile) {
         customDialog.dismiss();
         Glide.with(getActivity()).load(profile.getAvatar())
-                .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(profileImg);
+                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(profileImg);
         shop_name.setText(profile.getName());
         if (profile.getCuisines().size() > 1)
             shop_cuisines.setText("Multi Cuisine");

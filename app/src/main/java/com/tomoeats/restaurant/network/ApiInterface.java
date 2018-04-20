@@ -115,6 +115,10 @@ public interface ApiInterface {
     @POST("api/shop/categories")
     Call<Category> addCategory(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
 
+    @Multipart
+    @POST("api/shop/categories/{id}")
+    Call<Category> updateCategory(@Path("id") int id,@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
+
     @DELETE("api/shop/categories/{id}")
     Call<List<Category>> deleteCategory(@Path("id") int id);
 

@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,11 +22,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
-import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.helper.SharedHelper;
 import com.tomoeats.restaurant.model.Category;
 import com.tomoeats.restaurant.model.Image;
@@ -81,6 +84,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     File categoryImageFile;
     ArrayList<String>lstItems = new ArrayList<>();
     String strCategoryName,strDescription,strCategoryOrder,strStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +105,23 @@ public class AddCategoryActivity extends AppCompatActivity {
                 setCategoryDetails(category);
             }
         }
+
+
+        etDescription.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.et_description) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_UP:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
     }
 
     private void setSpinnerAdpater() {
@@ -149,7 +170,7 @@ public class AddCategoryActivity extends AppCompatActivity {
          strStatus = lstItems.get(statusSpin.getSelectedIndex());
 
         if (strCategoryName.isEmpty()){
-            Utils.displayMessage(this,getString(R.string.please_select_category_name));
+            Utils.displayMessage(this,getString(R.string.please_enter_category_name));
             return false;
         }else if (strDescription.isEmpty()){
             Utils.displayMessage(this,getString(R.string.please_enter_category_description));
@@ -170,9 +191,14 @@ public class AddCategoryActivity extends AppCompatActivity {
         if (categoryImageFile != null)
             filePart = MultipartBody.Part.createFormData("avatar", categoryImageFile.getName(),
                     RequestBody.create(MediaType.parse("image/*"), categoryImageFile));
+        Call<Category> call = null;
+        if (categoryDetails!=null){
+            params.put("_method",RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
+            call = apiInterface.updateCategory(categoryDetails.getId(),params,filePart);
+        }else{
+            call = apiInterface.addCategory(params,filePart);
+        }
 
-
-        Call<Category> call = apiInterface.addCategory(params,filePart);
         call.enqueue(new Callback<Category>() {
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
@@ -201,6 +227,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     private void setCategoryDetails(Category categoryDetails) {
         this.categoryDetails = categoryDetails;
+        title.setText(R.string.edit_category);
 
         if (categoryDetails.getName() != null)
             etAddonsName.setText(categoryDetails.getName());
@@ -217,8 +244,19 @@ public class AddCategoryActivity extends AppCompatActivity {
             List<Image> images = categoryDetails.getImages();
             if (images != null && images.size() > 0) {
                 String img = images.get(0).getUrl();
-                Glide.with(context).load(img)
-                        .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(categoryImg);
+                /*Glide.with(context).load(img)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(categoryImg);*/
+
+                Glide.with(this)
+                        .asBitmap()
+                        .load(img)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                categoryImg.setImageBitmap(resource);
+                                categoryImageFile = Utils.storeInFile(context,resource,"category_image.jpg","jpeg");
+                            }
+                        });
             }
         }
 
@@ -270,8 +308,8 @@ public class AddCategoryActivity extends AppCompatActivity {
                         .with(context)
                         .load(imageFile)
                         .apply(new RequestOptions()
-                                .placeholder(R.drawable.delete_shop)
-                                .error(R.drawable.delete_shop).dontAnimate())
+                                .placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate())
                         .into(categoryImg);
             }
 

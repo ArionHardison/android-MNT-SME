@@ -105,8 +105,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_placeholder_image" />
-                            <entry key="sourceFile" value="F:\placeholder_image.svg" />
+                            <entry key="outputName" value="ic_no_product_place_holder" />
+                            <entry key="sourceFile" value="F:\no_product_place_holder.svg" />
                           </map>
                         </option>
                       </PersistentState>

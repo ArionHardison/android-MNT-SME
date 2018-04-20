@@ -131,6 +131,7 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void setUp() {
+        CuisineSelectFragment.CUISINES.clear();
         title.setText(getString(R.string.add_product));
         backImg.setVisibility(View.VISIBLE);
         context = AddProductActivity.this;
@@ -148,6 +149,7 @@ public class AddProductActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle!=null){
+            title.setText(R.string.edit_product);
             productResponse = bundle.getParcelable("product_data");
             etProductName.setText(productResponse.getName());
             etDescription.setText(productResponse.getDescription());
@@ -172,7 +174,27 @@ public class AddProductActivity extends AppCompatActivity {
                             @Override
                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                 productImg.setImageBitmap(resource);
-                                productImageFile = storeInFile(resource,"product_image.png");
+                                productImageFile = Utils.storeInFile(context,resource,"product_image.png","png");
+                            }
+                        });
+
+               /* Glide.with(context).load(url)
+                        .apply(new RequestOptions().centerCrop().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(productImg);*/
+
+            }
+
+            if(productResponse.getFeaturedImages().size()>0){
+                List<Image> imageList= productResponse.getFeaturedImages();
+                String url = imageList.get(0).getUrl();
+
+                Glide.with(this)
+                        .asBitmap()
+                        .load(url)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                featuredImg.setImageBitmap(resource);
+                                featuredImageFile = Utils.storeInFile(context,resource,"featured_image.png","png");
                             }
                         });
 
@@ -183,8 +205,8 @@ public class AddProductActivity extends AppCompatActivity {
 
             if (productResponse.getFeatured()==1){
                 //debug
-                rbYes.setChecked(false);
-                //rbYes.setChecked(true);
+                //rbYes.setChecked(false);
+                rbYes.setChecked(true);
                 rbNo.setChecked(false);
             }else{
                 rbYes.setChecked(false);
@@ -200,38 +222,11 @@ public class AddProductActivity extends AppCompatActivity {
             }
 
 
+
         }
     }
 
-    private File storeInFile(Bitmap bitmap,String filename) {
-        File f = new File(context.getCacheDir(), filename);
-        try {
-            //create a file to write bitmap data
-            if(f.exists()){
-                f.delete();
-            }
 
-            f.createNewFile();
-
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
-            byte[] bitmapdata = bos.toByteArray();
-
-//write the bytes in file
-            FileOutputStream fos = new FileOutputStream(f);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return f;
-
-        //Convert bitmap to byte array
-
-    }
 
 
 
@@ -249,9 +244,9 @@ public class AddProductActivity extends AppCompatActivity {
         }
         categorySpin.setItems(lstCategoryNames);
         categorySpin.setOnItemSelectedListener(new CommonOnItemSelectListener());
-        if (selected_pos!=0){
+        if (selected_pos!=0 && selected_pos!=-1){
             categorySpin.setSelectedIndex(selected_pos);
-            strCategory =lstCategoryNames.get(selected_pos);
+            strCategory =hshCategory.get(lstCategoryNames.get(selected_pos))+"";
         }
     }
 
@@ -297,7 +292,7 @@ public class AddProductActivity extends AppCompatActivity {
                 break;
 
             case R.id.cuisine:
-                new CuisineSelectFragment().show(getSupportFragmentManager(), "cuisineSelectFragment");
+                new CuisineSelectFragment(true).show(getSupportFragmentManager(), "cuisineSelectFragment");
                 break;
         }
     }

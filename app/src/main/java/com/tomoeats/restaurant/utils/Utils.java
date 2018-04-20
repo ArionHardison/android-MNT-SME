@@ -3,19 +3,19 @@ package com.tomoeats.restaurant.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.tomoeats.restaurant.R;
-import com.tomoeats.restaurant.activity.LoginActivity;
-import com.tomoeats.restaurant.helper.GlobalData;
-import com.tomoeats.restaurant.helper.SharedHelper;
 import com.tomoeats.restaurant.network.ApiInterface;
 
-import java.text.NumberFormat;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,6 +46,41 @@ public class Utils {
                 ee.printStackTrace();
             }
         }
+    }
+
+
+    public static File storeInFile(Context context,Bitmap bitmap, String filename,String type) {
+        File f = new File(context.getCacheDir(), filename);
+        try {
+            //create a file to write bitmap data
+            if(f.exists()){
+                f.delete();
+            }
+
+            f.createNewFile();
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            if (type.contains("png"))
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+            else
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, bos);
+
+            byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return f;
+
+        //Convert bitmap to byte array
+
     }
 
 

@@ -42,7 +42,7 @@
                             android:id="@+id/shop_img"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/delete_shop"
+                            android:background="@drawable/ic_place_holder_image"
                             android:fitsSystemWindows="true"
                             android:scaleType="fitXY" />
 
@@ -135,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@string/no_results_found"/>
+                        android:text="No incoming orders received"/>
 
 
                 </LinearLayout>

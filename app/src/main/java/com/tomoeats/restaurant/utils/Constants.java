@@ -8,5 +8,6 @@ public class Constants {
 
     public interface PREF{
         String PROFILE_ID="profile_id";
+        String CURRENCY="currency";
     }
 }

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
@@ -48,6 +49,9 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
     @BindView(R.id.add_category_btn)
     Button addCategoryBtn;
 
+    @BindView(R.id.llNoRecords)
+    LinearLayout llNoRecords;
+
     Context context;
     Activity activity;
     ConnectionHelper connectionHelper;
@@ -71,11 +75,29 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
         customDialog = new CustomDialog(context);
 
         categoryList = new ArrayList<>();
-        categoryAdapter = new CategoryAdapter(categoryList, context);
-        categoryRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        categoryRv.setHasFixedSize(true);
-        categoryRv.setAdapter(categoryAdapter);
-        categoryAdapter.setCategoryAdapterListener(this);
+
+    }
+
+    private void setUpAdapter() {
+        if (categoryAdapter==null){
+            categoryAdapter = new CategoryAdapter(categoryList, context);
+            categoryRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            categoryRv.setHasFixedSize(true);
+            categoryRv.setAdapter(categoryAdapter);
+            categoryAdapter.setCategoryAdapterListener(this);
+        }else {
+            categoryAdapter.setList(categoryList);
+            categoryAdapter.notifyDataSetChanged();
+        }
+
+        if(categoryList.size()>0){
+            llNoRecords.setVisibility(View.GONE);
+            categoryRv.setVisibility(View.VISIBLE);
+        }else{
+            llNoRecords.setVisibility(View.VISIBLE);
+            categoryRv.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -110,11 +132,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
                     if (response.body() != null) {
                         categoryList = response.body();
                         if (categoryList != null && categoryList.size() > 0) {
-                            categoryAdapter.setList(categoryList);
-                            categoryAdapter.notifyDataSetChanged();
+                            setUpAdapter();
                         }
-                    } else {
-
                     }
                 } else {
                     Gson gson = new Gson();

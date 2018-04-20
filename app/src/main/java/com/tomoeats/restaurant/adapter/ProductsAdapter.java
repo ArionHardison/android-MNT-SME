@@ -16,10 +16,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.model.Addon;
-import com.tomoeats.restaurant.model.Category;
 import com.tomoeats.restaurant.model.Image;
 import com.tomoeats.restaurant.model.ProductModel;
-import com.tomoeats.restaurant.model.Product;
 import com.tomoeats.restaurant.model.product.ProductResponse;
 
 import java.util.ArrayList;
@@ -124,7 +122,7 @@ public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapte
             if (images != null && images.size() > 0) {
                 String img = images.get(0).getUrl();
                 Glide.with(context).load(img)
-                        .apply(new RequestOptions().centerCrop().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(holder.productImg);
+                        .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(holder.productImg);
             }
         }
 
@@ -132,11 +130,14 @@ public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapte
             List<Addon> addonsList = object.getAddons();
             String addOnNames="";
             for (int i = 0; i < addonsList.size(); i++) {
-                if (i==0){
-                    addOnNames = addonsList.get(i).getAddon().getName();
-                }else{
-                    addOnNames = addOnNames+","+addonsList.get(i).getAddon().getName();
+                if (addonsList.get(i).getAddon() != null) {
+                    if (i == 0) {
+                        addOnNames = addonsList.get(i).getAddon().getName();
+                    } else {
+                        addOnNames = addOnNames + "," + addonsList.get(i).getAddon().getName();
+                    }
                 }
+
             }
             holder.addOns.setVisibility(View.VISIBLE);
             holder.noAddOns.setVisibility(View.GONE);

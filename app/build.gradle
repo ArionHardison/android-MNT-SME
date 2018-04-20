@@ -97,6 +97,9 @@ dependencies {
     //Pin Entry
     implementation 'me.philio:pinentryview:1.0.6'
 
+    //RxAndroid Image compressor
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

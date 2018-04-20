@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -184,6 +187,17 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
         getUserCountryInfo();
 
+        etOfferInPercentage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(etOfferInPercentage.getText().toString().trim().equalsIgnoreCase("")){
+                        etOfferInPercentage.setText("0");
+                    }
+                }
+            }
+        });
+
     }
 
     private void getUserCountryInfo() {
@@ -210,7 +224,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         }
     }
 
-    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker})
+    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker,R.id.cuisine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -406,7 +420,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
 
         Glide.with(EditRestaurantActivity.this).load(profile.getAvatar())
-                .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(shopImg);
+                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
 
         tvMinAmount.setText(""+profile.getOfferMinAmount());
         etOfferInPercentage.setText(""+profile.getOfferPercent());

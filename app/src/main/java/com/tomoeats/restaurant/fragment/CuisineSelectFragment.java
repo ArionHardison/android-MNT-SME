@@ -48,7 +48,7 @@ public class CuisineSelectFragment extends DialogFragment {
 
     ConnectionHelper connectionHelper;
     boolean singleSelection;
-
+    int selected_pos=-1;
     public CuisineSelectFragment() {
         // Required empty public constructor
     }
@@ -142,12 +142,25 @@ public class CuisineSelectFragment extends DialogFragment {
         public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
             final Cuisine model = mModelList.get(position);
             holder.textView.setText(model.getName());
-            holder.view.setBackgroundColor(model.isSelected() ? Color.CYAN : Color.WHITE);
+            if (singleSelection){
+                if(selected_pos == position){
+                    model.setSelected(true);
+                }else{
+                    model.setSelected(false);
+                }
+            }
+
+            holder.view.setBackgroundColor(model.isSelected() ? getResources().getColor(R.color.medium_grey) : Color.WHITE);
+            holder.textView.setTag(position);
             holder.textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    selected_pos = (int) view.getTag();
                     model.setSelected(!model.isSelected());
-                    holder.view.setBackgroundColor(model.isSelected() ? Color.CYAN : Color.WHITE);
+                    holder.view.setBackgroundColor(model.isSelected() ? getResources().getColor(R.color.medium_grey) : Color.WHITE);
+                    if (singleSelection){
+                        notifyDataSetChanged();
+                    }
                 }
             });
         }

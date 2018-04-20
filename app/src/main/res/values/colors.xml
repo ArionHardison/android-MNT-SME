@@ -29,6 +29,8 @@
     <color name="colorRed">#b31101</color>
     <color name="colorBlue">#3b8771</color>
     <color name="colorWhite">#FFF</color>
+    <color name="colorYellow">#ffeb3b</color>
+    <color name="colorPurple">#D1C4E9</color>
 
    <!-- BottomSheet Color-->
     <color name="bottomSheetInActiveColor">#747474</color>

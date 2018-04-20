@@ -286,8 +286,8 @@
     <string name="action_save">Save</string>
     <string name="select_delievery_person">Select Delivery Person</string>
     <string name="item_order_price">Price</string>
-    <string name="currency_value">$</string>
-    <string name="currency_value_tag">$ </string>
+    <string name="currency_value">₹</string>
+    <string name="currency_value_tag">₹ </string>
     <string name="schedule_at">Scheduled at : </string>
     <string name="schedule_at_format">Scheduled at : %1$s %2$s %3$d</string>
 
@@ -329,12 +329,20 @@
     <string name="category_added_successfully">Category Added Successfully</string>
     <string name="product_added_successfully">Product Added Successfully</string>
     <string name="no_addons">No Addons</string>
-    <string name="please_select_category_name">Please select category name</string>
+    <string name="please_enter_category_name">Please enter category name</string>
     <string name="please_enter_category_description">Please enter category description</string>
     <string name="please_select_status">Please select status</string>
     <string name="please_select_category_image">Please select category image</string>
     <string name="please_select_product_image">Please select product image</string>
     <string name="category_list">Category List</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="edit_category">Edit Category</string>
+    <string name="please_enter_discount_amount">Please enter discount amount</string>
+    <string name="no_products_added">No Products Added</string>
+    <string name="no_addons_added">No addons added</string>
+    <string name="no_upcoming_orders_found">No upcoming orders found.</string>
+    <string name="no_past_orders_found">No past orders found</string>
+    <string name="no_cancelled_orders_found">No cancelled orders found</string>
 
 
 </resources>

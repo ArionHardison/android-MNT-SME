@@ -53,19 +53,24 @@
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
 
-            <EditText
-                android:id="@+id/et_description"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/edit_text_rounded_corner_bg"
-                android:gravity="start"
-                android:hint="@string/write_description"
-                android:lines="3"
-                android:imeOptions="actionNext"
-                android:padding="@dimen/_4sdp"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_medium" />
+            <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@drawable/edit_text_rounded_corner_bg"
+                    android:gravity="start"
+                    android:hint="@string/write_description"
+                    android:lines="3"
+                    android:imeOptions="actionNext"
+                    android:padding="@dimen/_4sdp"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_medium" />
+            </android.support.v4.widget.NestedScrollView>
+
+
 
 
             <TextView
@@ -129,7 +134,7 @@
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_placeholder_image" />
+                    android:src="@drawable/ic_placeholder_image_upload" />
 
             </RelativeLayout>
 

@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorTextWhite"
             android:orientation="vertical"
+            android:clickable="true"
             android:padding="@dimen/activity_vertical_margin">
 
 

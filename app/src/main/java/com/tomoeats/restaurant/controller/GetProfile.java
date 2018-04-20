@@ -40,6 +40,7 @@ public class GetProfile {
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
                 if (response.isSuccessful()) {
                     SharedHelper.putKey(MyApplication.getInstance(), Constants.PREF.PROFILE_ID, "" + response.body().getId());
+                    SharedHelper.putKey(MyApplication.getInstance(), Constants.PREF.CURRENCY, "" + response.body().getCurrency());
                     profileListener.onSuccess(response.body());
                 }
                 else try {

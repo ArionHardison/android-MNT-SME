@@ -12,10 +12,10 @@ public class RevenueResponse {
     private Double totalRevenue;
     @SerializedName("OrderReceivedToday")
     @Expose
-    private Double orderReceivedToday;
+    private Integer orderReceivedToday;
     @SerializedName("OrderDeliveredToday")
     @Expose
-    private Double orderDeliveredToday;
+    private Integer orderDeliveredToday;
     @SerializedName("OrderIncomeMonthly")
     @Expose
     private Double orderIncomeMonthly;
@@ -34,19 +34,19 @@ public class RevenueResponse {
         this.totalRevenue = totalRevenue;
     }
 
-    public Double getOrderReceivedToday() {
+    public Integer getOrderReceivedToday() {
         return orderReceivedToday;
     }
 
-    public void setOrderReceivedToday(Double orderReceivedToday) {
+    public void setOrderReceivedToday(Integer orderReceivedToday) {
         this.orderReceivedToday = orderReceivedToday;
     }
 
-    public Double getOrderDeliveredToday() {
+    public Integer getOrderDeliveredToday() {
         return orderDeliveredToday;
     }
 
-    public void setOrderDeliveredToday(Double orderDeliveredToday) {
+    public void setOrderDeliveredToday(Integer orderDeliveredToday) {
         this.orderDeliveredToday = orderDeliveredToday;
     }
 

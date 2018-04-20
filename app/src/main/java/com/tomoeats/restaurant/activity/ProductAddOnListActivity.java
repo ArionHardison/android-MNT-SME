@@ -50,6 +50,7 @@ public class ProductAddOnListActivity extends AppCompatActivity {
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     ArrayList<Addon> listAddOns = new ArrayList<>();
     ArrayList<Addon> listSelectedAddOns = new ArrayList<>();
+    ArrayList<Addon> listReceivedAddOns = new ArrayList<>();
 
     ProductAddOnsAdapter adapter;
 
@@ -71,6 +72,11 @@ public class ProductAddOnListActivity extends AppCompatActivity {
 
         rvAddOns.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvAddOns.setHasFixedSize(true);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle!=null){
+            listReceivedAddOns = bundle.getParcelableArrayList("addon");
+        }
     }
 
     @OnClick({R.id.btnSave,R.id.back_img})
@@ -139,7 +145,11 @@ public class ProductAddOnListActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     listAddOns.clear();
                     listAddOns.addAll(response.body());
-                   setUpAdapter(listAddOns);
+                    if (listReceivedAddOns.size()>0){
+                        prepareList();
+                    }else{
+                        setUpAdapter(listAddOns);
+                    }
                 } else {
                     Gson gson = new Gson();
                     try {
@@ -159,12 +169,29 @@ public class ProductAddOnListActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpAdapter(List<Addon> listAddOns) {
+    private void prepareList() {
+        ArrayList<Addon> listAddOnsNew = new ArrayList<>();
+
+        for (Addon addon:listAddOns) {
+            for (Addon addonReceived:listReceivedAddOns) {
+                if (addon.getId()== addonReceived.getId()){
+                    addon.setPrice(addonReceived.getPrice());
+                    addon.setChecked(true);
+                }
+            }
+            listAddOnsNew.add(addon);
+        }
+
+
+        setUpAdapter(listAddOnsNew);
+    }
+
+    private void setUpAdapter(List<Addon> listAddOnsTemp) {
         if (adapter==null){
-            adapter = new ProductAddOnsAdapter(listAddOns,this);
+            adapter = new ProductAddOnsAdapter(listAddOnsTemp,this);
             rvAddOns.setAdapter(adapter);
         }else{
-            adapter.setList(listAddOns);
+            adapter.setList(listAddOnsTemp);
             adapter.notifyDataSetChanged();
         }
     }

@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.config.AppConfigure;
@@ -130,6 +132,15 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     @BindView(R.id.LLBottomLay)
     LinearLayout LLBottomLay;
 
+    @BindView(R.id.back_img)
+    ImageView backImg;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.llToolbar)
+    LinearLayout llToolbar;
+    @BindView(R.id.llLogoSection)
+    LinearLayout llLogoSection;
+
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
@@ -183,10 +194,18 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
             //dont't make it gone since it will hide the entire layout in screen
             LLBottomLay.setVisibility(View.INVISIBLE);
             confirmBtn.setText(R.string.action_save);
+            llToolbar.setVisibility(View.VISIBLE);
+            llLogoSection.setVisibility(View.GONE);
+
+            title.setText("Edit Timings");
+            backImg.setVisibility(View.VISIBLE);
+
             callProfile();
         }else{
+            llToolbar.setVisibility(View.GONE);
+            llLogoSection.setVisibility(View.VISIBLE);
             LLBottomLay.setVisibility(View.VISIBLE);
-            confirmBtn.setText(R.string.confirm);
+            confirmBtn.setText(R.string.register);
         }
 
 
@@ -370,7 +389,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     }
 
 
-    @OnClick(R.id.confirm_btn)
+    @OnClick({R.id.confirm_btn})
     public void onViewClicked() {
         if(connectionHelper.isConnectingToInternet()){
             if(!strFrom.equalsIgnoreCase("Register")){
@@ -490,7 +509,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     @OnClick({R.id.txt_open_time, R.id.txt_close_time, R.id.mon_txt_open_time, R.id.mon_txt_close_time,
             R.id.tue_txt_open_time, R.id.tue_txt_close_time, R.id.wed_txt_open_time, R.id.wed_txt_close_time,
             R.id.thur_txt_open_time, R.id.thur_txt_close_time, R.id.frid_txt_open_time, R.id.frid_txt_close_time,
-            R.id.sat_txt_open_time, R.id.sat_txt_close_time, R.id.sun_txt_open_time, R.id.sun_txt_close_time})
+            R.id.sat_txt_open_time, R.id.sat_txt_close_time, R.id.sun_txt_open_time, R.id.sun_txt_close_time,R.id.back_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_open_time:
@@ -541,6 +560,9 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
             case R.id.sun_txt_close_time:
                 timePicker(sunTxtCloseTime);
                 break;
+            case R.id.back_img:
+                onBackPressed();
+                break;
         }
     }
 
@@ -550,7 +572,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
         if(strFrom.equalsIgnoreCase("Register")){
             SharedHelper.putKey(RestaurantTimingActivity.this, "logged", "true");
             GlobalData.profile = profile;
-            startActivity(new Intent(RestaurantTimingActivity.this, HomeActivity.class));
+            startActivity(new Intent(RestaurantTimingActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             finish();
         }else{
             List<Timing> timingList= profile.getTimings();

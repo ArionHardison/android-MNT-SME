@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,8 +62,10 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
     @BindView(R.id.add_products_btn)
     Button addProductsBtn;
 
-    @BindView(R.id.lblNoRecords)
-    TextView lblNoRecords;
+    @BindView(R.id.llNoRecords)
+    LinearLayout llNoRecords;
+
+
 
     Context context;
     Activity activity;
@@ -127,7 +130,7 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
 
     private void updateUI(List<ProductResponse> productList) {
         if(productList.size()>0){
-           // lblNoRecords.setVisibility(View.GONE);
+            llNoRecords.setVisibility(View.GONE);
             productsRv.setVisibility(View.VISIBLE);
             new Thread(new ArrangeDataTask(productList)).start();
         }else{
@@ -135,9 +138,8 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                 listProductModel.clear();
             }
             setUpAdapter();
-            //lblNoRecords.setVisibility(View.VISIBLE);
-           // productsRv.setVisibility(View.GONE);
-            productsRv.setVisibility(View.VISIBLE);
+            llNoRecords.setVisibility(View.VISIBLE);
+            productsRv.setVisibility(View.GONE);
             customDialog.dismiss();
         }
     }
@@ -171,13 +173,16 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                 model.setHeader(header);
                 List<ProductResponse> lstTempProduct= new ArrayList<>();
                 for (int j = 0; j <productList.size() ; j++) {
-                    if(productList.get(j).getCategories().get(0).getName().equalsIgnoreCase(header)){
-                        lstTempProduct.add(productList.get(j));
+                    if (productList.get(j).getCategories().size()>0){
+                        if(productList.get(j).getCategories().get(0).getName().equalsIgnoreCase(header)){
+                            lstTempProduct.add(productList.get(j));
+                        }
                     }
 
                     if(j==(productList.size()-1)){
                         model.setProductList(lstTempProduct);
                     }
+
                 }
 
                 listProductModel.add(model);

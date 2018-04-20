@@ -16,12 +16,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.OrderDetailActivity;
-import com.tomoeats.restaurant.activity.RequestAcceptActivity;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.model.Order;
 import com.tomoeats.restaurant.utils.Utils;
 
-import java.text.ParseException;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
@@ -73,7 +71,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             }
         });
         Glide.with(context).load(order.getUser().getAvatar())
-                .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(holder.userImg);
+                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(holder.userImg);
 
     }
 

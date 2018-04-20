@@ -19,6 +19,11 @@ public class ProductResponse implements Parcelable{
 	@SerializedName("images")
 	private List<Image> images;
 
+
+
+	@SerializedName("featured_images")
+	private List<Image> featuredImages;
+
 	@SerializedName("max_quantity")
 	private int maxQuantity;
 
@@ -222,6 +227,14 @@ public class ProductResponse implements Parcelable{
 		return status;
 	}
 
+	public List<Image> getFeaturedImages() {
+		return featuredImages;
+	}
+
+	public void setFeaturedImages(List<Image> featuredImages) {
+		this.featuredImages = featuredImages;
+	}
+
 	protected ProductResponse(Parcel in) {
 		featured = in.readInt();
 		if (in.readByte() == 0x01) {
@@ -230,6 +243,14 @@ public class ProductResponse implements Parcelable{
 		} else {
 			images = null;
 		}
+
+		if (in.readByte() == 0x01) {
+			featuredImages = new ArrayList<Image>();
+			in.readList(featuredImages, Image.class.getClassLoader());
+		} else {
+			featuredImages = null;
+		}
+
 		maxQuantity = in.readInt();
 		shop = (Shop) in.readValue(Shop.class.getClassLoader());
 		if (in.readByte() == 0x01) {
@@ -277,6 +298,13 @@ public class ProductResponse implements Parcelable{
 		} else {
 			dest.writeByte((byte) (0x01));
 			dest.writeList(images);
+		}
+
+		if (featuredImages == null) {
+			dest.writeByte((byte) (0x00));
+		} else {
+			dest.writeByte((byte) (0x01));
+			dest.writeList(featuredImages);
 		}
 		dest.writeInt(maxQuantity);
 		dest.writeValue(shop);

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -60,6 +61,8 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     Unbinder unbinder;
     @BindView(R.id.root_layout)
     LinearLayout rootLayout;
+    @BindView(R.id.main_content)
+    CoordinatorLayout main_content;
 
     private int current_year;
     private int current_month;
@@ -197,7 +200,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         unbinder.unbind();
     }
 
-    @OnClick({R.id.reset_img, R.id.from_date_lay, R.id.to_date_lay, R.id.filter_btn})
+    @OnClick({R.id.reset_img, R.id.from_date_lay, R.id.to_date_lay, R.id.filter_btn,R.id.main_content})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.reset_img:
@@ -209,7 +212,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
                 cdp.setOnDateSetListener(this);
                 cdp.setFirstDayOfWeek(Calendar.SUNDAY);
                 cdp.setPreselectedDate(current_year, current_month, current_day);
-                cdp.setDateRange(minDay, null);
+                //cdp.setDateRange(minDay, null);
                 cdp.setDoneText("Yes");
                 cdp.setCancelText("No");
                 cdp.show(getActivity().getSupportFragmentManager(), FROM_DATE);
@@ -224,7 +227,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
                 cdp2.setOnDateSetListener(this);
                 cdp2.setFirstDayOfWeek(Calendar.SUNDAY);
                 cdp2.setPreselectedDate(current_year, current_month, current_day);
-                cdp2.setDateRange(minDay, null);
+                //cdp2.setDateRange(minDay, null);
                 cdp2.setDoneText("Yes");
                 cdp2.setCancelText("No");
                 cdp2.show(getActivity().getSupportFragmentManager(), TO_DATE);
@@ -232,6 +235,10 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
             case R.id.filter_btn:
                //validateFilter();
                 sendMessageToScreen();
+                break;
+
+            case R.id.main_content:
+                dismiss();
                 break;
         }
     }

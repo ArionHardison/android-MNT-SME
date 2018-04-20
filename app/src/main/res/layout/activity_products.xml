@@ -17,15 +17,30 @@
             android:id="@+id/products_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/lblNoRecords"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/no_results_found"
             android:visibility="gone" />
+        <LinearLayout
+            android:id="@+id/llNoRecords"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_place_holder_no_items"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:textSize="@dimen/text_medium"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/no_products_added"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 

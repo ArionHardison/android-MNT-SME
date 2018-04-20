@@ -47,6 +47,8 @@ public class ProductAddOnActivity extends AppCompatActivity {
 
     @BindView(R.id.tvAddons)
     TextView tvAddons;
+    @BindView(R.id.tvPrice)
+    TextView tvPrice;
 
     @BindView(R.id.etPrice)
     EditText etPrice;
@@ -98,22 +100,45 @@ public class ProductAddOnActivity extends AppCompatActivity {
         setDiscountTypeSpinner();
 
         Bundle bundle = getIntent().getExtras();
+        String currency = SharedHelper.getKey(this, Constants.PREF.CURRENCY);
+
+        tvPrice.setText("Price ("+currency+")");
+
         if (bundle!=null){
             productResponse = bundle.getParcelable("product_data");
-            etPrice.setText(productResponse.getPrices().getPrice()+"");
+            if (productResponse.getPrices()!=null){
+                etPrice.setText(productResponse.getPrices().getPrice()+"");
+            }
             if (productResponse.getPrices().getDiscountType().equalsIgnoreCase("percentage")){
                 spinnerDiscountType.setSelectedIndex(1);
+                strDiscountType = "Percentage";
             }else if (productResponse.getPrices().getDiscountType().equalsIgnoreCase("amount")){
                 spinnerDiscountType.setSelectedIndex(2);
+                strDiscountType = "Amount";
+            }
+
+            if (productResponse.getPrices()!=null){
+                etDiscount.setText(productResponse.getPrices().getDiscount()+"");
             }
 
             if (productResponse.getAddons().size()>0){
                 String addOnNames="";
+
+                if (!addOnList.isEmpty()){
+                    addOnList.clear();
+                }
+
+                if (productResponse.getAddons().size() > 0) {
+                    addOnList.addAll(productResponse.getAddons());
+                }
+
                 for (int i = 0; i <productResponse.getAddons().size() ; i++) {
-                    if (i==0){
-                      addOnNames = productResponse.getAddons().get(i).getAddon().getName();
-                    } else{
-                        addOnNames = addOnNames+","+productResponse.getAddons().get(i).getAddon().getName();
+                    if(productResponse.getAddons().get(i).getAddon()!=null){
+                        if (i==0){
+                            addOnNames = productResponse.getAddons().get(i).getAddon().getName();
+                        } else{
+                            addOnNames = addOnNames+","+productResponse.getAddons().get(i).getAddon().getName();
+                        }
                     }
                 }
                 tvAddons.setText(addOnNames);
@@ -149,7 +174,11 @@ public class ProductAddOnActivity extends AppCompatActivity {
                 break;
 
             case R.id.ivAddOn:
-                startActivityForResult(new Intent(this,ProductAddOnListActivity.class),ADD_ON_REQ_CODE);
+                Intent intent = new Intent(this,ProductAddOnListActivity.class);
+                if(addOnList.size()>0){
+                    intent.putParcelableArrayListExtra("addon",addOnList);
+                }
+                startActivityForResult(intent,ADD_ON_REQ_CODE);
                 break;
         }
     }
@@ -165,7 +194,8 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("price",RequestBody.create(MediaType.parse("text/plain"), strProductPrice));
         params.put("product_position",RequestBody.create(MediaType.parse("text/plain"), message.getStrProductOrder()));
         params.put("shop",RequestBody.create(MediaType.parse("text/plain"), shop_id));
-        params.put("featured",RequestBody.create(MediaType.parse("text/plain"), (message.getFeaturedImageFile()!=null) ? "1":"0"));
+        String featured = (message.getFeaturedImageFile()!=null) ? "1":"0";
+        params.put("featured",RequestBody.create(MediaType.parse("text/plain"), featured));
         params.put("discount",RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type",RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
         params.put("status",RequestBody.create(MediaType.parse("text/plain"), message.getStrProductStatus()));
@@ -178,16 +208,17 @@ public class ProductAddOnActivity extends AppCompatActivity {
 
 
 
-        MultipartBody.Part filePart1 = null;
-        if(productResponse!=null && message.getProductImageFile() != null){
-            params.put("id",RequestBody.create(MediaType.parse("text/plain"),productResponse.getId()+""));
+
+        if(productResponse!=null){
+            params.put("featured_position",RequestBody.create(MediaType.parse("text/plain"),featured));
             params.put("_method",RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
-            filePart1 = MultipartBody.Part.createFormData("image", message.getProductImageFile().getName(),
-                    RequestBody.create(MediaType.parse("image/*"), message.getProductImageFile()));
-        }else{
-            filePart1 = MultipartBody.Part.createFormData("avatar", message.getProductImageFile().getName(),
-                    RequestBody.create(MediaType.parse("image/*"), message.getProductImageFile()));
+
         }
+
+        MultipartBody.Part filePart1 = null;
+        if (message.getProductImageFile() != null)
+        filePart1 = MultipartBody.Part.createFormData("avatar[]", message.getProductImageFile().getName(),
+                RequestBody.create(MediaType.parse("image/*"), message.getProductImageFile()));
 
 
         MultipartBody.Part filePart2 = null;
@@ -242,6 +273,9 @@ public class ProductAddOnActivity extends AppCompatActivity {
             return false;
         }else if (strDiscountType.isEmpty()){
             Utils.displayMessage(this, getString(R.string.please_select_discount_type));
+            return false;
+        }else if (strProductDiscount.isEmpty()){
+            Utils.displayMessage(this, getString(R.string.please_enter_discount_amount));
             return false;
         }
 

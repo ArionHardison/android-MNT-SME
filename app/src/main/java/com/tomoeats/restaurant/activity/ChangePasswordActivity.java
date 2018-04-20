@@ -176,7 +176,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }else{
                     try {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
-                        Utils.displayMessage(activity, serverError.getError());
+                        if(serverError.getError().contains("incorrect_password")){
+                            Utils.displayMessage(activity, "Incorrect Password");
+                        }else{
+                            Utils.displayMessage(activity, serverError.getError());
+                        }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }

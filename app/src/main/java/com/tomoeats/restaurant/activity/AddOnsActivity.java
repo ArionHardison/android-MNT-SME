@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tomoeats.restaurant.R;
@@ -46,6 +47,9 @@ public class AddOnsActivity extends AppCompatActivity {
     @BindView(R.id.add_add_ons_btn)
     Button addAddOnsBtn;
 
+    @BindView(R.id.llNoRecords)
+    LinearLayout llNoRecords;
+
     Context context;
     Activity activity;
     ConnectionHelper connectionHelper;
@@ -71,11 +75,26 @@ public class AddOnsActivity extends AppCompatActivity {
         customDialog = new CustomDialog(context);
 
         addOnsList = new ArrayList<>();
-        addOnsAdapter = new AddOnsAdapter(addOnsList, context);
-        addOnsRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        addOnsRv.setHasFixedSize(true);
-        addOnsRv.setAdapter(addOnsAdapter);
 
+    }
+
+    private void setUpAdapter() {
+        if(addOnsAdapter==null){
+            addOnsAdapter = new AddOnsAdapter(addOnsList, context);
+            addOnsRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            addOnsRv.setHasFixedSize(true);
+            addOnsRv.setAdapter(addOnsAdapter);
+        }else{
+            addOnsAdapter.notifyDataSetChanged();
+        }
+
+        if(addOnsList.size()>0){
+            llNoRecords.setVisibility(View.GONE);
+            addOnsRv.setVisibility(View.VISIBLE);
+        }else{
+            llNoRecords.setVisibility(View.VISIBLE);
+            addOnsRv.setVisibility(View.GONE);
+        }
 
     }
 
@@ -99,7 +118,8 @@ public class AddOnsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     addOnsList.clear();
                     addOnsList.addAll(response.body());
-                    addOnsAdapter.notifyDataSetChanged();
+                    setUpAdapter();
+
                 } else {
                     Gson gson = new Gson();
                     try {

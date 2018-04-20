@@ -25,6 +25,8 @@ import com.tomoeats.restaurant.chart.MyMarkerView;
 import com.tomoeats.restaurant.chart.XYMarkerView;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
+import com.tomoeats.restaurant.helper.GlobalData;
+import com.tomoeats.restaurant.helper.SharedHelper;
 import com.tomoeats.restaurant.model.CompleteCancel;
 import com.tomoeats.restaurant.model.RevenueResponse;
 import com.tomoeats.restaurant.model.ServerError;
@@ -42,6 +44,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
 
 import java.text.DecimalFormat;
@@ -235,12 +238,13 @@ public class RevenueFragment extends Fragment {
 
     private void updateUI(RevenueResponse response) {
         NumberFormat formatter = new DecimalFormat("#0.00");
+        String currency = SharedHelper.getKey(getActivity(), Constants.PREF.CURRENCY);
 
-        String total_revenue = formatter.format(response.getTotalRevenue());
-        String order_received = formatter.format(response.getOrderReceivedToday());
-        String order_develievered = formatter.format(response.getOrderDeliveredToday());
-        String today_earnings = formatter.format(response.getOrderIncomeToday());
-        String monthly_earnings = formatter.format(response.getOrderIncomeMonthly());
+        String total_revenue = currency+formatter.format(response.getTotalRevenue());
+        String order_received = response.getOrderReceivedToday()+"";
+        String order_develievered = response.getOrderDeliveredToday()+"";
+        String today_earnings = currency+formatter.format(response.getOrderIncomeToday());
+        String monthly_earnings = currency+formatter.format(response.getOrderIncomeMonthly());
 
         tvTotalRevenue.setText(total_revenue);
         tvOrderReceived.setText(order_received);

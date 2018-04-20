@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tomoeats.restaurant.BuildConfig;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.config.AppConfigure;
 import com.tomoeats.restaurant.controller.GetProfile;
@@ -83,9 +84,11 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
 
         etPasswordEyeImg.setTag(1);
 
-        //Test
-        etEmail.setText("kssm24@gmail.com");
-        etPassword.setText("123456");
+        /*if (BuildConfig.DEBUG){
+            etEmail.setText("kssm24@gmail.com");
+            etPassword.setText("1234567");
+        }*/
+
     }
 
     @OnClick({R.id.et_password_eye_img, R.id.login_btn, R.id.txt_register, R.id.txt_forgot_password})

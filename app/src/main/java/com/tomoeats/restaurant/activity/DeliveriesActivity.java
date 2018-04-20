@@ -89,7 +89,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                 if (message!=null){
                     filterDialogFragment.onReceiveData(message);
                 }
-                filterDialogFragment.setCancelable(false);
+                filterDialogFragment.setCancelable(true);
                 filterDialogFragment.show(getSupportFragmentManager(), "FilterDialogFragment");
                 break;
         }

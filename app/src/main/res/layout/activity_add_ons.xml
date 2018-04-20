@@ -17,7 +17,31 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/add_ons_rv"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/llNoRecords"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_place_holder_no_items"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:textSize="@dimen/text_medium"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/no_addons_added"/>
+        </LinearLayout>
 
     </LinearLayout>
 
