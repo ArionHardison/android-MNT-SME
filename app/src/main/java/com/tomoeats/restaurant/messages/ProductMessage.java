@@ -7,7 +7,7 @@ public class ProductMessage {
     private String strProductName = "";
     private String strProductDescription = "";
     private String strProductStatus = "";
-    private String strProductOrder = "";
+    private String strProductOrder = "0";
     private String strProductCategory = "";
     private File productImageFile;
     private File featuredImageFile;

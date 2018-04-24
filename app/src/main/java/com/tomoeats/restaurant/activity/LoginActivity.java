@@ -84,10 +84,10 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
 
         etPasswordEyeImg.setTag(1);
 
-        /*if (BuildConfig.DEBUG){
-            etEmail.setText("kssm24@gmail.com");
+        if (BuildConfig.DEBUG){
+            etEmail.setText("sundaram@appoets.com");
             etPassword.setText("1234567");
-        }*/
+        }
 
     }
 
@@ -157,7 +157,12 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
                 } else {
                     try {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
-                        Utils.displayMessage(activity, serverError.getError());
+                        if (serverError.getError().contains("invalid")){
+                            Utils.displayMessage(activity, getString(R.string.invalid_credentials));
+                        }else{
+                            Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+                        }
+
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }

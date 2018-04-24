@@ -113,6 +113,32 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/shop_banner"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_tiny" />
+
+                <ImageView
+                    android:id="@+id/shop_image"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/_4sdp"
+                    android:src="@drawable/ic_placeholder_image_upload" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView

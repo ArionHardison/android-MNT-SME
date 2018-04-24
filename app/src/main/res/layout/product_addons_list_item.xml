@@ -37,6 +37,7 @@
         android:background="@drawable/edit_text_rounded_corner_bg"
         android:imeOptions="actionDone"
         android:inputType="numberDecimal"
+        android:maxLength="8"
         android:padding="@dimen/_4sdp"
         android:textColor="@color/colorSecondaryText"
         android:textSize="@dimen/text_medium" />

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -47,8 +48,8 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
     ImageView filterImg;
     @BindView(R.id.deliveries_rv)
     RecyclerView deliveriesRv;
-    @BindView(R.id.tvNoHistoryFound)
-    TextView tvNoHistoryFound;
+    @BindView(R.id.llNoRecords)
+    LinearLayout llNoRecords;
 
     Context context = DeliveriesActivity.this;
     DeliveriesAdapter deliveriesAdapter;
@@ -117,7 +118,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                         if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0)
                             orderList.addAll(historyModel.getCANCELLED());
                         if (orderList != null && orderList.size() > 0) {
-                            tvNoHistoryFound.setVisibility(View.GONE);
+                            llNoRecords.setVisibility(View.GONE);
                             deliveriesRv.setVisibility(View.VISIBLE);
                             if (deliveriesAdapter == null)
                                 setupAdapter();
@@ -127,7 +128,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                             }
 
                         } else {
-                            tvNoHistoryFound.setVisibility(View.VISIBLE);
+                            llNoRecords.setVisibility(View.VISIBLE);
                             deliveriesRv.setVisibility(View.GONE);
                         }
                     }
@@ -229,7 +230,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                         if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0)
                             orderList.addAll(historyModel.getCANCELLED());
                         if (orderList != null && orderList.size() > 0) {
-                            tvNoHistoryFound.setVisibility(View.GONE);
+                            llNoRecords.setVisibility(View.GONE);
                             deliveriesRv.setVisibility(View.VISIBLE);
                             if (deliveriesAdapter == null)
                                 setupAdapter();
@@ -239,7 +240,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                             }
 
                         } else {
-                            tvNoHistoryFound.setVisibility(View.VISIBLE);
+                            llNoRecords.setVisibility(View.VISIBLE);
                             deliveriesRv.setVisibility(View.GONE);
                         }
                     }

@@ -53,7 +53,7 @@ public interface ApiInterface {
 
     @Multipart
     @POST("api/shop/profile/{id}")
-    Call<Profile> updateProfileWithFile(@Path("id") int id,@PartMap HashMap<String, RequestBody> params,@Part MultipartBody.Part filename);
+    Call<Profile> updateProfileWithFile(@Path("id") int id,@PartMap HashMap<String, RequestBody> params,@Part MultipartBody.Part filename1,@Part MultipartBody.Part filename2);
 
     @Multipart
     @POST("api/shop/profile/{id}")
@@ -73,7 +73,7 @@ public interface ApiInterface {
 
     @Multipart
     @POST("api/shop/register")
-    Call<Profile> signUp(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
+    Call<Profile> signUp(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename1,@Part MultipartBody.Part filename2);
 
 
 

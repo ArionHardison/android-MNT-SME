@@ -130,13 +130,28 @@
 
                     </android.support.v7.widget.RecyclerView>
 
-                    <TextView
-                        android:id="@+id/lblNoRecords"
+                    <LinearLayout
+                        android:id="@+id/llNoRecords"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="No incoming orders received"/>
+                        android:orientation="vertical">
 
+                        <ImageView
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_hour_glass" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:fontFamily="@font/nunito_semi_bold"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textSize="@dimen/_13sdp"
+                        android:text="@string/waiting_for_new_orders" />
 
                 </LinearLayout>
 

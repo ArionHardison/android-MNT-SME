@@ -319,7 +319,7 @@
     <string name="please_enter_otp">Please Enter OTP</string>
     <string name="please_new_password">Please Enter New Password</string>
     <string name="order_received">Order Received</string>
-    <string name="ordered_delievered">Ordered Delievered</string>
+    <string name="ordered_delievered">Ordered Delivered</string>
     <string name="today_earnings">Today Earnings</string>
     <string name="monthly_earnings">Monthly Earnings</string>
     <string name="discount_type">Discount Type</string>
@@ -343,6 +343,14 @@
     <string name="no_upcoming_orders_found">No upcoming orders found.</string>
     <string name="no_past_orders_found">No past orders found</string>
     <string name="no_cancelled_orders_found">No cancelled orders found</string>
+    <string name="please_enter_description">Please enter description</string>
+    <string name="no_incoming_orders_received">No incoming orders received</string>
+    <string name="invalid_credentials">Invalid Credentials</string>
+    <string name="waiting_for_new_orders">Waiting for new orders</string>
+    <string name="shop_image">Shop Image</string>
+    <string name="shop_banner">Shop Banner Image</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="no_deliveries_found">No deliveries found</string>
 
 
 </resources>

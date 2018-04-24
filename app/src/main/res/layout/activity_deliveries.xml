@@ -47,12 +47,31 @@
         android:layout_height="match_parent"
         />
 
-    <TextView
-        android:id="@+id/tvNoHistoryFound"
+
+
+    <LinearLayout
+        android:id="@+id/llNoRecords"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
-        android:visibility="gone"
-        android:text="No History Found"/>
+        android:visibility="visible"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/empty_place_holder"/>
+        <TextView
+            android:id="@+id/lblNoRecords"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/_13sdp"
+            android:fontFamily="@font/nunito_semi_bold"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/no_deliveries_found"/>
+
+    </LinearLayout>
 
 </LinearLayout>

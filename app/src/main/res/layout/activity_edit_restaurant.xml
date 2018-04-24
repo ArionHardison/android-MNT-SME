@@ -92,6 +92,30 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="@string/shop_banner"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_tiny" />
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:background="@drawable/edit_text_rounded_corner_bg">
+
+                    <ImageView
+                        android:id="@+id/shop_banner"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_placeholder_image_upload" />
+
+                </RelativeLayout>
+
 
 
                 <TextView

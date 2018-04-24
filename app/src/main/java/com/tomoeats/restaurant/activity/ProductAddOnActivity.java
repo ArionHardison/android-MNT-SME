@@ -15,6 +15,7 @@ import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.SharedHelper;
+import com.tomoeats.restaurant.imagecompressor.Compressor;
 import com.tomoeats.restaurant.messages.ProductMessage;
 import com.tomoeats.restaurant.model.Addon;
 import com.tomoeats.restaurant.model.product.ProductResponse;
@@ -23,6 +24,8 @@ import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -74,6 +77,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
     private final int ADD_ON_REQ_CODE=1000;
 
     ArrayList<Addon> addOnList = new ArrayList<>();
+    ArrayList<Addon> addOnReceivedList = new ArrayList<>();
 
     ProductResponse productResponse;
 
@@ -105,6 +109,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
         tvPrice.setText("Price ("+currency+")");
 
         if (bundle!=null){
+            title.setText(R.string.edit_product);
             productResponse = bundle.getParcelable("product_data");
             if (productResponse.getPrices()!=null){
                 etPrice.setText(productResponse.getPrices().getPrice()+"");
@@ -124,12 +129,12 @@ public class ProductAddOnActivity extends AppCompatActivity {
             if (productResponse.getAddons().size()>0){
                 String addOnNames="";
 
-                if (!addOnList.isEmpty()){
-                    addOnList.clear();
+                if (!addOnReceivedList.isEmpty()){
+                    addOnReceivedList.clear();
                 }
 
                 if (productResponse.getAddons().size() > 0) {
-                    addOnList.addAll(productResponse.getAddons());
+                    addOnReceivedList.addAll(productResponse.getAddons());
                 }
 
                 for (int i = 0; i <productResponse.getAddons().size() ; i++) {
@@ -175,8 +180,8 @@ public class ProductAddOnActivity extends AppCompatActivity {
 
             case R.id.ivAddOn:
                 Intent intent = new Intent(this,ProductAddOnListActivity.class);
-                if(addOnList.size()>0){
-                    intent.putParcelableArrayListExtra("addon",addOnList);
+                if(addOnReceivedList.size()>0){
+                    intent.putParcelableArrayListExtra("addon",addOnReceivedList);
                 }
                 startActivityForResult(intent,ADD_ON_REQ_CODE);
                 break;
@@ -188,6 +193,10 @@ public class ProductAddOnActivity extends AppCompatActivity {
         String shop_id = SharedHelper.getKey(this, Constants.PREF.PROFILE_ID);
         HashMap<String, RequestBody> params = new HashMap<>();
 
+        if (message.getStrProductOrder().equals("")){
+            message.setStrProductOrder("0");
+        }
+
         params.put("name",RequestBody.create(MediaType.parse("text/plain"),message.getStrProductName()));
         params.put("description",RequestBody.create(MediaType.parse("text/plain"),message.getStrProductDescription()));
         params.put("category",RequestBody.create(MediaType.parse("text/plain"),message.getStrProductCategory()));
@@ -195,11 +204,11 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("product_position",RequestBody.create(MediaType.parse("text/plain"), message.getStrProductOrder()));
         params.put("shop",RequestBody.create(MediaType.parse("text/plain"), shop_id));
         String featured = (message.getFeaturedImageFile()!=null) ? "1":"0";
-        params.put("featured",RequestBody.create(MediaType.parse("text/plain"), featured));
         params.put("discount",RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type",RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
         params.put("status",RequestBody.create(MediaType.parse("text/plain"), message.getStrProductStatus()));
         params.put("cuisine_id",RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));
+
 
         for (int i = 0; i <addOnList.size() ; i++) {
             params.put("addons["+i+"]",RequestBody.create(MediaType.parse("text/plain"),addOnList.get(i).getId()+""));
@@ -208,23 +217,44 @@ public class ProductAddOnActivity extends AppCompatActivity {
 
 
 
-
         if(productResponse!=null){
             params.put("featured_position",RequestBody.create(MediaType.parse("text/plain"),featured));
             params.put("_method",RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
-
+        }else{
+            params.put("featured",RequestBody.create(MediaType.parse("text/plain"), featured));
         }
 
         MultipartBody.Part filePart1 = null;
-        if (message.getProductImageFile() != null)
-        filePart1 = MultipartBody.Part.createFormData("avatar[]", message.getProductImageFile().getName(),
-                RequestBody.create(MediaType.parse("image/*"), message.getProductImageFile()));
+        if (message.getProductImageFile() != null){
+            File compressToFile =null;
+            try {
+               compressToFile   = new Compressor(this).compressToFile(message.getProductImageFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            filePart1 = MultipartBody.Part.createFormData("avatar[]", compressToFile.getName(),
+                    RequestBody.create(MediaType.parse("image/*"), compressToFile));
+        }
+
 
 
         MultipartBody.Part filePart2 = null;
-        if (message.getFeaturedImageFile() != null)
+        /*if (message.getFeaturedImageFile() != null)
             filePart2 = MultipartBody.Part.createFormData("featured_image", message.getFeaturedImageFile().getName(),
-                    RequestBody.create(MediaType.parse("image/*"), message.getFeaturedImageFile()));
+                    RequestBody.create(MediaType.parse("image/*"), message.getFeaturedImageFile()));*/
+
+        if (message.getFeaturedImageFile() != null){
+            File compressToFile =null;
+            try {
+                compressToFile   = new Compressor(this).compressToFile(message.getFeaturedImageFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            filePart1 = MultipartBody.Part.createFormData("featured_image", compressToFile.getName(),
+                    RequestBody.create(MediaType.parse("image/*"), compressToFile));
+        }
 
         Call<ProductResponse> call = null;
 

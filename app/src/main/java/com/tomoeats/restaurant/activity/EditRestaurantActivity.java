@@ -6,12 +6,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.Selection;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -39,6 +39,7 @@ import com.tomoeats.restaurant.fragment.CuisineSelectFragment;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
+import com.tomoeats.restaurant.imagecompressor.Compressor;
 import com.tomoeats.restaurant.model.Cuisine;
 import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.network.ApiClient;
@@ -46,6 +47,7 @@ import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -96,6 +98,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     Spinner statusSpin;*/
     @BindView(R.id.shop_img)
     ImageView shopImg;
+    @BindView(R.id.shop_banner)
+    ImageView shop_banner;
     @BindView(R.id.radio_yes)
     RadioButton radioYes;
     @BindView(R.id.radio_no)
@@ -148,6 +152,11 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     double longitude;
     String country_code;
 
+    int SHOP_IMAGE=0;
+    int SHOP_BANNER=1;
+
+    int CT_TYPE = SHOP_IMAGE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,7 +169,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     private void initViews() {
         title.setText(getResources().getString(R.string.edit_restaurant));
         backImg.setVisibility(View.VISIBLE);
-        customDialog = new CustomDialog(EditRestaurantActivity.this);
+        customDialog = new CustomDialog(this);
 
         connectionHelper = new ConnectionHelper(getApplicationContext());
 
@@ -198,6 +207,22 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             }
         });
 
+
+        etDescription.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.etDescription) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_UP:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
     }
 
     private void getUserCountryInfo() {
@@ -207,10 +232,10 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             txtCountryNumber.setText(country.getDialCode());
             country_code = country.getDialCode();
         } else {
-            Country us = new Country("US", "United States", "+1", R.drawable.flag_us);
-            countryImg.setImageResource(us.getFlag());
-            txtCountryNumber.setText(us.getDialCode());
-            country_code = us.getDialCode();
+            Country india = new Country("IN", "India", "+91", R.drawable.flag_in);
+            countryImg.setImageResource(india.getFlag());
+            txtCountryNumber.setText(india.getDialCode());
+            country_code = india.getDialCode();
         }
     }
 
@@ -224,7 +249,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         }
     }
 
-    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker,R.id.cuisine})
+    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker,R.id.cuisine,R.id.shop_banner})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -234,7 +259,12 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 mCountryPicker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
                 break;
             case R.id.shop_img:
-                galleryIntent();
+                CT_TYPE = SHOP_IMAGE;
+                galleryIntent(SHOP_IMAGE);
+                break;
+            case R.id.shop_banner:
+                CT_TYPE = SHOP_BANNER;
+                galleryIntent(SHOP_BANNER);
                 break;
             case R.id.address_lay:
                 try {
@@ -285,6 +315,12 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         offer_percentage = etOfferInPercentage.getText().toString().trim();
         delivery_time = etMaximumDeliveryTime.getText().toString().trim();
         description = etDescription.getText().toString().trim();
+        country_code = txtCountryNumber.getText().toString().trim();
+
+        //Setting default values
+        if (offer_percentage==null || offer_percentage.isEmpty() || offer_percentage.equalsIgnoreCase("null")){
+            offer_percentage = "0";
+        }
 
 
         if (name.isEmpty())
@@ -297,20 +333,12 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.invalid_cuisine));
         else if (mobile.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_phone_number));
-        /*else if (password.isEmpty())
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_password));
-        else if (!password.isEmpty() && password.length()<5)
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
-        else if (confirmPassword.isEmpty())
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_confirm_password));
-        else if (!confirmPassword.isEmpty() && confirmPassword.length()<5)
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
-        else if (!confirmPassword.equals(password))
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.password_and_confirm_password_doesnot_match));*/
         else if(offer_min_amount.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_amount));
         else if(delivery_time.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_delievery_time));
+        else if(description.isEmpty())
+            Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.please_enter_description));
         else if (address.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_fill_your_address));
         else if (landmark.isEmpty())
@@ -325,8 +353,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("email", RequestBody.create(MediaType.parse("text/plain"), email));
                 map.put("password", RequestBody.create(MediaType.parse("text/plain"), password));
                 map.put("password_confirmation", RequestBody.create(MediaType.parse("text/plain"), confirmPassword));
-                map.put("pure_veg", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(radioYes.isChecked() ? 0 : 1)));
-                // map.put("default_banner", RequestBody.create(MediaType.parse("text/plain"), ""));
+                map.put("pure_veg", RequestBody.create(MediaType.parse("text/plain"), radioYes.isChecked() ? "1" : "0"));
                 map.put("description", RequestBody.create(MediaType.parse("text/plain"), description));
                 map.put("offer_min_amount", RequestBody.create(MediaType.parse("text/plain"), offer_min_amount));
                 map.put("offer_percent", RequestBody.create(MediaType.parse("text/plain"), offer_percentage));
@@ -334,6 +361,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("phone", RequestBody.create(MediaType.parse("text/plain"), mobile));
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
+                map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
+
                 if (location != null) {
                     map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
                     map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
@@ -348,11 +377,27 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                     map.put("cuisine_id[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(obj.getId())));
                 }
 
-                MultipartBody.Part filePart = null;
-                if (GlobalData.REGISTER_AVATAR != null)
-                    filePart = MultipartBody.Part.createFormData("avatar", GlobalData.REGISTER_AVATAR.getName(), RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_AVATAR));
+                MultipartBody.Part filePart1 = null;
+                if (GlobalData.REGISTER_AVATAR != null){
+                    try {
+                        GlobalData.REGISTER_AVATAR = new Compressor(this).compressToFile(GlobalData.REGISTER_AVATAR);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    filePart1 = MultipartBody.Part.createFormData("avatar", GlobalData.REGISTER_AVATAR.getName(), RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_AVATAR));
+                }
 
-                updateProfile(map,filePart);
+                MultipartBody.Part filePart2 = null;
+                if (GlobalData.REGISTER_SHOP_BANNER != null){
+                    try {
+                        GlobalData.REGISTER_SHOP_BANNER = new Compressor(this).compressToFile(GlobalData.REGISTER_SHOP_BANNER);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    filePart2 = MultipartBody.Part.createFormData("default_banner", GlobalData.REGISTER_SHOP_BANNER.getName(), RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_SHOP_BANNER));
+                }
+
+                updateProfile(map,filePart1,filePart2);
 
             }else{
                 Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.oops_no_internet));
@@ -361,13 +406,14 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
     }
 
-    private void updateProfile(HashMap<String, RequestBody> map,MultipartBody.Part filePart) {
+    private void updateProfile(HashMap<String, RequestBody> map,MultipartBody.Part filePart1,MultipartBody.Part filePart2) {
+        if(customDialog!=null && !isDestroyed())
         customDialog.show();
         Call<Profile> call = null;
-        if(filePart==null)
+        if(filePart1==null && filePart2==null)
             call = apiInterface.updateProfile(id,map);
         else
-            call = apiInterface.updateProfileWithFile(id,map,filePart);
+            call = apiInterface.updateProfileWithFile(id,map,filePart1,filePart2);
 
         call.enqueue(new Callback<Profile>() {
             @Override
@@ -418,9 +464,13 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         etMobile.setText(profile.getPhone());
         String status = profile.getStatus();
 
-
+        if (profile.getAvatar()!=null)
         Glide.with(EditRestaurantActivity.this).load(profile.getAvatar())
                 .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
+
+        if (profile.getDefaultBanner()!=null)
+            Glide.with(EditRestaurantActivity.this).load(profile.getDefaultBanner())
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shop_banner);
 
         tvMinAmount.setText(""+profile.getOfferMinAmount());
         etOfferInPercentage.setText(""+profile.getOfferPercent());
@@ -429,11 +479,22 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         txtAddress.setText(profile.getMapsAddress());
         etLandmark.setText(profile.getAddress());
 
-        if(profile.getPureVeg()==0){
-            radioNo.setChecked(true);
-        }else{
+        if(profile.getPureVeg()==1){
             radioYes.setChecked(true);
+            radioNo.setChecked(false);
+        }else{
+            radioYes.setChecked(false);
+            radioNo.setChecked(true);
         }
+
+        if (profile.getCountry_code()!=null && !profile.getCountry_code().equals("null")){
+            Country country = new Country();
+            country = country.getCountryByDialCode(profile.getCountry_code());
+            txtCountryNumber.setText(country.getDialCode());
+            countryImg.setImageResource(country.getFlag());
+            country_code = country.getDialCode();
+        }
+
     }
 
     @Override
@@ -446,14 +507,29 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         tvStatus.setText(s);
     }
 
-    private void galleryIntent() {
+    private void galleryIntent(Integer type) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                     && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-                EasyImage.openChooserWithDocuments(EditRestaurantActivity.this, "Select", 0);
+                EasyImage.openChooserWithDocuments(EditRestaurantActivity.this, "Select", type);
             else
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
-        } else EasyImage.openChooserWithDocuments(EditRestaurantActivity.this, "Select", 0);
+        } else EasyImage.openChooserWithDocuments(EditRestaurantActivity.this, "Select", type);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case ASK_MULTIPLE_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    boolean permission1 = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean permission2 = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (permission1 && permission2) galleryIntent(CT_TYPE);
+                    else
+                        Toast.makeText(getApplicationContext(), "Please give permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
     @Override
@@ -478,14 +554,24 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
             @Override
             public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                GlobalData.REGISTER_AVATAR = imageFile;
-                Glide
-                        .with(EditRestaurantActivity.this)
-                        .load(imageFile)
-                        .apply(new RequestOptions()
-                                .placeholder(R.mipmap.ic_launcher)
-                                .error(R.mipmap.ic_launcher).dontAnimate())
-                        .into(shopImg);
+                if(type == SHOP_IMAGE){
+                    GlobalData.REGISTER_AVATAR = imageFile;
+                    Glide.with(EditRestaurantActivity.this)
+                            .load(imageFile)
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.ic_place_holder_image)
+                                    .error(R.drawable.ic_place_holder_image).dontAnimate())
+                            .into(shopImg);
+                }else  if(type == SHOP_BANNER){
+                    GlobalData.REGISTER_SHOP_BANNER = imageFile;
+                    Glide
+                            .with(EditRestaurantActivity.this)
+                            .load(imageFile)
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.ic_place_holder_image)
+                                    .error(R.drawable.ic_place_holder_image).dontAnimate())
+                            .into(shop_banner);
+                }
             }
 
             @Override

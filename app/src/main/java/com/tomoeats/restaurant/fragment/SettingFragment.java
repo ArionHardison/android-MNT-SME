@@ -155,8 +155,10 @@ public class SettingFragment extends Fragment implements ProfileListener {
     @Override
     public void onSuccess(Profile profile) {
         customDialog.dismiss();
-        Glide.with(getActivity()).load(profile.getAvatar())
-                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(profileImg);
+        if (isAdded()){
+            Glide.with(getActivity()).load(profile.getAvatar())
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(profileImg);
+        }
         shop_name.setText(profile.getName());
         if (profile.getCuisines().size() > 1)
             shop_cuisines.setText("Multi Cuisine");

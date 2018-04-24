@@ -103,8 +103,13 @@ public class ForgotPassword extends AppCompatActivity {
                     },1000);
                 }else{
                     try {
-                        ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
-                        Utils.displayMessage(ForgotPassword.this, serverError.getError());
+                        if (response.code() == 422){
+                            Utils.displayMessage(ForgotPassword.this, getString(R.string.invalid_email));
+                        }else{
+                            ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
+                            Utils.displayMessage(ForgotPassword.this, getString(R.string.something_went_wrong));
+                        }
+
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(ForgotPassword.this, getString(R.string.something_went_wrong));
                     }

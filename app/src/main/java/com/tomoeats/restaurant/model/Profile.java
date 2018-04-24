@@ -70,13 +70,13 @@ public class Profile {
     private String status;
     @SerializedName("created_at")
     @Expose
-    private Object createdAt;
+    private String createdAt;
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
     @SerializedName("deleted_at")
     @Expose
-    private Object deletedAt;
+    private String deletedAt;
     @SerializedName("currency")
     @Expose
     private String currency;
@@ -86,6 +86,18 @@ public class Profile {
     @SerializedName("timings")
     @Expose
     private List<Timing> timings = null;
+
+    @SerializedName("country_code")
+    @Expose
+    private String country_code="";
+
+    public String getCountry_code() {
+        return country_code;
+    }
+
+    public void setCountry_code(String country_code) {
+        this.country_code = country_code;
+    }
 
     public Integer getId() {
         return id;
@@ -239,11 +251,11 @@ public class Profile {
         this.status = status;
     }
 
-    public Object getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Object createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -255,11 +267,11 @@ public class Profile {
         this.updatedAt = updatedAt;
     }
 
-    public Object getDeletedAt() {
+    public String getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Object deletedAt) {
+    public void setDeletedAt(String deletedAt) {
         this.deletedAt = deletedAt;
     }
 

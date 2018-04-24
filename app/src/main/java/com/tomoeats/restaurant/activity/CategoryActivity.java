@@ -131,7 +131,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         categoryList = response.body();
-                        if (categoryList != null && categoryList.size() > 0) {
+                        if (categoryList != null) {
                             setUpAdapter();
                         }
                     }

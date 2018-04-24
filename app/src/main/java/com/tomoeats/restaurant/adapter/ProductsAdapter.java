@@ -99,7 +99,7 @@ public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapte
             public void onClick(View view) {
                 if (productAdapterListener != null) {
                     AlertDialog.Builder cancelAlert = new AlertDialog.Builder(context);
-                    cancelAlert.setTitle(context.getResources().getString(R.string.add_ons));
+                    cancelAlert.setTitle(context.getResources().getString(R.string.product));
                     cancelAlert.setMessage(context.getResources().getString(R.string.are_you_sure_want_to_delete_product));
                     cancelAlert.setPositiveButton(context.getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {

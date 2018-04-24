@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -110,7 +112,7 @@ public class AddProductActivity extends AppCompatActivity {
     int PRODUCT_IMAGE_TYPE=0;
     int FEATURE_IMAGE_TYPE=1;
 
-    String strProductName,strProductDescription,strStatus="Enabled",strProductOrder,strCategory;
+    String strProductName,strProductDescription,strStatus="Enabled",strProductOrder="0",strCategory;
     List<Category> listCategory;
     ArrayList<String>lstCategoryNames = new ArrayList<String>();
     HashMap<String,Integer>hshCategory=new HashMap<>();
@@ -146,6 +148,25 @@ public class AddProductActivity extends AppCompatActivity {
         else
             Utils.displayMessage(this, getString(R.string.oops_no_internet));
 
+
+        etDescription.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.et_description) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                        case MotionEvent.ACTION_UP:
+                            v.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        //Default
+        rlFeaturedImage.setClickable(false);
+        rlFeaturedImage.setAlpha(0.5f);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle!=null){
@@ -208,9 +229,13 @@ public class AddProductActivity extends AppCompatActivity {
                 //rbYes.setChecked(false);
                 rbYes.setChecked(true);
                 rbNo.setChecked(false);
+                rlFeaturedImage.setClickable(true);
+                rlFeaturedImage.setAlpha(1.0f);
             }else{
                 rbYes.setChecked(false);
                 rbNo.setChecked(true);
+                rlFeaturedImage.setClickable(false);
+                rlFeaturedImage.setAlpha(0.5f);
             }
 
             if (productResponse.getProductcuisines()!=null){
@@ -220,10 +245,20 @@ public class AddProductActivity extends AppCompatActivity {
                 CuisineSelectFragment.CUISINES.add(data);
                 cuisine.setText(productResponse.getProductcuisines().getName());
             }
-
-
-
         }
+
+        rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    rlFeaturedImage.setClickable(true);
+                    rlFeaturedImage.setAlpha(1.0f);
+                }else{
+                    rlFeaturedImage.setClickable(false);
+                    rlFeaturedImage.setAlpha(0.5f);
+                }
+            }
+        });
     }
 
 
@@ -379,6 +414,9 @@ public class AddProductActivity extends AppCompatActivity {
         strProductName = etProductName.getText().toString().trim();
         strProductDescription = etDescription.getText().toString().trim();
         strProductOrder = etProductOrder.getText().toString().trim();
+        if (strProductOrder.equals("")){
+            strProductOrder ="0";
+        }
 
         if(strProductName==null || strProductName.isEmpty()){
             Utils.displayMessage(this,getString(R.string.error_msg_product_name));

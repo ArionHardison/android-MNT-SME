@@ -26,6 +26,7 @@ import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.helper.SharedHelper;
+import com.tomoeats.restaurant.imagecompressor.Compressor;
 import com.tomoeats.restaurant.model.AuthToken;
 import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.model.ServerError;
@@ -39,6 +40,7 @@ import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -308,12 +310,30 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
         }
 
         customDialog.show();
-        MultipartBody.Part filePart = null;
-        if (GlobalData.REGISTER_AVATAR != null)
-            filePart = MultipartBody.Part.createFormData("avatar", GlobalData.REGISTER_AVATAR.getName(),
+        MultipartBody.Part filePart1 = null;
+        if (GlobalData.REGISTER_AVATAR != null){
+            try {
+                GlobalData.REGISTER_AVATAR = new Compressor(this).compressToFile(GlobalData.REGISTER_AVATAR);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            filePart1 = MultipartBody.Part.createFormData("avatar", GlobalData.REGISTER_AVATAR.getName(),
                     RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_AVATAR));
+        }
 
-        Call<Profile> call = apiInterface.signUp(map, filePart);
+
+        MultipartBody.Part filePart2 = null;
+        if (GlobalData.REGISTER_SHOP_BANNER != null){
+            try {
+                GlobalData.REGISTER_SHOP_BANNER = new Compressor(this).compressToFile(GlobalData.REGISTER_SHOP_BANNER);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            filePart2 = MultipartBody.Part.createFormData("default_banner", GlobalData.REGISTER_SHOP_BANNER.getName(),
+                    RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_SHOP_BANNER));
+        }
+
+        Call<Profile> call = apiInterface.signUp(map, filePart1,filePart2);
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {

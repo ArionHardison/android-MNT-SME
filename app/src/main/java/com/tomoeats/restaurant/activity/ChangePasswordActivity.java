@@ -139,11 +139,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         if(strCurrentPassword.isEmpty()){
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_password));
-        }else if(strCurrentPassword.length()<5){
+        }else if(strCurrentPassword.length()<6){
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
         }else if(strPassword.isEmpty()){
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_new_password));
-        }else if(strCurrentPassword.length()<5){
+        }else if(strPassword.length()<6 || strCurrentPassword.length()<6){
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
         }else if(strConfirmPassword.isEmpty()){
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_new_password));
@@ -176,7 +176,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }else{
                     try {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
-                        if(serverError.getError().contains("incorrect_password")){
+                        if(serverError.getError()!=null && serverError.getError().contains("incorrect_password")){
                             Utils.displayMessage(activity, "Incorrect Password");
                         }else{
                             Utils.displayMessage(activity, serverError.getError());

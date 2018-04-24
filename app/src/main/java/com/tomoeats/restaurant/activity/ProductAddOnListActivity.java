@@ -174,7 +174,7 @@ public class ProductAddOnListActivity extends AppCompatActivity {
 
         for (Addon addon:listAddOns) {
             for (Addon addonReceived:listReceivedAddOns) {
-                if (addon.getId()== addonReceived.getId()){
+                if (addonReceived.getAddon()!=null && addon.getId()== addonReceived.getAddon().getId()){
                     addon.setPrice(addonReceived.getPrice());
                     addon.setChecked(true);
                 }

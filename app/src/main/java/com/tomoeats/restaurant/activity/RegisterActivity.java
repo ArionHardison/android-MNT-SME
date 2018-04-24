@@ -115,6 +115,8 @@ public class RegisterActivity extends AppCompatActivity {
     String name, email, password, mobile, confirmPassword, address, landmark,offer_min_amount,offer_percentage,delivery_time,description;
     @BindView(R.id.avatar)
     ImageView avatar;
+    @BindView(R.id.shop_image)
+    ImageView shop_image;
     @BindView(R.id.veg)
     RadioButton veg;
     @BindView(R.id.non_veg)
@@ -144,6 +146,11 @@ public class RegisterActivity extends AppCompatActivity {
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     int CUISINE_REQUEST_CODE = 2;
 
+    int SHOP_IMAGE=0;
+    int SHOP_BANNER=1;
+
+    int CT_TYPE = SHOP_IMAGE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,10 +178,20 @@ public class RegisterActivity extends AppCompatActivity {
         mCountryPicker.setCountriesList(countryList);
         setListener();
         resetData();
+
+        etOfferInPercentage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && etOfferInPercentage.getText().toString().trim().isEmpty()){
+                    etOfferInPercentage.setText("0");
+                }
+            }
+        });
     }
 
     private void resetData() {
         GlobalData.REGISTER_AVATAR=null;
+        GlobalData.REGISTER_SHOP_BANNER=null;
         GlobalData.registerMap.clear();
 
         GlobalData.email = "";
@@ -230,10 +247,10 @@ public class RegisterActivity extends AppCompatActivity {
             txtCountryNumber.setText(country.getDialCode());
             country_code = country.getDialCode();
         } else {
-            Country us = new Country("US", "United States", "+1", R.drawable.flag_us);
-            countryImg.setImageResource(us.getFlag());
-            txtCountryNumber.setText(us.getDialCode());
-            country_code = us.getDialCode();
+            Country india = new Country("IN", "India", "+91", R.drawable.flag_in);
+            countryImg.setImageResource(india.getFlag());
+            txtCountryNumber.setText(india.getDialCode());
+            country_code = india.getDialCode();
         }
     }
 
@@ -264,14 +281,20 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.cuisine, R.id.avatar, R.id.country_picker_lay, R.id.address_lay, R.id.register_btn,
-            R.id.txt_login, R.id.et_confirm_password_eye_img, R.id.et_password_eye_img})
+            R.id.txt_login, R.id.et_confirm_password_eye_img, R.id.et_password_eye_img,R.id.shop_image})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cuisine:
                 new CuisineSelectFragment().show(getSupportFragmentManager(), "cuisineSelectFragment");
                 break;
             case R.id.avatar:
-                galleryIntent();
+                CT_TYPE = SHOP_IMAGE;
+                galleryIntent(SHOP_IMAGE);
+                break;
+
+            case R.id.shop_image:
+                CT_TYPE = SHOP_BANNER;
+                galleryIntent(SHOP_BANNER);
                 break;
             case R.id.country_picker_lay:
                 break;
@@ -331,6 +354,11 @@ public class RegisterActivity extends AppCompatActivity {
         offer_percentage = etOfferInPercentage.getText().toString().trim();
         delivery_time = tvMaxTimeDelivery.getText().toString().trim();
         description = etDescription.getText().toString().trim();
+        country_code = txtCountryNumber.getText().toString().trim();
+
+        if (offer_percentage==null || offer_percentage.isEmpty() || offer_percentage.equalsIgnoreCase("null")){
+            offer_percentage = "0";
+        }
 
         if (name.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_name));
@@ -344,11 +372,11 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_phone_number));
         else if (password.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_password));
-        else if (!password.isEmpty() && password.length()<5)
+        else if (!password.isEmpty() && password.length()<6)
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
         else if (confirmPassword.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_confirm_password));
-        else if (!confirmPassword.isEmpty() && confirmPassword.length()<5)
+        else if (!confirmPassword.isEmpty() && confirmPassword.length()<6)
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
         else if (!confirmPassword.equals(password))
             Utils.displayMessage(activity, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
@@ -358,6 +386,8 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_amount));
         else if(delivery_time.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_delievery_time));
+        else if(description.isEmpty())
+            Utils.displayMessage(activity, getString(R.string.please_enter_description));
         else if (address.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_fill_your_address));
         else if (landmark.isEmpty())
@@ -370,7 +400,7 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put("email", RequestBody.create(MediaType.parse("text/plain"), email));
                 map.put("password", RequestBody.create(MediaType.parse("text/plain"), password));
                 map.put("password_confirmation", RequestBody.create(MediaType.parse("text/plain"), confirmPassword));
-                map.put("pure_veg", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(veg.isChecked() ? 0 : 1)));
+                map.put("pure_veg", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(veg.isChecked() ? 1 : 0)));
                // map.put("default_banner", RequestBody.create(MediaType.parse("text/plain"), ""));
                 map.put("description", RequestBody.create(MediaType.parse("text/plain"), description));
                 map.put("offer_min_amount", RequestBody.create(MediaType.parse("text/plain"), offer_min_amount));
@@ -381,6 +411,7 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
                 map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
                 map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
+                map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
 
                 //Stored here for login
                 GlobalData.email = email;
@@ -400,14 +431,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void galleryIntent() {
+    private void galleryIntent(Integer type) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                     && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-                EasyImage.openChooserWithDocuments(RegisterActivity.this, "Select", 0);
+                EasyImage.openChooserWithDocuments(RegisterActivity.this, "Select", type);
             else
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
-        } else EasyImage.openChooserWithDocuments(RegisterActivity.this, "Select", 0);
+        } else EasyImage.openChooserWithDocuments(RegisterActivity.this, "Select", type);
     }
 
     @Override
@@ -432,14 +463,25 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                GlobalData.REGISTER_AVATAR = imageFile;
-                Glide
-                        .with(context)
-                        .load(imageFile)
-                        .apply(new RequestOptions()
-                                .placeholder(R.mipmap.ic_launcher)
-                                .error(R.mipmap.ic_launcher).dontAnimate())
-                        .into(avatar);
+
+                if(type == SHOP_IMAGE){
+                    GlobalData.REGISTER_AVATAR = imageFile;
+                    Glide.with(context)
+                            .load(imageFile)
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.ic_place_holder_image)
+                                    .error(R.drawable.ic_place_holder_image).dontAnimate())
+                            .into(avatar);
+                }else  if(type == SHOP_BANNER){
+                    GlobalData.REGISTER_SHOP_BANNER = imageFile;
+                    Glide
+                            .with(context)
+                            .load(imageFile)
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.ic_place_holder_image)
+                                    .error(R.drawable.ic_place_holder_image).dontAnimate())
+                            .into(shop_image);
+                }
             }
 
             @Override
@@ -456,7 +498,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (grantResults.length > 0) {
                     boolean permission1 = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean permission2 = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (permission1 && permission2) galleryIntent();
+                    if (permission1 && permission2) galleryIntent(CT_TYPE);
                     else
                         Toast.makeText(getApplicationContext(), "Please give permission", Toast.LENGTH_SHORT).show();
                 }

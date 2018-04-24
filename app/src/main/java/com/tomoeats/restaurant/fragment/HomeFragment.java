@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -87,8 +88,10 @@ public class HomeFragment extends Fragment implements ProfileListener {
     TextView shopName;
     @BindView(R.id.shop_address)
     TextView shopAddress;
-    @BindView(R.id.lblNoRecords)
-    TextView lblNoRecords;
+
+
+    @BindView(R.id.llNoRecords)
+    LinearLayout llNoRecords;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -150,9 +153,9 @@ public class HomeFragment extends Fragment implements ProfileListener {
     }
 
     private void updateUI(Profile profile) {
-        if (profile != null && profile.getAddress() != null)
-            Glide.with(context).load(profile.getAvatar())
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
+        if (profile != null && profile.getDefaultBanner() != null)
+            Glide.with(context).load(profile.getDefaultBanner())
+                    .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
         if (profile != null && profile.getName() != null)
             shopName.setText(profile.getName());
         if (profile != null && profile.getAddress() != null)
@@ -205,18 +208,17 @@ public class HomeFragment extends Fragment implements ProfileListener {
                 if (response.isSuccessful()) {
                     if (response.body().getOrders().size()>0){
                         incomingRv.setVisibility(View.VISIBLE);
-                        lblNoRecords.setVisibility(View.GONE);
+                        llNoRecords.setVisibility(View.GONE);
                         orderList.clear();
                         orderList.addAll(response.body().getOrders());
                         if(requestAdapter==null){
                             prepareAdapter();
                         }else{
                             requestAdapter.notifyDataSetChanged();
-
                         }
                     }else{
                         incomingRv.setVisibility(View.GONE);
-                        lblNoRecords.setVisibility(View.VISIBLE);
+                        llNoRecords.setVisibility(View.VISIBLE);
                     }
 
                 } else {

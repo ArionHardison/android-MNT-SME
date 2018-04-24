@@ -27,7 +27,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDJfXEUOLzM7b7M555jkuw-gavfWcqigk0" />
 
-        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.HomeActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,27 +35,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.EditProfileActivity" />
-        <activity android:name=".activity.HistoryActivity" />
-        <activity android:name=".activity.AddOnsActivity" />
-        <activity android:name=".activity.AddAddOnsActivity" />
-        <activity android:name=".activity.ProductsActivity" android:taskAffinity=".products" />
-        <activity android:name=".activity.CategoryActivity" />
-        <activity android:name=".activity.AddCategoryActivity" />
-        <activity android:name=".activity.AddProductActivity" />
-        <activity android:name=".activity.RestaurantTimingActivity" />
-        <activity android:name=".activity.ChangePasswordActivity" />
-        <activity android:name=".activity.EditRestaurantActivity" />
-        <activity android:name=".activity.RequestAcceptActivity" />
-        <activity android:name=".activity.OrderDetailActivity" />
-        <activity android:name=".activity.DeliveriesActivity"></activity>
-        <activity android:name=".activity.ForgotPassword"></activity>
-        <activity android:name=".activity.OtpActivity" ></activity>
-        <activity android:name=".activity.ResetPasswordActivity"></activity>
-        <activity android:name=".activity.ProductAddOnActivity"></activity>
-        <activity android:name=".activity.ProductAddOnListActivity"></activity>
+        <activity android:name=".activity.LoginActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.RegisterActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.EditProfileActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.HistoryActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.AddOnsActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.AddAddOnsActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.ProductsActivity" android:taskAffinity=".products" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.CategoryActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.AddCategoryActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.AddProductActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.RestaurantTimingActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.ChangePasswordActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.EditRestaurantActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.RequestAcceptActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.OrderDetailActivity" android:screenOrientation="portrait" android:configChanges="screenSize"/>
+        <activity android:name=".activity.DeliveriesActivity" android:screenOrientation="portrait" android:configChanges="screenSize"></activity>
+        <activity android:name=".activity.ForgotPassword" android:screenOrientation="portrait" android:configChanges="screenSize"></activity>
+        <activity android:name=".activity.OtpActivity" android:screenOrientation="portrait" android:configChanges="screenSize"></activity>
+        <activity android:name=".activity.ResetPasswordActivity" android:screenOrientation="portrait" android:configChanges="screenSize"></activity>
+        <activity android:name=".activity.ProductAddOnActivity" android:screenOrientation="portrait" android:configChanges="screenSize"></activity>
+        <activity android:name=".activity.ProductAddOnListActivity" android:screenOrientation="portrait" android:configChanges="screenSize"></activity>
 
         <service
             android:name=".notification.MyFirebaseMessagingService">
@@ -65,11 +65,16 @@
         </service>
 
         <service
-            android:name="notification.MyFirebaseInstanceIDService">
+            android:name=".notification.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3aef7a5b05836cf8166f23c95e43c52517bee917"
+            />
     </application>
 
 </manifest>

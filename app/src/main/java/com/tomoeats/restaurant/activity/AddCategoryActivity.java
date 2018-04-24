@@ -29,6 +29,7 @@ import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.SharedHelper;
+import com.tomoeats.restaurant.imagecompressor.Compressor;
 import com.tomoeats.restaurant.model.Category;
 import com.tomoeats.restaurant.model.Image;
 import com.tomoeats.restaurant.network.ApiClient;
@@ -37,6 +38,7 @@ import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,19 +109,16 @@ public class AddCategoryActivity extends AppCompatActivity {
         }
 
 
-        etDescription.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (v.getId() == R.id.et_description) {
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                    }
+        etDescription.setOnTouchListener((v, event) -> {
+            if (v.getId() == R.id.et_description) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
                 }
-                return false;
             }
+            return false;
         });
 
     }
@@ -188,9 +187,15 @@ public class AddCategoryActivity extends AppCompatActivity {
     private void addCategory(HashMap<String, RequestBody> params) {
         customDialog.show();
         MultipartBody.Part filePart = null;
-        if (categoryImageFile != null)
+        if (categoryImageFile != null){
+            try {
+                categoryImageFile = new Compressor(this).compressToFile(categoryImageFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             filePart = MultipartBody.Part.createFormData("avatar", categoryImageFile.getName(),
                     RequestBody.create(MediaType.parse("image/*"), categoryImageFile));
+        }
         Call<Category> call = null;
         if (categoryDetails!=null){
             params.put("_method",RequestBody.create(MediaType.parse("text/plain"), "PATCH"));

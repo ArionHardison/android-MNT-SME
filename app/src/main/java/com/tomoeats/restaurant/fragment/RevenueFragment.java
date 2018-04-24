@@ -152,12 +152,14 @@ public class RevenueFragment extends Fragment {
         mChart.setDrawGridBackground(false);
 
         BarDataSet set1, set2;
-        set1 = new BarDataSet(entriesGroup1, "Order Delievered");
+        set1 = new BarDataSet(entriesGroup1, getResources().getString(R.string.order_delivered));
         set1.setColor(context.getResources().getColor(R.color.colorAccent));
         set1.setDrawValues(false);
-        set2 = new BarDataSet(entriesGroup2, "Order Cancelled");
+
+        set2 = new BarDataSet(entriesGroup2, getResources().getString(R.string.order_cancelled));
         set2.setColor(context.getResources().getColor(R.color.colorPrimary));
         set2.setDrawValues(false);
+
         BarData data = new BarData(set1, set2);
         data.setValueFormatter(new LargeValueFormatter());
         mChart.setData(data);
@@ -168,15 +170,15 @@ public class RevenueFragment extends Fragment {
         mChart.getData().setHighlightEnabled(false);
         mChart.invalidate();
 
-       /* Legend l = mChart.getLegend();
-       *//* l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);*//*
+        Legend l = mChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
-        l.setYOffset(20f);
+        l.setYOffset(0f);
         l.setXOffset(0f);
         l.setYEntrySpace(0f);
-        l.setTextSize(8f);*/
+        //l.setTextSize(8f);
 
 
         //X-axis
