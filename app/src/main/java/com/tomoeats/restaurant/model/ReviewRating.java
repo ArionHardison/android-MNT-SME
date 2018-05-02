@@ -4,7 +4,7 @@ package com.tomoeats.restaurant.model;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Reviewrating{
+public class ReviewRating{
 
 	@SerializedName("shop_id")
 	private Object shopId;
