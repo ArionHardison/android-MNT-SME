@@ -13,6 +13,8 @@ public class ProductMessage {
     private File featuredImageFile;
     private String strCuisineId = "";
 
+    private String strSelectedFoodType = "";
+
     public String getStrCuisineId() {
         return strCuisineId;
     }
@@ -76,4 +78,13 @@ public class ProductMessage {
     public void setFeaturedImageFile(File featuredImageFile) {
         this.featuredImageFile = featuredImageFile;
     }
+
+    public String getStrSelectedFoodType() {
+        return strSelectedFoodType;
+    }
+
+    public void setStrSelectedFoodType(String strSelectedFoodType) {
+        this.strSelectedFoodType = strSelectedFoodType;
+    }
+
 }

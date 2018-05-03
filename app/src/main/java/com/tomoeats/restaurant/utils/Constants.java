@@ -10,4 +10,7 @@ public class Constants {
         String PROFILE_ID="profile_id";
         String CURRENCY="currency";
     }
+
+    public static final String VEG = "veg";
+    public static final String NON_VEG = "non-veg";
 }

@@ -1,6 +1,7 @@
 package com.tomoeats.restaurant.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,16 +41,13 @@ import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.model.product.ProductResponse;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
+import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,18 +86,18 @@ public class AddProductActivity extends AppCompatActivity {
     Button nextBtn;
     @BindView(R.id.cuisine)
     TextView cuisine;
-
     @BindView(R.id.rlProductImage)
     RelativeLayout rlProductImage;
     @BindView(R.id.rlFeaturedImage)
     RelativeLayout rlFeaturedImage;
-
     @BindView(R.id.rbYes)
     RadioButton rbYes;
-
     @BindView(R.id.rbNo)
     RadioButton rbNo;
-
+    @BindView(R.id.rbVeg)
+    RadioButton rbVeg;
+    @BindView(R.id.rbNonVeg)
+    RadioButton rbNonVeg;
 
     Context context;
     Activity activity;
@@ -108,30 +105,29 @@ public class AddProductActivity extends AppCompatActivity {
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     String TAG = "AddProductActivity";
-
-    int PRODUCT_IMAGE_TYPE=0;
-    int FEATURE_IMAGE_TYPE=1;
-
-    String strProductName,strProductDescription,strStatus="Enabled",strProductOrder="0",strCategory;
+    int PRODUCT_IMAGE_TYPE = 0;
+    int FEATURE_IMAGE_TYPE = 1;
+    String strProductName, strProductDescription, strStatus = "Enabled", strProductOrder = "0", strCategory;
     List<Category> listCategory;
-    ArrayList<String>lstCategoryNames = new ArrayList<String>();
-    HashMap<String,Integer>hshCategory=new HashMap<>();
-    ArrayList<String>lstStatus = new ArrayList<String>();
-
-    File productImageFile,featuredImageFile;
+    ArrayList<String> lstCategoryNames = new ArrayList<String>();
+    HashMap<String, Integer> hshCategory = new HashMap<>();
+    ArrayList<String> lstStatus = new ArrayList<String>();
+    File productImageFile, featuredImageFile;
     ProductResponse productResponse;
-    int selected_pos =0;
+    int selected_pos = 0;
+    private String foodType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
         ButterKnife.bind(this);
-
-       setUp();
+        setUp();
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUp() {
         CuisineSelectFragment.CUISINES.clear();
         title.setText(getString(R.string.add_product));
@@ -149,19 +145,16 @@ public class AddProductActivity extends AppCompatActivity {
             Utils.displayMessage(this, getString(R.string.oops_no_internet));
 
 
-        etDescription.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (v.getId() == R.id.et_description) {
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                    }
+        etDescription.setOnTouchListener((v, event) -> {
+            if (v.getId() == R.id.et_description) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
                 }
-                return false;
             }
+            return false;
         });
 
         //Default
@@ -169,23 +162,22 @@ public class AddProductActivity extends AppCompatActivity {
         rlFeaturedImage.setAlpha(0.5f);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle!=null){
+        if (bundle != null) {
             title.setText(R.string.edit_product);
             productResponse = bundle.getParcelable("product_data");
             etProductName.setText(productResponse.getName());
             etDescription.setText(productResponse.getDescription());
-            if(productResponse.getStatus().equalsIgnoreCase("enabled")){
+            if (productResponse.getStatus().equalsIgnoreCase("enabled")) {
                 statusSpin.setSelectedIndex(0);
-            }else{
+            } else {
                 statusSpin.setSelectedIndex(1);
             }
 
-            etProductOrder.setText(productResponse.getPosition()+"");
+            etProductOrder.setText(productResponse.getPosition() + "");
 
 
-
-            if(productResponse.getImages().size()>0){
-                List<Image> imageList= productResponse.getImages();
+            if (productResponse.getImages().size() > 0) {
+                List<Image> imageList = productResponse.getImages();
                 String url = imageList.get(0).getUrl();
 
                 Glide.with(this)
@@ -195,7 +187,7 @@ public class AddProductActivity extends AppCompatActivity {
                             @Override
                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                 productImg.setImageBitmap(resource);
-                                productImageFile = Utils.storeInFile(context,resource,"product_image.png","png");
+                                productImageFile = Utils.storeInFile(context, resource, "product_image.png", "png");
                             }
                         });
 
@@ -204,8 +196,8 @@ public class AddProductActivity extends AppCompatActivity {
 
             }
 
-            if(productResponse.getFeaturedImages().size()>0){
-                List<Image> imageList= productResponse.getFeaturedImages();
+            if (productResponse.getFeaturedImages().size() > 0) {
+                List<Image> imageList = productResponse.getFeaturedImages();
                 String url = imageList.get(0).getUrl();
 
                 Glide.with(this)
@@ -215,7 +207,7 @@ public class AddProductActivity extends AppCompatActivity {
                             @Override
                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                 featuredImg.setImageBitmap(resource);
-                                featuredImageFile = Utils.storeInFile(context,resource,"featured_image.png","png");
+                                featuredImageFile = Utils.storeInFile(context, resource, "featured_image.png", "png");
                             }
                         });
 
@@ -224,21 +216,30 @@ public class AddProductActivity extends AppCompatActivity {
 
             }
 
-            if (productResponse.getFeatured()==1){
+            if (productResponse.getFoodType() != null &&
+                    productResponse.getFoodType().equals(Constants.VEG)) {
+                rbVeg.setChecked(true);
+                rbNonVeg.setChecked(false);
+            } else {
+                rbVeg.setChecked(false);
+                rbNonVeg.setChecked(true);
+            }
+
+            if (productResponse.getFeatured() == 1) {
                 //debug
                 //rbYes.setChecked(false);
                 rbYes.setChecked(true);
                 rbNo.setChecked(false);
                 rlFeaturedImage.setClickable(true);
                 rlFeaturedImage.setAlpha(1.0f);
-            }else{
+            } else {
                 rbYes.setChecked(false);
                 rbNo.setChecked(true);
                 rlFeaturedImage.setClickable(false);
                 rlFeaturedImage.setAlpha(0.5f);
             }
 
-            if (productResponse.getProductcuisines()!=null){
+            if (productResponse.getProductcuisines() != null) {
                 Cuisine data = new Cuisine();
                 data.setId(productResponse.getProductcuisines().getId());
                 data.setName(productResponse.getProductcuisines().getName());
@@ -247,22 +248,30 @@ public class AddProductActivity extends AppCompatActivity {
             }
         }
 
-        rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    rlFeaturedImage.setClickable(true);
-                    rlFeaturedImage.setAlpha(1.0f);
-                }else{
-                    rlFeaturedImage.setClickable(false);
-                    rlFeaturedImage.setAlpha(0.5f);
-                }
+        rbYes.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                rlFeaturedImage.setClickable(true);
+                rlFeaturedImage.setAlpha(1.0f);
+            } else {
+                rlFeaturedImage.setClickable(false);
+                rlFeaturedImage.setAlpha(0.5f);
+            }
+        });
+        rbVeg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                rbVeg.setChecked(true);
+                rbNonVeg.setChecked(false);
+                foodType = Constants.VEG;
+            }
+        });
+        rbNonVeg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                rbNonVeg.setChecked(true);
+                rbVeg.setChecked(false);
+                foodType = Constants.NON_VEG;
             }
         });
     }
-
-
-
 
 
     private void setStatusSpinner() {
@@ -272,39 +281,20 @@ public class AddProductActivity extends AppCompatActivity {
         statusSpin.setOnItemSelectedListener(new CommonOnItemSelectListener());
     }
 
-    private void setCategorySpinner(){
+    private void setCategorySpinner() {
         customDialog.dismiss();
-        if (productResponse!=null && productResponse.getCategories().size()>0){
+        if (productResponse != null && productResponse.getCategories().size() > 0) {
             selected_pos = lstCategoryNames.indexOf(productResponse.getCategories().get(0).getName());
         }
         categorySpin.setItems(lstCategoryNames);
         categorySpin.setOnItemSelectedListener(new CommonOnItemSelectListener());
-        if (selected_pos!=0 && selected_pos!=-1){
+        if (selected_pos != 0 && selected_pos != -1) {
             categorySpin.setSelectedIndex(selected_pos);
-            strCategory =hshCategory.get(lstCategoryNames.get(selected_pos))+"";
+            strCategory = hshCategory.get(lstCategoryNames.get(selected_pos)) + "";
         }
     }
 
-
-    class CommonOnItemSelectListener implements MaterialSpinner.OnItemSelectedListener{
-        @Override
-        public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-            switch (view.getId()){
-                case R.id.status_spin:
-                strStatus = lstStatus.get(position);
-                break;
-
-                case R.id.category_spin:
-                    strCategory = ""+hshCategory.get(lstCategoryNames.get(position));
-                    if(strCategory.equalsIgnoreCase("0")){
-                        strCategory="";
-                    }
-                    break;
-            }
-        }
-    }
-
-    @OnClick({R.id.back_img, R.id.rlProductImage, R.id.rlFeaturedImage, R.id.next_btn,R.id.cuisine})
+    @OnClick({R.id.back_img, R.id.rlProductImage, R.id.rlFeaturedImage, R.id.next_btn, R.id.cuisine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -321,7 +311,7 @@ public class AddProductActivity extends AppCompatActivity {
 
 
             case R.id.next_btn:
-                if(validateProductDetails()){
+                if (validateProductDetails()) {
                     goToNextPage();
                 }
                 break;
@@ -343,16 +333,16 @@ public class AddProductActivity extends AppCompatActivity {
                         listCategory = response.body();
                         //default option
                         lstCategoryNames.add(getString(R.string.product_select_catefory));
-                        hshCategory.put(getString(R.string.product_select_catefory),0);
-                        if(listCategory.size()>0){
-                            for (int i = 0; i <listCategory.size() ; i++) {
+                        hshCategory.put(getString(R.string.product_select_catefory), 0);
+                        if (listCategory.size() > 0) {
+                            for (int i = 0; i < listCategory.size(); i++) {
                                 lstCategoryNames.add(listCategory.get(i).getName());
-                                hshCategory.put(listCategory.get(i).getName(),listCategory.get(i).getId());
-                                if(i==(listCategory.size()-1)){
+                                hshCategory.put(listCategory.get(i).getName(), listCategory.get(i).getId());
+                                if (i == (listCategory.size() - 1)) {
                                     setCategorySpinner();
                                 }
                             }
-                        }else{
+                        } else {
                             setCategorySpinner();
                         }
 
@@ -377,28 +367,31 @@ public class AddProductActivity extends AppCompatActivity {
         });
     }
 
-
     private void goToNextPage() {
         ProductMessage message = new ProductMessage();
         message.setStrProductName(strProductName);
         message.setStrProductDescription(strProductDescription);
-        message.setStrProductStatus(strStatus.equals("Enabled") ? "1":"0");
+        message.setStrProductStatus(strStatus.equals("Enabled") ? "1" : "0");
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
         message.setFeaturedImageFile(featuredImageFile);
         message.setProductImageFile(productImageFile);
-        message.setStrCuisineId(CuisineSelectFragment.CUISINES.get(0).getId()+"");
+        if(foodType.equals(Constants.VEG)) {
+            message.setStrSelectedFoodType(Constants.VEG);
+        } else {
+            message.setStrSelectedFoodType(Constants.NON_VEG);
+        }
+        message.setStrCuisineId(CuisineSelectFragment.CUISINES.get(0).getId() + "");
         ProductAddOnActivity.setMessage(message);
-        if (productResponse!=null){
-            Intent intent = new Intent(context,ProductAddOnActivity.class);
-            intent.putExtra("product_data",productResponse);
+        if (productResponse != null) {
+            Intent intent = new Intent(context, ProductAddOnActivity.class);
+            intent.putExtra("product_data", productResponse);
             startActivity(intent);
-        }else{
-            startActivity(new Intent(this,ProductAddOnActivity.class));
+        } else {
+            startActivity(new Intent(this, ProductAddOnActivity.class));
         }
 
-        }
-
+    }
 
     private void galleryIntent(int type) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -410,40 +403,42 @@ public class AddProductActivity extends AppCompatActivity {
         } else EasyImage.openChooserWithDocuments(AddProductActivity.this, "Select", type);
     }
 
-    private boolean validateProductDetails(){
+    private boolean validateProductDetails() {
         strProductName = etProductName.getText().toString().trim();
         strProductDescription = etDescription.getText().toString().trim();
         strProductOrder = etProductOrder.getText().toString().trim();
-        if (strProductOrder.equals("")){
-            strProductOrder ="0";
+        if (strProductOrder.equals("")) {
+            strProductOrder = "0";
         }
 
-        if(strProductName==null || strProductName.isEmpty()){
-            Utils.displayMessage(this,getString(R.string.error_msg_product_name));
+        if (strProductName == null || strProductName.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_name));
             return false;
-        }else if(strProductDescription==null ||strProductDescription.isEmpty()){
-            Utils.displayMessage(this,getString(R.string.error_msg_product_description));
+        } else if (strProductDescription == null || strProductDescription.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_description));
             return false;
-        }else if(CuisineSelectFragment.CUISINES.isEmpty()){
+        } else if (CuisineSelectFragment.CUISINES.isEmpty()) {
             Utils.displayMessage(activity, getResources().getString(R.string.invalid_cuisine));
             return false;
-        } else if(strProductOrder==null ||strProductOrder.isEmpty()){
-            Utils.displayMessage(this,getString(R.string.error_msg_product_order));
+        } else if (strProductOrder == null || strProductOrder.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_order));
             return false;
-        }else if(strCategory==null || strCategory.isEmpty()){
+        } else if (strCategory == null || strCategory.isEmpty()) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_product_category));
             return false;
-        }else if(productImageFile==null){
+        } else if (!rbVeg.isChecked() && !rbNonVeg.isChecked()) {
+            Utils.displayMessage(activity, getResources().getString(R.string.error_msg_selected_food_type));
+            return false;
+        } else if (productImageFile == null) {
             Utils.displayMessage(activity, getString(R.string.please_select_product_image));
             return false;
-        }else if(rbYes.isChecked() && featuredImageFile == null){
+        } else if (rbYes.isChecked() && featuredImageFile == null) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_product_select_featured_image));
             return false;
         }
 
         return true;
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -456,7 +451,7 @@ public class AddProductActivity extends AppCompatActivity {
 
             @Override
             public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                if(type == PRODUCT_IMAGE_TYPE){
+                if (type == PRODUCT_IMAGE_TYPE) {
                     productImageFile = imageFile;
                     Glide.with(AddProductActivity.this)
                             .load(imageFile)
@@ -464,7 +459,7 @@ public class AddProductActivity extends AppCompatActivity {
                                     .placeholder(R.mipmap.ic_launcher)
                                     .error(R.mipmap.ic_launcher).dontAnimate())
                             .into(productImg);
-                }else  if(type == FEATURE_IMAGE_TYPE){
+                } else if (type == FEATURE_IMAGE_TYPE) {
                     featuredImageFile = imageFile;
                     Glide.with(AddProductActivity.this)
                             .load(imageFile)
@@ -483,16 +478,33 @@ public class AddProductActivity extends AppCompatActivity {
         });
     }
 
-
     public void bindCuisine() {
         StringBuilder cuisneStr = new StringBuilder();
-        for (int i = 0; i< CuisineSelectFragment.CUISINES.size(); i++){
-            if(i==0)
+        for (int i = 0; i < CuisineSelectFragment.CUISINES.size(); i++) {
+            if (i == 0)
                 cuisneStr.append(CuisineSelectFragment.CUISINES.get(i).getName());
             else
                 cuisneStr.append(",").append(CuisineSelectFragment.CUISINES.get(i).getName());
         }
 
         cuisine.setText(cuisneStr.toString());
+    }
+
+    class CommonOnItemSelectListener implements MaterialSpinner.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+            switch (view.getId()) {
+                case R.id.status_spin:
+                    strStatus = lstStatus.get(position);
+                    break;
+
+                case R.id.category_spin:
+                    strCategory = "" + hshCategory.get(lstCategoryNames.get(position));
+                    if (strCategory.equalsIgnoreCase("0")) {
+                        strCategory = "";
+                    }
+                    break;
+            }
+        }
     }
 }

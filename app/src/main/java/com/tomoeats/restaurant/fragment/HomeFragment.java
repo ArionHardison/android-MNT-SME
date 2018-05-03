@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -88,10 +89,12 @@ public class HomeFragment extends Fragment implements ProfileListener {
     TextView shopName;
     @BindView(R.id.shop_address)
     TextView shopAddress;
-
-
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
+    private Handler homeHandler = new Handler();
+    private boolean isVisible = true;
+
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -111,10 +114,12 @@ public class HomeFragment extends Fragment implements ProfileListener {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive( Context context, Intent intent ) {
-            if (isInternet)
-                getIncomingOrders();
-            else
+            if (isInternet) {
+               // getIncomingOrders();
+            }
+            else {
                 Utils.displayMessage(activity, getString(R.string.oops_no_internet));
+            }
         }
     };
 
@@ -173,11 +178,18 @@ public class HomeFragment extends Fragment implements ProfileListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (isInternet)
-            getIncomingOrders();
-        else
-            Utils.displayMessage(activity, getString(R.string.oops_no_internet));
-
+        isVisible = true;
+        homeHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(isInternet) {
+                    if (isVisible && incomingRv != null) {
+                        getIncomingOrders();
+                        homeHandler.postDelayed(this, 5000);
+                    }
+                }
+            }
+        },5000);
         getProfile();
 
 
@@ -194,19 +206,21 @@ public class HomeFragment extends Fragment implements ProfileListener {
     @Override
     public void onPause() {
         super.onPause();
+        isVisible = false;
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
     }
 
 
     private void getIncomingOrders() {
-        customDialog.show();
+       //customDialog.show();
         Call<IncomingOrders> call = apiInterface.getIncomingOrders("ordered");
         call.enqueue(new Callback<IncomingOrders>() {
             @Override
             public void onResponse(Call<IncomingOrders> call, Response<IncomingOrders> response) {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
-                    if (response.body().getOrders().size()>0){
+                    if (response.body().getOrders() != null &&
+                            !response.body().getOrders().isEmpty() && response.body().getOrders().size()>0){
                         incomingRv.setVisibility(View.VISIBLE);
                         llNoRecords.setVisibility(View.GONE);
                         orderList.clear();

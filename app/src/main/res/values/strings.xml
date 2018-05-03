@@ -182,8 +182,11 @@
     <string name="category_order">Category Order</string>
     <string name="image_upload">Image Upload</string>
     <string name="is_this_a_featured_product">Is this is a featured product?</string>
+    <string name="is_this_a_selected_food_type">Is this is a selected food type?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="veg">Veg</string>
+    <string name="non_veg">Non Veg</string>
     <string name="featured_image_upload">Featured image upload</string>
     <string name="add_product">Create Product</string>
     <string name="every_day">Everyday</string>
@@ -311,6 +314,7 @@
     <string name="error_msg_product_description">Please enter product description</string>
     <string name="error_msg_product_order">Please enter product order</string>
     <string name="error_msg_product_category">Please select category</string>
+    <string name="error_msg_selected_food_type">Please select food type</string>
     <string name="product_select_catefory">Select Category</string>
     <string name="error_msg_product_select_featured_image">Please select featured image</string>
     <string name="enter_new_password">Enter New Password</string>
