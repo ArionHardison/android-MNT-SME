@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Bhavani\Products\Tomoeats\tomoeats_android_restaurants\app\app.iml" filepath="D:\Bhavani\Products\Tomoeats\tomoeats_android_restaurants\app\app.iml" />
+      <module fileurl="file://D:/Bhavani/Products/Tomoeats/tomoeats_android_restaurants/app/app.iml" filepath="D:/Bhavani/Products/Tomoeats/tomoeats_android_restaurants/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/tomoeats_android_restaurants.iml" filepath="$PROJECT_DIR$/tomoeats_android_restaurants.iml" />
-      <module fileurl="file://D:\Bhavani\Products\Tomoeats\tomoeats_android_restaurants\tomoeats_android_restaurants.iml" filepath="D:\Bhavani\Products\Tomoeats\tomoeats_android_restaurants\tomoeats_android_restaurants.iml" />
+      <module fileurl="file://D:/Bhavani/Products/Tomoeats/tomoeats_android_restaurants/tomoeats_android_restaurants.iml" filepath="D:/Bhavani/Products/Tomoeats/tomoeats_android_restaurants/tomoeats_android_restaurants.iml" />
     </modules>
   </component>
 </project>
