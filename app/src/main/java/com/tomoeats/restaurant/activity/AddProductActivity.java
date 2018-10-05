@@ -376,7 +376,7 @@ public class AddProductActivity extends AppCompatActivity {
         message.setStrProductOrder(strProductOrder);
         message.setFeaturedImageFile(featuredImageFile);
         message.setProductImageFile(productImageFile);
-        if(foodType.equals(Constants.VEG)) {
+        if (foodType.equals(Constants.VEG)) {
             message.setStrSelectedFoodType(Constants.VEG);
         } else {
             message.setStrSelectedFoodType(Constants.NON_VEG);
@@ -450,19 +450,19 @@ public class AddProductActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
                 if (type == PRODUCT_IMAGE_TYPE) {
-                    productImageFile = imageFile;
+                    productImageFile = imageFiles.get(0);
                     Glide.with(AddProductActivity.this)
-                            .load(imageFile)
+                            .load(imageFiles.get(0))
                             .apply(new RequestOptions()
                                     .placeholder(R.mipmap.ic_launcher)
                                     .error(R.mipmap.ic_launcher).dontAnimate())
                             .into(productImg);
                 } else if (type == FEATURE_IMAGE_TYPE) {
-                    featuredImageFile = imageFile;
+                    featuredImageFile = imageFiles.get(0);
                     Glide.with(AddProductActivity.this)
-                            .load(imageFile)
+                            .load(imageFiles.get(0))
                             .apply(new RequestOptions()
                                     .placeholder(R.mipmap.ic_launcher)
                                     .error(R.mipmap.ic_launcher).dontAnimate())

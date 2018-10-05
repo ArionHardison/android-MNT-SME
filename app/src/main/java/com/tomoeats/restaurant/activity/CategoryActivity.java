@@ -14,18 +14,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.adapter.CategoryAdapter;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
-import com.tomoeats.restaurant.model.Addon;
 import com.tomoeats.restaurant.model.Category;
 import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,21 +78,21 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
     }
 
     private void setUpAdapter() {
-        if (categoryAdapter==null){
+        if (categoryAdapter == null) {
             categoryAdapter = new CategoryAdapter(categoryList, context);
             categoryRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             categoryRv.setHasFixedSize(true);
             categoryRv.setAdapter(categoryAdapter);
             categoryAdapter.setCategoryAdapterListener(this);
-        }else {
+        } else {
             categoryAdapter.setList(categoryList);
             categoryAdapter.notifyDataSetChanged();
         }
 
-        if(categoryList.size()>0){
+        if (categoryList.size() > 0) {
             llNoRecords.setVisibility(View.GONE);
             categoryRv.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             llNoRecords.setVisibility(View.VISIBLE);
             categoryRv.setVisibility(View.GONE);
         }

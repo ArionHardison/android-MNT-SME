@@ -5,14 +5,14 @@ package com.tomoeats.restaurant.model;
  */
 
 public class OrderFlow {
-    public   int statusImage;
-    public  String statusTitle,statusDescription,status;
+    public int statusImage;
+    public String statusTitle, statusDescription, status;
 
-    public OrderFlow(String statusTitle, String statusDescription, int statusImage, String status){
-        this.statusImage=statusImage;
-        this.statusTitle=statusTitle;
-        this.statusDescription=statusDescription;
-        this.status=status;
+    public OrderFlow(String statusTitle, String statusDescription, int statusImage, String status) {
+        this.statusImage = statusImage;
+        this.statusTitle = statusTitle;
+        this.statusDescription = statusDescription;
+        this.status = status;
     }
 
 

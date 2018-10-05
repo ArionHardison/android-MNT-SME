@@ -36,6 +36,7 @@ import retrofit2.Response;
 
 public class CuisineSelectFragment extends DialogFragment {
 
+    public static List<Cuisine> CUISINES = new ArrayList<>();
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     @BindView(R.id.cuisine_rv)
     RecyclerView cuisineRv;
@@ -44,11 +45,10 @@ public class CuisineSelectFragment extends DialogFragment {
     Unbinder unbinder;
     RecyclerViewAdapter mAdapter;
     List<Cuisine> list = new ArrayList<>();
-    public static List<Cuisine> CUISINES = new ArrayList<>();
-
     ConnectionHelper connectionHelper;
     boolean singleSelection;
-    int selected_pos=-1;
+    int selected_pos = -1;
+
     public CuisineSelectFragment() {
         // Required empty public constructor
     }
@@ -56,7 +56,7 @@ public class CuisineSelectFragment extends DialogFragment {
     @SuppressLint("ValidFragment")
     public CuisineSelectFragment(boolean singleSelection) {
         // Required empty public constructor
-        this.singleSelection =singleSelection;
+        this.singleSelection = singleSelection;
     }
 
     @Override
@@ -65,15 +65,15 @@ public class CuisineSelectFragment extends DialogFragment {
 
         unbinder = ButterKnife.bind(this, view);
 
-        mAdapter = new RecyclerViewAdapter(list,singleSelection);
+        mAdapter = new RecyclerViewAdapter(list, singleSelection);
         cuisineRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         cuisineRv.setAdapter(mAdapter);
 
         connectionHelper = new ConnectionHelper(getActivity());
 
 
-        if(connectionHelper.isConnectingToInternet())
-        getCuisines();
+        if (connectionHelper.isConnectingToInternet())
+            getCuisines();
         else
             Utils.displayMessage(getActivity(), getString(R.string.oops_no_internet));
 
@@ -112,7 +112,7 @@ public class CuisineSelectFragment extends DialogFragment {
 
             @Override
             public void onFailure(@NonNull Call<List<Cuisine>> call, @NonNull Throwable t) {
-                if(isAdded()){
+                if (isAdded()) {
                     Utils.displayMessage(getActivity(), getString(R.string.something_went_wrong));
                 }
 
@@ -123,10 +123,10 @@ public class CuisineSelectFragment extends DialogFragment {
 
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-        private List<Cuisine> mModelList;
         boolean isSingleSelection;
+        private List<Cuisine> mModelList;
 
-        RecyclerViewAdapter(List<Cuisine> modelList,boolean isSingleSelection) {
+        RecyclerViewAdapter(List<Cuisine> modelList, boolean isSingleSelection) {
             mModelList = modelList;
             this.isSingleSelection = isSingleSelection;
         }
@@ -142,10 +142,10 @@ public class CuisineSelectFragment extends DialogFragment {
         public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
             final Cuisine model = mModelList.get(position);
             holder.textView.setText(model.getName());
-            if (singleSelection){
-                if(selected_pos == position){
+            if (singleSelection) {
+                if (selected_pos == position) {
                     model.setSelected(true);
-                }else{
+                } else {
                     model.setSelected(false);
                 }
             }
@@ -158,7 +158,7 @@ public class CuisineSelectFragment extends DialogFragment {
                     selected_pos = (int) view.getTag();
                     model.setSelected(!model.isSelected());
                     holder.view.setBackgroundColor(model.isSelected() ? getResources().getColor(R.color.medium_grey) : Color.WHITE);
-                    if (singleSelection){
+                    if (singleSelection) {
                         notifyDataSetChanged();
                     }
                 }
@@ -168,6 +168,12 @@ public class CuisineSelectFragment extends DialogFragment {
         @Override
         public int getItemCount() {
             return mModelList == null ? 0 : mModelList.size();
+        }
+
+        List<Cuisine> getSelectedValues() {
+            List<Cuisine> mm = new ArrayList<>();
+            for (Cuisine obj : mModelList) if (obj.isSelected()) mm.add(obj);
+            return mm;
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -180,12 +186,6 @@ public class CuisineSelectFragment extends DialogFragment {
                 view = itemView;
                 textView = itemView.findViewById(R.id.name);
             }
-        }
-
-        List<Cuisine> getSelectedValues() {
-            List<Cuisine> mm = new ArrayList<>();
-            for (Cuisine obj : mModelList) if (obj.isSelected()) mm.add(obj);
-            return mm;
         }
     }
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +18,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
-import com.tomoeats.restaurant.adapter.OrderProductAdapter;
 import com.tomoeats.restaurant.adapter.ProductsAdapter;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
-import com.tomoeats.restaurant.model.Category;
 import com.tomoeats.restaurant.model.ProductModel;
-import com.tomoeats.restaurant.model.Product;
 import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.model.product.ProductResponse;
 import com.tomoeats.restaurant.network.ApiClient;
@@ -35,7 +31,6 @@ import com.tomoeats.restaurant.utils.Utils;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -49,31 +44,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductsActivity extends AppCompatActivity implements ProductsAdapter.ProductAdapterListener{
+public class ProductsActivity extends AppCompatActivity implements ProductsAdapter.ProductAdapterListener {
 
+    private static final String TAG = "ProductsActivity";
     @BindView(R.id.back_img)
     ImageView backImg;
     @BindView(R.id.title)
     TextView title;
-
-
     @BindView(R.id.products_rv)
     RecyclerView productsRv;
     @BindView(R.id.add_products_btn)
     Button addProductsBtn;
-
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
-
-
-
     Context context;
     Activity activity;
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    private static final String TAG = "ProductsActivity";
-
     List<ProductModel> listProductModel;
     ProductsAdapter productsAdapter;
 
@@ -86,8 +74,8 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
 
         title.setText(getString(R.string.products));
         backImg.setVisibility(View.VISIBLE);
-        context=ProductsActivity.this;
-        activity=ProductsActivity.this;
+        context = ProductsActivity.this;
+        activity = ProductsActivity.this;
         connectionHelper = new ConnectionHelper(context);
         customDialog = new CustomDialog(context);
         listProductModel = new ArrayList<>();
@@ -99,7 +87,6 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
         super.onResume();
         refreshProductList();
     }
-
 
 
     private void getProductList() {
@@ -129,12 +116,12 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
     }
 
     private void updateUI(List<ProductResponse> productList) {
-        if(productList.size()>0){
+        if (productList.size() > 0) {
             llNoRecords.setVisibility(View.GONE);
             productsRv.setVisibility(View.VISIBLE);
             new Thread(new ArrangeDataTask(productList)).start();
-        }else{
-            if(!listProductModel.isEmpty()){
+        } else {
+            if (!listProductModel.isEmpty()) {
                 listProductModel.clear();
             }
             setUpAdapter();
@@ -144,77 +131,19 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
         }
     }
 
-    class ArrangeDataTask implements Runnable{
-        List<ProductResponse> productList;
-        Set<String> hash_header = new HashSet<String>();
-
-        public ArrangeDataTask(List<ProductResponse> productList){
-            this.productList= productList;
-        }
-
-        @Override
-        public void run() {
-
-            if(!listProductModel.isEmpty()){
-                listProductModel.clear();
-            }
-
-            //Header name received here
-            for (int i = 0; i <productList.size() ; i++) {
-                if (productList.get(i).getCategories().size()>0)
-                hash_header.add(productList.get(i).getCategories().get(0).getName());
-            }
-
-            Iterator<String> iterator =hash_header.iterator();
-
-            while (iterator.hasNext()) {
-                String header = iterator.next();
-                ProductModel model = new ProductModel();
-                model.setHeader(header);
-                List<ProductResponse> lstTempProduct= new ArrayList<>();
-                for (int j = 0; j <productList.size() ; j++) {
-                    if (productList.get(j).getCategories().size()>0){
-                        if(productList.get(j).getCategories().get(0).getName().equalsIgnoreCase(header)){
-                            lstTempProduct.add(productList.get(j));
-                        }
-                    }
-
-                    if(j==(productList.size()-1)){
-                        model.setProductList(lstTempProduct);
-                    }
-
-                }
-
-                listProductModel.add(model);
-
-                if(!iterator.hasNext()){
-                    //Last iteration
-                    new Handler(getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            customDialog.dismiss();
-                            setUpAdapter();
-                        }
-                    });
-                }
-            }
-        }
-    }
-
     private void setUpAdapter() {
-        if (productsAdapter==null){
+        if (productsAdapter == null) {
             productsAdapter = new ProductsAdapter(context, listProductModel);
             productsRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             productsRv.setHasFixedSize(true);
             productsRv.setAdapter(productsAdapter);
             productsAdapter.setProductAdapterListener(this);
-        }else{
+        } else {
             productsAdapter.setList(listProductModel);
             productsAdapter.notifyDataSetChanged();
         }
 
     }
-
 
     @OnClick({R.id.back_img, R.id.add_products_btn})
     public void onViewClicked(View view) {
@@ -223,17 +152,15 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                 onBackPressed();
                 break;
             case R.id.add_products_btn:
-                startActivity(new Intent(context,AddProductActivity.class));
+                startActivity(new Intent(context, AddProductActivity.class));
                 break;
         }
     }
 
-
-
     @Override
     public void onProductClick(ProductResponse product) {
-        Intent intent = new Intent(context,AddProductActivity.class);
-        intent.putExtra("product_data",product);
+        Intent intent = new Intent(context, AddProductActivity.class);
+        intent.putExtra("product_data", product);
         startActivity(intent);
     }
 
@@ -247,9 +174,9 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 customDialog.dismiss();
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     refreshProductList();
-                }else{
+                } else {
                     Gson gson = new Gson();
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
@@ -269,12 +196,69 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
     }
 
     private void refreshProductList() {
-        if(connectionHelper.isConnectingToInternet()){
+        if (connectionHelper.isConnectingToInternet()) {
             //getCategory();
             customDialog.show();
             getProductList();
-        }else{
-            Utils.displayMessage(this,getString(R.string.oops_no_internet));
+        } else {
+            Utils.displayMessage(this, getString(R.string.oops_no_internet));
+        }
+    }
+
+    class ArrangeDataTask implements Runnable {
+        List<ProductResponse> productList;
+        Set<String> hash_header = new HashSet<String>();
+
+        public ArrangeDataTask(List<ProductResponse> productList) {
+            this.productList = productList;
+        }
+
+        @Override
+        public void run() {
+
+            if (!listProductModel.isEmpty()) {
+                listProductModel.clear();
+            }
+
+            //Header name received here
+            for (int i = 0; i < productList.size(); i++) {
+                if (productList.get(i).getCategories().size() > 0)
+                    hash_header.add(productList.get(i).getCategories().get(0).getName());
+            }
+
+            Iterator<String> iterator = hash_header.iterator();
+
+            while (iterator.hasNext()) {
+                String header = iterator.next();
+                ProductModel model = new ProductModel();
+                model.setHeader(header);
+                List<ProductResponse> lstTempProduct = new ArrayList<>();
+                for (int j = 0; j < productList.size(); j++) {
+                    if (productList.get(j).getCategories().size() > 0) {
+                        if (productList.get(j).getCategories().get(0).getName().equalsIgnoreCase(header)) {
+                            lstTempProduct.add(productList.get(j));
+                        }
+                    }
+
+                    if (j == (productList.size() - 1)) {
+                        model.setProductList(lstTempProduct);
+                    }
+
+                }
+
+                listProductModel.add(model);
+
+                if (!iterator.hasNext()) {
+                    //Last iteration
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            customDialog.dismiss();
+                            setUpAdapter();
+                        }
+                    });
+                }
+            }
         }
     }
 

@@ -24,6 +24,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.countrypicker.Country;
 import com.tomoeats.restaurant.countrypicker.CountryPicker;
@@ -36,17 +42,10 @@ import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.helper.SharedHelper;
-import com.tomoeats.restaurant.model.AuthToken;
 import com.tomoeats.restaurant.model.Cuisine;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.File;
 import java.util.Collections;
@@ -61,9 +60,6 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.tomoeats.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 import static com.tomoeats.restaurant.utils.TextUtils.isValidEmail;
@@ -112,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
     String device_token, device_UDID;
     Utils utils = new Utils();
     String TAG = "RegisterActivity";
-    String name, email, password, mobile, confirmPassword, address, landmark,offer_min_amount,offer_percentage,delivery_time,description;
+    String name, email, password, mobile, confirmPassword, address, landmark, offer_min_amount, offer_percentage, delivery_time, description;
     @BindView(R.id.avatar)
     ImageView avatar;
     @BindView(R.id.shop_image)
@@ -137,19 +133,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     @BindView(R.id.etDescription)
     EditText etDescription;
-
-
-    private CountryPicker mCountryPicker;
     String country_code;
     LatLng location;
-
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     int CUISINE_REQUEST_CODE = 2;
-
-    int SHOP_IMAGE=0;
-    int SHOP_BANNER=1;
-
+    int SHOP_IMAGE = 0;
+    int SHOP_BANNER = 1;
     int CT_TYPE = SHOP_IMAGE;
+    private CountryPicker mCountryPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +173,7 @@ public class RegisterActivity extends AppCompatActivity {
         etOfferInPercentage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && etOfferInPercentage.getText().toString().trim().isEmpty()){
+                if (!hasFocus && etOfferInPercentage.getText().toString().trim().isEmpty()) {
                     etOfferInPercentage.setText("0");
                 }
             }
@@ -190,8 +181,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void resetData() {
-        GlobalData.REGISTER_AVATAR=null;
-        GlobalData.REGISTER_SHOP_BANNER=null;
+        GlobalData.REGISTER_AVATAR = null;
+        GlobalData.REGISTER_SHOP_BANNER = null;
         GlobalData.registerMap.clear();
 
         GlobalData.email = "";
@@ -200,11 +191,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void bindCuisine() {
         StringBuilder cuisneStr = new StringBuilder();
-        for (int i=0;i<CuisineSelectFragment.CUISINES.size();i++){
-            if(i==0)
+        for (int i = 0; i < CuisineSelectFragment.CUISINES.size(); i++) {
+            if (i == 0)
                 cuisneStr.append(CuisineSelectFragment.CUISINES.get(i).getName());
             else
-            cuisneStr.append(",").append(CuisineSelectFragment.CUISINES.get(i).getName());
+                cuisneStr.append(",").append(CuisineSelectFragment.CUISINES.get(i).getName());
         }
 
         cuisine.setText(cuisneStr.toString());
@@ -281,7 +272,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.cuisine, R.id.avatar, R.id.country_picker_lay, R.id.address_lay, R.id.register_btn,
-            R.id.txt_login, R.id.et_confirm_password_eye_img, R.id.et_password_eye_img,R.id.shop_image})
+            R.id.txt_login, R.id.et_confirm_password_eye_img, R.id.et_password_eye_img, R.id.shop_image})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cuisine:
@@ -356,7 +347,7 @@ public class RegisterActivity extends AppCompatActivity {
         description = etDescription.getText().toString().trim();
         country_code = txtCountryNumber.getText().toString().trim();
 
-        if (offer_percentage==null || offer_percentage.isEmpty() || offer_percentage.equalsIgnoreCase("null")){
+        if (offer_percentage == null || offer_percentage.isEmpty() || offer_percentage.equalsIgnoreCase("null")) {
             offer_percentage = "0";
         }
 
@@ -372,21 +363,21 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_phone_number));
         else if (password.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_password));
-        else if (!password.isEmpty() && password.length()<6)
+        else if (!password.isEmpty() && password.length() < 6)
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
         else if (confirmPassword.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_confirm_password));
-        else if (!confirmPassword.isEmpty() && confirmPassword.length()<6)
+        else if (!confirmPassword.isEmpty() && confirmPassword.length() < 6)
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
         else if (!confirmPassword.equals(password))
             Utils.displayMessage(activity, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
         else if (GlobalData.REGISTER_AVATAR == null)
             Utils.displayMessage(activity, getResources().getString(R.string.please_select_avatar));
-        else if(offer_min_amount.isEmpty())
+        else if (offer_min_amount.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_amount));
-        else if(delivery_time.isEmpty())
+        else if (delivery_time.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_delievery_time));
-        else if(description.isEmpty())
+        else if (description.isEmpty())
             Utils.displayMessage(activity, getString(R.string.please_enter_description));
         else if (address.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_fill_your_address));
@@ -401,7 +392,7 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put("password", RequestBody.create(MediaType.parse("text/plain"), password));
                 map.put("password_confirmation", RequestBody.create(MediaType.parse("text/plain"), confirmPassword));
                 map.put("pure_veg", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(veg.isChecked() ? 1 : 0)));
-               // map.put("default_banner", RequestBody.create(MediaType.parse("text/plain"), ""));
+                // map.put("default_banner", RequestBody.create(MediaType.parse("text/plain"), ""));
                 map.put("description", RequestBody.create(MediaType.parse("text/plain"), description));
                 map.put("offer_min_amount", RequestBody.create(MediaType.parse("text/plain"), offer_min_amount));
                 map.put("offer_percent", RequestBody.create(MediaType.parse("text/plain"), offer_percentage));
@@ -424,7 +415,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 GlobalData.registerMap.putAll(map);
                 startActivity(new Intent(this, RestaurantTimingActivity.class));
-            }else{
+            } else {
                 Utils.displayMessage(activity, getResources().getString(R.string.oops_no_internet));
             }
         }
@@ -462,21 +453,21 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
 
-                if(type == SHOP_IMAGE){
-                    GlobalData.REGISTER_AVATAR = imageFile;
+                if (type == SHOP_IMAGE) {
+                    GlobalData.REGISTER_AVATAR = imageFiles.get(0);
                     Glide.with(context)
-                            .load(imageFile)
+                            .load(imageFiles.get(0))
                             .apply(new RequestOptions()
                                     .placeholder(R.drawable.ic_place_holder_image)
                                     .error(R.drawable.ic_place_holder_image).dontAnimate())
                             .into(avatar);
-                }else  if(type == SHOP_BANNER){
-                    GlobalData.REGISTER_SHOP_BANNER = imageFile;
+                } else if (type == SHOP_BANNER) {
+                    GlobalData.REGISTER_SHOP_BANNER = imageFiles.get(0);
                     Glide
                             .with(context)
-                            .load(imageFile)
+                            .load(imageFiles.get(0))
                             .apply(new RequestOptions()
                                     .placeholder(R.drawable.ic_place_holder_image)
                                     .error(R.drawable.ic_place_holder_image).dontAnimate())

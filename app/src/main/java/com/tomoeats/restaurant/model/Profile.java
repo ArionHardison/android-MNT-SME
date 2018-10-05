@@ -89,7 +89,7 @@ public class Profile {
 
     @SerializedName("country_code")
     @Expose
-    private String country_code="";
+    private String country_code = "";
 
     public String getCountry_code() {
         return country_code;

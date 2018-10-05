@@ -7,108 +7,102 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Prices implements Parcelable{
+public class Prices implements Parcelable {
 
-	@SerializedName("price")
-	private int price;
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Prices> CREATOR = new Parcelable.Creator<Prices>() {
+        @Override
+        public Prices createFromParcel(Parcel in) {
+            return new Prices(in);
+        }
 
-	@SerializedName("discount")
-	private int discount;
+        @Override
+        public Prices[] newArray(int size) {
+            return new Prices[size];
+        }
+    };
+    @SerializedName("price")
+    private int price;
+    @SerializedName("discount")
+    private int discount;
+    @SerializedName("currency")
+    private String currency;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("discount_type")
+    private String discountType;
+    @SerializedName("orignal_price")
+    private int orignalPrice;
 
-	@SerializedName("currency")
-	private String currency;
+    protected Prices(Parcel in) {
+        price = in.readInt();
+        discount = in.readInt();
+        currency = in.readString();
+        id = in.readInt();
+        discountType = in.readString();
+        orignalPrice = in.readInt();
+    }
 
-	@SerializedName("id")
-	private int id;
+    public int getPrice() {
+        return price;
+    }
 
-	@SerializedName("discount_type")
-	private String discountType;
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
-	@SerializedName("orignal_price")
-	private int orignalPrice;
+    public int getDiscount() {
+        return discount;
+    }
 
-	public void setPrice(int price){
-		this.price = price;
-	}
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
 
-	public int getPrice(){
-		return price;
-	}
+    public String getCurrency() {
+        return currency;
+    }
 
-	public void setDiscount(int discount){
-		this.discount = discount;
-	}
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
-	public int getDiscount(){
-		return discount;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setCurrency(String currency){
-		this.currency = currency;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getCurrency(){
-		return currency;
-	}
+    public String getDiscountType() {
+        return discountType;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public void setDiscountType(String discountType) {
+        this.discountType = discountType;
+    }
 
-	public int getId(){
-		return id;
-	}
+    public int getOrignalPrice() {
+        return orignalPrice;
+    }
 
-	public void setDiscountType(String discountType){
-		this.discountType = discountType;
-	}
+    public void setOrignalPrice(int orignalPrice) {
+        this.orignalPrice = orignalPrice;
+    }
 
-	public String getDiscountType(){
-		return discountType;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	public void setOrignalPrice(int orignalPrice){
-		this.orignalPrice = orignalPrice;
-	}
-
-	public int getOrignalPrice(){
-		return orignalPrice;
-	}
-
-	protected Prices(Parcel in) {
-		price = in.readInt();
-		discount = in.readInt();
-		currency = in.readString();
-		id = in.readInt();
-		discountType = in.readString();
-		orignalPrice = in.readInt();
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(price);
-		dest.writeInt(discount);
-		dest.writeString(currency);
-		dest.writeInt(id);
-		dest.writeString(discountType);
-		dest.writeInt(orignalPrice);
-	}
-
-	@SuppressWarnings("unused")
-	public static final Parcelable.Creator<Prices> CREATOR = new Parcelable.Creator<Prices>() {
-		@Override
-		public Prices createFromParcel(Parcel in) {
-			return new Prices(in);
-		}
-
-		@Override
-		public Prices[] newArray(int size) {
-			return new Prices[size];
-		}
-	};
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(price);
+        dest.writeInt(discount);
+        dest.writeString(currency);
+        dest.writeInt(id);
+        dest.writeString(discountType);
+        dest.writeInt(orignalPrice);
+    }
 }

@@ -60,7 +60,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    String TAG="ChangePasswordActivity";
+    String TAG = "ChangePasswordActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,8 +124,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.save_btn:
-                if(connectionHelper.isConnectingToInternet())
-                changePassword();
+                if (connectionHelper.isConnectingToInternet())
+                    changePassword();
                 else
                     Utils.displayMessage(activity, getResources().getString(R.string.oops_no_internet));
                 break;
@@ -137,19 +137,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
         String strPassword = etPassword.getText().toString().trim();
         String strConfirmPassword = etConfirmPassword.getText().toString().trim();
 
-        if(strCurrentPassword.isEmpty()){
+        if (strCurrentPassword.isEmpty()) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_password));
-        }else if(strCurrentPassword.length()<6){
+        } else if (strCurrentPassword.length() < 6) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
-        }else if(strPassword.isEmpty()){
+        } else if (strPassword.isEmpty()) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_new_password));
-        }else if(strPassword.length()<6 || strCurrentPassword.length()<6){
+        } else if (strPassword.length() < 6 || strCurrentPassword.length() < 6) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
-        }else if(strConfirmPassword.isEmpty()){
+        } else if (strConfirmPassword.isEmpty()) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_new_password));
-        }else if(!strConfirmPassword.equals(strPassword)){
+        } else if (!strConfirmPassword.equals(strPassword)) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
-        }else{
+        } else {
             HashMap<String, String> map = new HashMap<>();
             map.put("password_old", strCurrentPassword);
             map.put("password", strPassword);
@@ -166,19 +166,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void onResponse(Call<ChangePassword> call, Response<ChangePassword> response) {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
-                    Utils.displayMessage(ChangePasswordActivity.this,getString(R.string.password_updated_successfully));
+                    Utils.displayMessage(ChangePasswordActivity.this, getString(R.string.password_updated_successfully));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             onBackPressed();
                         }
-                    },1000);
-                }else{
+                    }, 1000);
+                } else {
                     try {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
-                        if(serverError.getError()!=null && serverError.getError().contains("incorrect_password")){
+                        if (serverError.getError() != null && serverError.getError().contains("incorrect_password")) {
                             Utils.displayMessage(activity, "Incorrect Password");
-                        }else{
+                        } else {
                             Utils.displayMessage(activity, serverError.getError());
                         }
                     } catch (JsonSyntaxException e) {

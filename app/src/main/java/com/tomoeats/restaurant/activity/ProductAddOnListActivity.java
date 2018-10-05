@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -65,7 +64,7 @@ public class ProductAddOnListActivity extends AppCompatActivity {
 
     private void setUp() {
         connectionHelper = new ConnectionHelper(this);
-        customDialog= new CustomDialog(this);
+        customDialog = new CustomDialog(this);
 
         title.setText(R.string.select_addons);
         imgBack.setVisibility(View.VISIBLE);
@@ -74,26 +73,26 @@ public class ProductAddOnListActivity extends AppCompatActivity {
         rvAddOns.setHasFixedSize(true);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle!=null){
+        if (bundle != null) {
             listReceivedAddOns = bundle.getParcelableArrayList("addon");
         }
     }
 
-    @OnClick({R.id.btnSave,R.id.back_img})
-    public void onSave(View view){
-        switch (view.getId()){
+    @OnClick({R.id.btnSave, R.id.back_img})
+    public void onSave(View view) {
+        switch (view.getId()) {
             case R.id.btnSave:
-                if (adapter!=null){
-                    if(adapter.verifyPrice()){
+                if (adapter != null) {
+                    if (adapter.verifyPrice()) {
                         listSelectedAddOns = adapter.getSelectAddOnList();
-                        if (listSelectedAddOns.size()>0){
-                           showSuccessAndGoBack();
-                        }else{
+                        if (listSelectedAddOns.size() > 0) {
+                            showSuccessAndGoBack();
+                        } else {
                             goBackToScreen();
                         }
                     }
 
-                }else{
+                } else {
                     setResult(RESULT_OK);
                     finish();
                 }
@@ -107,19 +106,19 @@ public class ProductAddOnListActivity extends AppCompatActivity {
     }
 
     private void showSuccessAndGoBack() {
-        Utils.displayMessage(ProductAddOnListActivity.this,getResources().getString(R.string.addons_updated_successfully));
+        Utils.displayMessage(ProductAddOnListActivity.this, getResources().getString(R.string.addons_updated_successfully));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 goBackToScreen();
             }
-        },1000);
+        }, 1000);
     }
 
     private void goBackToScreen() {
         Intent intent = new Intent();
-        intent.putParcelableArrayListExtra("addon",listSelectedAddOns);
-        setResult(RESULT_OK,intent);
+        intent.putParcelableArrayListExtra("addon", listSelectedAddOns);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -128,10 +127,10 @@ public class ProductAddOnListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (connectionHelper.isConnectingToInternet()){
+        if (connectionHelper.isConnectingToInternet()) {
             getAddOnList();
-        }else{
-            Utils.displayMessage(this,getString(R.string.oops_no_internet));
+        } else {
+            Utils.displayMessage(this, getString(R.string.oops_no_internet));
         }
     }
 
@@ -145,9 +144,9 @@ public class ProductAddOnListActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     listAddOns.clear();
                     listAddOns.addAll(response.body());
-                    if (listReceivedAddOns.size()>0){
+                    if (listReceivedAddOns.size() > 0) {
                         prepareList();
-                    }else{
+                    } else {
                         setUpAdapter(listAddOns);
                     }
                 } else {
@@ -172,9 +171,9 @@ public class ProductAddOnListActivity extends AppCompatActivity {
     private void prepareList() {
         ArrayList<Addon> listAddOnsNew = new ArrayList<>();
 
-        for (Addon addon:listAddOns) {
-            for (Addon addonReceived:listReceivedAddOns) {
-                if (addonReceived.getAddon()!=null && addon.getId()== addonReceived.getAddon().getId()){
+        for (Addon addon : listAddOns) {
+            for (Addon addonReceived : listReceivedAddOns) {
+                if (addonReceived.getAddon() != null && addon.getId() == addonReceived.getAddon().getId()) {
                     addon.setPrice(addonReceived.getPrice());
                     addon.setChecked(true);
                 }
@@ -187,10 +186,10 @@ public class ProductAddOnListActivity extends AppCompatActivity {
     }
 
     private void setUpAdapter(List<Addon> listAddOnsTemp) {
-        if (adapter==null){
-            adapter = new ProductAddOnsAdapter(listAddOnsTemp,this);
+        if (adapter == null) {
+            adapter = new ProductAddOnsAdapter(listAddOnsTemp, this);
             rvAddOns.setAdapter(adapter);
-        }else{
+        } else {
             adapter.setList(listAddOnsTemp);
             adapter.notifyDataSetChanged();
         }

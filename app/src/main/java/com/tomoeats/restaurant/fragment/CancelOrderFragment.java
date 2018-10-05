@@ -11,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
 import com.tomoeats.restaurant.adapter.HistoryAdapter;
-import com.tomoeats.restaurant.adapter.RequestAdapter;
 import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.Order;
 import com.tomoeats.restaurant.model.ServerError;
@@ -41,21 +39,17 @@ import retrofit2.Response;
  */
 public class CancelOrderFragment extends Fragment {
 
+    public static PastVisitFragment.CancelledListListener cancelledListListener;
     @BindView(R.id.cancel_rv)
     RecyclerView cancelRv;
-
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
-
+    List<Order> orderList = new ArrayList<>();
+    HistoryAdapter historyAdapter;
     private Unbinder unbinder;
     private Context context;
     private Activity activity;
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-
-    List<Order> orderList = new ArrayList<>();
-    HistoryAdapter historyAdapter;
-
-    public static PastVisitFragment.CancelledListListener cancelledListListener;
 
     public CancelOrderFragment() {
         // Required empty public constructor

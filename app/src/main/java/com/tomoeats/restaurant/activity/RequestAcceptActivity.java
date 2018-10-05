@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.adapter.OrderProductAdapter;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
@@ -31,10 +32,7 @@ import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -120,16 +118,16 @@ public class RequestAcceptActivity extends AppCompatActivity {
             return;
         }
 
-        title.setText("#"+order.getId());
+        title.setText("#" + order.getId());
 
-        String name =  order.getUser().getName();
-        String payment_mode =  order.getInvoice().getPaymentMode();
+        String name = order.getUser().getName();
+        String payment_mode = order.getInvoice().getPaymentMode();
 
         //No minimum character limit in register screen.
-        if(name.length()>1)
-        name =  name.substring(0,1).toUpperCase()+name.substring(1);
+        if (name.length() > 1)
+            name = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-        payment_mode=payment_mode.substring(0,1).toUpperCase()+payment_mode.substring(1);
+        payment_mode = payment_mode.substring(0, 1).toUpperCase() + payment_mode.substring(1);
 
         userName.setText(name);
         address.setText(order.getAddress().getMapAddress());
@@ -145,13 +143,13 @@ public class RequestAcceptActivity extends AppCompatActivity {
         orderProductRv.setHasFixedSize(true);
         orderProductRv.setAdapter(orderProductAdapter);
 
-        Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST()+"")/100);
-        Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST()+"")/100);
+        Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST() + "") / 100);
+        Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST() + "") / 100);
 
         double gross_amount = order.getInvoice().getGross() - order.getInvoice().getDiscount();
 
-        double cgst = (gross_amount *(cgst_percentage_multiplayer));
-        double sgst = (gross_amount *(sgst_percentage_multiplayer));
+        double cgst = (gross_amount * (cgst_percentage_multiplayer));
+        double sgst = (gross_amount * (sgst_percentage_multiplayer));
 
 
         subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
@@ -161,10 +159,10 @@ public class RequestAcceptActivity extends AppCompatActivity {
         deliveryCharges.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDeliveryCharge()));
         total.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getNet()));
 
-        if(order.getStatus().equals("ORDERED")&&order.getDispute().equals("NODISPUTE")){
+        if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
             disputeBtn.setVisibility(View.GONE);
             buttonLay.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             disputeBtn.setVisibility(View.VISIBLE);
             buttonLay.setVisibility(View.GONE);
         }
@@ -180,10 +178,10 @@ public class RequestAcceptActivity extends AppCompatActivity {
                 break;
             case R.id.call_img:
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + order.getUser().getPhone()));
-                if(dialIntent.resolveActivity(getPackageManager())!=null)
-                startActivity(dialIntent);
+                if (dialIntent.resolveActivity(getPackageManager()) != null)
+                    startActivity(dialIntent);
                 else
-                    Utils.displayMessage(this,"Call feature not supported");
+                    Utils.displayMessage(this, "Call feature not supported");
                 break;
             case R.id.cancel_btn:
                 AlertDialog.Builder cancelAlert = new AlertDialog.Builder(this);

@@ -92,12 +92,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         }
     }
 
-    public interface CategoryAdapterListener {
-        void onCategoryClick(Category category);
-
-        void onCategoryDeleteClick(Category category);
-    }
-
     public void setCategoryAdapterListener(CategoryAdapterListener categoryAdapterListener) {
         this.categoryAdapterListener = categoryAdapterListener;
     }
@@ -120,6 +114,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     public void setList(List<Category> list) {
         this.list = list;
+    }
+
+    public interface CategoryAdapterListener {
+        void onCategoryClick(Category category);
+
+        void onCategoryDeleteClick(Category category);
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {

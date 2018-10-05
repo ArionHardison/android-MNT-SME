@@ -25,9 +25,9 @@ public class StatusPicker extends DialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
-                if(getActivity() instanceof RegisterActivity)
-                ((RegisterActivity) getActivity()).bindStatus(getContext().getText(R.string.status_active));
-                else if(getActivity() instanceof EditRestaurantActivity)
+                if (getActivity() instanceof RegisterActivity)
+                    ((RegisterActivity) getActivity()).bindStatus(getContext().getText(R.string.status_active));
+                else if (getActivity() instanceof EditRestaurantActivity)
                     ((EditRestaurantActivity) getActivity()).bindStatus(getContext().getText(R.string.status_active));
             }
         });
@@ -36,9 +36,9 @@ public class StatusPicker extends DialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
-                if(getActivity() instanceof RegisterActivity)
+                if (getActivity() instanceof RegisterActivity)
                     ((RegisterActivity) getActivity()).bindStatus(getContext().getText(R.string.status_onboarding));
-                else if(getActivity() instanceof EditRestaurantActivity)
+                else if (getActivity() instanceof EditRestaurantActivity)
                     ((EditRestaurantActivity) getActivity()).bindStatus(getContext().getText(R.string.status_onboarding));
             }
         });
@@ -47,9 +47,9 @@ public class StatusPicker extends DialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
-                if(getActivity() instanceof RegisterActivity)
+                if (getActivity() instanceof RegisterActivity)
                     ((RegisterActivity) getActivity()).bindStatus(getContext().getText(R.string.status_banned));
-                else if(getActivity() instanceof EditRestaurantActivity)
+                else if (getActivity() instanceof EditRestaurantActivity)
                     ((EditRestaurantActivity) getActivity()).bindStatus(getContext().getText(R.string.status_banned));
             }
         });

@@ -40,10 +40,12 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilterDialogFragment extends DialogFragment implements CalendarDatePickerDialogFragment.OnDateSetListener,DataMessage<FilterDialogFragmentMessage> {
+public class FilterDialogFragment extends DialogFragment implements CalendarDatePickerDialogFragment.OnDateSetListener, DataMessage<FilterDialogFragmentMessage> {
 
+    private static final String FROM_DATE = "from_date";
+    private static final String TO_DATE = "to_date";
+    private static List<Transporter> listTransporter;
     String TAG = FilterDialogFragment.this.getClass().getName();
-
     @BindView(R.id.reset_img)
     ImageView resetImg;
     @BindView(R.id.status_spin)
@@ -63,35 +65,21 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     LinearLayout rootLayout;
     @BindView(R.id.main_content)
     CoordinatorLayout main_content;
-
+    int selected_id = 0;
+    int selected_pos = 0;
+    String strFromDate = "";
+    String strToDate = "";
+    DataMessage<FilterDialogFragmentMessage> dataMessage;
+    FilterDialogFragmentMessage message;
     private int current_year;
     private int current_month;
     private int current_day;
     private Calendar ctDate;
-
     private MonthAdapter.CalendarDay minDay;
-    private static final String FROM_DATE="from_date";
-    private static final String TO_DATE="to_date";
-
-    int selected_id = 0;
-    int selected_pos=0;
-    String strFromDate="";
-    String strToDate="";
-
-    DataMessage<FilterDialogFragmentMessage> dataMessage;
-    FilterDialogFragmentMessage message;
 
     public FilterDialogFragment() {
         // Required empty public constructor
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        dataMessage = (DataMessage)context;
-    }
-
-    private static List<Transporter> listTransporter;
 
     public static FilterDialogFragment newInstance(List<Transporter> list) {
 
@@ -102,6 +90,11 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        dataMessage = (DataMessage) context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,8 +109,8 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     private void initData() {
 
         List<String> lstNames = new ArrayList<>();
-        final HashMap<String,Integer> hshDPIds = new HashMap<>();
-        hshDPIds.put(getString(R.string.select_delievery_person),0);
+        final HashMap<String, Integer> hshDPIds = new HashMap<>();
+        hshDPIds.put(getString(R.string.select_delievery_person), 0);
 
 
         if (listTransporter != null) {
@@ -125,16 +118,17 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
                 String name = listTransporter.get(i).getName().trim();
                 name = Utils.toFirstCharUpperAll(name);
                 lstNames.add(name);
-                hshDPIds.put(name,listTransporter.get(i).getId());
+                hshDPIds.put(name, listTransporter.get(i).getId());
             }
 
             Collections.sort(lstNames);
-            lstNames.add(0,getString(R.string.select_delievery_person));
+            lstNames.add(0, getString(R.string.select_delievery_person));
             statusSpin.setItems(lstNames);
 
             statusSpin.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
-                @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                @Override
+                public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                     selected_id = hshDPIds.get(item);
                     selected_pos = position;
                 }
@@ -145,7 +139,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     }
 
     private void prepareData() {
-        if (message!=null){
+        if (message != null) {
             statusSpin.setSelectedIndex(message.getSelectePos());
             txtFromDate.setText(message.getFormattedFromDate());
             toDateTxt.setText(message.getFormattedToDate());
@@ -164,8 +158,8 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         statusSpin.setSelectedIndex(0);
         selected_pos = 0;
         selected_id = 0;
-        strFromDate ="";
-        strToDate="";
+        strFromDate = "";
+        strToDate = "";
     }
 
 
@@ -181,14 +175,14 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         }
     }
 
-    private void getCurrentDate(){
+    private void getCurrentDate() {
         ctDate = Calendar.getInstance();
         current_year = ctDate.get(Calendar.YEAR);
         current_month = ctDate.get(Calendar.MONTH) + 1; // Note: zero based!
         current_day = ctDate.get(Calendar.DAY_OF_MONTH);
 
         minDay = new MonthAdapter.CalendarDay();
-        minDay.setDay(current_year, current_month,current_day);
+        minDay.setDay(current_year, current_month, current_day);
 
 
     }
@@ -200,7 +194,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         unbinder.unbind();
     }
 
-    @OnClick({R.id.reset_img, R.id.from_date_lay, R.id.to_date_lay, R.id.filter_btn,R.id.main_content})
+    @OnClick({R.id.reset_img, R.id.from_date_lay, R.id.to_date_lay, R.id.filter_btn, R.id.main_content})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.reset_img:
@@ -218,7 +212,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
                 cdp.show(getActivity().getSupportFragmentManager(), FROM_DATE);
                 break;
             case R.id.to_date_lay:
-                if(!validateDate()) {
+                if (!validateDate()) {
                     Utils.showAlertDialog(getActivity(), "Please select from date");
                     return;
                 }
@@ -233,7 +227,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
                 cdp2.show(getActivity().getSupportFragmentManager(), TO_DATE);
                 break;
             case R.id.filter_btn:
-               //validateFilter();
+                //validateFilter();
                 sendMessageToScreen();
                 break;
 
@@ -243,34 +237,34 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         }
     }
 
-    public boolean validateDate(){
+    public boolean validateDate() {
         String strFromDate = txtFromDate.getText().toString();
         String strToDate = toDateTxt.getText().toString();
-        if(strFromDate.isEmpty()&& !strToDate.isEmpty())
+        if (strFromDate.isEmpty() && !strToDate.isEmpty())
             return false;
         return true;
     }
 
-    private void validateFilter(){
+    private void validateFilter() {
         String strFromDate = txtFromDate.getText().toString();
         String strToDate = toDateTxt.getText().toString();
-        if (selected_id==0){
-            Utils.showAlertDialog(getContext(),"Please select a delivery person.");
-        }else if(strFromDate.isEmpty()){
-            Utils.showAlertDialog(getContext(),"Please select a start date");
-        }else if(strToDate.isEmpty()){
-            Utils.showAlertDialog(getContext(),"Please select a end date");
-        }else{
+        if (selected_id == 0) {
+            Utils.showAlertDialog(getContext(), "Please select a delivery person.");
+        } else if (strFromDate.isEmpty()) {
+            Utils.showAlertDialog(getContext(), "Please select a start date");
+        } else if (strToDate.isEmpty()) {
+            Utils.showAlertDialog(getContext(), "Please select a end date");
+        } else {
             sendMessageToScreen();
         }
     }
 
     private void sendMessageToScreen() {
-        if(message==null)
+        if (message == null)
             message = new FilterDialogFragmentMessage();
-        if(selected_pos==0){
+        if (selected_pos == 0) {
             message.clear();
-        }else {
+        } else {
             message.setDelieveryPersonId(selected_id);
             message.setFromDate(strFromDate);
             message.setToDate(strToDate);
@@ -285,12 +279,12 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
 
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
-        String date =year+"-"+String.format("%02d", monthOfYear) +"-"+String.format("%02d", dayOfMonth);
-        String formattedDate =String.format("%02d", dayOfMonth)+":"+String.format("%02d", monthOfYear) +":"+year;
-        if(dialog.getTag().equals(FROM_DATE)){
+        String date = year + "-" + String.format("%02d", monthOfYear) + "-" + String.format("%02d", dayOfMonth);
+        String formattedDate = String.format("%02d", dayOfMonth) + ":" + String.format("%02d", monthOfYear) + ":" + year;
+        if (dialog.getTag().equals(FROM_DATE)) {
             strFromDate = date;
             txtFromDate.setText(formattedDate);
-        }else{
+        } else {
             strToDate = date;
             toDateTxt.setText(formattedDate);
         }
@@ -299,6 +293,6 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     @Override
     public void onReceiveData(FilterDialogFragmentMessage message) {
         this.message = message;
-        Utils.displayMessage(getActivity(),"Received data"+message.getDelieveryPersonId());
+        Utils.displayMessage(getActivity(), "Received data" + message.getDelieveryPersonId());
     }
 }

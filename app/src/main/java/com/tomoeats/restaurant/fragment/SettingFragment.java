@@ -109,15 +109,15 @@ public class SettingFragment extends Fragment implements ProfileListener {
         settingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         settingRv.setItemAnimator(new DefaultItemAnimator());
         settingRv.setHasFixedSize(true);
-        settingAdapter = new SettingAdapter(settingArrayList, context,activity);
+        settingAdapter = new SettingAdapter(settingArrayList, context, activity);
         settingRv.setAdapter(settingAdapter);
     }
 
 
     @OnClick({R.id.lnrProfile})
-    public  void onViewClicked(View view){
+    public void onViewClicked(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.lnrProfile:
                 context.startActivity(new Intent(context, EditRestaurantActivity.class));
                 break;
@@ -141,21 +141,19 @@ public class SettingFragment extends Fragment implements ProfileListener {
     }
 
     private void getProfile() {
-        if(connectionHelper.isConnectingToInternet()){
+        if (connectionHelper.isConnectingToInternet()) {
             customDialog.show();
             new GetProfile(apiInterface, this);
-        }else{
+        } else {
             Utils.displayMessage(getActivity(), getResources().getString(R.string.oops_no_internet));
         }
     }
 
 
-
-
     @Override
     public void onSuccess(Profile profile) {
         customDialog.dismiss();
-        if (isAdded()){
+        if (isAdded()) {
             Glide.with(getActivity()).load(profile.getAvatar())
                     .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(profileImg);
         }
@@ -173,6 +171,6 @@ public class SettingFragment extends Fragment implements ProfileListener {
     @Override
     public void onFailure(String error) {
         customDialog.dismiss();
-        Utils.displayMessage(getActivity(),getString(R.string.something_went_wrong));
+        Utils.displayMessage(getActivity(), getString(R.string.something_went_wrong));
     }
 }

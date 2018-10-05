@@ -14,9 +14,9 @@ import com.tomoeats.restaurant.model.House;
 import java.util.List;
 
 public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.MyViewHolder> {
-    private List<House> list;
     Context context;
     Activity activity;
+    private List<House> list;
 
     public VisitAdapter(List<House> list, Context con) {
         this.list = list;
@@ -62,7 +62,7 @@ public class VisitAdapter extends RecyclerView.Adapter<VisitAdapter.MyViewHolder
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView addressHeader,address,status;
+        TextView addressHeader, address, status;
 
         public MyViewHolder(View view) {
             super(view);

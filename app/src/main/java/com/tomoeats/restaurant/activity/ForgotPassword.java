@@ -15,7 +15,6 @@ import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
-import com.tomoeats.restaurant.model.AuthToken;
 import com.tomoeats.restaurant.model.ForgotPasswordResponse;
 import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
@@ -62,7 +61,7 @@ public class ForgotPassword extends AppCompatActivity {
 
     private void setUp() {
         connectionHelper = new ConnectionHelper(this);
-        customDialog= new CustomDialog(this);
+        customDialog = new CustomDialog(this);
     }
 
     @OnClick({R.id.next_btn, R.id.txt_register})
@@ -70,12 +69,11 @@ public class ForgotPassword extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.next_btn:
                 if (validateInput()) {
-                    if (connectionHelper.isConnectingToInternet()){
-                        HashMap<String,String> params = new HashMap<>();
-                        params.put("email",strEmail);
+                    if (connectionHelper.isConnectingToInternet()) {
+                        HashMap<String, String> params = new HashMap<>();
+                        params.put("email", strEmail);
                         getOTP(params);
-                    }
-                    else
+                    } else
                         Utils.displayMessage(this, getString(R.string.oops_no_internet));
                 }
                 break;
@@ -93,19 +91,19 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
                 customDialog.dismiss();
-                if (response.isSuccessful()){
-                    Utils.displayMessage(ForgotPassword.this,response.body().getMessage());
+                if (response.isSuccessful()) {
+                    Utils.displayMessage(ForgotPassword.this, response.body().getMessage());
                     new Handler(getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             redirectToOtpScreen();
                         }
-                    },1000);
-                }else{
+                    }, 1000);
+                } else {
                     try {
-                        if (response.code() == 422){
+                        if (response.code() == 422) {
                             Utils.displayMessage(ForgotPassword.this, getString(R.string.invalid_email));
-                        }else{
+                        } else {
                             ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
                             Utils.displayMessage(ForgotPassword.this, getString(R.string.something_went_wrong));
                         }
@@ -126,14 +124,14 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     private void redirectToOtpScreen() {
-        Intent intent = new Intent(this,OtpActivity.class);
-        intent.putExtra("email",strEmail);
+        Intent intent = new Intent(this, OtpActivity.class);
+        intent.putExtra("email", strEmail);
         startActivity(intent);
         //finish();
     }
 
     private boolean validateInput() {
-        strEmail  = etEmail.getText().toString().trim();
+        strEmail = etEmail.getText().toString().trim();
         if (strEmail.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.please_enter_mail_id));
             return false;

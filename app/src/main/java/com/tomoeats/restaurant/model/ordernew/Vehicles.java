@@ -4,49 +4,49 @@ package com.tomoeats.restaurant.model.ordernew;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Vehicles{
+public class Vehicles {
 
-	@SerializedName("vehicle_no")
-	private String vehicleNo;
+    @SerializedName("vehicle_no")
+    private String vehicleNo;
 
-	@SerializedName("id")
-	private int id;
+    @SerializedName("id")
+    private int id;
 
-	@SerializedName("deleted_at")
-	private Object deletedAt;
+    @SerializedName("deleted_at")
+    private Object deletedAt;
 
-	@SerializedName("transporter_id")
-	private int transporterId;
+    @SerializedName("transporter_id")
+    private int transporterId;
 
-	public void setVehicleNo(String vehicleNo){
-		this.vehicleNo = vehicleNo;
-	}
+    public String getVehicleNo() {
+        return vehicleNo;
+    }
 
-	public String getVehicleNo(){
-		return vehicleNo;
-	}
+    public void setVehicleNo(String vehicleNo) {
+        this.vehicleNo = vehicleNo;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getId(){
-		return id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setDeletedAt(Object deletedAt){
-		this.deletedAt = deletedAt;
-	}
+    public Object getDeletedAt() {
+        return deletedAt;
+    }
 
-	public Object getDeletedAt(){
-		return deletedAt;
-	}
+    public void setDeletedAt(Object deletedAt) {
+        this.deletedAt = deletedAt;
+    }
 
-	public void setTransporterId(int transporterId){
-		this.transporterId = transporterId;
-	}
+    public int getTransporterId() {
+        return transporterId;
+    }
 
-	public int getTransporterId(){
-		return transporterId;
-	}
+    public void setTransporterId(int transporterId) {
+        this.transporterId = transporterId;
+    }
 }

@@ -24,6 +24,7 @@ import butterknife.OnClick;
 
 public class HistoryActivity extends AppCompatActivity {
 
+    public static CustomDialog customDialog;
     @BindView(R.id.back_img)
     ImageView backImg;
     @BindView(R.id.title)
@@ -33,7 +34,17 @@ public class HistoryActivity extends AppCompatActivity {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
-    public static CustomDialog customDialog;
+    public static void showDialog() {
+        if (customDialog != null && !customDialog.isShowing()) {
+            customDialog.setCancelable(false);
+            customDialog.show();
+        }
+    }
+
+    public static void dismissDialog() {
+        if (customDialog != null & customDialog.isShowing())
+            customDialog.dismiss();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +55,7 @@ public class HistoryActivity extends AppCompatActivity {
         title.setText(getResources().getString(R.string.history));
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new UpcomingVisitFragment(),getString(R.string.ongoing));
+        adapter.addFragment(new UpcomingVisitFragment(), getString(R.string.ongoing));
         adapter.addFragment(new PastVisitFragment(), getString(R.string.past));
         adapter.addFragment(new CancelOrderFragment(), getString(R.string.cancelled));
         viewPager.setAdapter(adapter);
@@ -64,7 +75,7 @@ public class HistoryActivity extends AppCompatActivity {
             for (int i = 0; i < tabChildsCount; i++) {
                 View tabViewChild = vgTab.getChildAt(i);
                 if (tabViewChild instanceof TextView) {
-                    Typeface custom_font = ResourcesCompat.getFont(getApplicationContext(),R.font.nunito_semi_bold);
+                    Typeface custom_font = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito_semi_bold);
                     ((TextView) tabViewChild).setTypeface(custom_font);
                 }
             }
@@ -74,17 +85,5 @@ public class HistoryActivity extends AppCompatActivity {
     @OnClick(R.id.back_img)
     public void onViewClicked() {
         finish();
-    }
-
-    public static void showDialog() {
-        if (customDialog != null && !customDialog.isShowing()) {
-            customDialog.setCancelable(false);
-            customDialog.show();
-        }
-    }
-
-    public static void dismissDialog(){
-        if(customDialog!=null & customDialog.isShowing())
-            customDialog.dismiss();
     }
 }

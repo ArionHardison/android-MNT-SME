@@ -2,7 +2,6 @@ package com.tomoeats.restaurant.countrypicker;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,6 +30,10 @@ public class CountryPicker extends DialogFragment {
     private List<Country> selectedCountriesList = new ArrayList<>();
     private CountryPickerListener listener;
 
+    public CountryPicker() {
+        setCountriesList(Country.getAllCountries());
+    }
+
     /**
      * To support show as dialog
      */
@@ -42,12 +45,8 @@ public class CountryPicker extends DialogFragment {
         return picker;
     }
 
-    public CountryPicker() {
-        setCountriesList(Country.getAllCountries());
-    }
-
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.country_picker, null);
         Bundle args = getArguments();
         if (args != null) {
@@ -73,7 +72,7 @@ public class CountryPicker extends DialogFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (listener != null) {
                     Country country = selectedCountriesList.get(position);
-                    listener.onSelectCountry(country.getName(), country.getCode(), country.getDialCode(),country.getFlag());
+                    listener.onSelectCountry(country.getName(), country.getCode(), country.getDialCode(), country.getFlag());
                 }
             }
         });

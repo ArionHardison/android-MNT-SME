@@ -69,16 +69,16 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.My
             }
 
             Address address = order.getAddress();
-            if(address!=null && address.getMapAddress()!=null){
+            if (address != null && address.getMapAddress() != null) {
                 holder.address.setText(address.getMapAddress());
             }
 
             Invoice invoice = order.getInvoice();
-            if(invoice!=null && invoice.getNet()!=0){
-                holder.totalAmt.setText(GlobalData.profile.getCurrency() +String.valueOf(invoice.getNet()));
+            if (invoice != null && invoice.getNet() != 0) {
+                holder.totalAmt.setText(GlobalData.profile.getCurrency() + String.valueOf(invoice.getNet()));
             }
 
-            if(order.getStatus()!=null){
+            if (order.getStatus() != null) {
                 holder.statusTxt.setText(order.getStatus());
             }
         }

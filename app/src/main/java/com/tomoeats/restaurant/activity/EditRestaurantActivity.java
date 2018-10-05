@@ -68,7 +68,7 @@ import retrofit2.Response;
 import static com.tomoeats.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 import static com.tomoeats.restaurant.utils.TextUtils.isValidEmail;
 
-public class EditRestaurantActivity extends AppCompatActivity implements ProfileListener{
+public class EditRestaurantActivity extends AppCompatActivity implements ProfileListener {
 
     @BindView(R.id.back_img)
     ImageView backImg;
@@ -131,31 +131,25 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     @BindView(R.id.lnrPassword)
     LinearLayout lnrPassword;
 
-
-
     ConnectionHelper connectionHelper;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
-    String name, email, password, mobile, confirmPassword, address, landmark,offer_min_amount,offer_percentage,delivery_time,description;
+    String name, email, password, mobile, confirmPassword, address, landmark, offer_min_amount, offer_percentage, delivery_time, description;
     String TAG = EditRestaurantActivity.this.getClass().getName();
 
     LatLng location;
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     int CUISINE_REQUEST_CODE = 2;
-
-    private CountryPicker mCountryPicker;
-    private int id;
-
     CustomDialog customDialog;
     double latitude;
     double longitude;
     String country_code;
-
-    int SHOP_IMAGE=0;
-    int SHOP_BANNER=1;
-
+    int SHOP_IMAGE = 0;
+    int SHOP_BANNER = 1;
     int CT_TYPE = SHOP_IMAGE;
+    private CountryPicker mCountryPicker;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,8 +193,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         etOfferInPercentage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if(etOfferInPercentage.getText().toString().trim().equalsIgnoreCase("")){
+                if (!hasFocus) {
+                    if (etOfferInPercentage.getText().toString().trim().equalsIgnoreCase("")) {
                         etOfferInPercentage.setText("0");
                     }
                 }
@@ -208,19 +202,16 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         });
 
 
-        etDescription.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (v.getId() == R.id.etDescription) {
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                        case MotionEvent.ACTION_UP:
-                            v.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                    }
+        etDescription.setOnTouchListener((v, event) -> {
+            if (v.getId() == R.id.etDescription) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_UP:
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
                 }
-                return false;
             }
+            return false;
         });
 
     }
@@ -241,15 +232,15 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
 
     private void callProfile() {
-        if(connectionHelper.isConnectingToInternet()){
+        if (connectionHelper.isConnectingToInternet()) {
             customDialog.show();
             new GetProfile(apiInterface, EditRestaurantActivity.this);
-        }else{
+        } else {
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.oops_no_internet));
         }
     }
 
-    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img,  R.id.address_lay, R.id.save_btn,R.id.llStatusPicker,R.id.cuisine,R.id.shop_banner})
+    @OnClick({R.id.back_img, R.id.country_picker_lay, R.id.shop_img, R.id.address_lay, R.id.save_btn, R.id.llStatusPicker, R.id.cuisine, R.id.shop_banner})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -292,12 +283,11 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
     public void bindCuisine() {
         StringBuilder cuisneStr = new StringBuilder();
-        for (int i=0;i<CuisineSelectFragment.CUISINES.size();i++){
-            if(i==0)
+        for (int i = 0; i < CuisineSelectFragment.CUISINES.size(); i++)
+            if (i == 0)
                 cuisneStr.append(CuisineSelectFragment.CUISINES.get(i).getName());
             else
                 cuisneStr.append(",").append(CuisineSelectFragment.CUISINES.get(i).getName());
-        }
 
         cuisine.setText(cuisneStr.toString());
     }
@@ -318,7 +308,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         country_code = txtCountryNumber.getText().toString().trim();
 
         //Setting default values
-        if (offer_percentage==null || offer_percentage.isEmpty() || offer_percentage.equalsIgnoreCase("null")){
+        if (offer_percentage == null || offer_percentage.isEmpty() || offer_percentage.equalsIgnoreCase("null")) {
             offer_percentage = "0";
         }
 
@@ -333,11 +323,11 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.invalid_cuisine));
         else if (mobile.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_phone_number));
-        else if(offer_min_amount.isEmpty())
+        else if (offer_min_amount.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_amount));
-        else if(delivery_time.isEmpty())
+        else if (delivery_time.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_delievery_time));
-        else if(description.isEmpty())
+        else if (description.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.please_enter_description));
         else if (address.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_fill_your_address));
@@ -366,7 +356,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 if (location != null) {
                     map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
                     map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
-                }else{
+                } else {
                     map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latitude)));
                     map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longitude)));
                 }
@@ -378,7 +368,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 }
 
                 MultipartBody.Part filePart1 = null;
-                if (GlobalData.REGISTER_AVATAR != null){
+                if (GlobalData.REGISTER_AVATAR != null) {
                     try {
                         GlobalData.REGISTER_AVATAR = new Compressor(this).compressToFile(GlobalData.REGISTER_AVATAR);
                     } catch (IOException e) {
@@ -388,7 +378,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 }
 
                 MultipartBody.Part filePart2 = null;
-                if (GlobalData.REGISTER_SHOP_BANNER != null){
+                if (GlobalData.REGISTER_SHOP_BANNER != null) {
                     try {
                         GlobalData.REGISTER_SHOP_BANNER = new Compressor(this).compressToFile(GlobalData.REGISTER_SHOP_BANNER);
                     } catch (IOException e) {
@@ -397,39 +387,39 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                     filePart2 = MultipartBody.Part.createFormData("default_banner", GlobalData.REGISTER_SHOP_BANNER.getName(), RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_SHOP_BANNER));
                 }
 
-                updateProfile(map,filePart1,filePart2);
+                updateProfile(map, filePart1, filePart2);
 
-            }else{
+            } else {
                 Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.oops_no_internet));
             }
         }
 
     }
 
-    private void updateProfile(HashMap<String, RequestBody> map,MultipartBody.Part filePart1,MultipartBody.Part filePart2) {
-        if(customDialog!=null && !isDestroyed())
-        customDialog.show();
+    private void updateProfile(HashMap<String, RequestBody> map, MultipartBody.Part filePart1, MultipartBody.Part filePart2) {
+        if (customDialog != null && !isDestroyed())
+            customDialog.show();
         Call<Profile> call = null;
-        if(filePart1==null && filePart2==null)
-            call = apiInterface.updateProfile(id,map);
+        if (filePart1 == null && filePart2 == null)
+            call = apiInterface.updateProfile(id, map);
         else
-            call = apiInterface.updateProfileWithFile(id,map,filePart1,filePart2);
+            call = apiInterface.updateProfileWithFile(id, map, filePart1, filePart2);
 
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 customDialog.dismiss();
-                if(response.body()!=null){
-                    Utils.displayMessage(EditRestaurantActivity.this,getString(R.string.restaurant_updated_successfully));
+                if (response.body() != null) {
+                    Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.restaurant_updated_successfully));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             onBackPressed();
                         }
-                    },1000);
+                    }, 1000);
 
-                }else{
-                    Utils.displayMessage(EditRestaurantActivity.this,getString(R.string.something_went_wrong));
+                } else {
+                    Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.something_went_wrong));
                 }
             }
 
@@ -445,14 +435,14 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     @Override
     public void onSuccess(Profile profile) {
         customDialog.dismiss();
-        id =profile.getId();
+        id = profile.getId();
         etName.setText(profile.getName());
         etEmail.setText(profile.getEmail());
 
         latitude = profile.getLatitude();
         longitude = profile.getLongitude();
 
-        CuisineSelectFragment.CUISINES=profile.getCuisines();
+        CuisineSelectFragment.CUISINES = profile.getCuisines();
         String strCusine = "";
         for (int i = 0; i < profile.getCuisines().size(); i++) {
             if (i == 0)
@@ -464,30 +454,30 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         etMobile.setText(profile.getPhone());
         String status = profile.getStatus();
 
-        if (profile.getAvatar()!=null)
-        Glide.with(EditRestaurantActivity.this).load(profile.getAvatar())
-                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
+        if (profile.getAvatar() != null)
+            Glide.with(EditRestaurantActivity.this).load(profile.getAvatar())
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
 
-        if (profile.getDefaultBanner()!=null)
+        if (profile.getDefaultBanner() != null)
             Glide.with(EditRestaurantActivity.this).load(profile.getDefaultBanner())
                     .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shop_banner);
 
-        tvMinAmount.setText(""+profile.getOfferMinAmount());
-        etOfferInPercentage.setText(""+profile.getOfferPercent());
-        etMaximumDeliveryTime.setText(""+profile.getEstimatedDeliveryTime());
+        tvMinAmount.setText("" + profile.getOfferMinAmount());
+        etOfferInPercentage.setText("" + profile.getOfferPercent());
+        etMaximumDeliveryTime.setText("" + profile.getEstimatedDeliveryTime());
         etDescription.setText(profile.getDescription());
         txtAddress.setText(profile.getMapsAddress());
         etLandmark.setText(profile.getAddress());
 
-        if(profile.getPureVeg()==1){
+        if (profile.getPureVeg() == 1) {
             radioYes.setChecked(true);
             radioNo.setChecked(false);
-        }else{
+        } else {
             radioYes.setChecked(false);
             radioNo.setChecked(true);
         }
 
-        if (profile.getCountry_code()!=null && !profile.getCountry_code().equals("null")){
+        if (profile.getCountry_code() != null && !profile.getCountry_code().equals("null")) {
             Country country = new Country();
             country = country.getCountryByDialCode(profile.getCountry_code());
             txtCountryNumber.setText(country.getDialCode());
@@ -553,26 +543,27 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             }
 
             @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                if(type == SHOP_IMAGE){
-                    GlobalData.REGISTER_AVATAR = imageFile;
+            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                if (type == SHOP_IMAGE) {
+                    GlobalData.REGISTER_AVATAR = imageFiles.get(0);
                     Glide.with(EditRestaurantActivity.this)
-                            .load(imageFile)
+                            .load(imageFiles.get(0))
                             .apply(new RequestOptions()
                                     .placeholder(R.drawable.ic_place_holder_image)
                                     .error(R.drawable.ic_place_holder_image).dontAnimate())
                             .into(shopImg);
-                }else  if(type == SHOP_BANNER){
-                    GlobalData.REGISTER_SHOP_BANNER = imageFile;
+                } else if (type == SHOP_BANNER) {
+                    GlobalData.REGISTER_SHOP_BANNER = imageFiles.get(0);
                     Glide
                             .with(EditRestaurantActivity.this)
-                            .load(imageFile)
+                            .load(imageFiles.get(0))
                             .apply(new RequestOptions()
                                     .placeholder(R.drawable.ic_place_holder_image)
                                     .error(R.drawable.ic_place_holder_image).dontAnimate())
                             .into(shop_banner);
                 }
             }
+
 
             @Override
             public void onCanceled(EasyImage.ImageSource source, int type) {

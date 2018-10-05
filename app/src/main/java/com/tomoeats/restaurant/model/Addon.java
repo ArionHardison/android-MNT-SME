@@ -10,8 +10,20 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Addon implements Parcelable{
+public class Addon implements Parcelable {
 
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Addon> CREATOR = new Parcelable.Creator<Addon>() {
+        @Override
+        public Addon createFromParcel(Parcel in) {
+            return new Addon(in);
+        }
+
+        @Override
+        public Addon[] newArray(int size) {
+            return new Addon[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -24,10 +36,21 @@ public class Addon implements Parcelable{
     @SerializedName("deleted_at")
     @Expose
     private Object deletedAt;
-
     @SerializedName("addon")
     @Expose
     private Addon addon;
+    private String price = "";
+    private boolean isChecked;
+
+    protected Addon(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        name = in.readString();
+        shopId = in.readByte() == 0x00 ? null : in.readInt();
+        deletedAt = (Object) in.readValue(Object.class.getClassLoader());
+        price = in.readString();
+        isChecked = in.readByte() != 0x00;
+        addon = (Addon) in.readValue(Addon.class.getClassLoader());
+    }
 
     public Addon getAddon() {
         return addon;
@@ -36,10 +59,6 @@ public class Addon implements Parcelable{
     public void setAddon(Addon addon) {
         this.addon = addon;
     }
-
-    private String price="";
-
-    private boolean isChecked;
 
     public boolean isChecked() {
         return isChecked;
@@ -50,8 +69,8 @@ public class Addon implements Parcelable{
     }
 
     public String getPrice() {
-        if (price==null)
-            price ="";
+        if (price == null)
+            price = "";
         return price;
     }
 
@@ -91,17 +110,6 @@ public class Addon implements Parcelable{
         this.deletedAt = deletedAt;
     }
 
-
-    protected Addon(Parcel in) {
-        id = in.readByte() == 0x00 ? null : in.readInt();
-        name = in.readString();
-        shopId = in.readByte() == 0x00 ? null : in.readInt();
-        deletedAt = (Object) in.readValue(Object.class.getClassLoader());
-        price = in.readString();
-        isChecked = in.readByte() != 0x00;
-        addon = (Addon) in.readValue(Addon.class.getClassLoader());
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -127,18 +135,5 @@ public class Addon implements Parcelable{
         dest.writeByte((byte) (isChecked ? 0x01 : 0x00));
         dest.writeValue(addon);
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Addon> CREATOR = new Parcelable.Creator<Addon>() {
-        @Override
-        public Addon createFromParcel(Parcel in) {
-            return new Addon(in);
-        }
-
-        @Override
-        public Addon[] newArray(int size) {
-            return new Addon[size];
-        }
-    };
 
 }

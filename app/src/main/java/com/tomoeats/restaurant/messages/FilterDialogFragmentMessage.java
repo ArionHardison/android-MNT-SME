@@ -58,16 +58,16 @@ public class FilterDialogFragmentMessage {
         this.toDate = toDate;
     }
 
-    public boolean isEmpty(){
-        return (delieveryPersonId==0 && fromDate.isEmpty()&& toDate.isEmpty());
+    public boolean isEmpty() {
+        return (delieveryPersonId == 0 && fromDate.isEmpty() && toDate.isEmpty());
     }
 
-    public void clear(){
-        delieveryPersonId=0;
-        fromDate="";
-        toDate="";
-        selectePos=0;
+    public void clear() {
+        delieveryPersonId = 0;
+        fromDate = "";
+        toDate = "";
+        selectePos = 0;
         formattedFromDate = "";
-        formattedToDate="";
+        formattedToDate = "";
     }
 }

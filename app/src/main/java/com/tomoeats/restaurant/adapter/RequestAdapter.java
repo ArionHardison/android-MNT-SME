@@ -16,9 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.RequestAcceptActivity;
-import com.tomoeats.restaurant.config.AppConfigure;
 import com.tomoeats.restaurant.helper.GlobalData;
-import com.tomoeats.restaurant.model.House;
 import com.tomoeats.restaurant.model.Order;
 import com.tomoeats.restaurant.utils.Utils;
 
@@ -26,9 +24,9 @@ import java.text.ParseException;
 import java.util.List;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHolder> {
-    private List<Order> list;
     Context context;
     Activity activity;
+    private List<Order> list;
 
     public RequestAdapter(List<Order> list, Context con) {
         this.list = list;
@@ -59,8 +57,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         String status = "Dispute Created";
         holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
 
-        if(order.getStatus().equals("ORDERED")&&order.getDispute().equals("NODISPUTE")){
-            status ="Incoming";
+        if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
+            status = "Incoming";
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
         }
         holder.status.setText(status);
@@ -73,7 +71,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GlobalData.selectedOrder=list.get(position);
+                GlobalData.selectedOrder = list.get(position);
                 context.startActivity(new Intent(context, RequestAcceptActivity.class));
             }
         });
@@ -105,7 +103,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, orderTime,status;
+        TextView userName, address, paymentMode, orderTime, status;
         CardView itemLayout;
         ImageView userImg;
 

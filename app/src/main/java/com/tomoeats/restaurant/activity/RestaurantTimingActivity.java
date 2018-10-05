@@ -16,8 +16,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.config.AppConfigure;
 import com.tomoeats.restaurant.controller.GetProfile;
@@ -35,8 +36,6 @@ import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONObject;
 
@@ -56,7 +55,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RestaurantTimingActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener,ProfileListener {
+public class RestaurantTimingActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, ProfileListener {
 
     @BindView(R.id.txt_open_time)
     TextView txtOpenTime;
@@ -146,7 +145,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
-    String strFrom="Register";
+    String strFrom = "Register";
     ConnectionHelper connectionHelper;
 
     @Override
@@ -159,7 +158,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
     private void initViews() {
         Bundle bundle = getIntent().getExtras();
-        if(bundle!=null && bundle.containsKey("from")){
+        if (bundle != null && bundle.containsKey("from")) {
             strFrom = bundle.getString("from");
         }
         customDialog = new CustomDialog(this);
@@ -192,7 +191,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
         sundayCheck.setOnCheckedChangeListener(this);
 
         //If this screen called from setting fragment we are reusing this screen to update timing in profile api
-        if(!strFrom.equalsIgnoreCase("Register")){
+        if (!strFrom.equalsIgnoreCase("Register")) {
             //dont't make it gone since it will hide the entire layout in screen
             LLBottomLay.setVisibility(View.INVISIBLE);
             confirmBtn.setText(R.string.action_save);
@@ -203,7 +202,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
             backImg.setVisibility(View.VISIBLE);
 
             callProfile();
-        }else{
+        } else {
             llToolbar.setVisibility(View.GONE);
             llLogoSection.setVisibility(View.VISIBLE);
             LLBottomLay.setVisibility(View.VISIBLE);
@@ -215,10 +214,10 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
 
     private void callProfile() {
-        if(connectionHelper.isConnectingToInternet()){
+        if (connectionHelper.isConnectingToInternet()) {
             customDialog.show();
             new GetProfile(apiInterface, this);
-        }else{
+        } else {
             Utils.displayMessage(this, getResources().getString(R.string.oops_no_internet));
         }
     }
@@ -311,7 +310,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
         customDialog.show();
         MultipartBody.Part filePart1 = null;
-        if (GlobalData.REGISTER_AVATAR != null){
+        if (GlobalData.REGISTER_AVATAR != null) {
             try {
                 GlobalData.REGISTER_AVATAR = new Compressor(this).compressToFile(GlobalData.REGISTER_AVATAR);
             } catch (IOException e) {
@@ -323,7 +322,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
 
         MultipartBody.Part filePart2 = null;
-        if (GlobalData.REGISTER_SHOP_BANNER != null){
+        if (GlobalData.REGISTER_SHOP_BANNER != null) {
             try {
                 GlobalData.REGISTER_SHOP_BANNER = new Compressor(this).compressToFile(GlobalData.REGISTER_SHOP_BANNER);
             } catch (IOException e) {
@@ -333,7 +332,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
                     RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_SHOP_BANNER));
         }
 
-        Call<Profile> call = apiInterface.signUp(map, filePart1,filePart2);
+        Call<Profile> call = apiInterface.signUp(map, filePart1, filePart2);
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
@@ -365,7 +364,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     }
 
 
-    private void callLogin(){
+    private void callLogin() {
         HashMap<String, String> map = new HashMap<>();
         map.put("username", GlobalData.email);
         map.put("password", GlobalData.password);
@@ -377,7 +376,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     }
 
     private void login(HashMap<String, String> map) {
-       // customDialog.show();
+        // customDialog.show();
         Call<AuthToken> call = apiInterface.login(map);
         call.enqueue(new Callback<AuthToken>() {
             @Override
@@ -411,14 +410,14 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
     @OnClick({R.id.confirm_btn})
     public void onViewClicked() {
-        if(connectionHelper.isConnectingToInternet()){
-            if(!strFrom.equalsIgnoreCase("Register")){
+        if (connectionHelper.isConnectingToInternet()) {
+            if (!strFrom.equalsIgnoreCase("Register")) {
                 updateProfile();
-            }else{
+            } else {
                 signUp();
             }
-        }else{
-            Utils.displayMessage(RestaurantTimingActivity.this,getString(R.string.oops_no_internet));
+        } else {
+            Utils.displayMessage(RestaurantTimingActivity.this, getString(R.string.oops_no_internet));
         }
     }
 
@@ -482,24 +481,24 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
     private void updateProfile(HashMap<String, RequestBody> map) {
         customDialog.show();
-        int id =  Integer.parseInt(SharedHelper.getKey(RestaurantTimingActivity.this, Constants.PREF.PROFILE_ID));
+        int id = Integer.parseInt(SharedHelper.getKey(RestaurantTimingActivity.this, Constants.PREF.PROFILE_ID));
         Call<Profile> call = null;
-        call = apiInterface.updateProfile(id,map);
+        call = apiInterface.updateProfile(id, map);
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 customDialog.dismiss();
-                if(response.body()!=null){
-                    Utils.displayMessage(RestaurantTimingActivity.this,getString(R.string.restaurant_timing_updated_successfully));
+                if (response.body() != null) {
+                    Utils.displayMessage(RestaurantTimingActivity.this, getString(R.string.restaurant_timing_updated_successfully));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             onBackPressed();
                         }
-                    },1000);
+                    }, 1000);
 
-                }else{
-                    Utils.displayMessage(RestaurantTimingActivity.this,getString(R.string.something_went_wrong));
+                } else {
+                    Utils.displayMessage(RestaurantTimingActivity.this, getString(R.string.something_went_wrong));
                 }
             }
 
@@ -520,7 +519,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
         TimePickerDialog mTimePicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                view.setText(MessageFormat.format("{0}:{1}", String.format("%02d",selectedHour), String.format("%02d",selectedMinute)));
+                view.setText(MessageFormat.format("{0}:{1}", String.format("%02d", selectedHour), String.format("%02d", selectedMinute)));
             }
         }, hour, minute, true);
         mTimePicker.show();
@@ -529,7 +528,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     @OnClick({R.id.txt_open_time, R.id.txt_close_time, R.id.mon_txt_open_time, R.id.mon_txt_close_time,
             R.id.tue_txt_open_time, R.id.tue_txt_close_time, R.id.wed_txt_open_time, R.id.wed_txt_close_time,
             R.id.thur_txt_open_time, R.id.thur_txt_close_time, R.id.frid_txt_open_time, R.id.frid_txt_close_time,
-            R.id.sat_txt_open_time, R.id.sat_txt_close_time, R.id.sun_txt_open_time, R.id.sun_txt_close_time,R.id.back_img})
+            R.id.sat_txt_open_time, R.id.sat_txt_close_time, R.id.sun_txt_open_time, R.id.sun_txt_close_time, R.id.back_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_open_time:
@@ -589,28 +588,28 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     @Override
     public void onSuccess(Profile profile) {
         customDialog.dismiss();
-        if(strFrom.equalsIgnoreCase("Register")){
+        if (strFrom.equalsIgnoreCase("Register")) {
             SharedHelper.putKey(RestaurantTimingActivity.this, "logged", "true");
             GlobalData.profile = profile;
             startActivity(new Intent(RestaurantTimingActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             finish();
-        }else{
-            List<Timing> timingList= profile.getTimings();
+        } else {
+            List<Timing> timingList = profile.getTimings();
             updateUI(timingList);
         }
 
     }
 
     private void updateUI(List<Timing> timingList) {
-        if(timingList.size()==1 && timingList.get(0).getDay().equalsIgnoreCase("ALL")){
+        if (timingList.size() == 1 && timingList.get(0).getDay().equalsIgnoreCase("ALL")) {
             everyDaySwitch.setChecked(true);
             txtOpenTime.setText(timingList.get(0).getStartTime());
             txtCloseTime.setText(timingList.get(0).getEndTime());
-        }else{
+        } else {
             everyDaySwitch.setChecked(false);
-            for (int i = 0; i <timingList.size() ; i++) {
+            for (int i = 0; i < timingList.size(); i++) {
                 Timing timing = timingList.get(i);
-                switch (timingList.get(i).getDay()){
+                switch (timingList.get(i).getDay()) {
                     case "MON":
                         mondayCheck.setChecked(true);
                         monTxtOpenTime.setText(timing.getStartTime());

@@ -42,7 +42,7 @@ public class OtpActivity extends AppCompatActivity {
     @BindView(R.id.tvEmail)
     TextView tvEmail;
 
-    String strEmail,strOtpValue;
+    String strEmail, strOtpValue;
 
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
@@ -61,28 +61,27 @@ public class OtpActivity extends AppCompatActivity {
 
     private void setUp() {
         connectionHelper = new ConnectionHelper(this);
-        customDialog= new CustomDialog(this);
+        customDialog = new CustomDialog(this);
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
+        if (bundle != null) {
             strEmail = bundle.getString("email");
             tvEmail.setText(strEmail);
         }
     }
 
 
-
     @OnClick({R.id.otp_continue})
-    public void Submit(View view){
-        switch (view.getId()){
+    public void Submit(View view) {
+        switch (view.getId()) {
             case R.id.otp_continue:
-                if(validateInput()){
-                    if (connectionHelper.isConnectingToInternet()){
-                        HashMap<String,String> params = new HashMap<>();
-                        params.put("email",strEmail);
-                        params.put("otp",strOtpValue);
+                if (validateInput()) {
+                    if (connectionHelper.isConnectingToInternet()) {
+                        HashMap<String, String> params = new HashMap<>();
+                        params.put("email", strEmail);
+                        params.put("otp", strOtpValue);
                         verifyOTP(params);
-                    }else{
+                    } else {
                         Utils.displayMessage(this, getString(R.string.oops_no_internet));
                     }
 
@@ -99,16 +98,16 @@ public class OtpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
                 customDialog.dismiss();
-                if (response.isSuccessful()){
-                    String user_id = response.body().getUser().getId()+"";
-                    Utils.displayMessage(OtpActivity.this,response.body().getMessage());
+                if (response.isSuccessful()) {
+                    String user_id = response.body().getUser().getId() + "";
+                    Utils.displayMessage(OtpActivity.this, response.body().getMessage());
                     new Handler(getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             redirectToResetPassword(user_id);
                         }
-                    },1000);
-                }else{
+                    }, 1000);
+                } else {
                     try {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(OtpActivity.this, serverError.getError());
@@ -129,16 +128,16 @@ public class OtpActivity extends AppCompatActivity {
     }
 
     private void redirectToResetPassword(String user_id) {
-        Intent intent = new Intent(this,ResetPasswordActivity.class);
-        intent.putExtra("id",user_id);
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        intent.putExtra("id", user_id);
         startActivity(intent);
     }
 
 
-    private boolean validateInput(){
+    private boolean validateInput() {
         strOtpValue = otpValue.getText().toString().trim();
-        if (strOtpValue.isEmpty()){
-            Utils.displayMessage(this,getString(R.string.please_enter_otp));
+        if (strOtpValue.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.please_enter_otp));
             return false;
         }
         return true;

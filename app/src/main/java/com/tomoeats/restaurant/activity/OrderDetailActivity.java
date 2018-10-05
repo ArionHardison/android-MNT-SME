@@ -133,16 +133,16 @@ public class OrderDetailActivity extends AppCompatActivity {
             return;
         }
 
-        title.setText("#"+order.getId());
+        title.setText("#" + order.getId());
 
-        String name =  order.getUser().getName();
-        String payment_mode =  order.getInvoice().getPaymentMode();
+        String name = order.getUser().getName();
+        String payment_mode = order.getInvoice().getPaymentMode();
 
         //No minimum character limit in register screen.
-        if(name.length()>1)
-        name =  name.substring(0,1).toUpperCase()+name.substring(1);
+        if (name.length() > 1)
+            name = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-        payment_mode=payment_mode.substring(0,1).toUpperCase()+payment_mode.substring(1);
+        payment_mode = payment_mode.substring(0, 1).toUpperCase() + payment_mode.substring(1);
 
         userName.setText(name);
         address.setText(order.getAddress().getMapAddress());
@@ -161,13 +161,13 @@ public class OrderDetailActivity extends AppCompatActivity {
       /*  Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST())/100);
         Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST())/100);*/
 
-        Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST()+"")/100);
-        Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST()+"")/100);
+        Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST() + "") / 100);
+        Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST() + "") / 100);
 
         double gross_amount = order.getInvoice().getGross() - order.getInvoice().getDiscount();
 
-        double cgst = (gross_amount *(cgst_percentage_multiplayer));
-        double sgst = (gross_amount *(sgst_percentage_multiplayer));
+        double cgst = (gross_amount * (cgst_percentage_multiplayer));
+        double sgst = (gross_amount * (sgst_percentage_multiplayer));
 
 
         subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
@@ -186,10 +186,10 @@ public class OrderDetailActivity extends AppCompatActivity {
             disputeBtn.setVisibility(View.VISIBLE);
             buttonLay.setVisibility(View.GONE);
         }*/
-        if(connectionHelper.isConnectingToInternet())
-        getParticularOrders(order.getId());
+        if (connectionHelper.isConnectingToInternet())
+            getParticularOrders(order.getId());
         else
-            Utils.displayMessage(this,getString(R.string.oops_no_internet));
+            Utils.displayMessage(this, getString(R.string.oops_no_internet));
     }
 
     private void setOrderFlowAdapter() {
@@ -220,10 +220,10 @@ public class OrderDetailActivity extends AppCompatActivity {
                 break;
             case R.id.call_img:
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + order.getUser().getPhone()));
-                if(dialIntent.resolveActivity(getPackageManager())!=null)
-                startActivity(dialIntent);
+                if (dialIntent.resolveActivity(getPackageManager()) != null)
+                    startActivity(dialIntent);
                 else
-                    Utils.displayMessage(this,"Call feature not supported");
+                    Utils.displayMessage(this, "Call feature not supported");
                 break;
             case R.id.cancel_btn:
                 AlertDialog.Builder cancelAlert = new AlertDialog.Builder(this);
@@ -305,7 +305,6 @@ public class OrderDetailActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void updateOrderStatus(HashMap<String, String> map) {

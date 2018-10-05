@@ -6,12 +6,23 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category implements Parcelable{
+public class Category implements Parcelable {
 
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
+        @Override
+        public Category createFromParcel(Parcel in) {
+            return new Category(in);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -40,6 +51,27 @@ public class Category implements Parcelable{
     @Expose
     private List<Product> products;
 
+    protected Category(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        parentId = in.readByte() == 0x00 ? null : in.readInt();
+        shopId = in.readByte() == 0x00 ? null : in.readInt();
+        name = in.readString();
+        description = in.readString();
+        position = in.readByte() == 0x00 ? null : in.readInt();
+        status = in.readString();
+        if (in.readByte() == 0x01) {
+            images = new ArrayList<Image>();
+            in.readList(images, Image.class.getClassLoader());
+        } else {
+            images = null;
+        }
+        if (in.readByte() == 0x01) {
+            products = new ArrayList<Product>();
+            in.readList(products, Product.class.getClassLoader());
+        } else {
+            products = null;
+        }
+    }
 
     public Integer getId() {
         return id;
@@ -113,29 +145,6 @@ public class Category implements Parcelable{
         this.products = products;
     }
 
-
-    protected Category(Parcel in) {
-        id = in.readByte() == 0x00 ? null : in.readInt();
-        parentId = in.readByte() == 0x00 ? null : in.readInt();
-        shopId = in.readByte() == 0x00 ? null : in.readInt();
-        name = in.readString();
-        description = in.readString();
-        position = in.readByte() == 0x00 ? null : in.readInt();
-        status = in.readString();
-        if (in.readByte() == 0x01) {
-            images = new ArrayList<Image>();
-            in.readList(images, Image.class.getClassLoader());
-        } else {
-            images = null;
-        }
-        if (in.readByte() == 0x01) {
-            products = new ArrayList<Product>();
-            in.readList(products, Product.class.getClassLoader());
-        } else {
-            products = null;
-        }
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -183,17 +192,4 @@ public class Category implements Parcelable{
             dest.writeList(products);
         }
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
-        @Override
-        public Category createFromParcel(Parcel in) {
-            return new Category(in);
-        }
-
-        @Override
-        public Category[] newArray(int size) {
-            return new Category[size];
-        }
-    };
 }

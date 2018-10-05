@@ -7,134 +7,126 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 
-public class CategoriesItem implements Parcelable{
+public class CategoriesItem implements Parcelable {
 
-	@SerializedName("shop_id")
-	private int shopId;
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<CategoriesItem> CREATOR = new Parcelable.Creator<CategoriesItem>() {
+        @Override
+        public CategoriesItem createFromParcel(Parcel in) {
+            return new CategoriesItem(in);
+        }
 
-	@SerializedName("parent_id")
-	private int parentId;
+        @Override
+        public CategoriesItem[] newArray(int size) {
+            return new CategoriesItem[size];
+        }
+    };
+    @SerializedName("shop_id")
+    private int shopId;
+    @SerializedName("parent_id")
+    private int parentId;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("description")
+    private String description;
+    @SerializedName("pivot")
+    private Pivot pivot;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("position")
+    private String position;
+    @SerializedName("status")
+    private String status;
 
-	@SerializedName("name")
-	private String name;
+    protected CategoriesItem(Parcel in) {
+        shopId = in.readInt();
+        parentId = in.readInt();
+        name = in.readString();
+        description = in.readString();
+        pivot = (Pivot) in.readValue(Pivot.class.getClassLoader());
+        id = in.readInt();
+        position = in.readString();
+        status = in.readString();
+    }
 
-	@SerializedName("description")
-	private String description;
+    public int getShopId() {
+        return shopId;
+    }
 
-	@SerializedName("pivot")
-	private Pivot pivot;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
 
-	@SerializedName("id")
-	private int id;
+    public int getParentId() {
+        return parentId;
+    }
 
-	@SerializedName("position")
-	private String position;
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
 
-	@SerializedName("status")
-	private String status;
+    public String getName() {
+        return name;
+    }
 
-	public void setShopId(int shopId){
-		this.shopId = shopId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getShopId(){
-		return shopId;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setParentId(int parentId){
-		this.parentId = parentId;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public int getParentId(){
-		return parentId;
-	}
+    public Pivot getPivot() {
+        return pivot;
+    }
 
-	public void setName(String name){
-		this.name = name;
-	}
+    public void setPivot(Pivot pivot) {
+        this.pivot = pivot;
+    }
 
-	public String getName(){
-		return name;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setDescription(String description){
-		this.description = description;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getDescription(){
-		return description;
-	}
+    public String getPosition() {
+        return position;
+    }
 
-	public void setPivot(Pivot pivot){
-		this.pivot = pivot;
-	}
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
-	public Pivot getPivot(){
-		return pivot;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public int getId(){
-		return id;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	public void setPosition(String position){
-		this.position = position;
-	}
-
-	public String getPosition(){
-		return position;
-	}
-
-	public void setStatus(String status){
-		this.status = status;
-	}
-
-	public String getStatus(){
-		return status;
-	}
-
-	protected CategoriesItem(Parcel in) {
-		shopId = in.readInt();
-		parentId = in.readInt();
-		name = in.readString();
-		description = in.readString();
-		pivot = (Pivot) in.readValue(Pivot.class.getClassLoader());
-		id = in.readInt();
-		position = in.readString();
-		status = in.readString();
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(shopId);
-		dest.writeInt(parentId);
-		dest.writeString(name);
-		dest.writeString(description);
-		dest.writeValue(pivot);
-		dest.writeInt(id);
-		dest.writeString(position);
-		dest.writeString(status);
-	}
-
-	@SuppressWarnings("unused")
-	public static final Parcelable.Creator<CategoriesItem> CREATOR = new Parcelable.Creator<CategoriesItem>() {
-		@Override
-		public CategoriesItem createFromParcel(Parcel in) {
-			return new CategoriesItem(in);
-		}
-
-		@Override
-		public CategoriesItem[] newArray(int size) {
-			return new CategoriesItem[size];
-		}
-	};
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(shopId);
+        dest.writeInt(parentId);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeValue(pivot);
+        dest.writeInt(id);
+        dest.writeString(position);
+        dest.writeString(status);
+    }
 }

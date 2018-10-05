@@ -11,20 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
 import com.tomoeats.restaurant.adapter.HistoryAdapter;
-import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.IncomingOrders;
 import com.tomoeats.restaurant.model.Order;
 import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +47,8 @@ public class UpcomingVisitFragment extends Fragment {
     Activity activity;
 
     HistoryAdapter historyAdapter;
-    private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-
     List<Order> orderList = new ArrayList<>();
+    private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     public UpcomingVisitFragment() {
         // Required empty public constructor

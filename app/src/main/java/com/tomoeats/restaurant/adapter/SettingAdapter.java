@@ -22,7 +22,6 @@ import com.tomoeats.restaurant.activity.DeliveriesActivity;
 import com.tomoeats.restaurant.activity.EditRestaurantActivity;
 import com.tomoeats.restaurant.activity.HistoryActivity;
 import com.tomoeats.restaurant.activity.LoginActivity;
-import com.tomoeats.restaurant.activity.ProductsActivity;
 import com.tomoeats.restaurant.activity.RestaurantTimingActivity;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
@@ -37,20 +36,18 @@ import com.tomoeats.restaurant.utils.Utils;
 
 import java.util.List;
 
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHolder> {
-    private List<Setting> list;
-    private Context context;
-    private Activity activity;
-
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     CustomDialog customDialog;
     ConnectionHelper connectionHelper;
+    private List<Setting> list;
+    private Context context;
+    private Activity activity;
 
 
     public SettingAdapter(List<Setting> list, Context con, Activity activity) {
@@ -101,7 +98,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             context.startActivity(new Intent(context, ChangePasswordActivity.class));
         } else if (title.equalsIgnoreCase(context.getString(R.string.logout))) {
             showLogoutAlertDialog();
-        }else if (title.equalsIgnoreCase(context.getString(R.string.delete_account))){
+        } else if (title.equalsIgnoreCase(context.getString(R.string.delete_account))) {
             showDeleteAccountAlertDialog();
         }
     }
@@ -129,15 +126,15 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
 
     private void logOut() {
         customDialog.show();
-       // String shop_id = SharedHelper.getKey(context, Constants.PREF.PROFILE_ID);
-        Call<ResponseBody>call = apiInterface.logOut();
+        // String shop_id = SharedHelper.getKey(context, Constants.PREF.PROFILE_ID);
+        Call<ResponseBody> call = apiInterface.logOut();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 customDialog.dismiss();
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     clearAndExit();
-                }else{
+                } else {
                     Gson gson = new Gson();
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
@@ -165,10 +162,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                if (connectionHelper.isConnectingToInternet()){
+                if (connectionHelper.isConnectingToInternet()) {
                     deleteAccount();
-                }else{
-                    Utils.displayMessage(activity,context.getString(R.string.oops_no_internet));
+                } else {
+                    Utils.displayMessage(activity, context.getString(R.string.oops_no_internet));
                 }
 
 
@@ -186,14 +183,14 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
     private void deleteAccount() {
         customDialog.show();
         String shop_id = SharedHelper.getKey(context, Constants.PREF.PROFILE_ID);
-        Call<ResponseBody>call = apiInterface.deleteAccount(shop_id);
+        Call<ResponseBody> call = apiInterface.deleteAccount(shop_id);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 customDialog.dismiss();
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     clearAndExit();
-                }else{
+                } else {
                     Gson gson = new Gson();
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);

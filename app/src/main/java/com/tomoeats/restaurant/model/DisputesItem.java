@@ -1,163 +1,163 @@
 package com.tomoeats.restaurant.model;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 
-public class DisputesItem{
 
-	@SerializedName("description")
-	private String description;
+public class DisputesItem {
 
-	@SerializedName("created_at")
-	private String createdAt;
+    @SerializedName("description")
+    private String description;
 
-	@SerializedName("type")
-	private String type;
+    @SerializedName("created_at")
+    private String createdAt;
 
-	@SerializedName("created_by")
-	private String createdBy;
+    @SerializedName("type")
+    private String type;
 
-	@SerializedName("disputecomment")
-	private List<Object> disputecomment;
+    @SerializedName("created_by")
+    private String createdBy;
 
-	@SerializedName("shop_id")
-	private int shopId;
+    @SerializedName("disputecomment")
+    private List<Object> disputecomment;
 
-	@SerializedName("created_to")
-	private String createdTo;
+    @SerializedName("shop_id")
+    private int shopId;
 
-	@SerializedName("user_id")
-	private int userId;
+    @SerializedName("created_to")
+    private String createdTo;
 
-	@SerializedName("id")
-	private int id;
+    @SerializedName("user_id")
+    private int userId;
 
-	@SerializedName("order_id")
-	private int orderId;
+    @SerializedName("id")
+    private int id;
 
-	@SerializedName("order_disputehelp_id")
-	private int orderDisputehelpId;
+    @SerializedName("order_id")
+    private int orderId;
 
-	@SerializedName("dispute_help")
-	private Object disputeHelp;
+    @SerializedName("order_disputehelp_id")
+    private int orderDisputehelpId;
 
-	@SerializedName("transporter_id")
-	private int transporterId;
+    @SerializedName("dispute_help")
+    private Object disputeHelp;
 
-	@SerializedName("status")
-	private String status;
+    @SerializedName("transporter_id")
+    private int transporterId;
 
-	public void setDescription(String description){
-		this.description = description;
-	}
+    @SerializedName("status")
+    private String status;
 
-	public String getDescription(){
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setCreatedAt(String createdAt){
-		this.createdAt = createdAt;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getCreatedAt(){
-		return createdAt;
-	}
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setType(String type){
-		this.type = type;
-	}
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public String getType(){
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setCreatedBy(String createdBy){
-		this.createdBy = createdBy;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getCreatedBy(){
-		return createdBy;
-	}
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-	public void setDisputecomment(List<Object> disputecomment){
-		this.disputecomment = disputecomment;
-	}
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public List<Object> getDisputecomment(){
-		return disputecomment;
-	}
+    public List<Object> getDisputecomment() {
+        return disputecomment;
+    }
 
-	public void setShopId(int shopId){
-		this.shopId = shopId;
-	}
+    public void setDisputecomment(List<Object> disputecomment) {
+        this.disputecomment = disputecomment;
+    }
 
-	public int getShopId(){
-		return shopId;
-	}
+    public int getShopId() {
+        return shopId;
+    }
 
-	public void setCreatedTo(String createdTo){
-		this.createdTo = createdTo;
-	}
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
 
-	public String getCreatedTo(){
-		return createdTo;
-	}
+    public String getCreatedTo() {
+        return createdTo;
+    }
 
-	public void setUserId(int userId){
-		this.userId = userId;
-	}
+    public void setCreatedTo(String createdTo) {
+        this.createdTo = createdTo;
+    }
 
-	public int getUserId(){
-		return userId;
-	}
+    public int getUserId() {
+        return userId;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-	public int getId(){
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setOrderId(int orderId){
-		this.orderId = orderId;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getOrderId(){
-		return orderId;
-	}
+    public int getOrderId() {
+        return orderId;
+    }
 
-	public void setOrderDisputehelpId(int orderDisputehelpId){
-		this.orderDisputehelpId = orderDisputehelpId;
-	}
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 
-	public int getOrderDisputehelpId(){
-		return orderDisputehelpId;
-	}
+    public int getOrderDisputehelpId() {
+        return orderDisputehelpId;
+    }
 
-	public void setDisputeHelp(Object disputeHelp){
-		this.disputeHelp = disputeHelp;
-	}
+    public void setOrderDisputehelpId(int orderDisputehelpId) {
+        this.orderDisputehelpId = orderDisputehelpId;
+    }
 
-	public Object getDisputeHelp(){
-		return disputeHelp;
-	}
+    public Object getDisputeHelp() {
+        return disputeHelp;
+    }
 
-	public void setTransporterId(int transporterId){
-		this.transporterId = transporterId;
-	}
+    public void setDisputeHelp(Object disputeHelp) {
+        this.disputeHelp = disputeHelp;
+    }
 
-	public int getTransporterId(){
-		return transporterId;
-	}
+    public int getTransporterId() {
+        return transporterId;
+    }
 
-	public void setStatus(String status){
-		this.status = status;
-	}
+    public void setTransporterId(int transporterId) {
+        this.transporterId = transporterId;
+    }
 
-	public String getStatus(){
-		return status;
-	}
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,22 +18,13 @@ import com.tomoeats.restaurant.activity.AddAddOnsActivity;
 import com.tomoeats.restaurant.activity.AddOnsActivity;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.model.Addon;
-import com.tomoeats.restaurant.model.ServerError;
-import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
-import java.util.HashMap;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class AddOnsAdapter extends RecyclerView.Adapter<AddOnsAdapter.MyViewHolder> {
-    private List<Addon> list;
     Context context;
     Activity activity;
+    private List<Addon> list;
 
     public AddOnsAdapter(List<Addon> list, Context con) {
         this.list = list;
@@ -76,8 +66,8 @@ public class AddOnsAdapter extends RecyclerView.Adapter<AddOnsAdapter.MyViewHold
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GlobalData.selectedAddon=list.get(position);
-                context.startActivity(new Intent(context,AddAddOnsActivity.class).putExtra("is_update",true));
+                GlobalData.selectedAddon = list.get(position);
+                context.startActivity(new Intent(context, AddAddOnsActivity.class).putExtra("is_update", true));
             }
         });
 

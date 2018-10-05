@@ -14,7 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tomoeats.restaurant.BuildConfig;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.config.AppConfigure;
 import com.tomoeats.restaurant.controller.GetProfile;
@@ -28,10 +29,7 @@ import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
-import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.HashMap;
 
@@ -113,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
 //                finish();
                 break;
             case R.id.txt_forgot_password:
-                startActivity(new Intent(context,ForgotPassword.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                startActivity(new Intent(context, ForgotPassword.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
         }
     }
@@ -128,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         else if (password.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_password));
         else {
-            if(isInternetAvailable){
+            if (isInternetAvailable) {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("username", email);
                 map.put("password", password);
@@ -136,11 +134,11 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
                 map.put("client_id", AppConfigure.CLIENT_ID);
                 map.put("client_secret", AppConfigure.CLIENT_SECRET);
                 map.put("guard", "shops");
-                login(map);  
-            }else{
+                login(map);
+            } else {
                 Utils.displayMessage(activity, getResources().getString(R.string.oops_no_internet));
             }
-           
+
         }
     }
 
@@ -157,9 +155,9 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
                 } else {
                     try {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
-                        if (serverError.getError().contains("invalid")){
+                        if (serverError.getError().contains("invalid")) {
                             Utils.displayMessage(activity, getString(R.string.invalid_credentials));
-                        }else{
+                        } else {
                             Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                         }
 

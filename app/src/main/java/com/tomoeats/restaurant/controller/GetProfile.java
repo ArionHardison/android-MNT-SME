@@ -3,14 +3,14 @@ package com.tomoeats.restaurant.controller;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.application.MyApplication;
 import com.tomoeats.restaurant.helper.SharedHelper;
 import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiInterface;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.utils.Constants;
 
 import java.util.HashMap;
@@ -30,10 +30,10 @@ public class GetProfile {
         String device_type = "Android";
         String device_token = FirebaseInstanceId.getInstance().getToken();
 
-        HashMap<String,String> params = new HashMap<>();
-        params.put("device_id",device_id);
-        params.put("device_type",device_type);
-        params.put("device_token",device_token);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("device_id", device_id);
+        params.put("device_type", device_type);
+        params.put("device_token", device_token);
         Call<Profile> call = apiInterface.getProfile(params);
         call.enqueue(new Callback<Profile>() {
             @Override
@@ -42,8 +42,7 @@ public class GetProfile {
                     SharedHelper.putKey(MyApplication.getInstance(), Constants.PREF.PROFILE_ID, "" + response.body().getId());
                     SharedHelper.putKey(MyApplication.getInstance(), Constants.PREF.CURRENCY, "" + response.body().getCurrency());
                     profileListener.onSuccess(response.body());
-                }
-                else try {
+                } else try {
                     ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
                     profileListener.onFailure(serverError.getError());
                 } catch (JsonSyntaxException e) {

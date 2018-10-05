@@ -1,15 +1,14 @@
-
 package com.tomoeats.restaurant.chart;
 
 import android.content.Context;
 import android.widget.TextView;
 
-import com.tomoeats.restaurant.R;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.tomoeats.restaurant.R;
 
 import java.text.DecimalFormat;
 

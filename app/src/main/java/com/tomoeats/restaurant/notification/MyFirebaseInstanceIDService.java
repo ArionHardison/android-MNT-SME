@@ -2,9 +2,9 @@ package com.tomoeats.restaurant.notification;
 
 import android.util.Log;
 
-import com.tomoeats.restaurant.helper.SharedHelper;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.tomoeats.restaurant.helper.SharedHelper;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = "MyFirebaseIIDService";

@@ -3,23 +3,21 @@ package com.tomoeats.restaurant.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.tomoeats.restaurant.controller.GetProfile;
-import com.tomoeats.restaurant.controller.ProfileListener;
-import com.tomoeats.restaurant.model.Profile;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.tomoeats.restaurant.R;
+import com.tomoeats.restaurant.controller.GetProfile;
+import com.tomoeats.restaurant.controller.ProfileListener;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
 import com.tomoeats.restaurant.helper.GlobalData;
 import com.tomoeats.restaurant.helper.SharedHelper;
+import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
@@ -58,7 +56,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
                     if (connectionHelper.isConnectingToInternet())
                         new GetProfile(apiInterface, SplashActivity.this);
                     else
-                        Utils.displayMessage(SplashActivity.this,getString(R.string.oops_no_internet));
+                        Utils.displayMessage(SplashActivity.this, getString(R.string.oops_no_internet));
                 } else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     finish();
@@ -97,7 +95,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
 
     @Override
     public void onSuccess(Profile profile) {
-        GlobalData.profile=profile;
+        GlobalData.profile = profile;
         startActivity(new Intent(context, HomeActivity.class));
         finish();
     }

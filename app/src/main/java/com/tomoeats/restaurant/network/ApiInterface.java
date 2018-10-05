@@ -14,7 +14,6 @@ import com.tomoeats.restaurant.model.ForgotPasswordResponse;
 import com.tomoeats.restaurant.model.HistoryModel;
 import com.tomoeats.restaurant.model.IncomingOrders;
 import com.tomoeats.restaurant.model.Order;
-import com.tomoeats.restaurant.model.Product;
 import com.tomoeats.restaurant.model.Profile;
 import com.tomoeats.restaurant.model.ResetPasswordResponse;
 import com.tomoeats.restaurant.model.RevenueResponse;
@@ -53,11 +52,11 @@ public interface ApiInterface {
 
     @Multipart
     @POST("api/shop/profile/{id}")
-    Call<Profile> updateProfileWithFile(@Path("id") int id,@PartMap HashMap<String, RequestBody> params,@Part MultipartBody.Part filename1,@Part MultipartBody.Part filename2);
+    Call<Profile> updateProfileWithFile(@Path("id") int id, @PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename1, @Part MultipartBody.Part filename2);
 
     @Multipart
     @POST("api/shop/profile/{id}")
-    Call<Profile> updateProfile(@Path("id") int id,@PartMap HashMap<String, RequestBody> params);
+    Call<Profile> updateProfile(@Path("id") int id, @PartMap HashMap<String, RequestBody> params);
 //
 //    @Multipart
 //    @POST("api/user/profile")
@@ -73,8 +72,7 @@ public interface ApiInterface {
 
     @Multipart
     @POST("api/shop/register")
-    Call<Profile> signUp(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename1,@Part MultipartBody.Part filename2);
-
+    Call<Profile> signUp(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename1, @Part MultipartBody.Part filename2);
 
 
     @GET("api/shop/cuisines")
@@ -101,7 +99,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @PATCH("api/shop/addons/{id}")
-    Call<Addon> updateAddon(@Path("id") int id,@Field("name") String name);
+    Call<Addon> updateAddon(@Path("id") int id, @Field("name") String name);
 
     @DELETE("api/shop/addons/{id}")
     Call<List<Addon>> deleteAddon(@Path("id") int id);
@@ -117,7 +115,7 @@ public interface ApiInterface {
 
     @Multipart
     @POST("api/shop/categories/{id}")
-    Call<Category> updateCategory(@Path("id") int id,@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
+    Call<Category> updateCategory(@Path("id") int id, @PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
 
     @DELETE("api/shop/categories/{id}")
     Call<List<Category>> deleteCategory(@Path("id") int id);
@@ -147,12 +145,12 @@ public interface ApiInterface {
 
     @Multipart
     @POST("api/shop/products")
-    Call<ProductResponse> addProduct(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1,@Part MultipartBody.Part filepart2);
+    Call<ProductResponse> addProduct(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1, @Part MultipartBody.Part filepart2);
 
 
     @Multipart
     @POST("api/shop/products/{id}")
-    Call<ProductResponse> updateProduct(@Path("id") int id,@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1,@Part MultipartBody.Part filepart2);
+    Call<ProductResponse> updateProduct(@Path("id") int id, @PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1, @Part MultipartBody.Part filepart2);
 
     @DELETE("api/shop/products/{id}")
     Call<ResponseBody> deleteProduct(@Path("id") int id);
@@ -178,7 +176,6 @@ public interface ApiInterface {
     @DELETE("api/shop/addons/{id}")
     Call<List<Addon>> deleteAddon(@Path("id") int id);
 */
-
 
 
 //    @FormUrlEncoded

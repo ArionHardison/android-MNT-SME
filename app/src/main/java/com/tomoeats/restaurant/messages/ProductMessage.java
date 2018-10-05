@@ -1,7 +1,6 @@
 package com.tomoeats.restaurant.messages;
 
 import java.io.File;
-import java.io.Serializable;
 
 public class ProductMessage {
     private String strProductName = "";

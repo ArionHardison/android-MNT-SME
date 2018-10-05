@@ -1,22 +1,20 @@
 package com.tomoeats.restaurant.notification;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HomeActivity;
 import com.tomoeats.restaurant.utils.Constants;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
@@ -30,15 +28,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Notification ChangePassword Body: " + remoteMessage.getData());
             //Calling method to generate notification
             String message = remoteMessage.getData().get("message");
-            if(!message.toLowerCase().contains("dispute")){
+            if (!message.toLowerCase().contains("dispute")) {
                 sendNotification(message);
             }
 
             //sendNotification(message);
 
             sendMessageToApp();
-        }else{
-            Log.d(TAG,"FCM Notification failed");
+        } else {
+            Log.d(TAG, "FCM Notification failed");
         }
     }
 
@@ -56,7 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = "fcm_default_channel";
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher)

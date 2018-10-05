@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 public class SharedHelper {
 
     private static SharedPreferences sharedPreferences;
-    private static String  PREF_NAME="tomoeats_restaurant";
+    private static String PREF_NAME = "tomoeats_restaurant";
 
     public static void putKey(Context context, String Key, String Value) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -20,7 +20,8 @@ public class SharedHelper {
         return sharedPreferences.getString(Key, "");
 
     }
-    public static String getKey(Context contextGetKey, String Key,String defVal) {
+
+    public static String getKey(Context contextGetKey, String Key, String defVal) {
         sharedPreferences = contextGetKey.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(Key, defVal);
     }

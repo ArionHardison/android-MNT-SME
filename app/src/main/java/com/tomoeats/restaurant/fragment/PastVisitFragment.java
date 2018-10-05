@@ -11,8 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.activity.HistoryActivity;
 import com.tomoeats.restaurant.adapter.HistoryAdapter;
@@ -22,8 +23,6 @@ import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,21 +36,17 @@ import retrofit2.Response;
 
 public class PastVisitFragment extends Fragment {
 
+    public static CancelledListListener cancelledListListener;
     @BindView(R.id.past_rv)
     RecyclerView pastRv;
-
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
-
+    List<Order> orderList = new ArrayList<>();
+    HistoryAdapter historyAdapter;
     private Unbinder unbinder;
     private Context context;
     private Activity activity;
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-
-    List<Order> orderList = new ArrayList<>();
-    HistoryAdapter historyAdapter;
-
-    public static CancelledListListener cancelledListListener;
 
     public PastVisitFragment() {
         // Required empty public constructor

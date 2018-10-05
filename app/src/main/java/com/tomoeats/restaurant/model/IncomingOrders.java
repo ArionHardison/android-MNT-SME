@@ -3,9 +3,11 @@ package com.tomoeats.restaurant.model;
 /**
  * Created by Tamil on 3/16/2018.
  */
-import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class IncomingOrders {
 

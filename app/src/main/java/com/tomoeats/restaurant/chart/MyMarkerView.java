@@ -3,13 +3,13 @@ package com.tomoeats.restaurant.chart;
 import android.content.Context;
 import android.widget.TextView;
 
-import com.tomoeats.restaurant.R;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
+import com.tomoeats.restaurant.R;
 
 /**
  * Created by Tamil on 3/1/2018.

@@ -7,56 +7,54 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Productcuisines implements Parcelable{
+public class Productcuisines implements Parcelable {
 
-	@SerializedName("name")
-	private String name;
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Productcuisines> CREATOR = new Parcelable.Creator<Productcuisines>() {
+        @Override
+        public Productcuisines createFromParcel(Parcel in) {
+            return new Productcuisines(in);
+        }
 
-	@SerializedName("id")
-	private int id;
+        @Override
+        public Productcuisines[] newArray(int size) {
+            return new Productcuisines[size];
+        }
+    };
+    @SerializedName("name")
+    private String name;
+    @SerializedName("id")
+    private int id;
 
-	public void setName(String name){
-		this.name = name;
-	}
+    protected Productcuisines(Parcel in) {
+        name = in.readString();
+        id = in.readInt();
+    }
 
-	public String getName(){
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getId(){
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	protected Productcuisines(Parcel in) {
-		name = in.readString();
-		id = in.readInt();
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(name);
-		dest.writeInt(id);
-	}
-
-	@SuppressWarnings("unused")
-	public static final Parcelable.Creator<Productcuisines> CREATOR = new Parcelable.Creator<Productcuisines>() {
-		@Override
-		public Productcuisines createFromParcel(Parcel in) {
-			return new Productcuisines(in);
-		}
-
-		@Override
-		public Productcuisines[] newArray(int size) {
-			return new Productcuisines[size];
-		}
-	};
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(id);
+    }
 }

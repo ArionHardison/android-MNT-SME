@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DeliveriesActivity extends AppCompatActivity implements DataMessage{
+public class DeliveriesActivity extends AppCompatActivity implements DataMessage {
 
     @BindView(R.id.back_img)
     ImageView backImg;
@@ -86,8 +86,8 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                 onBackPressed();
                 break;
             case R.id.filter_img:
-                FilterDialogFragment filterDialogFragment =FilterDialogFragment.newInstance(transporters);
-                if (message!=null){
+                FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance(transporters);
+                if (message != null) {
                     filterDialogFragment.onReceiveData(message);
                 }
                 filterDialogFragment.setCancelable(true);
@@ -195,26 +195,26 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
 
     @Override
     public void onReceiveData(Object receivedData) {
-        if(receivedData instanceof FilterDialogFragmentMessage){
+        if (receivedData instanceof FilterDialogFragmentMessage) {
             message = (FilterDialogFragmentMessage) receivedData;
-            if(message.isEmpty()){
+            if (message.isEmpty()) {
                 getHistory();
-            }else {
+            } else {
                 handleFilterMessage(message);
             }
         }
     }
 
 
-    private void handleFilterMessage(FilterDialogFragmentMessage message){
-        HashMap<String,String> params = new HashMap<>();
-        params.put("dp",""+message.getDelieveryPersonId());
-        params.put("start_time",message.getFromDate());
-        params.put("end_time",message.getToDate());
+    private void handleFilterMessage(FilterDialogFragmentMessage message) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("dp", "" + message.getDelieveryPersonId());
+        params.put("start_time", message.getFromDate());
+        params.put("end_time", message.getToDate());
         getFilterResults(params);
     }
 
-    private void getFilterResults(HashMap<String,String> map){
+    private void getFilterResults(HashMap<String, String> map) {
         showDialog();
         Call<HistoryModel> call = apiInterface.getFilterHistory(map);
         call.enqueue(new Callback<HistoryModel>() {

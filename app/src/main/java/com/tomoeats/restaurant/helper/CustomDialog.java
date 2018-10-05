@@ -1,7 +1,6 @@
 package com.tomoeats.restaurant.helper;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Window;

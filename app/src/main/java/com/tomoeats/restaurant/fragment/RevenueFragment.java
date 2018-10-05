@@ -3,54 +3,41 @@ package com.tomoeats.restaurant.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.tomoeats.restaurant.R;
-import com.tomoeats.restaurant.activity.ForgotPassword;
-import com.tomoeats.restaurant.chart.DayAxisValueFormatter;
-import com.tomoeats.restaurant.chart.MyAxisValueFormatter;
-import com.tomoeats.restaurant.chart.MyMarkerView;
-import com.tomoeats.restaurant.chart.XYMarkerView;
-import com.tomoeats.restaurant.helper.ConnectionHelper;
-import com.tomoeats.restaurant.helper.CustomDialog;
-import com.tomoeats.restaurant.helper.GlobalData;
-import com.tomoeats.restaurant.helper.SharedHelper;
-import com.tomoeats.restaurant.model.CompleteCancel;
-import com.tomoeats.restaurant.model.RevenueResponse;
-import com.tomoeats.restaurant.model.ServerError;
-import com.tomoeats.restaurant.network.ApiClient;
-import com.tomoeats.restaurant.network.ApiInterface;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.tomoeats.restaurant.R;
+import com.tomoeats.restaurant.helper.ConnectionHelper;
+import com.tomoeats.restaurant.helper.CustomDialog;
+import com.tomoeats.restaurant.helper.SharedHelper;
+import com.tomoeats.restaurant.model.CompleteCancel;
+import com.tomoeats.restaurant.model.RevenueResponse;
+import com.tomoeats.restaurant.model.ServerError;
+import com.tomoeats.restaurant.network.ApiClient;
+import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -89,7 +76,7 @@ public class RevenueFragment extends Fragment {
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    String TAG="RevenueFragment";
+    String TAG = "RevenueFragment";
 
     public RevenueFragment() {
         // Required empty public constructor
@@ -113,8 +100,8 @@ public class RevenueFragment extends Fragment {
 
     private void setUp() {
         title.setText(getString(R.string.revenue));
-        context=getContext();
-        activity=getActivity();
+        context = getContext();
+        activity = getActivity();
 
         connectionHelper = new ConnectionHelper(context);
         customDialog = new CustomDialog(context);
@@ -124,7 +111,7 @@ public class RevenueFragment extends Fragment {
 
     private void prepareBarChart(List<CompleteCancel> completeCancelList) {
         ArrayList monthsList = new ArrayList<>();
-        for (int i = 0; i <completeCancelList.size() ; i++) {
+        for (int i = 0; i < completeCancelList.size(); i++) {
             monthsList.add(completeCancelList.get(i).getMonth());
         }
 
@@ -133,7 +120,7 @@ public class RevenueFragment extends Fragment {
         ArrayList entriesGroup2 = new ArrayList<>();
 
 // fill the lists
-        for(int i = 0; i < monthsList.size(); i++) {
+        for (int i = 0; i < monthsList.size(); i++) {
             entriesGroup1.add(new BarEntry(i, Float.parseFloat(completeCancelList.get(i).getDelivered())));
             entriesGroup2.add(new BarEntry(i, Float.parseFloat(completeCancelList.get(i).getCancelled())));
             //entriesGroup1.add(new BarEntry(i, 10));
@@ -199,7 +186,7 @@ public class RevenueFragment extends Fragment {
         leftAxis.setAxisMinimum(0f);
 
         mChart.setScaleMinima((float) 12 / 17f, 1f);
-        mChart.zoom(-10f,0f,0,0);
+        mChart.zoom(-10f, 0f, 0, 0);
 
     }
 
@@ -212,14 +199,14 @@ public class RevenueFragment extends Fragment {
 
     private void getRevenueDetails() {
         customDialog.show();
-        Call<RevenueResponse>call = apiInterface.getRevenueDetails();
+        Call<RevenueResponse> call = apiInterface.getRevenueDetails();
         call.enqueue(new Callback<RevenueResponse>() {
             @Override
             public void onResponse(Call<RevenueResponse> call, Response<RevenueResponse> response) {
                 customDialog.dismiss();
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     updateUI(response.body());
-                }else{
+                } else {
                     try {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
@@ -242,11 +229,11 @@ public class RevenueFragment extends Fragment {
         NumberFormat formatter = new DecimalFormat("#0.00");
         String currency = SharedHelper.getKey(getActivity(), Constants.PREF.CURRENCY);
 
-        String total_revenue = currency+formatter.format(response.getTotalRevenue());
-        String order_received = response.getOrderReceivedToday()+"";
-        String order_develievered = response.getOrderDeliveredToday()+"";
-        String today_earnings = currency+formatter.format(response.getOrderIncomeToday());
-        String monthly_earnings = currency+formatter.format(response.getOrderIncomeMonthly());
+        String total_revenue = currency + formatter.format(response.getTotalRevenue());
+        String order_received = response.getOrderReceivedToday() + "";
+        String order_develievered = response.getOrderDeliveredToday() + "";
+        String today_earnings = currency + formatter.format(response.getOrderIncomeToday());
+        String monthly_earnings = currency + formatter.format(response.getOrderIncomeMonthly());
 
         tvTotalRevenue.setText(total_revenue);
         tvOrderReceived.setText(order_received);

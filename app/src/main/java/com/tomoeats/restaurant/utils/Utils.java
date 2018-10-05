@@ -30,10 +30,9 @@ import retrofit2.Retrofit;
 
 public class Utils {
     public static boolean showLog = true;
-
+    public static String address = "";
     Retrofit retrofit;
     ApiInterface apiInterface;
-    public static String address = "";
 
     public static void displayMessage(Activity activity, String toastString) {
         try {
@@ -49,11 +48,11 @@ public class Utils {
     }
 
 
-    public static File storeInFile(Context context,Bitmap bitmap, String filename,String type) {
+    public static File storeInFile(Context context, Bitmap bitmap, String filename, String type) {
         File f = new File(context.getCacheDir(), filename);
         try {
             //create a file to write bitmap data
-            if(f.exists()){
+            if (f.exists()) {
                 f.delete();
             }
 
@@ -103,7 +102,7 @@ public class Utils {
         return value;
     }
 
-    public static void showAlertDialog(final Context context,String message){
+    public static void showAlertDialog(final Context context, String message) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
         builder.setTitle(context.getString(R.string.app_name));
@@ -138,15 +137,13 @@ public class Utils {
         return false;
     }
 
-    public static boolean isAfterToday(int year, int month, int day)
-    {
+    public static boolean isAfterToday(int year, int month, int day) {
         Calendar today = Calendar.getInstance();
         Calendar myDate = Calendar.getInstance();
 
         myDate.set(year, month, day);
 
-        if (myDate.before(today))
-        {
+        if (myDate.before(today)) {
             return false;
         }
         return true;
@@ -159,6 +156,7 @@ public class Utils {
         String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
         return monthName;
     }
+
     public static String getTime(String date) throws ParseException {
         Date d = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
@@ -173,15 +171,13 @@ public class Utils {
         }
     }
 
-    public static String toFirstCharUpperAll(String string){
-        StringBuffer sb=new StringBuffer(string);
-        for(int i=0;i<sb.length();i++)
-            if(i==0 || sb.charAt(i-1)==' ')//first letter to uppercase by default
+    public static String toFirstCharUpperAll(String string) {
+        StringBuffer sb = new StringBuffer(string);
+        for (int i = 0; i < sb.length(); i++)
+            if (i == 0 || sb.charAt(i - 1) == ' ')//first letter to uppercase by default
                 sb.setCharAt(i, Character.toUpperCase(sb.charAt(i)));
         return sb.toString();
     }
-
-
 
 
 //

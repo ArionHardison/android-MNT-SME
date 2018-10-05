@@ -25,10 +25,9 @@ import java.util.List;
 
 public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapter.ViewHolder> {
 
+    Context context;
     private List<ProductModel> list = new ArrayList<>();
     private LayoutInflater inflater;
-    Context context;
-
     private ProductsAdapter.ProductAdapterListener productAdapterListener;
 
 
@@ -126,9 +125,9 @@ public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapte
             }
         }
 
-        if(object.getAddons()!=null&&object.getAddons().size()>0){
+        if (object.getAddons() != null && object.getAddons().size() > 0) {
             List<Addon> addonsList = object.getAddons();
-            String addOnNames="";
+            String addOnNames = "";
             for (int i = 0; i < addonsList.size(); i++) {
                 if (addonsList.get(i).getAddon() != null) {
                     if (i == 0) {
@@ -143,24 +142,22 @@ public class ProductsAdapter extends SectionedRecyclerViewAdapter<ProductsAdapte
             holder.noAddOns.setVisibility(View.GONE);
 
             holder.addOns.setText(addOnNames);
-        }else{
+        } else {
             holder.addOns.setVisibility(View.GONE);
             holder.noAddOns.setVisibility(View.VISIBLE);
         }
 
     }
 
+    public void setProductAdapterListener(ProductsAdapter.ProductAdapterListener productAdapterListener) {
+        this.productAdapterListener = productAdapterListener;
+    }
 
     public interface ProductAdapterListener {
         void onProductClick(ProductResponse category);
 
         void onProductDeleteClick(ProductResponse category);
     }
-
-    public void setProductAdapterListener(ProductsAdapter.ProductAdapterListener productAdapterListener) {
-        this.productAdapterListener = productAdapterListener;
-    }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView header;

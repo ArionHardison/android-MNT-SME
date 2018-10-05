@@ -20,9 +20,9 @@ import java.util.List;
 
 public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProductAdapter.ViewHolder> {
 
+    Context context;
     private List<Item> list = new ArrayList<>();
     private LayoutInflater inflater;
-    Context context;
 
     public OrderProductAdapter(Context context, List<Item> list) {
         this.context = context;
@@ -46,7 +46,6 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
                 return new ViewHolder(v, false);
         }
     }
-
 
 
     @Override

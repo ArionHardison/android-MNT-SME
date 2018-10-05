@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
 import com.tomoeats.restaurant.helper.CustomDialog;
@@ -21,8 +23,6 @@ import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,15 +56,14 @@ public class AddAddOnsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_add_ons);
         ButterKnife.bind(this);
-        if (getIntent().getBooleanExtra("is_update", false)){
+        if (getIntent().getBooleanExtra("is_update", false)) {
             title.setText(getString(R.string.update_add_ons));
             Addon addon = GlobalData.selectedAddon;
-            if(addon!=null && addon.getName()!=null &&
-                    !addon.getName().equalsIgnoreCase("null") && addon.getName().length()>0){
+            if (addon != null && addon.getName() != null &&
+                    !addon.getName().equalsIgnoreCase("null") && addon.getName().length() > 0) {
                 etAddonsName.setText(addon.getName());
             }
-        }
-        else
+        } else
             title.setText(getString(R.string.create_add_ons));
         backImg.setVisibility(View.VISIBLE);
         context = AddAddOnsActivity.this;

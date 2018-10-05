@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.adapter.RequestAdapter;
 import com.tomoeats.restaurant.controller.GetProfile;
@@ -42,8 +44,6 @@ import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Constants;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,13 +93,21 @@ public class HomeFragment extends Fragment implements ProfileListener {
     LinearLayout llNoRecords;
     private Handler homeHandler = new Handler();
     private boolean isVisible = true;
-
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isInternet) {
+                // getIncomingOrders();
+            } else {
+                Utils.displayMessage(activity, getString(R.string.oops_no_internet));
+            }
+        }
+    };
 
 
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,20 +118,6 @@ public class HomeFragment extends Fragment implements ProfileListener {
         return view;
     }
 
-
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive( Context context, Intent intent ) {
-            if (isInternet) {
-               // getIncomingOrders();
-            }
-            else {
-                Utils.displayMessage(activity, getString(R.string.oops_no_internet));
-            }
-        }
-    };
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -133,7 +127,6 @@ public class HomeFragment extends Fragment implements ProfileListener {
         connectionHelper = new ConnectionHelper(context);
         isInternet = connectionHelper.isConnectingToInternet();
         customDialog = new CustomDialog(context);
-
 
 
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -182,14 +175,14 @@ public class HomeFragment extends Fragment implements ProfileListener {
         homeHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(isInternet) {
+                if (isInternet) {
                     if (isVisible && incomingRv != null) {
                         getIncomingOrders();
                         homeHandler.postDelayed(this, 5000);
                     }
                 }
             }
-        },5000);
+        }, 5000);
         getProfile();
 
 
@@ -198,7 +191,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
     }
 
     private void getProfile() {
-        if(connectionHelper.isConnectingToInternet()){
+        if (connectionHelper.isConnectingToInternet()) {
             new GetProfile(apiInterface, this);
         }
     }
@@ -212,7 +205,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
 
 
     private void getIncomingOrders() {
-       //customDialog.show();
+        //customDialog.show();
         Call<IncomingOrders> call = apiInterface.getIncomingOrders("ordered");
         call.enqueue(new Callback<IncomingOrders>() {
             @Override
@@ -220,17 +213,17 @@ public class HomeFragment extends Fragment implements ProfileListener {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
                     if (response.body().getOrders() != null &&
-                            !response.body().getOrders().isEmpty() && response.body().getOrders().size()>0){
+                            !response.body().getOrders().isEmpty() && response.body().getOrders().size() > 0) {
                         incomingRv.setVisibility(View.VISIBLE);
                         llNoRecords.setVisibility(View.GONE);
                         orderList.clear();
                         orderList.addAll(response.body().getOrders());
-                        if(requestAdapter==null){
+                        if (requestAdapter == null) {
                             prepareAdapter();
-                        }else{
+                        } else {
                             requestAdapter.notifyDataSetChanged();
                         }
-                    }else{
+                    } else {
                         incomingRv.setVisibility(View.GONE);
                         llNoRecords.setVisibility(View.VISIBLE);
                     }
@@ -269,6 +262,6 @@ public class HomeFragment extends Fragment implements ProfileListener {
 
     @Override
     public void onFailure(String error) {
-        Log.e(TAG,error);
+        Log.e(TAG, error);
     }
 }

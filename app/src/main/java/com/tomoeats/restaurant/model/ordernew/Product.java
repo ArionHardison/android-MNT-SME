@@ -1,163 +1,163 @@
 package com.tomoeats.restaurant.model.ordernew;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 
-public class Product{
 
-	@SerializedName("featured")
-	private int featured;
+public class Product {
 
-	@SerializedName("images")
-	private List<Object> images;
+    @SerializedName("featured")
+    private int featured;
 
-	@SerializedName("max_quantity")
-	private int maxQuantity;
+    @SerializedName("images")
+    private List<Object> images;
 
-	@SerializedName("description")
-	private String description;
+    @SerializedName("max_quantity")
+    private int maxQuantity;
 
-	@SerializedName("cuisine_id")
-	private int cuisineId;
+    @SerializedName("description")
+    private String description;
 
-	@SerializedName("avalability")
-	private int avalability;
+    @SerializedName("cuisine_id")
+    private int cuisineId;
 
-	@SerializedName("food_type")
-	private String foodType;
+    @SerializedName("avalability")
+    private int avalability;
 
-	@SerializedName("shop_id")
-	private int shopId;
+    @SerializedName("food_type")
+    private String foodType;
 
-	@SerializedName("addon_status")
-	private int addonStatus;
+    @SerializedName("shop_id")
+    private int shopId;
 
-	@SerializedName("name")
-	private String name;
+    @SerializedName("addon_status")
+    private int addonStatus;
 
-	@SerializedName("id")
-	private int id;
+    @SerializedName("name")
+    private String name;
 
-	@SerializedName("position")
-	private int position;
+    @SerializedName("id")
+    private int id;
 
-	@SerializedName("prices")
-	private Prices prices;
+    @SerializedName("position")
+    private int position;
 
-	@SerializedName("status")
-	private String status;
+    @SerializedName("prices")
+    private Prices prices;
 
-	public void setFeatured(int featured){
-		this.featured = featured;
-	}
+    @SerializedName("status")
+    private String status;
 
-	public int getFeatured(){
-		return featured;
-	}
+    public int getFeatured() {
+        return featured;
+    }
 
-	public void setImages(List<Object> images){
-		this.images = images;
-	}
+    public void setFeatured(int featured) {
+        this.featured = featured;
+    }
 
-	public List<Object> getImages(){
-		return images;
-	}
+    public List<Object> getImages() {
+        return images;
+    }
 
-	public void setMaxQuantity(int maxQuantity){
-		this.maxQuantity = maxQuantity;
-	}
+    public void setImages(List<Object> images) {
+        this.images = images;
+    }
 
-	public int getMaxQuantity(){
-		return maxQuantity;
-	}
+    public int getMaxQuantity() {
+        return maxQuantity;
+    }
 
-	public void setDescription(String description){
-		this.description = description;
-	}
+    public void setMaxQuantity(int maxQuantity) {
+        this.maxQuantity = maxQuantity;
+    }
 
-	public String getDescription(){
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setCuisineId(int cuisineId){
-		this.cuisineId = cuisineId;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public int getCuisineId(){
-		return cuisineId;
-	}
+    public int getCuisineId() {
+        return cuisineId;
+    }
 
-	public void setAvalability(int avalability){
-		this.avalability = avalability;
-	}
+    public void setCuisineId(int cuisineId) {
+        this.cuisineId = cuisineId;
+    }
 
-	public int getAvalability(){
-		return avalability;
-	}
+    public int getAvalability() {
+        return avalability;
+    }
 
-	public void setFoodType(String foodType){
-		this.foodType = foodType;
-	}
+    public void setAvalability(int avalability) {
+        this.avalability = avalability;
+    }
 
-	public String getFoodType(){
-		return foodType;
-	}
+    public String getFoodType() {
+        return foodType;
+    }
 
-	public void setShopId(int shopId){
-		this.shopId = shopId;
-	}
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
+    }
 
-	public int getShopId(){
-		return shopId;
-	}
+    public int getShopId() {
+        return shopId;
+    }
 
-	public void setAddonStatus(int addonStatus){
-		this.addonStatus = addonStatus;
-	}
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
 
-	public int getAddonStatus(){
-		return addonStatus;
-	}
+    public int getAddonStatus() {
+        return addonStatus;
+    }
 
-	public void setName(String name){
-		this.name = name;
-	}
+    public void setAddonStatus(int addonStatus) {
+        this.addonStatus = addonStatus;
+    }
 
-	public String getName(){
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getId(){
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setPosition(int position){
-		this.position = position;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getPosition(){
-		return position;
-	}
+    public int getPosition() {
+        return position;
+    }
 
-	public void setPrices(Prices prices){
-		this.prices = prices;
-	}
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
-	public Prices getPrices(){
-		return prices;
-	}
+    public Prices getPrices() {
+        return prices;
+    }
 
-	public void setStatus(String status){
-		this.status = status;
-	}
+    public void setPrices(Prices prices) {
+        this.prices = prices;
+    }
 
-	public String getStatus(){
-		return status;
-	}
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

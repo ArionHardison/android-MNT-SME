@@ -8,7 +8,7 @@ import com.tomoeats.restaurant.model.Profile;
 
 public interface ProfileListener {
 
-    void  onSuccess(Profile profile);
+    void onSuccess(Profile profile);
 
-    void  onFailure(String error);
+    void onFailure(String error);
 }

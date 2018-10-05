@@ -1,4 +1,3 @@
-
 package com.tomoeats.restaurant.model;
 
 import com.google.gson.annotations.Expose;

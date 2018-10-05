@@ -1,119 +1,119 @@
 package com.tomoeats.restaurant.model.ordernew;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 
-public class ItemsItem{
 
-	@SerializedName("note")
-	private Object note;
+public class ItemsItem {
 
-	@SerializedName("product")
-	private Product product;
+    @SerializedName("note")
+    private Object note;
 
-	@SerializedName("quantity")
-	private int quantity;
+    @SerializedName("product")
+    private Product product;
 
-	@SerializedName("savedforlater")
-	private int savedforlater;
+    @SerializedName("quantity")
+    private int quantity;
 
-	@SerializedName("price")
-	private int price;
+    @SerializedName("savedforlater")
+    private int savedforlater;
 
-	@SerializedName("product_id")
-	private int productId;
+    @SerializedName("price")
+    private int price;
 
-	@SerializedName("id")
-	private int id;
+    @SerializedName("product_id")
+    private int productId;
 
-	@SerializedName("order_id")
-	private int orderId;
+    @SerializedName("id")
+    private int id;
 
-	@SerializedName("promocode_id")
-	private Object promocodeId;
+    @SerializedName("order_id")
+    private int orderId;
 
-	@SerializedName("cart_addons")
-	private List<Object> cartAddons;
+    @SerializedName("promocode_id")
+    private Object promocodeId;
 
-	public void setNote(Object note){
-		this.note = note;
-	}
+    @SerializedName("cart_addons")
+    private List<Object> cartAddons;
 
-	public Object getNote(){
-		return note;
-	}
+    public Object getNote() {
+        return note;
+    }
 
-	public void setProduct(Product product){
-		this.product = product;
-	}
+    public void setNote(Object note) {
+        this.note = note;
+    }
 
-	public Product getProduct(){
-		return product;
-	}
+    public Product getProduct() {
+        return product;
+    }
 
-	public void setQuantity(int quantity){
-		this.quantity = quantity;
-	}
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
-	public int getQuantity(){
-		return quantity;
-	}
+    public int getQuantity() {
+        return quantity;
+    }
 
-	public void setSavedforlater(int savedforlater){
-		this.savedforlater = savedforlater;
-	}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-	public int getSavedforlater(){
-		return savedforlater;
-	}
+    public int getSavedforlater() {
+        return savedforlater;
+    }
 
-	public void setPrice(int price){
-		this.price = price;
-	}
+    public void setSavedforlater(int savedforlater) {
+        this.savedforlater = savedforlater;
+    }
 
-	public int getPrice(){
-		return price;
-	}
+    public int getPrice() {
+        return price;
+    }
 
-	public void setProductId(int productId){
-		this.productId = productId;
-	}
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
-	public int getProductId(){
-		return productId;
-	}
+    public int getProductId() {
+        return productId;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
-	public int getId(){
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setOrderId(int orderId){
-		this.orderId = orderId;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getOrderId(){
-		return orderId;
-	}
+    public int getOrderId() {
+        return orderId;
+    }
 
-	public void setPromocodeId(Object promocodeId){
-		this.promocodeId = promocodeId;
-	}
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 
-	public Object getPromocodeId(){
-		return promocodeId;
-	}
+    public Object getPromocodeId() {
+        return promocodeId;
+    }
 
-	public void setCartAddons(List<Object> cartAddons){
-		this.cartAddons = cartAddons;
-	}
+    public void setPromocodeId(Object promocodeId) {
+        this.promocodeId = promocodeId;
+    }
 
-	public List<Object> getCartAddons(){
-		return cartAddons;
-	}
+    public List<Object> getCartAddons() {
+        return cartAddons;
+    }
+
+    public void setCartAddons(List<Object> cartAddons) {
+        this.cartAddons = cartAddons;
+    }
 }

@@ -4,225 +4,225 @@ package com.tomoeats.restaurant.model.ordernew;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Invoice{
+public class Invoice {
 
-	@SerializedName("payment_mode")
-	private String paymentMode;
+    @SerializedName("payment_mode")
+    private String paymentMode;
 
-	@SerializedName("quantity")
-	private int quantity;
+    @SerializedName("quantity")
+    private int quantity;
 
-	@SerializedName("gross")
-	private Double gross;
+    @SerializedName("gross")
+    private Double gross;
 
-	@SerializedName("discount")
-	private Double discount;
+    @SerializedName("discount")
+    private Double discount;
 
-	@SerializedName("created_at")
-	private String createdAt;
+    @SerializedName("created_at")
+    private String createdAt;
 
-	@SerializedName("tax")
-	private Double tax;
+    @SerializedName("tax")
+    private Double tax;
 
-	@SerializedName("total_pay")
-	private Double totalPay;
+    @SerializedName("total_pay")
+    private Double totalPay;
 
-	@SerializedName("ripple_price")
-	private String ripplePrice;
+    @SerializedName("ripple_price")
+    private String ripplePrice;
 
-	@SerializedName("delivery_charge")
-	private Double deliveryCharge;
+    @SerializedName("delivery_charge")
+    private Double deliveryCharge;
 
-	@SerializedName("SGST")
-	private double sGST;
+    @SerializedName("SGST")
+    private double sGST;
 
-	@SerializedName("payable")
-	private Double payable;
+    @SerializedName("payable")
+    private Double payable;
 
-	@SerializedName("payment_id")
-	private String paymentId;
+    @SerializedName("payment_id")
+    private String paymentId;
 
-	@SerializedName("paid")
-	private Double paid;
+    @SerializedName("paid")
+    private Double paid;
 
-	@SerializedName("tender_pay")
-	private Double tenderPay;
+    @SerializedName("tender_pay")
+    private Double tenderPay;
 
-	@SerializedName("CGST")
-	private double cGST;
+    @SerializedName("CGST")
+    private double cGST;
 
-	@SerializedName("id")
-	private int id;
+    @SerializedName("id")
+    private int id;
 
-	@SerializedName("net")
-	private Double net;
+    @SerializedName("net")
+    private Double net;
 
-	@SerializedName("order_id")
-	private int orderId;
+    @SerializedName("order_id")
+    private int orderId;
 
-	@SerializedName("wallet_amount")
-	private Double walletAmount;
+    @SerializedName("wallet_amount")
+    private Double walletAmount;
 
-	@SerializedName("status")
-	private String status;
+    @SerializedName("status")
+    private String status;
 
-	public void setPaymentMode(String paymentMode){
-		this.paymentMode = paymentMode;
-	}
+    public String getPaymentMode() {
+        return paymentMode;
+    }
 
-	public String getPaymentMode(){
-		return paymentMode;
-	}
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
+    }
 
-	public void setQuantity(int quantity){
-		this.quantity = quantity;
-	}
+    public int getQuantity() {
+        return quantity;
+    }
 
-	public int getQuantity(){
-		return quantity;
-	}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-	public void setGross(Double gross){
-		this.gross = gross;
-	}
+    public Double getGross() {
+        return gross;
+    }
 
-	public Double getGross(){
-		return gross;
-	}
+    public void setGross(Double gross) {
+        this.gross = gross;
+    }
 
-	public void setDiscount(Double discount){
-		this.discount = discount;
-	}
+    public Double getDiscount() {
+        return discount;
+    }
 
-	public Double getDiscount(){
-		return discount;
-	}
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
 
-	public void setCreatedAt(String createdAt){
-		this.createdAt = createdAt;
-	}
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-	public String getCreatedAt(){
-		return createdAt;
-	}
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setTax(Double tax){
-		this.tax = tax;
-	}
+    public Double getTax() {
+        return tax;
+    }
 
-	public Double getTax(){
-		return tax;
-	}
+    public void setTax(Double tax) {
+        this.tax = tax;
+    }
 
-	public void setTotalPay(Double totalPay){
-		this.totalPay = totalPay;
-	}
+    public Double getTotalPay() {
+        return totalPay;
+    }
 
-	public Double getTotalPay(){
-		return totalPay;
-	}
+    public void setTotalPay(Double totalPay) {
+        this.totalPay = totalPay;
+    }
 
-	public void setRipplePrice(String ripplePrice){
-		this.ripplePrice = ripplePrice;
-	}
+    public String getRipplePrice() {
+        return ripplePrice;
+    }
 
-	public String getRipplePrice(){
-		return ripplePrice;
-	}
+    public void setRipplePrice(String ripplePrice) {
+        this.ripplePrice = ripplePrice;
+    }
 
-	public void setDeliveryCharge(Double deliveryCharge){
-		this.deliveryCharge = deliveryCharge;
-	}
+    public Double getDeliveryCharge() {
+        return deliveryCharge;
+    }
 
-	public Double getDeliveryCharge(){
-		return deliveryCharge;
-	}
+    public void setDeliveryCharge(Double deliveryCharge) {
+        this.deliveryCharge = deliveryCharge;
+    }
 
-	public void setSGST(double sGST){
-		this.sGST = sGST;
-	}
+    public double getSGST() {
+        return sGST;
+    }
 
-	public double getSGST(){
-		return sGST;
-	}
+    public void setSGST(double sGST) {
+        this.sGST = sGST;
+    }
 
-	public void setPayable(Double payable){
-		this.payable = payable;
-	}
+    public Double getPayable() {
+        return payable;
+    }
 
-	public Double getPayable(){
-		return payable;
-	}
+    public void setPayable(Double payable) {
+        this.payable = payable;
+    }
 
-	public void setPaymentId(String paymentId){
-		this.paymentId = paymentId;
-	}
+    public String getPaymentId() {
+        return paymentId;
+    }
 
-	public String getPaymentId(){
-		return paymentId;
-	}
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
 
-	public void setPaid(Double paid){
-		this.paid = paid;
-	}
+    public Double getPaid() {
+        return paid;
+    }
 
-	public Double getPaid(){
-		return paid;
-	}
+    public void setPaid(Double paid) {
+        this.paid = paid;
+    }
 
-	public void setTenderPay(Double tenderPay){
-		this.tenderPay = tenderPay;
-	}
+    public Double getTenderPay() {
+        return tenderPay;
+    }
 
-	public Double getTenderPay(){
-		return tenderPay;
-	}
+    public void setTenderPay(Double tenderPay) {
+        this.tenderPay = tenderPay;
+    }
 
-	public void setCGST(double cGST){
-		this.cGST = cGST;
-	}
+    public double getCGST() {
+        return cGST;
+    }
 
-	public double getCGST(){
-		return cGST;
-	}
+    public void setCGST(double cGST) {
+        this.cGST = cGST;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getId(){
-		return id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setNet(Double net){
-		this.net = net;
-	}
+    public Double getNet() {
+        return net;
+    }
 
-	public Double getNet(){
-		return net;
-	}
+    public void setNet(Double net) {
+        this.net = net;
+    }
 
-	public void setOrderId(int orderId){
-		this.orderId = orderId;
-	}
+    public int getOrderId() {
+        return orderId;
+    }
 
-	public int getOrderId(){
-		return orderId;
-	}
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 
-	public void setWalletAmount(Double walletAmount){
-		this.walletAmount = walletAmount;
-	}
+    public Double getWalletAmount() {
+        return walletAmount;
+    }
 
-	public Double getWalletAmount(){
-		return walletAmount;
-	}
+    public void setWalletAmount(Double walletAmount) {
+        this.walletAmount = walletAmount;
+    }
 
-	public void setStatus(String status){
-		this.status = status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public String getStatus(){
-		return status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

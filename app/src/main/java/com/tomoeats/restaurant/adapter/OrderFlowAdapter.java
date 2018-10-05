@@ -1,7 +1,6 @@
 package com.tomoeats.restaurant.adapter;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.helper.GlobalData;
@@ -24,9 +22,9 @@ import java.util.List;
  */
 
 public class OrderFlowAdapter extends RecyclerView.Adapter<OrderFlowAdapter.MyViewHolder> {
+    public String orderStatus = "";
     private List<OrderFlow> list;
     private Context context;
-    public String orderStatus = "";
 
 
     public OrderFlowAdapter(List<OrderFlow> list, Context con) {
@@ -58,7 +56,7 @@ public class OrderFlowAdapter extends RecyclerView.Adapter<OrderFlowAdapter.MyVi
         OrderFlow orderFlow = list.get(position);
         holder.statusTitle.setText(orderFlow.statusTitle);
 
-        if (GlobalData.isselectedOrder != null && GlobalData.isselectedOrder.getScheduleStatus() == 1&&position==0) {
+        if (GlobalData.isselectedOrder != null && GlobalData.isselectedOrder.getScheduleStatus() == 1 && position == 0) {
             holder.statusDescription.setText(orderFlow.statusDescription + "\n" +
                     context.getResources().getString(R.string.schedule_at) + Utils.getTimeFromString(GlobalData.isselectedOrder.getDeliveryDate()));
         } else holder.statusDescription.setText(orderFlow.statusDescription);

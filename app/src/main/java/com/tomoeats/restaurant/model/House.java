@@ -6,18 +6,16 @@ package com.tomoeats.restaurant.model;
 
 public class House {
 
+    String addressHeader;
+    String address;
+    String status;
+    String space;
     public House(String addressHeader, String address, String status, String space) {
         this.addressHeader = addressHeader;
         this.address = address;
         this.status = status;
         this.space = space;
     }
-
-    String addressHeader;
-    String address;
-    String status;
-    String space;
-
 
     public String getAddressHeader() {
         return addressHeader;
@@ -50,7 +48,6 @@ public class House {
     public void setSpace(String space) {
         this.space = space;
     }
-
 
 
 }

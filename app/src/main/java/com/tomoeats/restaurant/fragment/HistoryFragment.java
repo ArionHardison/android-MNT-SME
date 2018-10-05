@@ -41,7 +41,7 @@ public class HistoryFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         //ViewPager Adapter
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new UpcomingVisitFragment(),getString(R.string.upcoming));
+        adapter.addFragment(new UpcomingVisitFragment(), getString(R.string.upcoming));
         adapter.addFragment(new PastVisitFragment(), getString(R.string.past));
         adapter.addFragment(new CancelOrderFragment(), getString(R.string.cancelled));
         viewPager.setAdapter(adapter);

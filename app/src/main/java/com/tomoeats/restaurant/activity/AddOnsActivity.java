@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tomoeats.restaurant.R;
 import com.tomoeats.restaurant.adapter.AddOnsAdapter;
 import com.tomoeats.restaurant.helper.ConnectionHelper;
@@ -23,8 +25,6 @@ import com.tomoeats.restaurant.model.ServerError;
 import com.tomoeats.restaurant.network.ApiClient;
 import com.tomoeats.restaurant.network.ApiInterface;
 import com.tomoeats.restaurant.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,19 +79,19 @@ public class AddOnsActivity extends AppCompatActivity {
     }
 
     private void setUpAdapter() {
-        if(addOnsAdapter==null){
+        if (addOnsAdapter == null) {
             addOnsAdapter = new AddOnsAdapter(addOnsList, context);
             addOnsRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             addOnsRv.setHasFixedSize(true);
             addOnsRv.setAdapter(addOnsAdapter);
-        }else{
+        } else {
             addOnsAdapter.notifyDataSetChanged();
         }
 
-        if(addOnsList.size()>0){
+        if (addOnsList.size() > 0) {
             llNoRecords.setVisibility(View.GONE);
             addOnsRv.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             llNoRecords.setVisibility(View.VISIBLE);
             addOnsRv.setVisibility(View.GONE);
         }
@@ -154,7 +154,7 @@ public class AddOnsActivity extends AppCompatActivity {
 
     public void deleteAddon(final Addon addon, Integer position) {
         customDialog.show();
-        Call<List<Addon>> call=apiInterface.deleteAddon(addon.getId());
+        Call<List<Addon>> call = apiInterface.deleteAddon(addon.getId());
         call.enqueue(new Callback<List<Addon>>() {
             @Override
             public void onResponse(@NonNull Call<List<Addon>> call, @NonNull Response<List<Addon>> response) {

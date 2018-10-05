@@ -23,9 +23,9 @@ import com.tomoeats.restaurant.utils.Utils;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
-    private List<Order> list;
     Context context;
     Activity activity;
+    private List<Order> list;
 
     public HistoryAdapter(List<Order> list, Context con) {
         this.list = list;
@@ -46,14 +46,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Order order = list.get(position);
         holder.address.setText(order.getAddress().getMapAddress());
-        holder.price.setText(context.getString(R.string.currency_value)+""+order.getInvoice().getNet());
+        holder.price.setText(context.getString(R.string.currency_value) + "" + order.getInvoice().getNet());
 
         //Default Status and color
         String status = "Dispute Created";
         holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
 
-        if(order.getStatus().equals("ORDERED")&&order.getDispute().equals("NODISPUTE")){
-            status ="Incoming";
+        if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
+            status = "Incoming";
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
         }
         holder.status.setText(status);
@@ -66,7 +66,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GlobalData.selectedOrder=list.get(position);
+                GlobalData.selectedOrder = list.get(position);
                 context.startActivity(new Intent(context, OrderDetailActivity.class));
             }
         });
@@ -98,7 +98,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, price,status;
+        TextView userName, address, paymentMode, price, status;
         CardView itemLayout;
         ImageView userImg;
 

@@ -1,13 +1,7 @@
 package com.tomoeats.restaurant.application;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
-
 
 import com.crashlytics.android.Crashlytics;
 import com.tomoeats.restaurant.helper.SharedHelper;
@@ -25,11 +19,19 @@ import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends MultiDexApplication {
 
-    private static MyApplication mAppController;
     public static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 123;
+    private static MyApplication mAppController;
 
     public static MyApplication getInstance() {
         return mAppController;
+    }
+
+    public static NumberFormat getNumberFormat() {
+        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", "INR");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        numberFormat.setCurrency(Currency.getInstance(currencyCode));
+        numberFormat.setMinimumFractionDigits(2);
+        return numberFormat;
     }
 
     @Override
@@ -42,13 +44,5 @@ public class MyApplication extends MultiDexApplication {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-    }
-
-    public static NumberFormat getNumberFormat() {
-        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", "INR");
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
-        numberFormat.setCurrency(Currency.getInstance(currencyCode));
-        numberFormat.setMinimumFractionDigits(2);
-        return numberFormat;
     }
 }

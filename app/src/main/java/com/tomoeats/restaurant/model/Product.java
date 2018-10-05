@@ -3,216 +3,202 @@ package com.tomoeats.restaurant.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 
-public class Product implements Parcelable{
 
-	@SerializedName("featured")
-	private int featured;
+public class Product implements Parcelable {
 
-	@SerializedName("images")
-	private List<Image> images;
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
 
-	@SerializedName("max_quantity")
-	private int maxQuantity;
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+    @SerializedName("featured")
+    private int featured;
+    @SerializedName("images")
+    private List<Image> images;
+    @SerializedName("max_quantity")
+    private int maxQuantity;
+    @SerializedName("description")
+    private String description;
+    @SerializedName("cuisine_id")
+    private int cuisineId;
+    @SerializedName("avalability")
+    private int avalability;
+    @SerializedName("food_type")
+    private String foodType;
+    @SerializedName("shop_id")
+    private int shopId;
+    @SerializedName("addon_status")
+    private int addonStatus;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("position")
+    private int position;
+    @SerializedName("prices")
+    private Prices prices;
+    @SerializedName("status")
+    private String status;
 
-	@SerializedName("description")
-	private String description;
+    protected Product(Parcel in) {
+        featured = in.readInt();
+        maxQuantity = in.readInt();
+        description = in.readString();
+        cuisineId = in.readInt();
+        avalability = in.readInt();
+        foodType = in.readString();
+        shopId = in.readInt();
+        addonStatus = in.readInt();
+        name = in.readString();
+        id = in.readInt();
+        position = in.readInt();
+        prices = (Prices) in.readValue(Prices.class.getClassLoader());
+        status = in.readString();
+    }
 
-	@SerializedName("cuisine_id")
-	private int cuisineId;
+    public int getFeatured() {
+        return featured;
+    }
 
-	@SerializedName("avalability")
-	private int avalability;
+    public void setFeatured(int featured) {
+        this.featured = featured;
+    }
 
-	@SerializedName("food_type")
-	private String foodType;
+    public List<Image> getImages() {
+        return images;
+    }
 
-	@SerializedName("shop_id")
-	private int shopId;
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 
-	@SerializedName("addon_status")
-	private int addonStatus;
+    public int getMaxQuantity() {
+        return maxQuantity;
+    }
 
-	@SerializedName("name")
-	private String name;
+    public void setMaxQuantity(int maxQuantity) {
+        this.maxQuantity = maxQuantity;
+    }
 
-	@SerializedName("id")
-	private int id;
+    public String getDescription() {
+        return description;
+    }
 
-	@SerializedName("position")
-	private int position;
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	@SerializedName("prices")
-	private Prices prices;
+    public int getCuisineId() {
+        return cuisineId;
+    }
 
-	@SerializedName("status")
-	private String status;
+    public void setCuisineId(int cuisineId) {
+        this.cuisineId = cuisineId;
+    }
 
-	public void setFeatured(int featured){
-		this.featured = featured;
-	}
+    public int getAvalability() {
+        return avalability;
+    }
 
-	public int getFeatured(){
-		return featured;
-	}
+    public void setAvalability(int avalability) {
+        this.avalability = avalability;
+    }
 
-	public void setImages(List<Image> images){
-		this.images = images;
-	}
+    public String getFoodType() {
+        return foodType;
+    }
 
-	public List<Image> getImages(){
-		return images;
-	}
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
+    }
 
-	public void setMaxQuantity(int maxQuantity){
-		this.maxQuantity = maxQuantity;
-	}
+    public int getShopId() {
+        return shopId;
+    }
 
-	public int getMaxQuantity(){
-		return maxQuantity;
-	}
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
 
-	public void setDescription(String description){
-		this.description = description;
-	}
+    public int getAddonStatus() {
+        return addonStatus;
+    }
 
-	public String getDescription(){
-		return description;
-	}
+    public void setAddonStatus(int addonStatus) {
+        this.addonStatus = addonStatus;
+    }
 
-	public void setCuisineId(int cuisineId){
-		this.cuisineId = cuisineId;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getCuisineId(){
-		return cuisineId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setAvalability(int avalability){
-		this.avalability = avalability;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getAvalability(){
-		return avalability;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setFoodType(String foodType){
-		this.foodType = foodType;
-	}
+    public int getPosition() {
+        return position;
+    }
 
-	public String getFoodType(){
-		return foodType;
-	}
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
-	public void setShopId(int shopId){
-		this.shopId = shopId;
-	}
+    public Prices getPrices() {
+        return prices;
+    }
 
-	public int getShopId(){
-		return shopId;
-	}
+    public void setPrices(Prices prices) {
+        this.prices = prices;
+    }
 
-	public void setAddonStatus(int addonStatus){
-		this.addonStatus = addonStatus;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public int getAddonStatus(){
-		return addonStatus;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public void setName(String name){
-		this.name = name;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	public String getName(){
-		return name;
-	}
-
-	public void setId(int id){
-		this.id = id;
-	}
-
-	public int getId(){
-		return id;
-	}
-
-	public void setPosition(int position){
-		this.position = position;
-	}
-
-	public int getPosition(){
-		return position;
-	}
-
-	public void setPrices(Prices prices){
-		this.prices = prices;
-	}
-
-	public Prices getPrices(){
-		return prices;
-	}
-
-	public void setStatus(String status){
-		this.status = status;
-	}
-
-	public String getStatus(){
-		return status;
-	}
-
-	protected Product(Parcel in) {
-		featured = in.readInt();
-		maxQuantity = in.readInt();
-		description = in.readString();
-		cuisineId = in.readInt();
-		avalability = in.readInt();
-		foodType = in.readString();
-		shopId = in.readInt();
-		addonStatus = in.readInt();
-		name = in.readString();
-		id = in.readInt();
-		position = in.readInt();
-		prices = (Prices) in.readValue(Prices.class.getClassLoader());
-		status = in.readString();
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(featured);
-		dest.writeInt(maxQuantity);
-		dest.writeString(description);
-		dest.writeInt(cuisineId);
-		dest.writeInt(avalability);
-		dest.writeString(foodType);
-		dest.writeInt(shopId);
-		dest.writeInt(addonStatus);
-		dest.writeString(name);
-		dest.writeInt(id);
-		dest.writeInt(position);
-		dest.writeValue(prices);
-		dest.writeString(status);
-	}
-
-	@SuppressWarnings("unused")
-	public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
-		@Override
-		public Product createFromParcel(Parcel in) {
-			return new Product(in);
-		}
-
-		@Override
-		public Product[] newArray(int size) {
-			return new Product[size];
-		}
-	};
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(featured);
+        dest.writeInt(maxQuantity);
+        dest.writeString(description);
+        dest.writeInt(cuisineId);
+        dest.writeInt(avalability);
+        dest.writeString(foodType);
+        dest.writeInt(shopId);
+        dest.writeInt(addonStatus);
+        dest.writeString(name);
+        dest.writeInt(id);
+        dest.writeInt(position);
+        dest.writeValue(prices);
+        dest.writeString(status);
+    }
 
 }

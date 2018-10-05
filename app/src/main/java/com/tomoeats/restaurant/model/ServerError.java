@@ -3,6 +3,7 @@ package com.tomoeats.restaurant.model;
 /**
  * Created by Tamil on 3/7/2018.
  */
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -81,11 +81,10 @@ public class AddCategoryActivity extends AppCompatActivity {
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-
-    private Category categoryDetails;
     File categoryImageFile;
-    ArrayList<String>lstItems = new ArrayList<>();
-    String strCategoryName,strDescription,strCategoryOrder,strStatus;
+    ArrayList<String> lstItems = new ArrayList<>();
+    String strCategoryName, strDescription, strCategoryOrder, strStatus;
+    private Category categoryDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,18 +141,18 @@ public class AddCategoryActivity extends AppCompatActivity {
                 galleryIntent();
                 break;
             case R.id.save_btn:
-                if (validateFields()){
-                    if (connectionHelper.isConnectingToInternet()){
+                if (validateFields()) {
+                    if (connectionHelper.isConnectingToInternet()) {
                         String shop_id = SharedHelper.getKey(this, Constants.PREF.PROFILE_ID);
                         HashMap<String, RequestBody> params = new HashMap<>();
-                        params.put("name",RequestBody.create(MediaType.parse("text/plain"),strCategoryName));
-                        params.put("description",RequestBody.create(MediaType.parse("text/plain"),strDescription));
-                        params.put("status",RequestBody.create(MediaType.parse("text/plain"),strStatus.toLowerCase()));
-                        params.put("shop_id",RequestBody.create(MediaType.parse("text/plain"), shop_id));
-                        params.put("position",RequestBody.create(MediaType.parse("text/plain"), strCategoryOrder));
+                        params.put("name", RequestBody.create(MediaType.parse("text/plain"), strCategoryName));
+                        params.put("description", RequestBody.create(MediaType.parse("text/plain"), strDescription));
+                        params.put("status", RequestBody.create(MediaType.parse("text/plain"), strStatus.toLowerCase()));
+                        params.put("shop_id", RequestBody.create(MediaType.parse("text/plain"), shop_id));
+                        params.put("position", RequestBody.create(MediaType.parse("text/plain"), strCategoryOrder));
                         addCategory(params);
-                    }else{
-                        Utils.displayMessage(this,getString(R.string.oops_no_internet));
+                    } else {
+                        Utils.displayMessage(this, getString(R.string.oops_no_internet));
                     }
                 }
 
@@ -161,24 +160,24 @@ public class AddCategoryActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validateFields(){
+    private boolean validateFields() {
 
-         strCategoryName = etAddonsName.getText().toString().trim();
-         strDescription = etDescription.getText().toString().trim();
-         strCategoryOrder = categoryOrderPicker.getText().toString().trim();
-         strStatus = lstItems.get(statusSpin.getSelectedIndex());
+        strCategoryName = etAddonsName.getText().toString().trim();
+        strDescription = etDescription.getText().toString().trim();
+        strCategoryOrder = categoryOrderPicker.getText().toString().trim();
+        strStatus = lstItems.get(statusSpin.getSelectedIndex());
 
-        if (strCategoryName.isEmpty()){
-            Utils.displayMessage(this,getString(R.string.please_enter_category_name));
+        if (strCategoryName.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.please_enter_category_name));
             return false;
-        }else if (strDescription.isEmpty()){
-            Utils.displayMessage(this,getString(R.string.please_enter_category_description));
+        } else if (strDescription.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.please_enter_category_description));
             return false;
-        }else if (strStatus.isEmpty()){
-            Utils.displayMessage(this,getString(R.string.please_select_status));
+        } else if (strStatus.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.please_select_status));
             return false;
-        }else if (categoryImageFile==null){
-            Utils.displayMessage(this,getString(R.string.please_select_category_image));
+        } else if (categoryImageFile == null) {
+            Utils.displayMessage(this, getString(R.string.please_select_category_image));
             return false;
         }
         return true;
@@ -187,7 +186,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     private void addCategory(HashMap<String, RequestBody> params) {
         customDialog.show();
         MultipartBody.Part filePart = null;
-        if (categoryImageFile != null){
+        if (categoryImageFile != null) {
             try {
                 categoryImageFile = new Compressor(this).compressToFile(categoryImageFile);
             } catch (IOException e) {
@@ -197,27 +196,27 @@ public class AddCategoryActivity extends AppCompatActivity {
                     RequestBody.create(MediaType.parse("image/*"), categoryImageFile));
         }
         Call<Category> call = null;
-        if (categoryDetails!=null){
-            params.put("_method",RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
-            call = apiInterface.updateCategory(categoryDetails.getId(),params,filePart);
-        }else{
-            call = apiInterface.addCategory(params,filePart);
+        if (categoryDetails != null) {
+            params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
+            call = apiInterface.updateCategory(categoryDetails.getId(), params, filePart);
+        } else {
+            call = apiInterface.addCategory(params, filePart);
         }
 
         call.enqueue(new Callback<Category>() {
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
                 customDialog.dismiss();
-                if (response.isSuccessful()){
-                    Utils.displayMessage(AddCategoryActivity.this,getString(R.string.category_added_successfully));
+                if (response.isSuccessful()) {
+                    Utils.displayMessage(AddCategoryActivity.this, getString(R.string.category_added_successfully));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             onBackPressed();
                         }
-                    },1000);
-                }else {
-                    Utils.displayMessage(AddCategoryActivity.this,"failed");
+                    }, 1000);
+                } else {
+                    Utils.displayMessage(AddCategoryActivity.this, "failed");
                 }
 
             }
@@ -225,7 +224,7 @@ public class AddCategoryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Category> call, Throwable t) {
                 customDialog.dismiss();
-                Utils.displayMessage(AddCategoryActivity.this,t.toString());
+                Utils.displayMessage(AddCategoryActivity.this, t.toString());
             }
         });
     }
@@ -259,7 +258,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                             @Override
                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                 categoryImg.setImageBitmap(resource);
-                                categoryImageFile = Utils.storeInFile(context,resource,"category_image.jpg","jpeg");
+                                categoryImageFile = Utils.storeInFile(context, resource, "category_image.jpg", "jpeg");
                             }
                         });
             }
@@ -307,11 +306,11 @@ public class AddCategoryActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                categoryImageFile = imageFile;
+            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                categoryImageFile = imageFiles.get(0);
                 Glide
                         .with(context)
-                        .load(imageFile)
+                        .load(imageFiles.get(0))
                         .apply(new RequestOptions()
                                 .placeholder(R.drawable.ic_place_holder_image)
                                 .error(R.drawable.ic_place_holder_image).dontAnimate())
