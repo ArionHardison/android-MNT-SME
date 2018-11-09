@@ -28,11 +28,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semi_bold"
                 android:layout_gravity="center"
-                android:textSize="@dimen/text_medium"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:text="TOMOEATS"
                 android:textColor="@color/colorSecondaryText"
-                android:text="TOMOEATS"/>
+                android:textSize="@dimen/text_medium"
+                android:visibility="gone" />
 
 
             <TextView
