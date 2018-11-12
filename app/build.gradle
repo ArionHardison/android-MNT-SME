@@ -8,7 +8,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "com.restaurantaround.app"
+        applicationId "com.restaurantaround.restaurant"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -44,6 +44,8 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
 
     implementation 'com.google.android.gms:play-services-places:16.0.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
@@ -56,6 +58,7 @@ dependencies {
 
     //      Fire base for Push Notification
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
 
     //      Butter Knife injection for Design
     implementation 'com.jakewharton:butterknife:8.8.1'

@@ -9,7 +9,6 @@
     <dimen name="text_small_large">@dimen/_12sdp</dimen>
     <dimen name="text_tiny">@dimen/_10sdp</dimen>
 
-
     <dimen name="edit_text_size">@dimen/_32sdp</dimen>
     <dimen name="edit_text_size_large">@dimen/_60sdp</dimen>
     <dimen name="button_size">@dimen/_42sdp</dimen>
