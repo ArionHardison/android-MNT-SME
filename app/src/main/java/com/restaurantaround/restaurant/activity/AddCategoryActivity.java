@@ -192,7 +192,7 @@ public class AddCategoryActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            filePart = MultipartBody.Part.createFormData("avatar", categoryImageFile.getName(),
+            filePart = MultipartBody.Part.createFormData("image", categoryImageFile.getName(),
                     RequestBody.create(MediaType.parse("image/*"), categoryImageFile));
         }
         Call<Category> call = null;

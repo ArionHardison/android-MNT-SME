@@ -257,7 +257,12 @@ public class HomeFragment extends Fragment implements ProfileListener {
 
     @Override
     public void onSuccess(Profile profile) {
-        updateUI(profile);
+        try {
+            updateUI(profile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

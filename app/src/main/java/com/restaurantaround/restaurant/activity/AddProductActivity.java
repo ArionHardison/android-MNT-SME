@@ -37,6 +37,7 @@ import com.restaurantaround.restaurant.messages.ProductMessage;
 import com.restaurantaround.restaurant.model.Category;
 import com.restaurantaround.restaurant.model.Cuisine;
 import com.restaurantaround.restaurant.model.Image;
+import com.restaurantaround.restaurant.model.Product;
 import com.restaurantaround.restaurant.model.ServerError;
 import com.restaurantaround.restaurant.model.product.ProductResponse;
 import com.restaurantaround.restaurant.network.ApiClient;
@@ -176,7 +177,8 @@ public class AddProductActivity extends AppCompatActivity {
             etProductOrder.setText(productResponse.getPosition() + "");
 
 
-            if (productResponse.getImages().size() > 0) {
+            if (productResponse.getImages() != null &&
+                    productResponse.getImages().size() > 0) {
                 List<Image> imageList = productResponse.getImages();
                 String url = imageList.get(0).getUrl();
 
@@ -196,7 +198,8 @@ public class AddProductActivity extends AppCompatActivity {
 
             }
 
-            if (productResponse.getFeaturedImages().size() > 0) {
+            if (productResponse.getFeaturedImages() != null &&
+                    productResponse.getFeaturedImages().size() > 0) {
                 List<Image> imageList = productResponse.getFeaturedImages();
                 String url = imageList.get(0).getUrl();
 
@@ -322,7 +325,8 @@ public class AddProductActivity extends AppCompatActivity {
         }
     }
 
-    private void getCategory() {
+    private void
+    getCategory() {
         customDialog.show();
         Call<List<Category>> call = apiInterface.getCategory();
         call.enqueue(new Callback<List<Category>>() {
@@ -336,6 +340,11 @@ public class AddProductActivity extends AppCompatActivity {
                         hshCategory.put(getString(R.string.product_select_catefory), 0);
                         if (listCategory.size() > 0) {
                             for (int i = 0; i < listCategory.size(); i++) {
+                                Category category = listCategory.get(i);
+                                List<Product> product = category.getProducts();
+                                for(int j = 0; j <product.size(); j++) {
+                                    foodType = product.get(j).getFoodType();
+                                }
                                 lstCategoryNames.add(listCategory.get(i).getName());
                                 hshCategory.put(listCategory.get(i).getName(), listCategory.get(i).getId());
                                 if (i == (listCategory.size() - 1)) {
