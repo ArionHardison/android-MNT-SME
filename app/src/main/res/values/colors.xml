@@ -2,15 +2,15 @@
 <resources>
     <color name="colorPrimary">#6fbd3c</color>
     <color name="colorPrimaryDark">#aa3900</color>
-    <color name="colorAccent">#e36816</color>
+    <color name="colorAccent">#ef4856</color>
 
     <!-- App Theme Color-->
-    <color name="colorTheme">#e36816</color>
+    <color name="colorTheme">#ef4856</color>
     <color name="background_color">#f5f5f5</color>
     <color name="background_grey">#eee</color>
 
     <!-- Toolbar Color-->
-    <color name="toolbar_bg">#e36816</color>
+    <color name="toolbar_bg">#e9ef4856</color>
     <color name="toolbar_title">#FFF</color>
 
     <!-- Text-->

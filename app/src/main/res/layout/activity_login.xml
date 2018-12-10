@@ -30,7 +30,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/nunito_semi_bold"
-                android:text="TOMOEATS"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium"
                 android:visibility="gone" />

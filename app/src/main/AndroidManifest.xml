@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.restaurantaround.restaurant">
+    package="com.geteat.outlet">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -12,7 +12,7 @@
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
-        android:name="com.restaurantaround.restaurant.application.MyApplication"
+        android:name="com.geteat.outlet.application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -28,10 +28,10 @@
             android:value="AIzaSyCAbBKg_xiJo3SyKUuP_BsaOq54hGiZOak" />
 
         <activity
-            android:name="com.restaurantaround.restaurant.activity.HomeActivity"
+            android:name="com.geteat.outlet.activity.HomeActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name="com.restaurantaround.restaurant.activity.SplashActivity">
+        <activity android:name="com.geteat.outlet.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,98 +39,98 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.restaurantaround.restaurant.activity.LoginActivity"
+            android:name="com.geteat.outlet.activity.LoginActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.RegisterActivity"
+            android:name="com.geteat.outlet.activity.RegisterActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.EditProfileActivity"
+            android:name="com.geteat.outlet.activity.EditProfileActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.HistoryActivity"
+            android:name="com.geteat.outlet.activity.HistoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.AddOnsActivity"
+            android:name="com.geteat.outlet.activity.AddOnsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.AddAddOnsActivity"
+            android:name="com.geteat.outlet.activity.AddAddOnsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.ProductsActivity"
+            android:name="com.geteat.outlet.activity.ProductsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"
             android:taskAffinity=".products" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.CategoryActivity"
+            android:name="com.geteat.outlet.activity.CategoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.AddCategoryActivity"
+            android:name="com.geteat.outlet.activity.AddCategoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.AddProductActivity"
+            android:name="com.geteat.outlet.activity.AddProductActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.RestaurantTimingActivity"
+            android:name="com.geteat.outlet.activity.RestaurantTimingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.ChangePasswordActivity"
+            android:name="com.geteat.outlet.activity.ChangePasswordActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.EditRestaurantActivity"
+            android:name="com.geteat.outlet.activity.EditRestaurantActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.RequestAcceptActivity"
+            android:name="com.geteat.outlet.activity.RequestAcceptActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.OrderDetailActivity"
+            android:name="com.geteat.outlet.activity.OrderDetailActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.DeliveriesActivity"
+            android:name="com.geteat.outlet.activity.DeliveriesActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.ForgotPassword"
+            android:name="com.geteat.outlet.activity.ForgotPassword"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.OtpActivity"
+            android:name="com.geteat.outlet.activity.OtpActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.ResetPasswordActivity"
+            android:name="com.geteat.outlet.activity.ResetPasswordActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.ProductAddOnActivity"
+            android:name="com.geteat.outlet.activity.ProductAddOnActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.restaurantaround.restaurant.activity.ProductAddOnListActivity"
+            android:name="com.geteat.outlet.activity.ProductAddOnListActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
 
-        <service android:name="com.restaurantaround.restaurant.notification.MyFirebaseMessagingService">
+        <service android:name="com.geteat.outlet.notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name="com.restaurantaround.restaurant.notification.MyFirebaseInstanceIDService">
+        <service android:name="com.geteat.outlet.notification.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
