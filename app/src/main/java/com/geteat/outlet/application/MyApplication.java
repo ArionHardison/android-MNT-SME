@@ -11,6 +11,7 @@ import java.util.Currency;
 import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
+import com.facebook.stetho.Stetho;
 
 /**
  * Created by Tamil on 3/17/2018.
@@ -38,6 +39,8 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        Stetho.initializeWithDefaults(this);
+
         mAppController = this;
     }
 

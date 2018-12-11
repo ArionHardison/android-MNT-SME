@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6fbd3c</color>
-    <color name="colorPrimaryDark">#aa3900</color>
-    <color name="colorAccent">#ef4856</color>
+    <color name="colorPrimary">#ed4756</color>
+    <color name="colorPrimaryDark">#ed4756</color>
+    <color name="colorAccent">#ef4756</color>
 
     <!-- App Theme Color-->
     <color name="colorTheme">#ef4856</color>
@@ -34,6 +34,6 @@
 
    <!-- BottomSheet Color-->
     <color name="bottomSheetInActiveColor">#747474</color>
-    <color name="bottomSheetInAccentColor">#6fbd3c</color>
+    <color name="bottomSheetInAccentColor">#f4ef4756</color>
 
 </resources>
