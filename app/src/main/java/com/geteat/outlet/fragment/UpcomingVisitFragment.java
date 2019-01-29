@@ -98,7 +98,7 @@ public class UpcomingVisitFragment extends Fragment {
 
     private void getOnGoingOrders() {
         HistoryActivity.showDialog();
-        Call<IncomingOrders> call = apiInterface.getIncomingOrders("");
+        Call<IncomingOrders> call = apiInterface.getIncomingOrders("processing");
         call.enqueue(new Callback<IncomingOrders>() {
             @Override
             public void onResponse(Call<IncomingOrders> call, Response<IncomingOrders> response) {

@@ -157,13 +157,14 @@
     <string name="please_enter_amount">Please enter minimum amount</string>
     <string name="please_enter_delievery_time">Please enter maximum delievery time</string>
     <string name="please_enter_landmark">Please enter landmark</string>
+    <string name="please_select_status">Please select status</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="oops_no_internet">Oops! No internet connection</string>
     <string name="tax">Tax</string>
     <string name="discount">Discount</string>
     <string name="addon_">%s(%d x %s)</string>
     <string name="product_">%s(%d x %s)</string>
-    <string name="order_delivery_time_description">Enter the order prepreation time ?</string>
+    <string name="order_delivery_time_description">Enter the order prepration time ?</string>
     <string name="order_delivery_time">Order delivery time</string>
     <string name="okay">Okay</string>
     <string name="please_enter_delivery_time">Please enter delivery time</string>
@@ -246,7 +247,7 @@
     <string name="no_addons">No Addons</string>
     <string name="please_enter_category_name">Please enter category name</string>
     <string name="please_enter_category_description">Please enter category description</string>
-    <string name="please_select_status">Please select status</string>
+    <!--<string name="please_select_status">Please select status</string>-->
     <string name="please_select_category_image">Please select category image</string>
     <string name="please_select_product_image">Please select product image</string>
     <string name="category_list">Category List</string>

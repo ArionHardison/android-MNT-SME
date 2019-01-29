@@ -280,7 +280,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
         String date = year + "-" + String.format("%02d", monthOfYear) + "-" + String.format("%02d", dayOfMonth);
-        String formattedDate = String.format("%02d", dayOfMonth) + ":" + String.format("%02d", monthOfYear) + ":" + year;
+        String formattedDate = String.format("%02d", dayOfMonth) + ":" + String.format("%02d", monthOfYear+1    ) + ":" + year;
         if (dialog.getTag().equals(FROM_DATE)) {
             strFromDate = date;
             txtFromDate.setText(formattedDate);

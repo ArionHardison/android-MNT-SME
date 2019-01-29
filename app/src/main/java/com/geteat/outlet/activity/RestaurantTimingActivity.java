@@ -311,22 +311,22 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
         customDialog.show();
         MultipartBody.Part filePart1 = null;
         if (GlobalData.REGISTER_AVATAR != null) {
-            try {
+            /*try {
                 GlobalData.REGISTER_AVATAR = new Compressor(this).compressToFile(GlobalData.REGISTER_AVATAR);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             filePart1 = MultipartBody.Part.createFormData("avatar", GlobalData.REGISTER_AVATAR.getName(),
                     RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_AVATAR));
         }
 
         MultipartBody.Part filePart2 = null;
         if (GlobalData.REGISTER_SHOP_BANNER != null) {
-            try {
+            /*try {
                 GlobalData.REGISTER_SHOP_BANNER = new Compressor(this).compressToFile(GlobalData.REGISTER_SHOP_BANNER);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             filePart2 = MultipartBody.Part.createFormData("default_banner", GlobalData.REGISTER_SHOP_BANNER.getName(),
                     RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_SHOP_BANNER));
         }

@@ -52,11 +52,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         String status = "Dispute Created";
         holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
 
-        if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
-            status = "Incoming";
+        if (order.getDispute().equalsIgnoreCase("CREATED")) {
+            holder.status.setText(status);
+        } else if (order.getStatus().equals("CANCELLED") || order.getStatus().equals("COMPLETED") ) {
+            status = "";
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
+            holder.status.setText(status);
+
+        } else {
+            status = "ongoing";
+            holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
+            holder.status.setText(status);
         }
-        holder.status.setText(status);
+
         String name = Utils.toFirstCharUpperAll(order.getUser().getName());
         String payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
 

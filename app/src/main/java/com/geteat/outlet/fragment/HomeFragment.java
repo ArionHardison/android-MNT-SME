@@ -14,6 +14,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -72,7 +73,6 @@ public class HomeFragment extends Fragment implements ProfileListener {
     @BindView(R.id.activity_main)
     CoordinatorLayout activityMain;
     Unbinder unbinder;
-
     RequestAdapter requestAdapter;
     List<Order> orderList;
     Context context;
@@ -91,6 +91,8 @@ public class HomeFragment extends Fragment implements ProfileListener {
     TextView shopAddress;
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
+    @BindView(R.id.resturant_rating)
+    AppCompatRatingBar resturant_rating;
     private Handler homeHandler = new Handler();
     private boolean isVisible = true;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -158,6 +160,8 @@ public class HomeFragment extends Fragment implements ProfileListener {
             shopName.setText(profile.getName());
         if (profile != null && profile.getAddress() != null)
             shopAddress.setText(profile.getMapsAddress());
+        if (profile != null && profile.getRating() != null)
+            resturant_rating.setRating(profile.getRating());
     }
 
 
@@ -214,8 +218,10 @@ public class HomeFragment extends Fragment implements ProfileListener {
                 if (response.isSuccessful()) {
                     if (response.body().getOrders() != null &&
                             !response.body().getOrders().isEmpty() && response.body().getOrders().size() > 0) {
-                        incomingRv.setVisibility(View.VISIBLE);
-                        llNoRecords.setVisibility(View.GONE);
+                        if (incomingRv != null && llNoRecords != null) {
+                            incomingRv.setVisibility(View.VISIBLE);
+                            llNoRecords.setVisibility(View.GONE);
+                        }
                         orderList.clear();
                         orderList.addAll(response.body().getOrders());
                         if (requestAdapter == null) {
@@ -224,8 +230,10 @@ public class HomeFragment extends Fragment implements ProfileListener {
                             requestAdapter.notifyDataSetChanged();
                         }
                     } else {
-                        incomingRv.setVisibility(View.GONE);
-                        llNoRecords.setVisibility(View.VISIBLE);
+                        if (incomingRv != null && llNoRecords != null) {
+                            incomingRv.setVisibility(View.GONE);
+                            llNoRecords.setVisibility(View.VISIBLE);
+                        }
                     }
 
                 } else {

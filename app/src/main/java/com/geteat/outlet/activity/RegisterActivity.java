@@ -141,6 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
     int SHOP_BANNER = 1;
     int CT_TYPE = SHOP_IMAGE;
     private CountryPicker mCountryPicker;
+     String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +171,7 @@ public class RegisterActivity extends AppCompatActivity {
                 etOfferInPercentage.setText("0");
         });
 
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             etName.setText("Gary Dango");
             etEmail.setText("garydango@yopmail.com");
             etMobile.setText("9003440134");
@@ -385,6 +386,8 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_fill_your_address));
         else if (landmark.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_landmark));
+        else if (tvStatus.getText().toString().isEmpty())
+            Utils.displayMessage(activity, getResources().getString(R.string.please_select_status));
 
         else {
             if (isInternet) {
@@ -405,6 +408,14 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
                 map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
                 map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
+                if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
+                    status = "onboarding";
+                } else if (tvStatus.getText().toString().equalsIgnoreCase("banned")) {
+                    status = "banned";
+                } else if (tvStatus.getText().toString().equalsIgnoreCase("active")) {
+                    status = "active";
+                }
+                map.put("status", RequestBody.create(MediaType.parse("text/plain"), status));
 
                 //Stored here for login
                 GlobalData.email = email;

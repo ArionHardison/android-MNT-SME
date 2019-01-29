@@ -63,6 +63,8 @@ public class RequestAcceptActivity extends AppCompatActivity {
     RecyclerView orderProductRv;
     @BindView(R.id.sub_total)
     TextView subTotal;
+    @BindView(R.id.service_tax)
+    TextView service_tax;
     @BindView(R.id.tv_cgst)
     TextView tv_cgst;
     @BindView(R.id.tv_sgst)
@@ -153,6 +155,8 @@ public class RequestAcceptActivity extends AppCompatActivity {
 
 
         subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
+        service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
+
         discount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDiscount()));
         tv_cgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", cgst));
         tv_sgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", sgst));

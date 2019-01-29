@@ -288,6 +288,7 @@ public class AddProductActivity extends AppCompatActivity {
         customDialog.dismiss();
         if (productResponse != null && productResponse.getCategories().size() > 0) {
             selected_pos = lstCategoryNames.indexOf(productResponse.getCategories().get(0).getName());
+
         }
         categorySpin.setItems(lstCategoryNames);
         categorySpin.setOnItemSelectedListener(new CommonOnItemSelectListener());
@@ -336,17 +337,19 @@ public class AddProductActivity extends AppCompatActivity {
                     if (response.body() != null) {
                         listCategory = response.body();
                         //default option
-                        lstCategoryNames.add(getString(R.string.product_select_catefory));
-                        hshCategory.put(getString(R.string.product_select_catefory), 0);
+//                        lstCategoryNames.add(getString(R.string.product_select_catefory));
+//                        hshCategory.put(getString(R.string.product_select_catefory), 0);
                         if (listCategory.size() > 0) {
                             for (int i = 0; i < listCategory.size(); i++) {
                                 Category category = listCategory.get(i);
                                 List<Product> product = category.getProducts();
-                                for(int j = 0; j <product.size(); j++) {
+                                for (int j = 0; j < product.size(); j++) {
                                     foodType = product.get(j).getFoodType();
                                 }
                                 lstCategoryNames.add(listCategory.get(i).getName());
                                 hshCategory.put(listCategory.get(i).getName(), listCategory.get(i).getId());
+                                strCategory = hshCategory.get(lstCategoryNames.get(0)) + "";
+
                                 if (i == (listCategory.size() - 1)) {
                                     setCategorySpinner();
                                 }

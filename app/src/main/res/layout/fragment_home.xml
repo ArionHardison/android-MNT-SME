@@ -80,6 +80,7 @@
                             style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/resturant_rating"
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"

@@ -20,7 +20,7 @@
         android:layout_marginTop="@dimen/_4sdp"
         android:background="@drawable/edit_text_rounded_corner_bg"
         android:imeOptions="actionNext"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textCapCharacters"
         android:padding="@dimen/_6sdp"
         android:maxLength="200"
         android:textColor="@color/colorSecondaryText"
