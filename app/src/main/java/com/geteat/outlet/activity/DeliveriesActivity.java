@@ -1,6 +1,7 @@
 package com.geteat.outlet.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -137,6 +138,10 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
+                        if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class));
+                            finish();
+                        }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));
                     }
@@ -179,6 +184,9 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
+                        if (response.code() == 401)
+                        {context.startActivity(new Intent(context, LoginActivity.class));
+                            finish();}
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));
                     }
@@ -249,6 +257,10 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
+                        if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class));
+                            finish();
+                        }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));
                     }

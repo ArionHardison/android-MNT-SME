@@ -106,7 +106,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
         if (error.isEmpty())
             Utils.displayMessage(activity, getString(R.string.something_went_wrong));
         else
-            Utils.displayMessage(activity, error);
+            Utils.displayMessage(activity, getString(R.string.something_went_wrong));
 
         SharedHelper.putKey(context, "logged", "false");
         startActivity(new Intent(SplashActivity.this, LoginActivity.class)

@@ -258,13 +258,17 @@ public class ProductAddOnActivity extends AppCompatActivity {
                     redirectToProductList();
                 } else {
                     Utils.displayMessage(ProductAddOnActivity.this, "failed");
+                    if (response.code() == 401) {
+                        startActivity(new Intent(ProductAddOnActivity.this, LoginActivity.class));
+                        finish();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
                 customDialog.dismiss();
-                Utils.displayMessage(ProductAddOnActivity.this, t.toString());
+                Utils.displayMessage(ProductAddOnActivity.this, getString(R.string.something_went_wrong));
             }
         });
     }

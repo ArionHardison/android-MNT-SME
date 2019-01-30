@@ -101,6 +101,10 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         Toast.makeText(context, jObjError.optString("message"), Toast.LENGTH_LONG).show();
+                        if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class));
+                            activity.finish();
+                        }
                     } catch (Exception e) {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -110,7 +114,7 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
             @Override
             public void onFailure(Call<List<ProductResponse>> call, Throwable t) {
                 customDialog.dismiss();
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -181,6 +185,10 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(ProductsActivity.this, serverError.getError());
+                        if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class));
+                            activity.finish();
+                        }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(ProductsActivity.this, getString(R.string.something_went_wrong));
                     }

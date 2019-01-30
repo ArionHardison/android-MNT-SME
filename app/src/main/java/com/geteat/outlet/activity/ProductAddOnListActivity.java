@@ -154,6 +154,9 @@ public class ProductAddOnListActivity extends AppCompatActivity {
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(ProductAddOnListActivity.this, serverError.getError());
+                        if (response.code() == 401)
+                        {startActivity(new Intent(ProductAddOnListActivity.this, LoginActivity.class));
+                            finish();}
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(ProductAddOnListActivity.this, getString(R.string.something_went_wrong));
                     }

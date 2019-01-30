@@ -2,6 +2,7 @@ package com.geteat.outlet.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.geteat.outlet.activity.LoginActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.geteat.outlet.R;
@@ -138,6 +140,9 @@ public class PastVisitFragment extends Fragment {
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
+                        if (response.code() == 401)
+                        {context.startActivity(new Intent(context, LoginActivity.class));
+                            activity.finish();}
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }

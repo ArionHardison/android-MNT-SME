@@ -2,6 +2,7 @@ package com.geteat.outlet.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -180,6 +181,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             Utils.displayMessage(activity, "Incorrect Password");
                         } else {
                             Utils.displayMessage(activity, serverError.getError());
+                        }
+                        if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class));
+                            activity.finish();
                         }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));

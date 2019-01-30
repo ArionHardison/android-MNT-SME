@@ -346,6 +346,10 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
                             Toast.makeText(getApplicationContext(), jObjError.optString("error"), Toast.LENGTH_LONG).show();
                         else
                             Toast.makeText(getApplicationContext(), jObjError.optString("phone"), Toast.LENGTH_LONG).show();
+                        if (response.code() == 401) {
+                            startActivity(new Intent(RestaurantTimingActivity.this, LoginActivity.class));
+                            finish();
+                        }
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }

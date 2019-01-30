@@ -2,6 +2,7 @@ package com.geteat.outlet.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -114,6 +115,10 @@ public class AddAddOnsActivity extends AppCompatActivity {
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
+                        if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class));
+                            finish();
+                        }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }

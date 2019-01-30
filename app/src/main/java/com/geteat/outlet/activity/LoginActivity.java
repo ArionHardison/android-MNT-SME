@@ -193,6 +193,6 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         customDialog.dismiss();
         if (error.isEmpty())
             Utils.displayMessage(activity, getString(R.string.something_went_wrong));
-        else Utils.displayMessage(activity, error);
+        else Utils.displayMessage(activity, getString(R.string.something_went_wrong));
     }
 }

@@ -1,6 +1,7 @@
 package com.geteat.outlet.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.geteat.outlet.R;
 import com.geteat.outlet.activity.AddProductActivity;
 import com.geteat.outlet.activity.EditRestaurantActivity;
+import com.geteat.outlet.activity.LoginActivity;
 import com.geteat.outlet.activity.RegisterActivity;
 import com.geteat.outlet.helper.ConnectionHelper;
 import com.geteat.outlet.model.Cuisine;
@@ -107,6 +109,10 @@ public class CuisineSelectFragment extends DialogFragment {
                     list.clear();
                     list.addAll(response.body());
                     mAdapter.notifyDataSetChanged();
+                    if (response.code() == 401) {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        getActivity().finish();
+                    }
                 }
             }
 
