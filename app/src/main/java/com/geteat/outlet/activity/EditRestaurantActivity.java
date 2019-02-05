@@ -322,7 +322,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_valid_mail_id));
         else if (CuisineSelectFragment.CUISINES.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.invalid_cuisine));
-        else if (mobile.isEmpty())
+        else if (mobile.isEmpty() || mobile.length() != 10)
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_phone_number));
         else if (offer_min_amount.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_amount));

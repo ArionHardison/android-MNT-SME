@@ -150,7 +150,7 @@
     <string name="please_enter_new_password">Please enter new password</string>
     <string name="please_enter_minimum_length_password">Please enter atleast 6 characters in password</string>
     <string name="please_enter_name">Please enter name</string>
-    <string name="please_enter_phone_number">Please enter phone number</string>
+    <string name="please_enter_phone_number">Please enter valid phone number</string>
     <string name="please_enter_confirm_password">Please enter confirm password</string>
     <string name="password_and_confirm_password_doesnot_match">Password and Confirm Password doesn\'t match!</string>
     <string name="please_fill_your_address">Please fill your address</string>
