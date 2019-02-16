@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:inputType="textPersonName|textCapCharacters"
+                    android:inputType="textPersonName|textCapWords"
                     android:text="Micheal"
                     android:textSize="@dimen/text_medium" />
 
@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:inputType="textPersonName|textCapCharacters"
+                    android:inputType="textPersonName|textCapWords"
                     android:text="Thompshon"
                     android:textSize="@dimen/text_medium" />
 

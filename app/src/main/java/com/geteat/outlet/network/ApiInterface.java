@@ -95,11 +95,11 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/shop/addons")
-    Call<Addon> addAddon(@Field("name") String name);
+    Call<Addon> addAddon(@Field("name") String name,@Field("shop_id") String shop_id);
 
     @FormUrlEncoded
     @PATCH("api/shop/addons/{id}")
-    Call<Addon> updateAddon(@Path("id") int id, @Field("name") String name);
+    Call<Addon> updateAddon(@Path("id") int id, @Field("name") String name,@Field("shop_id") String shop_id);
 
     @DELETE("api/shop/addons/{id}")
     Call<List<Addon>> deleteAddon(@Path("id") int id);

@@ -177,6 +177,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
     public void onResume() {
         super.onResume();
         isVisible = true;
+        getIncomingOrders();
         homeHandler.postDelayed(new Runnable() {
             @Override
             public void run() {

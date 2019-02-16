@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.geteat.outlet.R;
 import com.geteat.outlet.controller.GetProfile;
@@ -38,6 +39,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        FirebaseApp.initializeApp(this);
 
         context = SplashActivity.this;
         activity = SplashActivity.this;

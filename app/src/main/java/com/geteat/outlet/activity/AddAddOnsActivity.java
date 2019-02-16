@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.geteat.outlet.helper.SharedHelper;
+import com.geteat.outlet.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.geteat.outlet.R;
@@ -95,10 +97,11 @@ public class AddAddOnsActivity extends AppCompatActivity {
     private void addAddOns(String name) {
         customDialog.show();
         Call<Addon> call;
+        String shop_id = SharedHelper.getKey(this, Constants.PREF.PROFILE_ID);
         if (getIntent().getBooleanExtra("is_update", false))
-            call = apiInterface.updateAddon(GlobalData.selectedAddon.getId(), name);
+            call = apiInterface.updateAddon(GlobalData.selectedAddon.getId(), name,shop_id);
         else
-            call = apiInterface.addAddon(name);
+            call = apiInterface.addAddon(name,shop_id);
 
         call.enqueue(new Callback<Addon>() {
             @Override
