@@ -102,8 +102,8 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         Toast.makeText(context, jObjError.optString("message"), Toast.LENGTH_LONG).show();
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class));
-                            activity.finish();
+                            /*context.startActivity(new Intent(context, LoginActivity.class));
+                            activity.finish();*/
                         }
                     } catch (Exception e) {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -186,8 +186,8 @@ public class ProductsActivity extends AppCompatActivity implements ProductsAdapt
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(ProductsActivity.this, serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class));
-                            activity.finish();
+                            /*context.startActivity(new Intent(context, LoginActivity.class));
+                            activity.finish();*/
                         }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(ProductsActivity.this, getString(R.string.something_went_wrong));

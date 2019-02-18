@@ -259,8 +259,8 @@ public class ProductAddOnActivity extends AppCompatActivity {
                 } else {
                     Utils.displayMessage(ProductAddOnActivity.this, "failed");
                     if (response.code() == 401) {
-                        startActivity(new Intent(ProductAddOnActivity.this, LoginActivity.class));
-                        finish();
+                        /*startActivity(new Intent(ProductAddOnActivity.this, LoginActivity.class));
+                        finish();*/
                     }
                 }
             }

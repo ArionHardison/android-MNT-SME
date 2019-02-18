@@ -139,8 +139,8 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class));
-                            finish();
+                            /*context.startActivity(new Intent(context, LoginActivity.class));
+                            finish();*/
                         }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));
@@ -185,8 +185,8 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
                         if (response.code() == 401)
-                        {context.startActivity(new Intent(context, LoginActivity.class));
-                            finish();}
+                        {/*context.startActivity(new Intent(context, LoginActivity.class));
+                            finish();*/}
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));
                     }
@@ -258,8 +258,8 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class));
-                            finish();
+                            /*context.startActivity(new Intent(context, LoginActivity.class));
+                            finish();*/
                         }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));

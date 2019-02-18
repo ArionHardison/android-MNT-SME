@@ -295,8 +295,8 @@ public class OrderDetailActivity extends AppCompatActivity {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         Toast.makeText(context, jObjError.optString("message"), Toast.LENGTH_LONG).show();
                         if (response.code() == 401) {
-                            startActivity(new Intent(OrderDetailActivity.this, LoginActivity.class));
-                            finish();
+                            /*startActivity(new Intent(OrderDetailActivity.this, LoginActivity.class));
+                            finish();*/
                         }
                     } catch (Exception e) {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();

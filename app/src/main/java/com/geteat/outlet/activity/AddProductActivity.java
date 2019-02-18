@@ -168,7 +168,7 @@ public class AddProductActivity extends AppCompatActivity {
             productResponse = bundle.getParcelable("product_data");
             etProductName.setText(productResponse.getName());
             etDescription.setText(productResponse.getDescription());
-            if (productResponse.getStatus().equalsIgnoreCase("enabled")) {
+            if (productResponse.getStatus()!=null && productResponse.getStatus().equalsIgnoreCase("enabled")) {
                 statusSpin.setSelectedIndex(0);
             } else {
                 statusSpin.setSelectedIndex(1);
@@ -366,8 +366,8 @@ public class AddProductActivity extends AppCompatActivity {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class));
-                            activity.finish();
+                            /*context.startActivity(new Intent(context, LoginActivity.class));
+                            activity.finish();*/
                         }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));

@@ -430,8 +430,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
                 } else {
                     if (response.code() == 401) {
-                        startActivity(new Intent(EditRestaurantActivity.this, LoginActivity.class));
-                        finish();
+                       /* startActivity(new Intent(EditRestaurantActivity.this, LoginActivity.class));
+                        finish();*/
                     }
                     Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.something_went_wrong));
                 }

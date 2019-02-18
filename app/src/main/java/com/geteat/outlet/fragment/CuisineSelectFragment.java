@@ -110,8 +110,8 @@ public class CuisineSelectFragment extends DialogFragment {
                     list.addAll(response.body());
                     mAdapter.notifyDataSetChanged();
                     if (response.code() == 401) {
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                        getActivity().finish();
+                        /*startActivity(new Intent(getActivity(), LoginActivity.class));
+                        getActivity().finish();*/
                     }
                 }
             }

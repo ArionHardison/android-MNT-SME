@@ -254,8 +254,8 @@ public class RequestAcceptActivity extends AppCompatActivity {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class));
-                            activity.finish();
+                            /*context.startActivity(new Intent(context, LoginActivity.class));
+                            activity.finish();*/
                         }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
