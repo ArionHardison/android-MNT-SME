@@ -16,6 +16,8 @@ import com.geteat.outlet.fragment.HomeFragment;
 import com.geteat.outlet.fragment.RevenueFragment;
 import com.geteat.outlet.fragment.SettingFragment;
 import com.geteat.outlet.helper.ConnectionHelper;
+import com.geteat.outlet.helper.GlobalData;
+import com.geteat.outlet.helper.SharedHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,5 +107,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GlobalData.accessToken = SharedHelper.getKey(HomeActivity.this, "access_token");
     }
 }
