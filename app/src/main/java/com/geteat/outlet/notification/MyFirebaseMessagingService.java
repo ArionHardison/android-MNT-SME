@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.geteat.outlet.R;
 import com.geteat.outlet.activity.HomeActivity;
+import com.geteat.outlet.activity.SplashActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -37,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String messageBody) {
         Log.d(TAG, "messageBody " + messageBody);
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("Notification", messageBody);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,

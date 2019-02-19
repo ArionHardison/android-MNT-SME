@@ -108,10 +108,4 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        GlobalData.accessToken = SharedHelper.getKey(HomeActivity.this, "access_token");
-    }
 }
