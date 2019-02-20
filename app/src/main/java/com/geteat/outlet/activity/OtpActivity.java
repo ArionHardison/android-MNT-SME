@@ -112,8 +112,8 @@ public class OtpActivity extends AppCompatActivity {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(OtpActivity.this, serverError.getError());
                         if (response.code() == 401) {
-                            /*startActivity(new Intent(OtpActivity.this, LoginActivity.class));
-                            finish();*/
+                            startActivity(new Intent(OtpActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            finish();
                         }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(OtpActivity.this, getString(R.string.something_went_wrong));

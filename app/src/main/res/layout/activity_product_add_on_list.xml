@@ -13,8 +13,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/save_btn"
-
+        android:layout_above="@+id/save_lyt"
         android:layout_below="@+id/toolbar">
 
         <LinearLayout
@@ -48,6 +47,7 @@
     </android.support.v4.widget.NestedScrollView>
 
 <LinearLayout
+    android:id="@+id/save_lyt"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"

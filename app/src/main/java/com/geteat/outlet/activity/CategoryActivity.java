@@ -138,8 +138,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
                     Gson gson = new Gson();
                     try {
                         if (response.code() == 401) {
-                            /*context.startActivity(new Intent(context, LoginActivity.class));
-                            activity.finish();*/
+                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            activity.finish();
                         }
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
@@ -187,8 +187,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
                         if (response.code() == 401)
-                        {/*context.startActivity(new Intent(context, LoginActivity.class));
-                        activity.finish();*/}
+                        {context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        activity.finish();}
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }

@@ -117,6 +117,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         return view;
     }
 
@@ -146,6 +147,26 @@ public class HomeFragment extends Fragment implements ProfileListener {
                 }
             }
         });
+
+        isVisible = true;
+        getProfile();
+        getIncomingOrders();
+        homeHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isInternet) {
+                    if (isVisible && incomingRv != null) {
+                        getIncomingOrders();
+                        homeHandler.postDelayed(this, 3000);
+                    }
+                }
+            }
+        }, 3000);
+
+
+      /*  LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+                new IntentFilter(Constants.BROADCAST.UPDATE_ORDERS));*/
+
     }
 
     private void updateUI(Profile profile) {
@@ -167,13 +188,15 @@ public class HomeFragment extends Fragment implements ProfileListener {
 
 
     private void prepareAdapter() {
-        requestAdapter = new RequestAdapter(orderList, context);
-        incomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        incomingRv.setHasFixedSize(true);
-        incomingRv.setAdapter(requestAdapter);
+        if (incomingRv!=null) {
+            requestAdapter = new RequestAdapter(orderList, context);
+            incomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            incomingRv.setHasFixedSize(true);
+            incomingRv.setAdapter(requestAdapter);
+        }
     }
 
-    @Override
+   /* @Override
     public void onResume() {
         super.onResume();
         isVisible = true;
@@ -184,17 +207,17 @@ public class HomeFragment extends Fragment implements ProfileListener {
                 if (isInternet) {
                     if (isVisible && incomingRv != null) {
                         getIncomingOrders();
-                        homeHandler.postDelayed(this, 5000);
+                        homeHandler.postDelayed(this, 3000);
                     }
                 }
             }
-        }, 5000);
+        }, 3000);
         getProfile();
 
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
                 new IntentFilter(Constants.BROADCAST.UPDATE_ORDERS));
-    }
+    }*/
 
     private void getProfile() {
         if (connectionHelper.isConnectingToInternet()) {
@@ -202,12 +225,12 @@ public class HomeFragment extends Fragment implements ProfileListener {
         }
     }
 
-    @Override
+   /* @Override
     public void onPause() {
         super.onPause();
         isVisible = false;
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
-    }
+    }*/
 
 
     private void getIncomingOrders() {
@@ -244,11 +267,11 @@ public class HomeFragment extends Fragment implements ProfileListener {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
                         if (response.code() == 401) {
-                            /*context.startActivity(new Intent(context, LoginActivity.class));
-                            activity.finish();*/
+                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            activity.finish();
                         }
                     } catch (JsonSyntaxException e) {
-                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+//                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }
                 }
             }
@@ -256,7 +279,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
             @Override
             public void onFailure(Call<IncomingOrders> call, Throwable t) {
                 customDialog.dismiss();
-                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+//                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
         });
 

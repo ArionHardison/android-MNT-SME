@@ -90,6 +90,12 @@ public class SettingFragment extends Fragment implements ProfileListener {
     private void initViews() {
         connectionHelper = new ConnectionHelper(getActivity());
         customDialog = new CustomDialog(getActivity());
+
+        if (connectionHelper.isConnectingToInternet())
+            getProfile();
+        else
+            Utils.displayMessage(getActivity(), getString(R.string.oops_no_internet));
+
     }
 
     @Override
@@ -111,6 +117,7 @@ public class SettingFragment extends Fragment implements ProfileListener {
         settingRv.setHasFixedSize(true);
         settingAdapter = new SettingAdapter(settingArrayList, context, activity);
         settingRv.setAdapter(settingAdapter);
+
     }
 
 
@@ -131,14 +138,14 @@ public class SettingFragment extends Fragment implements ProfileListener {
         unbinder.unbind();
     }
 
-    @Override
+   /* @Override
     public void onResume() {
         super.onResume();
-        if (connectionHelper.isConnectingToInternet())
+        *//*if (connectionHelper.isConnectingToInternet())
             getProfile();
         else
-            Utils.displayMessage(getActivity(), getString(R.string.oops_no_internet));
-    }
+            Utils.displayMessage(getActivity(), getString(R.string.oops_no_internet));*//*
+    }*/
 
     private void getProfile() {
         if (connectionHelper.isConnectingToInternet()) {
@@ -157,15 +164,17 @@ public class SettingFragment extends Fragment implements ProfileListener {
             Glide.with(getActivity()).load(profile.getAvatar())
                     .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(profileImg);
         }
-        shop_name.setText(profile.getName());
-        if (profile.getCuisines().size() > 1)
-            shop_cuisines.setText("Multi Cuisine");
-        else {
-            String cuisines = profile.getCuisines().get(0).getName();
-            shop_cuisines.setText(cuisines);
-        }
+        if (shop_name!=null) {
+            shop_name.setText(profile.getName());
+            if (profile.getCuisines().size() > 1)
+                shop_cuisines.setText("Multi Cuisine");
+            else {
+                String cuisines = profile.getCuisines().get(0).getName();
+                shop_cuisines.setText(cuisines);
+            }
 
-        address.setText(profile.getMapsAddress());
+            address.setText(profile.getMapsAddress());
+        }
     }
 
     @Override

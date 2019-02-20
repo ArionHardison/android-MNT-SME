@@ -85,6 +85,8 @@ public class PastVisitFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         setupAdapter();
 
+        getHistory();
+
         return view;
     }
 
@@ -95,11 +97,11 @@ public class PastVisitFragment extends Fragment {
         pastRv.setAdapter(historyAdapter);
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
-        getHistory();
-    }
+//        getHistory();
+    }*/
 
     @Override
     public void onDestroyView() {
@@ -141,8 +143,8 @@ public class PastVisitFragment extends Fragment {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
                         if (response.code() == 401)
-                        {/*context.startActivity(new Intent(context, LoginActivity.class));
-                            activity.finish();*/}
+                        {context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            activity.finish();}
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }

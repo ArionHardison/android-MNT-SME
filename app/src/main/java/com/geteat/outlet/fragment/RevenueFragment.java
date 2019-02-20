@@ -96,6 +96,7 @@ public class RevenueFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setUp();
+        getRevenueDetails();
     }
 
     private void setUp() {
@@ -191,11 +192,11 @@ public class RevenueFragment extends Fragment {
     }
 
 
-    @Override
+  /*  @Override
     public void onResume() {
         super.onResume();
-        getRevenueDetails();
-    }
+//        getRevenueDetails();
+    }*/
 
     private void getRevenueDetails() {
         customDialog.show();
@@ -227,7 +228,7 @@ public class RevenueFragment extends Fragment {
 
     private void updateUI(RevenueResponse response) {
         NumberFormat formatter = new DecimalFormat("#0.00");
-        String currency = SharedHelper.getKey(getActivity(), Constants.PREF.CURRENCY);
+        String currency = SharedHelper.getKey(context, Constants.PREF.CURRENCY);
 
         String total_revenue = currency + formatter.format(response.getTotalRevenue());
         String order_received = response.getOrderReceivedToday() + "";
@@ -235,14 +236,20 @@ public class RevenueFragment extends Fragment {
         String today_earnings = currency + formatter.format(response.getOrderIncomeToday());
         String monthly_earnings = currency + formatter.format(response.getOrderIncomeMonthly());
 
-        tvTotalRevenue.setText(total_revenue);
-        tvOrderReceived.setText(order_received);
-        tvOrderDelievered.setText(order_develievered);
-        tvTodayEarnings.setText(today_earnings);
-        tvMonthlyEarnings.setText(monthly_earnings);
+        if (tvTotalRevenue!=null) {
+            tvTotalRevenue.setText(total_revenue);
+            tvOrderReceived.setText(order_received);
+            tvOrderDelievered.setText(order_develievered);
+            tvTodayEarnings.setText(today_earnings);
+            tvMonthlyEarnings.setText(monthly_earnings);
+
+
+            prepareBarChart(response.getCompleteCancel());
+
+        }
 
         //prepareBarChart(response.getCompleteCancel());
-        prepareBarChart(response.getCompleteCancel());
+
     }
 
 

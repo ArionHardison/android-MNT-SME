@@ -218,8 +218,8 @@ public class AddCategoryActivity extends AppCompatActivity {
                 } else {
                     Utils.displayMessage(AddCategoryActivity.this, "failed");
                     if (response.code() == 401) {
-                        /*context.startActivity(new Intent(context, LoginActivity.class));
-                        activity.finish();*/
+                        context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        activity.finish();
                     }
                 }
 

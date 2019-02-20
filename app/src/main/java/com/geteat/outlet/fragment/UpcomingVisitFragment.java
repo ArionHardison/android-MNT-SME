@@ -80,14 +80,15 @@ public class UpcomingVisitFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_upcoming_visit, container, false);
         unbinder = ButterKnife.bind(this, view);
         setupAdapter();
+        getOnGoingOrders();
         return view;
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
-        getOnGoingOrders();
-    }
+//        getOnGoingOrders();
+    }*/
 
     private void setupAdapter() {
         historyAdapter = new HistoryAdapter(orderList, context);

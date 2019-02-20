@@ -347,11 +347,11 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
                         else
                             Toast.makeText(getApplicationContext(), jObjError.optString("phone"), Toast.LENGTH_LONG).show();
                         if (response.code() == 401) {
-                            /*startActivity(new Intent(RestaurantTimingActivity.this, LoginActivity.class));
-                            finish();*/
+                            startActivity(new Intent(RestaurantTimingActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            finish();
                         }
                     } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                     customDialog.dismiss();
                 }
