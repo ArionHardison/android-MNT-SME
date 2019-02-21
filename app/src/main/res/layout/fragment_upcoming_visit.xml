@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.geteat.outlet.fragment.UpcomingVisitFragment">
+    tools:context="com.comida.outlet.fragment.UpcomingVisitFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/upcoming_rv"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.geteat.outlet">
+    package="com.comida.outlet">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -13,7 +13,7 @@
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
-        android:name="com.geteat.outlet.application.MyApplication"
+        android:name="com.comida.outlet.application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -30,10 +30,10 @@
             android:value="AIzaSyCAbBKg_xiJo3SyKUuP_BsaOq54hGiZOak" />
 
         <activity
-            android:name="com.geteat.outlet.activity.HomeActivity"
+            android:name="com.comida.outlet.activity.HomeActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name="com.geteat.outlet.activity.SplashActivity">
+        <activity android:name="com.comida.outlet.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,98 +41,98 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.geteat.outlet.activity.LoginActivity"
+            android:name="com.comida.outlet.activity.LoginActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.RegisterActivity"
+            android:name="com.comida.outlet.activity.RegisterActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.EditProfileActivity"
+            android:name="com.comida.outlet.activity.EditProfileActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.HistoryActivity"
+            android:name="com.comida.outlet.activity.HistoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.AddOnsActivity"
+            android:name="com.comida.outlet.activity.AddOnsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.AddAddOnsActivity"
+            android:name="com.comida.outlet.activity.AddAddOnsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.ProductsActivity"
+            android:name="com.comida.outlet.activity.ProductsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"
             android:taskAffinity=".products" />
         <activity
-            android:name="com.geteat.outlet.activity.CategoryActivity"
+            android:name="com.comida.outlet.activity.CategoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.AddCategoryActivity"
+            android:name="com.comida.outlet.activity.AddCategoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.AddProductActivity"
+            android:name="com.comida.outlet.activity.AddProductActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.RestaurantTimingActivity"
+            android:name="com.comida.outlet.activity.RestaurantTimingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.ChangePasswordActivity"
+            android:name="com.comida.outlet.activity.ChangePasswordActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.EditRestaurantActivity"
+            android:name="com.comida.outlet.activity.EditRestaurantActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.RequestAcceptActivity"
+            android:name="com.comida.outlet.activity.RequestAcceptActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.OrderDetailActivity"
+            android:name="com.comida.outlet.activity.OrderDetailActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.DeliveriesActivity"
+            android:name="com.comida.outlet.activity.DeliveriesActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.ForgotPassword"
+            android:name="com.comida.outlet.activity.ForgotPassword"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.OtpActivity"
+            android:name="com.comida.outlet.activity.OtpActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.ResetPasswordActivity"
+            android:name="com.comida.outlet.activity.ResetPasswordActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.ProductAddOnActivity"
+            android:name="com.comida.outlet.activity.ProductAddOnActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.geteat.outlet.activity.ProductAddOnListActivity"
+            android:name="com.comida.outlet.activity.ProductAddOnListActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
 
-        <service android:name="com.geteat.outlet.notification.MyFirebaseMessagingService">
+        <service android:name="com.comida.outlet.notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name="com.geteat.outlet.notification.MyFirebaseInstanceIDService">
+        <service android:name="com.comida.outlet.notification.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
