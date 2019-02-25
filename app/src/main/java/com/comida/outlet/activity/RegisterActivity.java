@@ -407,7 +407,7 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
                 map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
                 map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
-                map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
+                /*map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));*/
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
                 } else if (tvStatus.getText().toString().equalsIgnoreCase("banned")) {

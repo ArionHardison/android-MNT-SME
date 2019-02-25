@@ -352,7 +352,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("phone", RequestBody.create(MediaType.parse("text/plain"), mobile));
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
-                map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
+                /*map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));*/
 
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";

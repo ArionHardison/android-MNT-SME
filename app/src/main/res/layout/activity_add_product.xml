@@ -76,7 +76,8 @@
                 android:fontFamily="@font/nunito_semi_bold"
                 android:text="Product Cuisine"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
+                android:textSize="@dimen/text_tiny"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/cuisine"
                 android:layout_width="match_parent"
@@ -87,7 +88,8 @@
                 android:focusable="true"
                 android:padding="@dimen/_6sdp"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_medium" />
+                android:textSize="@dimen/text_medium"
+                android:visibility="gone"/>
 
 
             <TextView

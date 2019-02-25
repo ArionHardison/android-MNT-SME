@@ -194,8 +194,9 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
         params.put("status", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductStatus()));
-        params.put("cuisine_id", RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));
+        /*params.put("cuisine_id", RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));*/
         params.put("food_type", RequestBody.create(MediaType.parse("text/plain"), message.getStrSelectedFoodType()));
+        params.put("featured", RequestBody.create(MediaType.parse("text/plain"), message.getIsFeatured()));
 
         for (int i = 0; i < addOnList.size(); i++) {
             params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));

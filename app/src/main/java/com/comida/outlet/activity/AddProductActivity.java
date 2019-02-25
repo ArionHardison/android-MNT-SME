@@ -391,13 +391,18 @@ public class AddProductActivity extends AppCompatActivity {
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
         message.setFeaturedImageFile(featuredImageFile);
+        if (rbYes.isChecked()){
+            message.setIsFeatured("1");
+        }else{
+            message.setIsFeatured("0");
+        }
         message.setProductImageFile(productImageFile);
         if (foodType.equals(Constants.VEG)) {
             message.setStrSelectedFoodType(Constants.VEG);
         } else {
             message.setStrSelectedFoodType(Constants.NON_VEG);
         }
-        message.setStrCuisineId(CuisineSelectFragment.CUISINES.get(0).getId() + "");
+//        message.setStrCuisineId(CuisineSelectFragment.CUISINES.get(0).getId() + "");
         ProductAddOnActivity.setMessage(message);
         if (productResponse != null) {
             Intent intent = new Intent(context, ProductAddOnActivity.class);
@@ -433,10 +438,7 @@ public class AddProductActivity extends AppCompatActivity {
         } else if (strProductDescription == null || strProductDescription.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_description));
             return false;
-        } else if (CuisineSelectFragment.CUISINES.isEmpty()) {
-            Utils.displayMessage(activity, getResources().getString(R.string.invalid_cuisine));
-            return false;
-        } else if (strProductOrder == null || strProductOrder.isEmpty()) {
+        }  else if (strProductOrder == null || strProductOrder.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_order));
             return false;
         } else if (strCategory == null || strCategory.isEmpty()) {

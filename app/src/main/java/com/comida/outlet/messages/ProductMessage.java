@@ -11,6 +11,7 @@ public class ProductMessage {
     private File productImageFile;
     private File featuredImageFile;
     private String strCuisineId = "";
+    private String isFeatured = "";
 
     private String strSelectedFoodType = "";
 
@@ -84,6 +85,14 @@ public class ProductMessage {
 
     public void setStrSelectedFoodType(String strSelectedFoodType) {
         this.strSelectedFoodType = strSelectedFoodType;
+    }
+
+    public void setIsFeatured(String isFeatured) {
+        this.isFeatured = isFeatured;
+    }
+
+    public String getIsFeatured() {
+        return isFeatured;
     }
 
 }

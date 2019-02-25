@@ -75,6 +75,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     RecyclerView orderProductRv;
     @BindView(R.id.sub_total)
     TextView subTotal;
+    @BindView(R.id.service_tax)
+    TextView service_tax;
     @BindView(R.id.tv_cgst)
     TextView tv_cgst;
     @BindView(R.id.tv_sgst)
@@ -172,6 +174,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
         discount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDiscount()));
+        service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
         tv_cgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", cgst));
         tv_sgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", sgst));
         deliveryCharges.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDeliveryCharge()));
