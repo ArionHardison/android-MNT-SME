@@ -46,6 +46,7 @@ import com.comida.outlet.utils.Constants;
 import com.comida.outlet.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -470,7 +471,14 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
                 if (type == PRODUCT_IMAGE_TYPE) {
-                    productImageFile = imageFiles.get(0);
+//                    productImageFile = imageFiles.get(0);
+
+                    try {
+                        productImageFile = new id.zelory.compressor.Compressor(context).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     Glide.with(AddProductActivity.this)
                             .load(imageFiles.get(0))
                             .apply(new RequestOptions()
@@ -478,7 +486,14 @@ public class AddProductActivity extends AppCompatActivity {
                                     .error(R.mipmap.ic_launcher).dontAnimate())
                             .into(productImg);
                 } else if (type == FEATURE_IMAGE_TYPE) {
-                    featuredImageFile = imageFiles.get(0);
+//                    featuredImageFile = imageFiles.get(0);
+
+                    try {
+                        featuredImageFile = new id.zelory.compressor.Compressor(context).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     Glide.with(AddProductActivity.this)
                             .load(imageFiles.get(0))
                             .apply(new RequestOptions()

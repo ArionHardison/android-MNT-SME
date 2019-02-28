@@ -267,5 +267,11 @@
     <string name="shop_banner">Shop Banner Image</string>
     <string name="invalid_email">Invalid Email</string>
     <string name="no_deliveries_found">No deliveries found</string>
+    <string name="submit">Submit</string>
+    <string name="give_your_feedback">Please select the reason for canceling</string>
+    <string name="cancel_reason">Cancel Reason</string>
+
+
+
 
 </resources>

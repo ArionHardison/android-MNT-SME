@@ -11,15 +11,24 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.comida.outlet.model.CancelReasons;
+import com.comida.outlet.model.FeedBack;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.comida.outlet.R;
@@ -33,6 +42,10 @@ import com.comida.outlet.network.ApiClient;
 import com.comida.outlet.network.ApiInterface;
 import com.comida.outlet.utils.Utils;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -97,6 +110,11 @@ public class RequestAcceptActivity extends AppCompatActivity {
 
     @BindView(R.id.discount)
     TextView discount;
+    RadioGroup rg;
+    FeedBack feedBack;
+    ArrayList<FeedBack> feedback_array;
+    AlertDialog reasonDialog;
+    String cancalReason = "";
 
 
     @Override
@@ -188,14 +206,16 @@ public class RequestAcceptActivity extends AppCompatActivity {
                     Utils.displayMessage(this, "Call feature not supported");
                 break;
             case R.id.cancel_btn:
+//                showreasonDialog();
                 AlertDialog.Builder cancelAlert = new AlertDialog.Builder(this);
                 cancelAlert.setTitle(getResources().getString(R.string.order));
                 cancelAlert.setMessage(getResources().getString(R.string.are_you_sure_want_to_cancel_the_order));
                 cancelAlert.setPositiveButton(getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        HashMap<String, String> map = new HashMap<>();
+                        /*HashMap<String, String> map = new HashMap<>();
                         map.put("status", "CANCELLED");
-                        updateOrderStatus(map);
+                        updateOrderStatus(map);*/
+                        getFeedback_new();
                     }
                 });
                 cancelAlert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -238,6 +258,71 @@ public class RequestAcceptActivity extends AppCompatActivity {
         }
     }
 
+    private void showreasonDialog() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
+        rg = (RadioGroup) view.findViewById(R.id.reasons);
+        final RadioButton[] radioButton = new RadioButton[1];
+        for (int i = 0; i < feedback_array.size(); i++) {
+            radioButton[0] = new RadioButton(context);
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            radioButton[0].setLayoutParams(params);
+            radioButton[0].setText(feedback_array.get(i).getReason());
+            radioButton[0].setId(feedback_array.get(i).getId());
+            rg.addView(radioButton[0], i);
+            rg.setGravity(View.FOCUS_RIGHT);
+
+        }
+
+        final String[] reason = {""};
+        final String[] reason_id = {""};
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                          @Override
+                                          public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                              radioButton[0] = (RadioButton) view.findViewById(checkedId);
+                                              //  Toast.makeText(context, radioButton[0].getText(), Toast.LENGTH_SHORT).show();
+                                              reason[0] = radioButton[0].getText().toString();
+                                              reason_id[0] = String.valueOf(radioButton[0].getId());
+                                          }
+                                      }
+        );
+
+        Button submitBtn = (Button) view.findViewById(R.id.submit_reason);
+        builder.setView(view)
+                .setCancelable(true);
+        reasonDialog = builder.create();
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancalReason = reason[0];
+                if (cancalReason.equalsIgnoreCase("")) {
+                    Utils.displayMessage(activity, getString(R.string.give_your_feedback));
+                } else {
+                    cancelRequest(reason_id[0]);
+                }
+
+                reasonDialog.dismiss();
+            }
+        });
+
+        Window window = reasonDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        window.setAttributes(wlp);
+        reasonDialog.show();
+
+
+    }
+
+    private void cancelRequest(String cancelId) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "CANCELLED");
+        map.put("cancel_reason_id", cancelId);
+        updateOrderStatus(map);
+    }
+
 
     private void updateOrderStatus(HashMap<String, String> map) {
         customDialog.show();
@@ -272,4 +357,56 @@ public class RequestAcceptActivity extends AppCompatActivity {
 
 
     }
+
+    private void getFeedback_new() {
+        customDialog.show();
+        Call<CancelReasons> call = apiInterface.getCancelReasonList();
+        call.enqueue(new Callback<CancelReasons>() {
+            @Override
+            public void onResponse(@NonNull Call<CancelReasons> call, Response<CancelReasons> response) {
+                customDialog.dismiss();
+                if (response.isSuccessful()) {
+
+                    if (response.body()!=null) {
+
+                        feedback_array = new ArrayList<>();
+                        if (response.body().getReasonList().size() > 0) {
+
+                            for (int i = 0; i < response.body().getReasonList().size(); i++) {
+                                feedBack = new FeedBack();
+                                feedBack.setReason(response.body().getReasonList().get(i).getReason());
+                                feedBack.setId(response.body().getReasonList().get(i).getId());
+                                feedback_array.add(feedBack);
+                            }
+                        }
+                        showreasonDialog();
+
+                        Log.e(TAG, "feedback_array: " + feedback_array.toString());
+                    }
+
+                } else {
+                    Gson gson = new Gson();
+                    try {
+                        ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
+                        Utils.displayMessage(activity, serverError.getError());
+                        /*if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            activity.finish();
+                        }*/
+                    } catch (JsonSyntaxException e) {
+                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CancelReasons> call, Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+            }
+        });
+
+
+    }
+
 }

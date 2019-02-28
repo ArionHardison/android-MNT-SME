@@ -49,6 +49,7 @@ import com.comida.outlet.network.ApiInterface;
 import com.comida.outlet.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +57,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
@@ -469,7 +471,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
 
                 if (type == SHOP_IMAGE) {
-                    GlobalData.REGISTER_AVATAR = imageFiles.get(0);
+//                    GlobalData.REGISTER_AVATAR = imageFiles.get(0);
+                    try {
+                        GlobalData.REGISTER_AVATAR = new Compressor(context).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Glide.with(context)
                             .load(imageFiles.get(0))
                             .apply(new RequestOptions()
@@ -477,7 +484,12 @@ public class RegisterActivity extends AppCompatActivity {
                                     .error(R.drawable.ic_place_holder_image).dontAnimate())
                             .into(avatar);
                 } else if (type == SHOP_BANNER) {
-                    GlobalData.REGISTER_SHOP_BANNER = imageFiles.get(0);
+//                    GlobalData.REGISTER_SHOP_BANNER = imageFiles.get(0);
+                    try {
+                        GlobalData.REGISTER_SHOP_BANNER = new Compressor(context).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Glide
                             .with(context)
                             .load(imageFiles.get(0))

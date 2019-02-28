@@ -104,6 +104,8 @@ dependencies {
     //      RxAndroid Image compressor
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
+    implementation 'id.zelory:compressor:2.1.0'
+
     //      Crashlytics
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
         transitive = true;
