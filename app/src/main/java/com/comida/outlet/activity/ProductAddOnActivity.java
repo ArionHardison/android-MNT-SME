@@ -213,15 +213,15 @@ public class ProductAddOnActivity extends AppCompatActivity {
 
         MultipartBody.Part filePart1 = null;
         if (message.getProductImageFile() != null) {
-            File compressToFile = null;
+            /*File compressToFile = null;
             try {
-                compressToFile = new Compressor(this).compressToFile(message.getProductImageFile());
+                compressToFile = new Compressor(ProductAddOnActivity.this).compressToFile(message.getProductImageFile());
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
-            filePart1 = MultipartBody.Part.createFormData("avatar[]", compressToFile.getName(),
-                    RequestBody.create(MediaType.parse("image/*"), compressToFile));
+            filePart1 = MultipartBody.Part.createFormData("avatar[]", message.getProductImageFile().getName(),
+                    RequestBody.create(MediaType.parse("image/*"), message.getProductImageFile()));
         }
 
 
@@ -231,15 +231,15 @@ public class ProductAddOnActivity extends AppCompatActivity {
                     RequestBody.create(MediaType.parse("image/*"), message.getFeaturedImageFile()));*/
 
         if (message.getFeaturedImageFile() != null) {
-            File compressToFile = null;
+            /*File compressToFile = null;
             try {
-                compressToFile = new Compressor(this).compressToFile(message.getFeaturedImageFile());
+                compressToFile = new Compressor(ProductAddOnActivity.this).compressToFile(message.getFeaturedImageFile());
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
-            filePart2 = MultipartBody.Part.createFormData("featured_image", compressToFile.getName(),
-                    RequestBody.create(MediaType.parse("image/*"), compressToFile));
+            filePart2 = MultipartBody.Part.createFormData("featured_image", message.getFeaturedImageFile().getName(),
+                    RequestBody.create(MediaType.parse("image/*"), message.getFeaturedImageFile()));
         }
 
         Call<ProductResponse> call = null;

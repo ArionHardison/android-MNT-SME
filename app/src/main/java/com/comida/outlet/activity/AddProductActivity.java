@@ -54,6 +54,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import retrofit2.Call;
@@ -474,7 +475,7 @@ public class AddProductActivity extends AppCompatActivity {
 //                    productImageFile = imageFiles.get(0);
 
                     try {
-                        productImageFile = new id.zelory.compressor.Compressor(context).compressToFile(imageFiles.get(0));
+                        productImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -489,7 +490,7 @@ public class AddProductActivity extends AppCompatActivity {
 //                    featuredImageFile = imageFiles.get(0);
 
                     try {
-                        featuredImageFile = new id.zelory.compressor.Compressor(context).compressToFile(imageFiles.get(0));
+                        featuredImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

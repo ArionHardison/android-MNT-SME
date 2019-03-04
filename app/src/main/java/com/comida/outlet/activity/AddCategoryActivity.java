@@ -30,7 +30,7 @@ import com.comida.outlet.R;
 import com.comida.outlet.helper.ConnectionHelper;
 import com.comida.outlet.helper.CustomDialog;
 import com.comida.outlet.helper.SharedHelper;
-import com.comida.outlet.imagecompressor.Compressor;
+//import com.comida.outlet.imagecompressor.Compressor;
 import com.comida.outlet.model.Category;
 import com.comida.outlet.model.Image;
 import com.comida.outlet.network.ApiClient;
@@ -55,6 +55,7 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import id.zelory.compressor.Compressor;
 
 import static com.comida.outlet.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 
@@ -188,11 +189,11 @@ public class AddCategoryActivity extends AppCompatActivity {
         customDialog.show();
         MultipartBody.Part filePart = null;
         if (categoryImageFile != null) {
-            try {
-                categoryImageFile = new Compressor(this).compressToFile(categoryImageFile);
+            /*try {
+                categoryImageFile = new Compressor(context).compressToFile(categoryImageFile);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             filePart = MultipartBody.Part.createFormData("image", categoryImageFile.getName(),
                     RequestBody.create(MediaType.parse("image/*"), categoryImageFile));
         }
@@ -315,7 +316,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 //                categoryImageFile = imageFiles.get(0);
 
                 try {
-                    categoryImageFile = new id.zelory.compressor.Compressor(context).compressToFile(imageFiles.get(0));
+                    categoryImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
