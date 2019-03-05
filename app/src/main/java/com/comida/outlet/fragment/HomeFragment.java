@@ -148,7 +148,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
             }
         });
 
-        isVisible = true;
+       /* isVisible = true;
         getProfile();
         getIncomingOrders();
         homeHandler.postDelayed(new Runnable() {
@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
                     }
                 }
             }
-        }, 3000);
+        }, 3000);*/
 
 
       /*  LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
@@ -196,7 +196,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
         }
     }
 
-   /* @Override
+    @Override
     public void onResume() {
         super.onResume();
         isVisible = true;
@@ -217,7 +217,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
                 new IntentFilter(Constants.BROADCAST.UPDATE_ORDERS));
-    }*/
+    }
 
     private void getProfile() {
         if (connectionHelper.isConnectingToInternet()) {
