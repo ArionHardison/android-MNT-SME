@@ -61,6 +61,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     ImageView backImg;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.service_tax)
+    TextView service_tax;
     @BindView(R.id.user_img)
     CircleImageView userImg;
     @BindView(R.id.user_name)
@@ -169,15 +171,13 @@ public class OrderDetailActivity extends AppCompatActivity {
         double cgst = (gross_amount * (cgst_percentage_multiplayer));
         double sgst = (gross_amount * (sgst_percentage_multiplayer));
 
-
         subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
-        discount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDiscount()));
+        discount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", (order.getInvoice().getDiscount() + order.getInvoice().getPromocode_amount())));
         tv_cgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", cgst));
         tv_sgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", sgst));
         deliveryCharges.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDeliveryCharge()));
         total.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getNet()));
-
-
+        service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
 
         /*if(order.getStatus().equals("ORDERED")&&order.getDispute().equals("NODISPUTE")){
             disputeBtn.setVisibility(View.GONE);

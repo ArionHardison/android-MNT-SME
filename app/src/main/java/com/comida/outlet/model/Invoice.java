@@ -18,6 +18,9 @@ public class Invoice {
     @SerializedName("discount")
     private Double discount;
 
+    @SerializedName("promocode_amount")
+    private Double promocode_amount;
+
     @SerializedName("created_at")
     private String createdAt;
 
@@ -96,6 +99,14 @@ public class Invoice {
 
     public void setDiscount(Double discount) {
         this.discount = discount;
+    }
+
+    public Double getPromocode_amount() {
+        return promocode_amount;
+    }
+
+    public void setPromocode_amount(Double promocode_amount) {
+        this.promocode_amount = promocode_amount;
     }
 
     public String getCreatedAt() {

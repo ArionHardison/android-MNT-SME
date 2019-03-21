@@ -79,6 +79,9 @@ public class RequestAcceptActivity extends AppCompatActivity {
     Button acceptBtn;
     @BindView(R.id.button_lay)
     LinearLayout buttonLay;
+
+    @BindView(R.id.promocodeLayout)
+    LinearLayout promocodeLayout;
     @BindView(R.id.dispute_btn)
     Button disputeBtn;
 
@@ -97,6 +100,8 @@ public class RequestAcceptActivity extends AppCompatActivity {
 
     @BindView(R.id.discount)
     TextView discount;
+    @BindView(R.id.promocode_amount)
+    TextView promocode_amount;
 
 
     @Override
@@ -157,7 +162,13 @@ public class RequestAcceptActivity extends AppCompatActivity {
         subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
         service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
 
-        discount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDiscount()));
+        discount.setText(GlobalData.profile.getCurrency() + "-"+ String.format("%.2f", (order.getInvoice().getDiscount())));
+        if (order.getInvoice().getPromocode_amount() > 0){
+            promocodeLayout.setVisibility(View.VISIBLE);
+        }else{
+            promocodeLayout.setVisibility(View.GONE);
+        }
+        promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +String.format("%.2f", (order.getInvoice().getPromocode_amount())));
         tv_cgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", cgst));
         tv_sgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", sgst));
         deliveryCharges.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDeliveryCharge()));
