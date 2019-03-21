@@ -82,7 +82,8 @@
             android:layout_marginEnd="@dimen/activity_vertical_margin_half"
             android:layout_marginRight="@dimen/activity_vertical_margin_half"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
@@ -135,8 +136,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_vertical_margin_half"
-            android:layout_marginStart="@dimen/activity_vertical_margin_half"
             android:layout_weight="1"
             android:orientation="vertical">
 

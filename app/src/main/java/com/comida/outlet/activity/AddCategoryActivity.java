@@ -24,12 +24,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.comida.outlet.helper.GlobalData;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.comida.outlet.R;
 import com.comida.outlet.helper.ConnectionHelper;
 import com.comida.outlet.helper.CustomDialog;
 import com.comida.outlet.helper.SharedHelper;
-import com.comida.outlet.imagecompressor.Compressor;
+//import com.comida.outlet.imagecompressor.Compressor;
 import com.comida.outlet.model.Category;
 import com.comida.outlet.model.Image;
 import com.comida.outlet.network.ApiClient;
@@ -54,6 +55,7 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import id.zelory.compressor.Compressor;
 
 import static com.comida.outlet.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 
@@ -187,11 +189,11 @@ public class AddCategoryActivity extends AppCompatActivity {
         customDialog.show();
         MultipartBody.Part filePart = null;
         if (categoryImageFile != null) {
-            try {
-                categoryImageFile = new Compressor(this).compressToFile(categoryImageFile);
+            /*try {
+                categoryImageFile = new Compressor(context).compressToFile(categoryImageFile);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             filePart = MultipartBody.Part.createFormData("image", categoryImageFile.getName(),
                     RequestBody.create(MediaType.parse("image/*"), categoryImageFile));
         }
@@ -311,7 +313,14 @@ public class AddCategoryActivity extends AppCompatActivity {
 
             @Override
             public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                categoryImageFile = imageFiles.get(0);
+//                categoryImageFile = imageFiles.get(0);
+
+                try {
+                    categoryImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 Glide
                         .with(context)
                         .load(imageFiles.get(0))

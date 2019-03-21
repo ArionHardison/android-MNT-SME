@@ -194,8 +194,9 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
         params.put("status", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductStatus()));
-        params.put("cuisine_id", RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));
+        /*params.put("cuisine_id", RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));*/
         params.put("food_type", RequestBody.create(MediaType.parse("text/plain"), message.getStrSelectedFoodType()));
+        params.put("featured", RequestBody.create(MediaType.parse("text/plain"), message.getIsFeatured()));
 
         for (int i = 0; i < addOnList.size(); i++) {
             params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
@@ -212,15 +213,15 @@ public class ProductAddOnActivity extends AppCompatActivity {
 
         MultipartBody.Part filePart1 = null;
         if (message.getProductImageFile() != null) {
-            File compressToFile = null;
+            /*File compressToFile = null;
             try {
-                compressToFile = new Compressor(this).compressToFile(message.getProductImageFile());
+                compressToFile = new Compressor(ProductAddOnActivity.this).compressToFile(message.getProductImageFile());
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
-            filePart1 = MultipartBody.Part.createFormData("avatar[]", compressToFile.getName(),
-                    RequestBody.create(MediaType.parse("image/*"), compressToFile));
+            filePart1 = MultipartBody.Part.createFormData("avatar[]", message.getProductImageFile().getName(),
+                    RequestBody.create(MediaType.parse("image/*"), message.getProductImageFile()));
         }
 
 
@@ -230,15 +231,15 @@ public class ProductAddOnActivity extends AppCompatActivity {
                     RequestBody.create(MediaType.parse("image/*"), message.getFeaturedImageFile()));*/
 
         if (message.getFeaturedImageFile() != null) {
-            File compressToFile = null;
+            /*File compressToFile = null;
             try {
-                compressToFile = new Compressor(this).compressToFile(message.getFeaturedImageFile());
+                compressToFile = new Compressor(ProductAddOnActivity.this).compressToFile(message.getFeaturedImageFile());
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
-            filePart2 = MultipartBody.Part.createFormData("featured_image", compressToFile.getName(),
-                    RequestBody.create(MediaType.parse("image/*"), compressToFile));
+            filePart2 = MultipartBody.Part.createFormData("featured_image", message.getFeaturedImageFile().getName(),
+                    RequestBody.create(MediaType.parse("image/*"), message.getFeaturedImageFile()));
         }
 
         Call<ProductResponse> call = null;

@@ -7,6 +7,7 @@ package com.comida.outlet.network;
 
 import com.comida.outlet.model.Addon;
 import com.comida.outlet.model.AuthToken;
+import com.comida.outlet.model.CancelReasons;
 import com.comida.outlet.model.Category;
 import com.comida.outlet.model.ChangePassword;
 import com.comida.outlet.model.Cuisine;
@@ -88,6 +89,8 @@ public interface ApiInterface {
     @GET("api/shop/products")
     Call<List<ProductResponse>> getProductList();
 
+    @GET("api/shop/reasons")
+    Call<CancelReasons> getCancelReasonList();
 
     /*-------------ADD-ONS--------------------*/
     @GET("api/shop/addons")

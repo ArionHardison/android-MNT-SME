@@ -46,6 +46,7 @@ import com.comida.outlet.utils.Constants;
 import com.comida.outlet.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +54,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import retrofit2.Call;
@@ -391,13 +393,18 @@ public class AddProductActivity extends AppCompatActivity {
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
         message.setFeaturedImageFile(featuredImageFile);
+        if (rbYes.isChecked()){
+            message.setIsFeatured("1");
+        }else{
+            message.setIsFeatured("0");
+        }
         message.setProductImageFile(productImageFile);
         if (foodType.equals(Constants.VEG)) {
             message.setStrSelectedFoodType(Constants.VEG);
         } else {
             message.setStrSelectedFoodType(Constants.NON_VEG);
         }
-        message.setStrCuisineId(CuisineSelectFragment.CUISINES.get(0).getId() + "");
+//        message.setStrCuisineId(CuisineSelectFragment.CUISINES.get(0).getId() + "");
         ProductAddOnActivity.setMessage(message);
         if (productResponse != null) {
             Intent intent = new Intent(context, ProductAddOnActivity.class);
@@ -433,10 +440,7 @@ public class AddProductActivity extends AppCompatActivity {
         } else if (strProductDescription == null || strProductDescription.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_description));
             return false;
-        } else if (CuisineSelectFragment.CUISINES.isEmpty()) {
-            Utils.displayMessage(activity, getResources().getString(R.string.invalid_cuisine));
-            return false;
-        } else if (strProductOrder == null || strProductOrder.isEmpty()) {
+        }  else if (strProductOrder == null || strProductOrder.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_order));
             return false;
         } else if (strCategory == null || strCategory.isEmpty()) {
@@ -468,7 +472,14 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
                 if (type == PRODUCT_IMAGE_TYPE) {
-                    productImageFile = imageFiles.get(0);
+//                    productImageFile = imageFiles.get(0);
+
+                    try {
+                        productImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     Glide.with(AddProductActivity.this)
                             .load(imageFiles.get(0))
                             .apply(new RequestOptions()
@@ -476,7 +487,14 @@ public class AddProductActivity extends AppCompatActivity {
                                     .error(R.mipmap.ic_launcher).dontAnimate())
                             .into(productImg);
                 } else if (type == FEATURE_IMAGE_TYPE) {
-                    featuredImageFile = imageFiles.get(0);
+//                    featuredImageFile = imageFiles.get(0);
+
+                    try {
+                        featuredImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     Glide.with(AddProductActivity.this)
                             .load(imageFiles.get(0))
                             .apply(new RequestOptions()

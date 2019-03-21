@@ -98,7 +98,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
     @Override
     public void onSuccess(Profile profile) {
         GlobalData.profile = profile;
-        startActivity(new Intent(context, HomeActivity.class));
+        startActivity(new Intent(context, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         finish();
     }
 

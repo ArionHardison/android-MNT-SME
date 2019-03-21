@@ -352,7 +352,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("phone", RequestBody.create(MediaType.parse("text/plain"), mobile));
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
-                map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
+                /*map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));*/
 
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
@@ -424,7 +424,9 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            onBackPressed();
+//                            onBackPressed();
+                            startActivity(new Intent(EditRestaurantActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            finish();
                         }
                     }, 1000);
 
@@ -565,7 +567,12 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             @Override
             public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
                 if (type == SHOP_IMAGE) {
-                    GlobalData.REGISTER_AVATAR = imageFiles.get(0);
+//                    GlobalData.REGISTER_AVATAR = imageFiles.get(0);
+                    try {
+                        GlobalData.REGISTER_AVATAR = new id.zelory.compressor.Compressor(EditRestaurantActivity.this).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Glide.with(EditRestaurantActivity.this)
                             .load(imageFiles.get(0))
                             .apply(new RequestOptions()
@@ -573,9 +580,13 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                                     .error(R.drawable.ic_place_holder_image).dontAnimate())
                             .into(shopImg);
                 } else if (type == SHOP_BANNER) {
-                    GlobalData.REGISTER_SHOP_BANNER = imageFiles.get(0);
-                    Glide
-                            .with(EditRestaurantActivity.this)
+//                    GlobalData.REGISTER_SHOP_BANNER = imageFiles.get(0);
+                    try {
+                        GlobalData.REGISTER_SHOP_BANNER = new id.zelory.compressor.Compressor(EditRestaurantActivity.this).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Glide.with(EditRestaurantActivity.this)
                             .load(imageFiles.get(0))
                             .apply(new RequestOptions()
                                     .placeholder(R.drawable.ic_place_holder_image)

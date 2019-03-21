@@ -13,7 +13,7 @@ public class User {
     private String deviceId;
 
     @SerializedName("wallet_balance")
-    private int walletBalance;
+    private String walletBalance;
 
     @SerializedName("device_type")
     private String deviceType;
@@ -64,11 +64,11 @@ public class User {
         this.deviceId = deviceId;
     }
 
-    public int getWalletBalance() {
+    public String getWalletBalance() {
         return walletBalance;
     }
 
-    public void setWalletBalance(int walletBalance) {
+    public void setWalletBalance(String walletBalance) {
         this.walletBalance = walletBalance;
     }
 
