@@ -27,7 +27,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCAbBKg_xiJo3SyKUuP_BsaOq54hGiZOak" />
+            android:value="AIzaSyAPajiX7r47KUmanWP4xzG7p742fRlwOPI" />
 
         <activity
             android:name="com.comida.outlet.activity.HomeActivity"

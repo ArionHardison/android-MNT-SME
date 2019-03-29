@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -93,7 +94,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     LinearLayout buttonLay;
     @BindView(R.id.dispute_btn)
     Button disputeBtn;
-
+    Handler handler;
+    Runnable orderStatusRunnable;
     Order order;
     OrderProductAdapter orderProductAdapter;
 
@@ -106,6 +108,11 @@ public class OrderDetailActivity extends AppCompatActivity {
     String TAG = "OrderDetailActivity";
     @BindView(R.id.notes)
     TextView notes;
+    @BindView(R.id.promocode_amount)
+    TextView promocode_amount;
+
+    @BindView(R.id.promocodeLayout)
+    LinearLayout promocodeLayout;
 
     @BindView(R.id.discount)
     TextView discount;
@@ -171,6 +178,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         double cgst = (gross_amount * (cgst_percentage_multiplayer));
         double sgst = (gross_amount * (sgst_percentage_multiplayer));
 
+
         subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
         discount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDiscount()));
         service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
@@ -179,6 +187,13 @@ public class OrderDetailActivity extends AppCompatActivity {
         deliveryCharges.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDeliveryCharge()));
         total.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getNet()));
         service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
+        if (order.getInvoice().getPromocode_amount() > 0){
+            promocodeLayout.setVisibility(View.VISIBLE);
+        }else{
+            promocodeLayout.setVisibility(View.GONE);
+        }
+
+        promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +String.format("%.2f", (order.getInvoice().getPromocode_amount())));
 
         /*if(order.getStatus().equals("ORDERED")&&order.getDispute().equals("NODISPUTE")){
             disputeBtn.setVisibility(View.GONE);
@@ -187,10 +202,19 @@ public class OrderDetailActivity extends AppCompatActivity {
             disputeBtn.setVisibility(View.VISIBLE);
             buttonLay.setVisibility(View.GONE);
         }*/
-        if (connectionHelper.isConnectingToInternet())
+        if (connectionHelper.isConnectingToInternet()){
+            handler = new Handler();
             getParticularOrders(order.getId());
-        else
+            orderStatusRunnable = new Runnable() {
+                public void run() {
+                    getParticularOrders(order.getId());
+                    handler.postDelayed(this, 5000);
+                }
+            };
+            handler.postDelayed(orderStatusRunnable, 5000);
+        } else{
             Utils.displayMessage(this, getString(R.string.oops_no_internet));
+        }
     }
 
     private void setOrderFlowAdapter() {
