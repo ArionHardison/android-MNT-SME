@@ -110,18 +110,13 @@ public class OrderDetailActivity extends AppCompatActivity {
     String TAG = "OrderDetailActivity";
     @BindView(R.id.notes)
     TextView notes;
-    @BindView(R.id.promocode_amount)
-    TextView promocode_amount;
-
     @BindView(R.id.promocodeLayout)
     LinearLayout promocodeLayout;
-
     @BindView(R.id.discount)
     TextView discount;
     @BindView(R.id.order_flow_rv)
     RecyclerView orderFlowRv;
     OrderFlowAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +128,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         connectionHelper = new ConnectionHelper(context);
         isInternet = connectionHelper.isConnectingToInternet();
         customDialog = new CustomDialog(context);
-
 
         backImg.setVisibility(View.VISIBLE);
 
@@ -183,12 +177,12 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
         discount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDiscount()));
-        promocode_amount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getPromocode_amount()));
         tv_cgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", cgst));
         tv_sgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", sgst));
         deliveryCharges.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDeliveryCharge()));
         total.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getNet()));
         service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
+
         if (order.getInvoice().getPromocode_amount() > 0){
             promocodeLayout.setVisibility(View.VISIBLE);
         }else{
