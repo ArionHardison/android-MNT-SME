@@ -247,8 +247,14 @@ public class RequestAcceptActivity extends AppCompatActivity {
                 alert.setPositiveButton(getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String deliveryTime = edittext.getText().toString();
+                        int deliverytime = 0;
+                        if (!deliveryTime.isEmpty()){
+                            deliverytime = Integer.parseInt(deliveryTime);
+                        }
                         if (deliveryTime.isEmpty()) {
                             Toast.makeText(context, getResources().getString(R.string.please_enter_delivery_time), Toast.LENGTH_SHORT).show();
+                        } else if (deliverytime < 3){
+                            Toast.makeText(context, getResources().getString(R.string.order_ready_time), Toast.LENGTH_SHORT).show();
                         } else {
                             HashMap<String, String> map = new HashMap<>();
                             map.put("status", "RECEIVED");

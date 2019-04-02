@@ -449,10 +449,12 @@ public class AddProductActivity extends AppCompatActivity {
         } else if (!rbVeg.isChecked() && !rbNonVeg.isChecked()) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_selected_food_type));
             return false;
-        } else if (productImageFile == null) {
-            Utils.displayMessage(activity, getString(R.string.please_select_product_image));
-            return false;
-        } else if (rbYes.isChecked() && featuredImageFile == null) {
+        }
+//        else if (productImageFile == null) {
+//            Utils.displayMessage(activity, getString(R.string.please_select_product_image));
+//            return false;
+//        }
+        else if (rbYes.isChecked() && featuredImageFile == null) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_product_select_featured_image));
             return false;
         }
