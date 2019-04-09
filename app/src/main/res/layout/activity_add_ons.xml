@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="com.comida.outlet.activity.AddOnsActivity">
+    tools:context="com.snabbmaten.outlet.activity.AddOnsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.comida.outlet.activity.CategoryActivity">
+    tools:context="com.snabbmaten.outlet.activity.CategoryActivity">
 
     <LinearLayout
         android:layout_above="@+id/add_category_btn"
