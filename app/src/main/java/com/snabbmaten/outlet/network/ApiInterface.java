@@ -146,6 +146,7 @@ public interface ApiInterface {
     @GET("api/shop/revenue")
     Call<RevenueResponse> getRevenueDetails();
 
+    //    @Headers("Content-Type: application/json")
     @Multipart
     @POST("api/shop/products")
     Call<ProductResponse> addProduct(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1, @Part MultipartBody.Part filepart2);

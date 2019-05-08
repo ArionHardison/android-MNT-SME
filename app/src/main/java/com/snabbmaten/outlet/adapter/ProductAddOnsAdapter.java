@@ -12,6 +12,7 @@ import android.widget.CheckedTextView;
 import android.widget.EditText;
 
 import com.snabbmaten.outlet.R;
+import com.snabbmaten.outlet.helper.GlobalData;
 import com.snabbmaten.outlet.model.Addon;
 import com.snabbmaten.outlet.utils.Utils;
 
@@ -61,7 +62,7 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
                 }
             }
         });
-        final String prefix = activity.getResources().getString(R.string.currency_value);
+        final String prefix = GlobalData.profile.getCurrency()/*activity.getResources().getString(R.string.currency_value)*/;
         if (!data.getPrice().isEmpty() && !data.getPrice().startsWith(prefix)) {
             holder.etPrice.setText(prefix + data.getPrice());
         } else if (!data.getPrice().isEmpty() && data.getPrice().startsWith(prefix)) {
@@ -102,7 +103,7 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
 
     public boolean verifyPrice() {
         selectedAddOnlist.clear();
-        final String prefix = activity.getResources().getString(R.string.currency_value);
+        final String prefix = GlobalData.profile.getCurrency()/*activity.getResources().getString(R.string.currency_value)*/;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).isChecked()) {
                 if (list.get(i).getPrice().replace(prefix, "").isEmpty()) {
@@ -130,7 +131,7 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
     }
 
     class GenericTextWatcher implements TextWatcher {
-        final String prefix = activity.getResources().getString(R.string.currency_value);
+        final String prefix = GlobalData.profile.getCurrency()/*activity.getResources().getString(R.string.currency_value)*/;
         private EditText view;
 
         private GenericTextWatcher(EditText view) {

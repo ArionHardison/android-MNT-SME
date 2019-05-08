@@ -6,8 +6,8 @@ package com.snabbmaten.outlet.config;
 
 public class AppConfigure {
 
-    public static String BASE_URL = "http://snabbmaten.com/";
-    public static String CLIENT_SECRET = "AFs5pLpNd1W9hbgRMl5UfXoQBG1rGAfV4BUpRzv5";
+    public static String BASE_URL = "https://snabbmaten.com/";
+    public static String CLIENT_SECRET = "9yGKG3xgtICyINUrEgsSxSzeZIeZ0dol6ALSIB5k";
     public static String CLIENT_ID = "2";
     public static String GRANT_TYPE = "password";
 }

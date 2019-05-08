@@ -178,7 +178,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     private void getCurrentDate() {
         ctDate = Calendar.getInstance();
         current_year = ctDate.get(Calendar.YEAR);
-        current_month = ctDate.get(Calendar.MONTH) + 1; // Note: zero based!
+        current_month = ctDate.get(Calendar.MONTH)/* + 1*/; // Note: zero based!
         current_day = ctDate.get(Calendar.DAY_OF_MONTH);
 
         minDay = new MonthAdapter.CalendarDay();
@@ -240,9 +240,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     public boolean validateDate() {
         String strFromDate = txtFromDate.getText().toString();
         String strToDate = toDateTxt.getText().toString();
-        if (strFromDate.isEmpty() && !strToDate.isEmpty())
-            return false;
-        return true;
+        return !strFromDate.isEmpty() || strToDate.isEmpty();
     }
 
     private void validateFilter() {

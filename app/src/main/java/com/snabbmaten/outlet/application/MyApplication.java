@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
+import com.snabbmaten.outlet.helper.GlobalData;
 import com.snabbmaten.outlet.helper.SharedHelper;
 
 import java.text.NumberFormat;
@@ -28,7 +29,9 @@ public class MyApplication extends MultiDexApplication {
     }
 
     public static NumberFormat getNumberFormat() {
-        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", "INR");
+//        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", "INR");
+        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", GlobalData.profile.getCurrency());
+
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
         numberFormat.setCurrency(Currency.getInstance(currencyCode));
         numberFormat.setMinimumFractionDigits(2);

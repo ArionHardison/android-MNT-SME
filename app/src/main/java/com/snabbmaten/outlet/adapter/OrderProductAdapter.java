@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import com.snabbmaten.outlet.R;
-import com.snabbmaten.outlet.application.MyApplication;
 import com.snabbmaten.outlet.helper.GlobalData;
 import com.snabbmaten.outlet.model.CartAddon;
 import com.snabbmaten.outlet.model.Item;
@@ -65,10 +64,10 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
     @Override
     public void onBindHeaderViewHolder(OrderProductAdapter.ViewHolder holder, final int section) {
         Item item = list.get(section);
-        String value = context.getResources().getString(R.string.product_, item.getProduct().getName(), item.getQuantity(), MyApplication.getNumberFormat().format(item.getProduct().getPrices().getOrignalPrice()));
+        String value = context.getResources().getString(R.string.product_, item.getProduct().getName(), item.getQuantity(), GlobalData.profile.getCurrency() + /*MyApplication.getNumberFormat().format(*/item.getProduct().getPrices().getOrignalPrice())/*)*/;
         holder.productDetail.setText(value);
         Double totalAmount = Double.valueOf(item.getQuantity() * item.getProduct().getPrices().getOrignalPrice());
-        holder.productPrice.setText(MyApplication.getNumberFormat().format(totalAmount));
+        holder.productPrice.setText(GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/totalAmount)/*)*/;
     }
 
     @Override
@@ -76,10 +75,10 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
         if (!list.get(section).getCartAddons().isEmpty()) {
             CartAddon object = list.get(section).getCartAddons().get(relativePosition);
             holder.itemLayout.setVisibility(View.VISIBLE);
-            String value = context.getString(R.string.addon_, object.getAddonProduct().getAddon().getName(), object.getQuantity(), MyApplication.getNumberFormat().format(object.getAddonProduct().getPrice()));
+            String value = context.getString(R.string.addon_, object.getAddonProduct().getAddon().getName(), object.getQuantity(), GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/object.getAddonProduct().getPrice())/*)*/;
             holder.addonDetail.setText(value);
             Double totalAmount = Double.valueOf(object.getAddonProduct().getPrice() * object.getQuantity());
-            holder.addonPrice.setText(MyApplication.getNumberFormat().format(totalAmount));
+            holder.addonPrice.setText(GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/totalAmount)/*)*/;
         } else {
             holder.itemLayout.setVisibility(View.GONE);
         }
@@ -106,11 +105,11 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
         public ViewHolder(View itemView, boolean isHeader) {
             super(itemView);
             if (isHeader) {
-                productDetail = (TextView) itemView.findViewById(R.id.product_detail);
-                productPrice = (TextView) itemView.findViewById(R.id.product_price);
+                productDetail = itemView.findViewById(R.id.product_detail);
+                productPrice = itemView.findViewById(R.id.product_price);
             } else {
-                addonPrice = (TextView) itemView.findViewById(R.id.addon_price);
-                addonDetail = (TextView) itemView.findViewById(R.id.addon_detail);
+                addonPrice = itemView.findViewById(R.id.addon_price);
+                addonDetail = itemView.findViewById(R.id.addon_detail);
                 itemLayout = itemView.findViewById(R.id.item_layout);
             }
 

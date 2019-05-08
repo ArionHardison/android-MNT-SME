@@ -36,7 +36,6 @@ import com.snabbmaten.outlet.countrypicker.Country;
 import com.snabbmaten.outlet.countrypicker.CountryPicker;
 import com.snabbmaten.outlet.countrypicker.CountryPickerListener;
 import com.snabbmaten.outlet.countrypicker.StatusPicker;
-import com.snabbmaten.outlet.customviews.PrefixEditText;
 import com.snabbmaten.outlet.customviews.SuffixEditText;
 import com.snabbmaten.outlet.fragment.CuisineSelectFragment;
 import com.snabbmaten.outlet.helper.ConnectionHelper;
@@ -125,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView tvStatus;
 
     @BindView(R.id.tvMinAmount)
-    PrefixEditText tvMinAmount;
+    EditText tvMinAmount;
 
     @BindView(R.id.etOfferInPercentage)
     SuffixEditText etOfferInPercentage;

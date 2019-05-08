@@ -165,7 +165,7 @@
     <string name="shop_discount">Shop Discount</string>
     <string name="addon_">%s(%d x %s)</string>
     <string name="product_">%s(%d x %s)</string>
-    <string name="order_delivery_time_description">Enter the order prepration time ?</string>
+    <string name="order_delivery_time_description">Enter the order preparation time ?</string>
     <string name="order_delivery_time">Order delivery time</string>
     <string name="okay">Okay</string>
     <string name="please_enter_delivery_time">Please enter delivery time</string>

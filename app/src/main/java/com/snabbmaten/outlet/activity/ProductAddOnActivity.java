@@ -14,6 +14,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.snabbmaten.outlet.R;
 import com.snabbmaten.outlet.helper.ConnectionHelper;
 import com.snabbmaten.outlet.helper.CustomDialog;
+import com.snabbmaten.outlet.helper.GlobalData;
 import com.snabbmaten.outlet.helper.SharedHelper;
 import com.snabbmaten.outlet.messages.ProductMessage;
 import com.snabbmaten.outlet.model.Addon;
@@ -197,7 +198,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
 
         for (int i = 0; i < addOnList.size(); i++) {
             params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
-            params.put("addons_price[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));
+            params.put("addons_price[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getPrice().replace(GlobalData.profile.getCurrency()/*getString(R.string.currency_value)*/, "")));
         }
 
 

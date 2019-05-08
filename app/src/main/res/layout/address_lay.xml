@@ -21,14 +21,14 @@
         android:background="@drawable/edit_text_rounded_corner_bg"
         android:orientation="horizontal">
 
-        <com.snabbmaten.outlet.customviews.PrefixEditText
+        <EditText
             android:id="@+id/tvMinAmount"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
             android:padding="@dimen/_6sdp"
-            android:tag="@string/currency_value_tag"
+
             android:inputType="numberDecimal"
             android:textColor="@color/colorSecondaryText"
             android:textSize="@dimen/text_medium" />

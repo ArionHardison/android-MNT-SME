@@ -46,7 +46,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Order order = list.get(position);
         holder.address.setText(order.getAddress().getMapAddress());
-        holder.price.setText(context.getString(R.string.currency_value) + "" + order.getInvoice().getNet());
+        holder.price.setText(/*context.getString(R.string.currency_value)*/GlobalData.profile.getCurrency() + "" + order.getInvoice().getNet());
 
         //Default Status and color
         String status = "Dispute Created";
