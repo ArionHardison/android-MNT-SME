@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.snabbmaten.outlet">
+    package="com.pakupaku.outlet">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -13,7 +13,7 @@
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
-        android:name="com.snabbmaten.outlet.application.MyApplication"
+        android:name="com.pakupaku.outlet.application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,13 +31,14 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAPajiX7r47KUmanWP4xzG7p742fRlwOPI" />
+            android:value="AIzaSyD6jPyq1VI_8tQvPZcCMR9KSpRLgOL5ZRY
+" />
 
         <activity
-            android:name="com.snabbmaten.outlet.activity.HomeActivity"
+            android:name="com.pakupaku.outlet.activity.HomeActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name="com.snabbmaten.outlet.activity.SplashActivity">
+        <activity android:name="com.pakupaku.outlet.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,98 +46,98 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.snabbmaten.outlet.activity.LoginActivity"
+            android:name="com.pakupaku.outlet.activity.LoginActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.RegisterActivity"
+            android:name="com.pakupaku.outlet.activity.RegisterActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.EditProfileActivity"
+            android:name="com.pakupaku.outlet.activity.EditProfileActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.HistoryActivity"
+            android:name="com.pakupaku.outlet.activity.HistoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.AddOnsActivity"
+            android:name="com.pakupaku.outlet.activity.AddOnsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.AddAddOnsActivity"
+            android:name="com.pakupaku.outlet.activity.AddAddOnsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.ProductsActivity"
+            android:name="com.pakupaku.outlet.activity.ProductsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"
             android:taskAffinity=".products" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.CategoryActivity"
+            android:name="com.pakupaku.outlet.activity.CategoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.AddCategoryActivity"
+            android:name="com.pakupaku.outlet.activity.AddCategoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.AddProductActivity"
+            android:name="com.pakupaku.outlet.activity.AddProductActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.RestaurantTimingActivity"
+            android:name="com.pakupaku.outlet.activity.RestaurantTimingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.ChangePasswordActivity"
+            android:name="com.pakupaku.outlet.activity.ChangePasswordActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.EditRestaurantActivity"
+            android:name="com.pakupaku.outlet.activity.EditRestaurantActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.RequestAcceptActivity"
+            android:name="com.pakupaku.outlet.activity.RequestAcceptActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.OrderDetailActivity"
+            android:name="com.pakupaku.outlet.activity.OrderDetailActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.DeliveriesActivity"
+            android:name="com.pakupaku.outlet.activity.DeliveriesActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.ForgotPassword"
+            android:name="com.pakupaku.outlet.activity.ForgotPassword"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.OtpActivity"
+            android:name="com.pakupaku.outlet.activity.OtpActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.ResetPasswordActivity"
+            android:name="com.pakupaku.outlet.activity.ResetPasswordActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.ProductAddOnActivity"
+            android:name="com.pakupaku.outlet.activity.ProductAddOnActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.snabbmaten.outlet.activity.ProductAddOnListActivity"
+            android:name="com.pakupaku.outlet.activity.ProductAddOnListActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
 
-        <service android:name="com.snabbmaten.outlet.notification.MyFirebaseMessagingService">
+        <service android:name="com.pakupaku.outlet.notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name="com.snabbmaten.outlet.notification.MyFirebaseInstanceIDService">
+        <service android:name="com.pakupaku.outlet.notification.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

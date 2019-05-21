@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.snabbmaten.outlet.activity.ProductAddOnActivity">
+    tools:context="com.pakupaku.outlet.activity.ProductAddOnActivity">
 
     <include
         android:id="@+id/toolbar"
