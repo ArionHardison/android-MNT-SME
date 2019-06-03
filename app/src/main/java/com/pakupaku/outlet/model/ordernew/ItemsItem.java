@@ -20,7 +20,7 @@ public class ItemsItem {
     private int savedforlater;
 
     @SerializedName("price")
-    private double price;
+    private int price;
 
     @SerializedName("product_id")
     private int productId;
@@ -69,11 +69,11 @@ public class ItemsItem {
         this.savedforlater = savedforlater;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

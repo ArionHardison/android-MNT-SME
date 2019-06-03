@@ -20,7 +20,7 @@ public class AddonProduct {
     private Integer productId;
     @SerializedName("price")
     @Expose
-    private Double price;
+    private int price;
     @SerializedName("addon")
     @Expose
     private Addon addon;
@@ -49,11 +49,11 @@ public class AddonProduct {
         this.productId = productId;
     }
 
-    public Double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

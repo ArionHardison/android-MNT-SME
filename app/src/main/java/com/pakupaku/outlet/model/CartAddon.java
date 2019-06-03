@@ -23,7 +23,7 @@ public class CartAddon {
     private Integer quantity;
     @SerializedName("price")
     @Expose
-    private Double price;
+    private int price;
     @SerializedName("deleted_at")
     @Expose
     private Object deletedAt;
@@ -63,11 +63,11 @@ public class CartAddon {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -27,8 +27,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pakupaku.outlet.model.CancelReasons;
-import com.pakupaku.outlet.model.FeedBack;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.pakupaku.outlet.R;
@@ -36,6 +34,8 @@ import com.pakupaku.outlet.adapter.OrderProductAdapter;
 import com.pakupaku.outlet.helper.ConnectionHelper;
 import com.pakupaku.outlet.helper.CustomDialog;
 import com.pakupaku.outlet.helper.GlobalData;
+import com.pakupaku.outlet.model.CancelReasons;
+import com.pakupaku.outlet.model.FeedBack;
 import com.pakupaku.outlet.model.Order;
 import com.pakupaku.outlet.model.ServerError;
 import com.pakupaku.outlet.network.ApiClient;
@@ -165,29 +165,29 @@ public class RequestAcceptActivity extends AppCompatActivity {
         orderProductRv.setHasFixedSize(true);
         orderProductRv.setAdapter(orderProductAdapter);
 
-        Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST() + "") / 100);
-        Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST() + "") / 100);
+        int cgst_percentage_multiplayer = order.getInvoice().getCGST() / 100;
+        int sgst_percentage_multiplayer = order.getInvoice().getSGST() / 100;
 
-        double gross_amount = order.getInvoice().getGross() - order.getInvoice().getDiscount();
+        int gross_amount = order.getInvoice().getGross() - order.getInvoice().getDiscount();
 
-        double cgst = (gross_amount * (cgst_percentage_multiplayer));
-        double sgst = (gross_amount * (sgst_percentage_multiplayer));
+        int cgst = (gross_amount * (cgst_percentage_multiplayer));
+        int sgst = (gross_amount * (sgst_percentage_multiplayer));
 
 
-        subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
-        service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
+        subTotal.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getGross());
+        service_tax.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getTax());
 
-        discount.setText(GlobalData.profile.getCurrency() + "-"+ String.format("%.2f", (order.getInvoice().getDiscount())));
+        discount.setText(GlobalData.profile.getCurrency() + "-" + /*String.format("%.2f"*/(order.getInvoice().getDiscount()));
         if (order.getInvoice().getPromocode_amount() > 0){
             promocodeLayout.setVisibility(View.VISIBLE);
         }else{
             promocodeLayout.setVisibility(View.GONE);
         }
-        promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +String.format("%.2f", (order.getInvoice().getPromocode_amount())));
-        tv_cgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", cgst));
-        tv_sgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", sgst));
-        deliveryCharges.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDeliveryCharge()));
-        total.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getNet()));
+        promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +/*String.format("%.2f"*/(order.getInvoice().getPromocode_amount()));
+        tv_cgst.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/cgst);
+        tv_sgst.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/sgst);
+        deliveryCharges.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getDeliveryCharge());
+        total.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getNet());
 
         if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
             disputeBtn.setVisibility(View.GONE);
@@ -276,7 +276,7 @@ public class RequestAcceptActivity extends AppCompatActivity {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
-        rg = (RadioGroup) view.findViewById(R.id.reasons);
+        rg = view.findViewById(R.id.reasons);
         final RadioButton[] radioButton = new RadioButton[1];
         for (int i = 0; i < feedback_array.size(); i++) {
             radioButton[0] = new RadioButton(context);
@@ -294,7 +294,7 @@ public class RequestAcceptActivity extends AppCompatActivity {
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                                           @Override
                                           public void onCheckedChanged(RadioGroup group, int checkedId) {
-                                              radioButton[0] = (RadioButton) view.findViewById(checkedId);
+                                              radioButton[0] = view.findViewById(checkedId);
                                               //  Toast.makeText(context, radioButton[0].getText(), Toast.LENGTH_SHORT).show();
                                               reason[0] = radioButton[0].getText().toString();
                                               reason_id[0] = String.valueOf(radioButton[0].getId());
@@ -302,7 +302,7 @@ public class RequestAcceptActivity extends AppCompatActivity {
                                       }
         );
 
-        Button submitBtn = (Button) view.findViewById(R.id.submit_reason);
+        Button submitBtn = view.findViewById(R.id.submit_reason);
         builder.setView(view)
                 .setCancelable(true);
         reasonDialog = builder.create();

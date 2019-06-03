@@ -66,7 +66,7 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
         Item item = list.get(section);
         String value = context.getResources().getString(R.string.product_, item.getProduct().getName(), item.getQuantity(), GlobalData.profile.getCurrency() + /*MyApplication.getNumberFormat().format(*/item.getProduct().getPrices().getOrignalPrice())/*)*/;
         holder.productDetail.setText(value);
-        Double totalAmount = Double.valueOf(item.getQuantity() * item.getProduct().getPrices().getOrignalPrice());
+        int totalAmount = /*Double.valueOf(*/item.getQuantity() * item.getProduct().getPrices().getOrignalPrice();
         holder.productPrice.setText(GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/totalAmount)/*)*/;
     }
 
@@ -77,14 +77,14 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
             holder.itemLayout.setVisibility(View.VISIBLE);
             String value = context.getString(R.string.addon_, object.getAddonProduct().getAddon().getName(), object.getQuantity(), GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/object.getAddonProduct().getPrice())/*)*/;
             holder.addonDetail.setText(value);
-            Double totalAmount = Double.valueOf(object.getAddonProduct().getPrice() * object.getQuantity());
+            int totalAmount = /*Double.valueOf(*/object.getAddonProduct().getPrice() * object.getQuantity();
             holder.addonPrice.setText(GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/totalAmount)/*)*/;
         } else {
             holder.itemLayout.setVisibility(View.GONE);
         }
     }
 
-    private String getDetail(Integer quantity, Double price) {
+    private String getDetail(Integer quantity, int price) {
         StringBuilder data = new StringBuilder("( ");
         data.append(quantity);
         data.append("x ");

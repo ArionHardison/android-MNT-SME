@@ -7,10 +7,10 @@ import com.google.gson.annotations.SerializedName;
 public class Prices {
 
     @SerializedName("price")
-    private double price;
+    private int price;
 
     @SerializedName("discount")
-    private double discount;
+    private int discount;
 
     @SerializedName("currency")
     private String currency;
@@ -22,21 +22,21 @@ public class Prices {
     private String discountType;
 
     @SerializedName("orignal_price")
-    private Double orignalPrice;
+    private int orignalPrice;
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -64,11 +64,11 @@ public class Prices {
         this.discountType = discountType;
     }
 
-    public Double getOrignalPrice() {
+    public int getOrignalPrice() {
         return orignalPrice;
     }
 
-    public void setOrignalPrice(Double orignalPrice) {
+    public void setOrignalPrice(int orignalPrice) {
         this.orignalPrice = orignalPrice;
     }
 }

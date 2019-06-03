@@ -166,22 +166,22 @@ public class OrderDetailActivity extends AppCompatActivity {
       /*  Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST())/100);
         Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST())/100);*/
 
-        Double cgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getCGST() + "") / 100);
-        Double sgst_percentage_multiplayer = (Double.parseDouble(order.getInvoice().getSGST() + "") / 100);
+        int cgst_percentage_multiplayer = order.getInvoice().getCGST() / 100;
+        int sgst_percentage_multiplayer = order.getInvoice().getSGST() / 100;
 
-        double gross_amount = order.getInvoice().getGross() - order.getInvoice().getDiscount();
+        int gross_amount = order.getInvoice().getGross() - order.getInvoice().getDiscount();
 
-        double cgst = (gross_amount * (cgst_percentage_multiplayer));
-        double sgst = (gross_amount * (sgst_percentage_multiplayer));
+        int cgst = (gross_amount * (cgst_percentage_multiplayer));
+        int sgst = (gross_amount * (sgst_percentage_multiplayer));
 
 
-        subTotal.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getGross()));
-        discount.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDiscount()));
-        tv_cgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", cgst));
-        tv_sgst.setText(GlobalData.profile.getCurrency() + String.format("%.2f", sgst));
-        deliveryCharges.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getDeliveryCharge()));
-        total.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getNet()));
-        service_tax.setText(GlobalData.profile.getCurrency() + String.format("%.2f", order.getInvoice().getTax()));
+        subTotal.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getGross());
+        discount.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getDiscount());
+        tv_cgst.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/cgst);
+        tv_sgst.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/sgst);
+        deliveryCharges.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getDeliveryCharge());
+        total.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getNet());
+        service_tax.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getTax());
 
         if (order.getInvoice().getPromocode_amount() > 0){
             promocodeLayout.setVisibility(View.VISIBLE);
@@ -189,7 +189,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             promocodeLayout.setVisibility(View.GONE);
         }
 
-        promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +String.format("%.2f", (order.getInvoice().getPromocode_amount())));
+        promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +/*String.format("%.2f"*/(order.getInvoice().getPromocode_amount()));
 
         /*if(order.getStatus().equals("ORDERED")&&order.getDispute().equals("NODISPUTE")){
             disputeBtn.setVisibility(View.GONE);

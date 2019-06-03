@@ -32,7 +32,7 @@ public class Prices implements Parcelable {
     @SerializedName("discount_type")
     private String discountType;
     @SerializedName("orignal_price")
-    private Double orignalPrice;
+    private int orignalPrice;
 
     protected Prices(Parcel in) {
         price = in.readString();
@@ -40,7 +40,7 @@ public class Prices implements Parcelable {
         currency = in.readString();
         id = in.readInt();
         discountType = in.readString();
-        orignalPrice = in.readDouble();
+        orignalPrice = in.readInt();
     }
 
     public String getPrice() {
@@ -83,11 +83,11 @@ public class Prices implements Parcelable {
         this.discountType = discountType;
     }
 
-    public Double getOrignalPrice() {
+    public int getOrignalPrice() {
         return orignalPrice;
     }
 
-    public void setOrignalPrice(Double orignalPrice) {
+    public void setOrignalPrice(int orignalPrice) {
         this.orignalPrice = orignalPrice;
     }
 
@@ -103,6 +103,6 @@ public class Prices implements Parcelable {
         dest.writeString(currency);
         dest.writeInt(id);
         dest.writeString(discountType);
-        dest.writeDouble(orignalPrice);
+        dest.writeInt(orignalPrice);
     }
 }

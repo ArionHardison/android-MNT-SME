@@ -13,55 +13,55 @@ public class Invoice {
     private int quantity;
 
     @SerializedName("gross")
-    private Double gross;
+    private int gross;
 
     @SerializedName("discount")
-    private Double discount;
+    private int discount;
 
     @SerializedName("created_at")
     private String createdAt;
 
     @SerializedName("tax")
-    private Double tax;
+    private int tax;
 
     @SerializedName("total_pay")
-    private Double totalPay;
+    private int totalPay;
 
     @SerializedName("ripple_price")
     private String ripplePrice;
 
     @SerializedName("delivery_charge")
-    private Double deliveryCharge;
+    private int deliveryCharge;
 
     @SerializedName("SGST")
-    private double sGST;
+    private int sGST;
 
     @SerializedName("payable")
-    private Double payable;
+    private int payable;
 
     @SerializedName("payment_id")
     private String paymentId;
 
     @SerializedName("paid")
-    private Double paid;
+    private int paid;
 
     @SerializedName("tender_pay")
-    private Double tenderPay;
+    private int tenderPay;
 
     @SerializedName("CGST")
-    private double cGST;
+    private int cGST;
 
     @SerializedName("id")
     private int id;
 
     @SerializedName("net")
-    private Double net;
+    private int net;
 
     @SerializedName("order_id")
     private int orderId;
 
     @SerializedName("wallet_amount")
-    private Double walletAmount;
+    private int walletAmount;
 
     @SerializedName("status")
     private String status;
@@ -82,19 +82,19 @@ public class Invoice {
         this.quantity = quantity;
     }
 
-    public Double getGross() {
+    public int getGross() {
         return gross;
     }
 
-    public void setGross(Double gross) {
+    public void setGross(int gross) {
         this.gross = gross;
     }
 
-    public Double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -106,19 +106,19 @@ public class Invoice {
         this.createdAt = createdAt;
     }
 
-    public Double getTax() {
+    public int getTax() {
         return tax;
     }
 
-    public void setTax(Double tax) {
+    public void setTax(int tax) {
         this.tax = tax;
     }
 
-    public Double getTotalPay() {
+    public int getTotalPay() {
         return totalPay;
     }
 
-    public void setTotalPay(Double totalPay) {
+    public void setTotalPay(int totalPay) {
         this.totalPay = totalPay;
     }
 
@@ -130,27 +130,27 @@ public class Invoice {
         this.ripplePrice = ripplePrice;
     }
 
-    public Double getDeliveryCharge() {
+    public int getDeliveryCharge() {
         return deliveryCharge;
     }
 
-    public void setDeliveryCharge(Double deliveryCharge) {
+    public void setDeliveryCharge(int deliveryCharge) {
         this.deliveryCharge = deliveryCharge;
     }
 
-    public double getSGST() {
+    public int getSGST() {
         return sGST;
     }
 
-    public void setSGST(double sGST) {
+    public void setSGST(int sGST) {
         this.sGST = sGST;
     }
 
-    public Double getPayable() {
+    public int getPayable() {
         return payable;
     }
 
-    public void setPayable(Double payable) {
+    public void setPayable(int payable) {
         this.payable = payable;
     }
 
@@ -162,19 +162,19 @@ public class Invoice {
         this.paymentId = paymentId;
     }
 
-    public Double getPaid() {
+    public int getPaid() {
         return paid;
     }
 
-    public void setPaid(Double paid) {
+    public void setPaid(int paid) {
         this.paid = paid;
     }
 
-    public Double getTenderPay() {
+    public int getTenderPay() {
         return tenderPay;
     }
 
-    public void setTenderPay(Double tenderPay) {
+    public void setTenderPay(int tenderPay) {
         this.tenderPay = tenderPay;
     }
 
@@ -182,7 +182,7 @@ public class Invoice {
         return cGST;
     }
 
-    public void setCGST(double cGST) {
+    public void setCGST(int cGST) {
         this.cGST = cGST;
     }
 
@@ -194,11 +194,11 @@ public class Invoice {
         this.id = id;
     }
 
-    public Double getNet() {
+    public int getNet() {
         return net;
     }
 
-    public void setNet(Double net) {
+    public void setNet(int net) {
         this.net = net;
     }
 
@@ -210,11 +210,11 @@ public class Invoice {
         this.orderId = orderId;
     }
 
-    public Double getWalletAmount() {
+    public int getWalletAmount() {
         return walletAmount;
     }
 
-    public void setWalletAmount(Double walletAmount) {
+    public void setWalletAmount(int walletAmount) {
         this.walletAmount = walletAmount;
     }
 

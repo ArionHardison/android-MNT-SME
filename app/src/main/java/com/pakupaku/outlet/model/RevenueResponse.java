@@ -9,7 +9,7 @@ public class RevenueResponse {
 
     @SerializedName("TotalRevenue")
     @Expose
-    private Double totalRevenue;
+    private int totalRevenue;
     @SerializedName("OrderReceivedToday")
     @Expose
     private Integer orderReceivedToday;
@@ -18,19 +18,19 @@ public class RevenueResponse {
     private Integer orderDeliveredToday;
     @SerializedName("OrderIncomeMonthly")
     @Expose
-    private Double orderIncomeMonthly;
+    private int orderIncomeMonthly;
     @SerializedName("OrderIncomeToday")
     @Expose
-    private Double orderIncomeToday;
+    private int orderIncomeToday;
     @SerializedName("complete_cancel")
     @Expose
     private List<CompleteCancel> completeCancel = null;
 
-    public Double getTotalRevenue() {
+    public int getTotalRevenue() {
         return totalRevenue;
     }
 
-    public void setTotalRevenue(Double totalRevenue) {
+    public void setTotalRevenue(int totalRevenue) {
         this.totalRevenue = totalRevenue;
     }
 
@@ -50,19 +50,19 @@ public class RevenueResponse {
         this.orderDeliveredToday = orderDeliveredToday;
     }
 
-    public Double getOrderIncomeMonthly() {
+    public int getOrderIncomeMonthly() {
         return orderIncomeMonthly;
     }
 
-    public void setOrderIncomeMonthly(Double orderIncomeMonthly) {
+    public void setOrderIncomeMonthly(int orderIncomeMonthly) {
         this.orderIncomeMonthly = orderIncomeMonthly;
     }
 
-    public Double getOrderIncomeToday() {
+    public int getOrderIncomeToday() {
         return orderIncomeToday;
     }
 
-    public void setOrderIncomeToday(Double orderIncomeToday) {
+    public void setOrderIncomeToday(int orderIncomeToday) {
         this.orderIncomeToday = orderIncomeToday;
     }
 
