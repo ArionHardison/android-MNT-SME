@@ -272,8 +272,7 @@
     <string name="submit">Submit</string>
     <string name="give_your_feedback">Please select the reason for canceling</string>
     <string name="cancel_reason">Cancel Reason</string>
-
-
+    <string name="thursday">Thursday</string>
 
 
 </resources>

@@ -24,11 +24,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.pakupaku.outlet.BuildConfig;
 import com.pakupaku.outlet.R;
@@ -49,6 +49,7 @@ import com.pakupaku.outlet.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -150,6 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         ButterKnife.bind(this);
+        Places.initialize(RegisterActivity.this, getResources().getString(R.string.google_api_key));
 
         context = RegisterActivity.this;
         activity = RegisterActivity.this;
@@ -295,14 +297,24 @@ public class RegisterActivity extends AppCompatActivity {
             case R.id.country_picker_lay:
                 break;
             case R.id.address_lay:
-                try {
+                /*try {
                     Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(this);
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
                 } catch (GooglePlayServicesRepairableException e) {
                     e.getStackTrace();
                 } catch (GooglePlayServicesNotAvailableException e) {
                     e.getStackTrace();
-                }
+                }*/
+                //
+                List<com.google.android.libraries.places.api.model.Place.Field> fields =
+                        Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.LAT_LNG, com.google.android.libraries.places.api.model.Place.Field.NAME);
+
+                // Start the autocomplete intent.
+                Intent intent = new Autocomplete.
+                        IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(this);
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                //
                 break;
             case R.id.register_btn:
                 signupCall();
@@ -449,7 +461,8 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) if (resultCode == RESULT_OK) {
-            Place place = PlaceAutocomplete.getPlace(this, data);
+//            Place place = PlaceAutocomplete.getPlace(this, data);
+            Place place = Autocomplete.getPlaceFromIntent(data);
             txtAddress.setText(place.getName());
             location = place.getLatLng();
             Log.i(TAG, "Place: " + place.getName());

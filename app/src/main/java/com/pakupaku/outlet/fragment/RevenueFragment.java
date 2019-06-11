@@ -35,8 +35,6 @@ import com.pakupaku.outlet.network.ApiInterface;
 import com.pakupaku.outlet.utils.Constants;
 import com.pakupaku.outlet.utils.Utils;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -227,14 +225,14 @@ public class RevenueFragment extends Fragment {
     }
 
     private void updateUI(RevenueResponse response) {
-        NumberFormat formatter = new DecimalFormat("#0.00");
+//        NumberFormat formatter = new DecimalFormat("#0.00");
         String currency = SharedHelper.getKey(context, Constants.PREF.CURRENCY);
 
-        String total_revenue = currency + formatter.format(response.getTotalRevenue());
+        String total_revenue = currency + /*formatter.format(*/response.getTotalRevenue();
         String order_received = response.getOrderReceivedToday() + "";
         String order_develievered = response.getOrderDeliveredToday() + "";
-        String today_earnings = currency + formatter.format(response.getOrderIncomeToday());
-        String monthly_earnings = currency + formatter.format(response.getOrderIncomeMonthly());
+        String today_earnings = currency + /*formatter.format(*/response.getOrderIncomeToday();
+        String monthly_earnings = currency + /*formatter.format(*/response.getOrderIncomeMonthly();
 
         if (tvTotalRevenue!=null) {
             tvTotalRevenue.setText(total_revenue);
