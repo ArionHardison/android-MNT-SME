@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="app_name">店舗・レストラン用　PAKU Paku</string>
+
+    <!-- SignUp -->
+    <string name="first_name">名前</string>
+    <string name="last_name">姓名</string>
+    <string name="phone_number">電話番号</string>
+    <string name="sign_up">新規登録</string>
+    <string name="already_have_an_account_click_here_to">すでにアカウントをお持ちの方はこちら</string>
+    <string name="sign_in">サインイン</string>
+    <string name="username_or_email_id">ユーザー名　または　Eメール</string>
+    <string name="forgot_password">パスワードをお忘れですか？</string>
+
+    <string name="sign_up_here">こちらで新規登録</string>
+
+    <!-- REGISTER -->
+    <string name="enter_the_details_to_register">ご登録の入力を行なってください</string>
+    <string name="name">名前</string>
+    <string name="email">Eメールアドレス</string>
+    <string name="country">国</string>
+    <string name="mob_num">携帯番号</string>
+    <string name="password">パスワード</string>
+    <string name="confirm_password">もう一度同じパスワードを記入</string>
+    <string name="register">登録</string>
+    <string name="login">ログイン</string>
+    <string name="no_account">アカウントをお持ちでない方</string>
+    <string name="donot_have_an_account">アカウントをお持ちでないですか？</string>
+    <string name="do_have_an_account">アカウントをお持ちですか？</string>
+    <string name="title_activity_launcher">ラウンチャー</string>
+    <string name="title_home">ホーム</string>
+    <string name="title_dashboard">ダッシュボード</string>
+    <string name="title_notifications">お知らせ</string>
+    <string name="location">地域</string>
+    <string name="address">住所</string>
+    <string name="clock_timer">タイマー</string>
+    <string name="open_time">営業開始時間</string>
+    <string name="close_time">営業終了時間</string>
+
+    <!-- LOGIN -->
+    <string name="enter_the_details_to_login">ログインする為の入力を行なってください</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_string" />
+    <string name="empty">空っぽです</string>
+    <string name="search_here">ここで検索</string>
+    <string name="logout">ログアウト</string>
+    <string name="edit_profile">プロフィールの検索</string>
+    <string name="edit_restaurant">レストランの編集</string>
+    <string name="edit_timing">営業時間の編集</string>
+    <string name="deliveries">受渡し履歴</string>
+    <string name="change_password">パスワードを変える</string>
+    <string name="payment">お支払い</string>
+    <string name="profile">プロフィール</string>
+    <string name="ongoing">進行中</string>
+    <string name="upcoming">もうすぐスタート</string>
+    <string name="cancelled">キャンセル</string>
+    <string name="past">過去</string>
+    <string name="favorites">お気に入り</string>
+    <string name="email_id">EメールID</string>
+    <string name="save">セーブ</string>
+    <string name="title_activity_house_detail">お家の詳細</string>
+    <string name="action_settings">セティング</string>
+
+    <!--Home Fragment-->
+    <string name="incoming_orders">受付中のご注文</string>
+    <string name="delete_account">アカウントの削除</string>
+    <string name="history">履歴</string>
+
+    <string name="restaurant">レストラン</string>
+    <string name="add_ons">トッピング</string>
+    <string name="category">ジャンル別</string>
+    <string name="product">商品</string>
+    <string name="products">商品一覧</string>
+    <string name="dishes">メニュー</string>
+    <string name="add_add_ons">トッピングを追加</string>
+    <string name="add_ons_list">トッピングリスト</string>
+    <string name="create_add_ons">トッピングを製作</string>
+    <string name="add_products">商品の追加</string>
+    <string name="add_category">ジャンルの追加</string>
+
+    <!--    Revenue-->
+    <string name="revenue">売上げ</string>
+    <string name="total_revenue">総売上</string>
+    <string name="yesterday">昨日の合計</string>
+    <string name="today_till_now">今日の合計</string>
+    <string name="total_last_week">先週の合計</string>
+    <string name="this_week_till_now">今週の合計</string>
+    <string name="description">説明</string>
+    <string name="write_description">説明を書く</string>
+    <string name="status">ステータス</string>
+    <string name="category_order">ジャンル別オーダー</string>
+    <string name="image_upload">イメージ画像を保存</string>
+    <string name="is_this_a_featured_product">これはイチオシ商品ですか？</string>
+    <string name="is_this_a_selected_food_type">これは種類を選びますか？</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="veg">ベジタリアン</string>
+    <string name="non_veg">肉・魚あり</string>
+    <string name="featured_image_upload">イチオシ画像の保存</string>
+    <string name="add_product">商品の追加</string>
+    <string name="every_day">毎日</string>
+    <string name="monday">月</string>
+    <string name="tuesday">火</string>
+    <string name="wednesday">水</string>
+    <string name="thursday">木</string>
+    <string name="friday">金</string>
+    <string name="saturday">土</string>
+    <string name="sunday">日</string>
+    <string name="confirm">決定</string>
+
+    <!--    Change Password Activity-->
+    <string name="current_password">現在のパスワード</string>
+    <string name="new_password">新しいパスワード</string>
+
+    <!--    Edit Restaurant Activity-->
+    <string name="is_this_a_pure_veg_restaurant">ベジタリアンのお店ですか？</string>
+    <string name="min_amount">最小注文料金</string>
+    <string name="offer_in_percentage">パーセンテージで設定</string>
+    <string name="maximum_delivery_time">お届け時間</string>
+    <string name="price">料金</string>
+
+    <!--    Request Accept Activity-->
+    <string name="order_time">注文時間</string>
+    <string name="cancel">キャンセル</string>
+    <string name="accept">受け入れる</string>
+    <string name="order_list">おご注文リスト</string>
+    <string name="notes">メモ</string>
+    <string name="sub_total">小計</string>
+    <string name="gst">Gst</string>
+    <string name="cgst">CGST</string>
+    <string name="sgst">SGST</string>
+    <string name="delivery_charges">受渡し料金</string>
+    <string name="total">合計</string>
+
+    <!--    Filter Dialog Activity-->
+    <string name="filter_by">絞り込み設定</string>
+    <string name="delivery_person">受渡しメンバー</string>
+    <string name="from">どこから</string>
+    <string name="to">どこまで</string>
+    <string name="filter">絞り込み</string>
+    <string name="calender_date">日:月:年</string>
+    <string name="country_name">国</string>
+    <string name="landmark">目印</string>
+
+    <!--Error Validation-->
+    <string name="please_enter_mail_id">メールアドレスを入力してください</string>
+    <string name="please_enter_valid_mail_id">このアドレスは使えません。</string>
+    <string name="please_enter_password">パスワードを入力してください。</string>
+    <string name="please_enter_new_password">新しいパスワードを入力してください。</string>
+    <string name="please_enter_minimum_length_password">６文字以上でパスワードを入力</string>
+    <string name="please_enter_name">名前を入力</string>
+    <string name="please_enter_phone_number">電話番号を入力</string>
+    <string name="please_enter_confirm_password">パスワードをもう一度入力してください。</string>
+    <string name="password_and_confirm_password_doesnot_match">あれ!?パスワードが一致しません。</string>
+    <string name="please_fill_your_address">ご住所を入力してください。</string>
+    <string name="please_enter_amount">最小料金設定を入力してください。</string>
+    <string name="please_enter_delievery_time">お届け時間を入力してください。</string>
+    <string name="please_enter_landmark">目印を設定してください。</string>
+    <string name="please_select_status">ステータスを入力してください。</string>
+    <string name="something_went_wrong">う〜ん何かがおかしいです。。</string>
+    <string name="oops_no_internet">あれ!?ネット通信が切れてます。</string>
+    <string name="tax">税</string>
+    <string name="discount">クーポンディスカウント</string>
+    <string name="shop_discount">店舗のディスカウント</string>
+    <string name="addon_">トッピング</string>
+    <string name="product_">商品</string>
+    <string name="order_delivery_time_description">調理時間の説明</string>
+    <string name="order_delivery_time">調理にかかる時間</string>
+    <string name="okay">OK</string>
+    <string name="please_enter_delivery_time">お届け時間を入力してください。</string>
+    <string name="order_ready_time">調理完了時間</string>
+    <string name="order">ご注文</string>
+    <string name="are_you_sure_want_to_cancel_the_order">ご注文をキャンセルして宜しいですか？</string>
+    <string name="please_enter_addons_name">トッピングの名前を入力してください。</string>
+    <string name="addons_added_successfully">トッピングが追加されました。</string>
+    <string name="addons_updated_successfully">トッピングのアップデート完了。</string>
+    <string name="are_you_sure_want_to_delete_addon">このトッピングを削除して宜しいですか？</string>
+    <string name="are_you_sure_want_to_delete_category">このジャンルを削除して宜しいですか？</string>
+    <string name="are_you_sure_want_to_delete_product">この商品を削除して宜しいですか？</string>
+    <string name="update_add_ons">トッピングのアップデート</string>
+    <string name="please_select_avatar">アバターを選んでください。</string>
+    <string name="please_enter_all_fields">フィールドを入力してください。</string>
+    <string name="invalid_open_time">開始時間を入力してください。</string>
+    <string name="invalid_close_time">終了時間を入力してください。</string>
+    <string name="cuisine">お料理のジャンル</string>
+    <string name="invalid_cuisine">お料理のジャンルを選んでください。</string>
+    <string name="done">完了</string>
+    <string name="next">次へ</string>
+    <string name="enable">表示する</string>
+    <string name="disable">非表示にする</string>
+    <string name="dispute_created">クレーム</string>
+    <string name="status_active">活動中</string>
+    <string name="status_onboarding">進行中</string>
+    <string name="status_banned">禁止</string>
+
+
+    <!--<string name="splash_tomoeats_partner">TOMOEATS\nRestaurant</string>-->
+    <string name="splash_tomoeats_partner">TOMOEATS\nPartner</string>
+    <string name="restaurant_updated_successfully">店舗の変更を完了しました。</string>
+    <string name="password_updated_successfully">パスワードの変更を完了しました。</string>
+    <string name="restaurant_timing_updated_successfully">店舗の営業時間を変更しました。</string>
+    <string name="action_save">セーブ</string>
+    <string name="select_delievery_person">受渡し員の選択</string>
+    <string name="item_order_price">料金</string>
+    <string name="currency_value">¥</string>
+    <string name="currency_value_tag">¥</string>
+    <string name="schedule_at">Scheduled at : </string>
+    <string name="schedule_at_format">Scheduled at : %1$s %2$s %3$d</string>
+
+    <!--Order Flow Title-->
+    <string name="order_placed">ご注文</string>
+    <string name="order_confirmed">ご注文を承りました。</string>
+    <string name="order_processed">ご注文は進行中です。</string>
+    <string name="order_pickedup">ご注文はピックアップされました。</string>
+    <string name="order_delivered">ご注文の受渡し完了。</string>
+    <string name="order_cancelled">ご注文はキャンセルされました。</string>
+
+    <!--Order Flow Description-->
+    <string name="description_1">ご注文を受け付けました。</string>
+    <string name="description_2">ご注文の受け付けを完了しました。</string>
+    <string name="description_3">ご注文を調理中。</string>
+    <string name="description_4">ご注文をお届け中。</string>
+    <string name="description_5">お料理をお楽しみください！</string>
+
+    <!--Product-->
+    <string name="error_msg_product_name">商品の名前を書いてください。</string>
+    <string name="error_msg_product_description">商品の説明を書いてください。</string>
+    <string name="error_msg_product_order">商品のご注文</string>
+    <string name="error_msg_product_category">商品のジャンルを選択してください。</string>
+    <string name="error_msg_selected_food_type">お料理の種類を選択してください。</string>
+    <string name="product_select_catefory">ジャンルを選択。</string>
+    <string name="error_msg_product_select_featured_image">イチオシ商品の画像を選択してください。</string>
+    <string name="enter_new_password">新しいパスワードを入力してください。</string>
+    <string name="confirm_new_password">もう一度新しいパスワードを入力してください。</string>
+    <string name="change_language">言語を変えてください</string>
+    <string name="orders">ご注文</string>
+    <string name="change">変更</string>
+    <string name="please_enter_otp">SMSで届いた番号を入力</string>
+    <string name="please_new_password">新しいパスワードを入力してください。</string>
+    <string name="order_received">ご注文を受付ました。</string>
+    <string name="ordered_delievered">ご注文のお届け完了。</string>
+    <string name="today_earnings">今日の売上げ。</string>
+    <string name="monthly_earnings">今月の売上げ。</string>
+    <string name="discount_type">ディスカウントの種類</string>
+    <string name="please_enter_price">料金を入力してください。</string>
+    <string name="please_select_discount_type">ディスカウウントの種類を入力してください。</string>
+    <string name="select_addons">トッピングを選んでください。</string>
+    <string name="category_added_successfully">ジャンルの追加を完了しました。</string>
+    <string name="product_added_successfully">商品の追加を完了しました。</string>
+    <string name="no_addons">トッピングなし</string>
+    <string name="please_enter_category_name">ジャンルの名前を入力してください。</string>
+    <string name="please_enter_category_description">ジャンルの説明をしてください。</string>
+    <!--<string name="please_select_status">Please select status</string>-->
+    <string name="please_select_category_image">ジャンルのイメージを選択してください。</string>
+    <string name="please_select_product_image">商品のイメージを選択してください。</string>
+    <string name="category_list">ジャンルのリスト</string>
+    <string name="edit_product">商品の編集</string>
+    <string name="edit_category">ジャンルの編集</string>
+    <string name="please_enter_discount_amount">ディスカウント料金を入力してください。</string>
+    <string name="no_products_added">商品が追加されていません。</string>
+    <string name="no_addons_added">トッピングが追加されていません。</string>
+    <string name="no_upcoming_orders_found">新規のご注文はありません。</string>
+    <string name="no_past_orders_found">ご注文の履歴はありません。</string>
+    <string name="no_cancelled_orders_found">キャンセルされた注文はありません。</string>
+    <string name="please_enter_description">説明を入力してください。</string>
+    <string name="no_incoming_orders_received">現在受付中のご注文はありません。</string>
+    <string name="invalid_credentials">登録されていないアカウントです。</string>
+    <string name="waiting_for_new_orders">新規のご注文を待っています。</string>
+    <string name="shop_image">店舗の写真</string>
+    <string name="shop_banner">店舗のバナー写真</string>
+    <string name="invalid_email">使われていないメールアドレス</string>
+    <string name="no_deliveries_found">受渡し履歴はありません。</string>
+    <string name="submit">決定する</string>
+    <string name="give_your_feedback">ご意見を聞かせてください。</string>
+    <string name="cancel_reason">キャンセルの理由</string>
+
+</resources>

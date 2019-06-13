@@ -51,6 +51,7 @@
     <string name="edit_timing">Edit Timing</string>
     <string name="deliveries">Deliveries</string>
     <string name="change_password">Change Password</string>
+    <string name="change_language">Change Language</string>
     <string name="payment">Payment</string>
     <string name="profile">Profile</string>
     <string name="ongoing">Ongoing</string>
@@ -171,6 +172,7 @@
     <string name="please_enter_delivery_time">Please enter delivery time</string>
     <string name="order_ready_time">Order Ready Time must be greater than or equal-to 3 min</string>
     <string name="order">Order</string>
+    <string name="orders">Orders</string>
     <string name="are_you_sure_want_to_cancel_the_order">Are you sure want to canel the order?</string>
     <string name="please_enter_addons_name">Please enter Addons name</string>
     <string name="addons_added_successfully">Addons added Successfully</string>

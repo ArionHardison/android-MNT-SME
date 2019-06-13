@@ -10,8 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -21,6 +24,7 @@ import com.pakupaku.outlet.activity.ChangePasswordActivity;
 import com.pakupaku.outlet.activity.DeliveriesActivity;
 import com.pakupaku.outlet.activity.EditRestaurantActivity;
 import com.pakupaku.outlet.activity.HistoryActivity;
+import com.pakupaku.outlet.activity.HomeActivity;
 import com.pakupaku.outlet.activity.LoginActivity;
 import com.pakupaku.outlet.activity.RestaurantTimingActivity;
 import com.pakupaku.outlet.helper.ConnectionHelper;
@@ -32,8 +36,10 @@ import com.pakupaku.outlet.model.Setting;
 import com.pakupaku.outlet.network.ApiClient;
 import com.pakupaku.outlet.network.ApiInterface;
 import com.pakupaku.outlet.utils.Constants;
+import com.pakupaku.outlet.utils.LocaleUtils;
 import com.pakupaku.outlet.utils.Utils;
 
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -94,6 +100,8 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             context.startActivity(intent);
         } else if (title.equalsIgnoreCase(context.getString(R.string.deliveries))) {
             context.startActivity(new Intent(context, DeliveriesActivity.class));
+        } else if (title.equalsIgnoreCase(context.getString(R.string.change_language))) {
+            changeLanguage();
         } else if (title.equalsIgnoreCase(context.getString(R.string.change_password))) {
             context.startActivity(new Intent(context, ChangePasswordActivity.class));
         } else if (title.equalsIgnoreCase(context.getString(R.string.logout))) {
@@ -101,6 +109,47 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
         } else if (title.equalsIgnoreCase(context.getString(R.string.delete_account))) {
             showDeleteAccountAlertDialog();
         }
+    }
+
+    private void changeLanguage() {
+        List<String> languages = Arrays.asList(context.getResources().getStringArray(R.array.languages));
+        final android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(context);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View convertView = inflater.inflate(R.layout.language_dialog, null);
+        alertDialog.setView(convertView);
+        alertDialog.setCancelable(true);
+        alertDialog.setTitle("Change Language");
+        final android.app.AlertDialog alert = alertDialog.create();
+
+        final ListView lv = convertView.findViewById(R.id.lv);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_single_choice, languages);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                String item = lv.getItemAtPosition(position).toString();
+                setLanguage(item);
+                alert.dismiss();
+            }
+        });
+        alert.show();
+
+    }
+
+    private void setLanguage(String value) {
+        SharedHelper.putKey(context, "language", value);
+        switch (value) {
+            case "English":
+                LocaleUtils.setLocale(context, "en");
+                break;
+            case "Japanese":
+                LocaleUtils.setLocale(context, "ja");
+                break;
+            default:
+                LocaleUtils.setLocale(context, "en");
+                break;
+        }
+        context.startActivity(new Intent(context, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).putExtra("change_language", true));
     }
 
     private void showLogoutAlertDialog() {
