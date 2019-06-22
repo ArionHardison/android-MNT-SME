@@ -151,7 +151,6 @@ public interface ApiInterface {
     @POST("api/shop/products")
     Call<ProductResponse> addProduct(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1, @Part MultipartBody.Part filepart2);
 
-
     @Multipart
     @POST("api/shop/products/{id}")
     Call<ProductResponse> updateProduct(@Path("id") int id, @PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1, @Part MultipartBody.Part filepart2);

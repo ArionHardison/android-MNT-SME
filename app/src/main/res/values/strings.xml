@@ -277,4 +277,9 @@
     <string name="thursday">Thursday</string>
 
 
+
+    <string name="lang_english">English</string>
+    <!--<item>Arabic</item>-->
+    <string name="lang_japnese">Japanese</string>
+
 </resources>

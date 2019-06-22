@@ -170,7 +170,7 @@ public class AddProductActivity extends AppCompatActivity {
             productResponse = bundle.getParcelable("product_data");
             etProductName.setText(productResponse.getName());
             etDescription.setText(productResponse.getDescription());
-            if (productResponse.getStatus()!=null && productResponse.getStatus().equalsIgnoreCase("enabled")) {
+            if (productResponse.getStatus() != null && productResponse.getStatus().equalsIgnoreCase("enabled")) {
                 statusSpin.setSelectedIndex(0);
             } else {
                 statusSpin.setSelectedIndex(1);
@@ -392,13 +392,24 @@ public class AddProductActivity extends AppCompatActivity {
         message.setStrProductStatus(strStatus.equals("Enabled") ? "1" : "0");
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
-        message.setFeaturedImageFile(featuredImageFile);
-        if (rbYes.isChecked()){
+        if (rbYes.isChecked()) {
             message.setIsFeatured("1");
-        }else{
+        } else {
             message.setIsFeatured("0");
         }
-        message.setProductImageFile(productImageFile);
+
+        if (productImageFile != null) {
+            message.setProductImageFile(productImageFile);
+        } else {
+            message.setProductImageFile(null);
+        }
+
+        if (featuredImageFile != null) {
+            message.setFeaturedImageFile(featuredImageFile);
+        } else {
+            message.setFeaturedImageFile(null);
+        }
+
         if (foodType.equals(Constants.VEG)) {
             message.setStrSelectedFoodType(Constants.VEG);
         } else {
@@ -440,7 +451,7 @@ public class AddProductActivity extends AppCompatActivity {
         } else if (strProductDescription == null || strProductDescription.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_description));
             return false;
-        }  else if (strProductOrder == null || strProductOrder.isEmpty()) {
+        } else if (strProductOrder == null || strProductOrder.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_order));
             return false;
         } else if (strCategory == null || strCategory.isEmpty()) {

@@ -23,11 +23,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.pakupaku.outlet.R;
 import com.pakupaku.outlet.controller.GetProfile;
 import com.pakupaku.outlet.controller.ProfileListener;
@@ -47,6 +47,7 @@ import com.pakupaku.outlet.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -156,6 +157,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_restaurant);
         ButterKnife.bind(this);
+        Places.initialize(EditRestaurantActivity.this, getResources().getString(R.string.google_api_key));
         initViews();
         callProfile();
     }
@@ -258,14 +260,12 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 galleryIntent(SHOP_BANNER);
                 break;
             case R.id.address_lay:
-                try {
-                    Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(this);
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.getStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.getStackTrace();
-                }
+
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME);
+                // Start the autocomplete intent.
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(this);
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
                 break;
             case R.id.save_btn:
                 validateProfile();
@@ -499,9 +499,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             countryImg.setImageResource(country.getFlag());
             country_code = country.getDialCode();
         }
-        if (profile.getStatus() != null && !profile.getStatus().isEmpty())
-
-        {
+        if (profile.getStatus() != null && !profile.getStatus().isEmpty()) {
 
             tvStatus.setText(profile.getStatus());
         }
@@ -546,7 +544,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) if (resultCode == RESULT_OK) {
-            Place place = PlaceAutocomplete.getPlace(this, data);
+            Place place = Autocomplete.getPlaceFromIntent(data);
             txtAddress.setText(place.getName());
             location = place.getLatLng();
             Log.i(TAG, "Place: " + place.getName());

@@ -278,4 +278,8 @@
     <string name="give_your_feedback">ご意見を聞かせてください。</string>
     <string name="cancel_reason">キャンセルの理由</string>
 
+
+    <string name="lang_english">English</string>
+    <!--<item>Arabic</item>-->
+    <string name="lang_japnese">Japanese</string>
 </resources>

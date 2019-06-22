@@ -206,63 +206,38 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("price", RequestBody.create(MediaType.parse("text/plain"), strProductPrice));
         params.put("product_position", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductOrder()));
         params.put("shop", RequestBody.create(MediaType.parse("text/plain"), shop_id));
+        params.put("featured", RequestBody.create(MediaType.parse("text/plain"), featured));
         params.put("featured_position", RequestBody.create(MediaType.parse("text/plain"), featured));
         params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
+        for (int i = 0; i < addOnList.size(); i++) {
+            params.put("addons[]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
+            params.put("addons_price[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));
+        }
         params.put("status", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductStatus()));
         params.put("cuisine_id", RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));
         params.put("food_type", RequestBody.create(MediaType.parse("text/plain"), message.getStrSelectedFoodType()));
 
-        for (int i = 0; i < addOnList.size(); i++) {
-            params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
-            params.put("addons_price[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));
-        }
-
-
-        if (productResponse != null) {
-            params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
-        } else {
-            params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "POST"));
-        }
 
         MultipartBody.Part filePart1 = null;
         if (message.getProductImageFile() != null) {
             File compressToFile = message.getProductImageFile();
-            /*try {
-                compressToFile = new Compressor(this).compressToFile(message.getProductImageFile());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-
-            filePart1 = MultipartBody.Part.createFormData("avatar[]", compressToFile.getName(),
-                    RequestBody.create(MediaType.parse("image/*"), compressToFile));
+            filePart1 = MultipartBody.Part.createFormData("avatar[]", compressToFile.getName(), RequestBody.create(MediaType.parse("image/*"), compressToFile));
         }
-
 
         MultipartBody.Part filePart2 = null;
-        /*if (message.getFeaturedImageFile() != null)
-            filePart2 = MultipartBody.Part.createFormData("featured_image", message.getFeaturedImageFile().getName(),
-                    RequestBody.create(MediaType.parse("image/*"), message.getFeaturedImageFile()));*/
-
         if (message.getFeaturedImageFile() != null) {
             File compressToFile = message.getFeaturedImageFile();
-           /* try {
-                compressToFile = new Compressor(this).compressToFile(message.getFeaturedImageFile());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-            filePart2 = MultipartBody.Part.createFormData("featured_image", compressToFile.getName(),
-                    RequestBody.create(MediaType.parse("image/*"), compressToFile));
+            filePart2 = MultipartBody.Part.createFormData("featured_image", compressToFile.getName(), RequestBody.create(MediaType.parse("image/*"), compressToFile));
         }
 
-
-        Call<ProductResponse> call = null;
-
+        Call<ProductResponse> call;
         if (productResponse != null) {
             int product_id = productResponse.getId();
+            params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
             call = apiInterface.updateProduct(product_id, params, filePart1, filePart2);
         } else {
-            params.put("featured", RequestBody.create(MediaType.parse("text/plain"), featured));
+            params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "POST"));
             call = apiInterface.addProduct(params, filePart1, filePart2);
         }
 

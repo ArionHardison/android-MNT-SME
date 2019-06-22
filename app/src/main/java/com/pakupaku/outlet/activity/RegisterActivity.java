@@ -297,18 +297,7 @@ public class RegisterActivity extends AppCompatActivity {
             case R.id.country_picker_lay:
                 break;
             case R.id.address_lay:
-                /*try {
-                    Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(this);
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.getStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.getStackTrace();
-                }*/
-                //
-                List<com.google.android.libraries.places.api.model.Place.Field> fields =
-                        Arrays.asList(com.google.android.libraries.places.api.model.Place.Field.ID, com.google.android.libraries.places.api.model.Place.Field.LAT_LNG, com.google.android.libraries.places.api.model.Place.Field.NAME);
-
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME);
                 // Start the autocomplete intent.
                 Intent intent = new Autocomplete.
                         IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)

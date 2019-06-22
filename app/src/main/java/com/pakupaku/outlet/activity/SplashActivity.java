@@ -21,6 +21,7 @@ import com.pakupaku.outlet.helper.SharedHelper;
 import com.pakupaku.outlet.model.Profile;
 import com.pakupaku.outlet.network.ApiClient;
 import com.pakupaku.outlet.network.ApiInterface;
+import com.pakupaku.outlet.utils.LocaleUtils;
 import com.pakupaku.outlet.utils.Utils;
 
 public class SplashActivity extends AppCompatActivity implements ProfileListener {
@@ -41,12 +42,27 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
         setContentView(R.layout.activity_splash);
         FirebaseApp.initializeApp(this);
 
+
         context = SplashActivity.this;
         activity = SplashActivity.this;
         connectionHelper = new ConnectionHelper(context);
         customDialog = new CustomDialog(context);
 
         GlobalData.accessToken = SharedHelper.getKey(context, "access_token");
+
+        String dd = SharedHelper.getKey(context, "language");
+        switch (dd) {
+            case "English":
+                LocaleUtils.setLocale(context, "en");
+                break;
+            case "Japanese":
+                LocaleUtils.setLocale(context, "ja");
+                break;
+            default:
+                LocaleUtils.setLocale(context, "en");
+                break;
+        }
+
 
         getDeviceToken();
         final Handler handler = new Handler();

@@ -10,11 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -118,18 +117,35 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
         View convertView = inflater.inflate(R.layout.language_dialog, null);
         alertDialog.setView(convertView);
         alertDialog.setCancelable(true);
-        alertDialog.setTitle("Change Language");
+        alertDialog.setTitle(context.getString(R.string.change_language));
         final android.app.AlertDialog alert = alertDialog.create();
+        final RadioGroup chooseLanguage = convertView.findViewById(R.id.choose_language);
+        final RadioButton english = convertView.findViewById(R.id.english);
+        final RadioButton japnese = convertView.findViewById(R.id.japnese);
 
-        final ListView lv = convertView.findViewById(R.id.lv);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_single_choice, languages);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                String item = lv.getItemAtPosition(position).toString();
-                setLanguage(item);
-                alert.dismiss();
+        String dd = LocaleUtils.getLanguage(context);
+        switch (dd) {
+            case "en":
+                english.setChecked(true);
+                break;
+            case "ja":
+                japnese.setChecked(true);
+                break;
+            default:
+                english.setChecked(true);
+                break;
+        }
+        chooseLanguage.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.english:
+                    setLanguage("English");
+                    alert.dismiss();
+                    break;
+                case R.id.japnese:
+                    setLanguage("Japanese");
+                    alert.dismiss();
+                    break;
+
             }
         });
         alert.show();
@@ -149,7 +165,9 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
                 LocaleUtils.setLocale(context, "en");
                 break;
         }
-        context.startActivity(new Intent(context, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).putExtra("change_language", true));
+        context.startActivity(new Intent(context, HomeActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .putExtra("change_language", true));
     }
 
     private void showLogoutAlertDialog() {

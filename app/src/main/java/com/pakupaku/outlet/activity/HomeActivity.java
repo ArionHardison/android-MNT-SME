@@ -42,8 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
         String notification = getIntent().getStringExtra("Notification");
-        if (notification!=null && notification.isEmpty())
-        {
+        if (notification!=null && notification.isEmpty()) {
             fragment = new HomeFragment();
             transaction.add(R.id.main_container, fragment).commit();
             bottomNavigation.setCurrentItem(0);
