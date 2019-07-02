@@ -36,6 +36,12 @@ android {
         preDexLibraries false
         javaMaxHeapSize "4g"
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${variant.applicationId}_V${variant.versionCode}_VN-${variant.versionName}_" + new Date().format('yyyy-MM-dd') + ".apk"
+        }
+    }
 }
 
 dependencies {

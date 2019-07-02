@@ -196,7 +196,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
             llToolbar.setVisibility(View.VISIBLE);
             llLogoSection.setVisibility(View.GONE);
 
-            title.setText("Edit Timings");
+            title.setText(getResources().getString(R.string.edit_timing));
             backImg.setVisibility(View.VISIBLE);
 
             callProfile();

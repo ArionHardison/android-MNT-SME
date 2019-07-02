@@ -54,11 +54,11 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         }
 
         //Default Status and color
-        String status = "Dispute Created";
+        String status = context.getResources().getString(R.string.dispute_created);
         holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
 
         if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
-            status = "Incoming";
+            status = context.getResources().getString(R.string.incoming);
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
         }
         holder.status.setText(status);

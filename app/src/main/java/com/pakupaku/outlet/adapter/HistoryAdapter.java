@@ -49,7 +49,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         holder.price.setText(/*context.getString(R.string.currency_value)*/GlobalData.profile.getCurrency() + "" + order.getInvoice().getNet());
 
         //Default Status and color
-        String status = "Dispute Created";
+        String status = context.getResources().getString(R.string.dispute_created);
         holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
 
         if (order.getDispute().equalsIgnoreCase("CREATED")) {
@@ -60,7 +60,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             holder.status.setText(status);
 
         } else {
-            status = "ongoing";
+            status = context.getResources().getString(R.string.status_ongoing);
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
             holder.status.setText(status);
         }

@@ -170,7 +170,7 @@
     <string name="product_">商品</string>
     <string name="order_delivery_time_description">調理時間の説明</string>
     <string name="order_delivery_time">調理にかかる時間</string>
-    <string name="okay">OK</string>
+    <string name="okay">オーケー</string>
     <string name="please_enter_delivery_time">お届け時間を入力してください。</string>
     <string name="order_ready_time">調理完了時間</string>
     <string name="order">ご注文</string>
@@ -207,7 +207,7 @@
     <string name="select_delievery_person">受渡し員の選択</string>
     <string name="item_order_price">料金</string>
     <string name="currency_value">¥</string>
-    <string name="currency_value_tag">¥</string>
+    <string name="currency_value_tag">¥ </string>
     <string name="schedule_at">Scheduled at : </string>
     <string name="schedule_at_format">Scheduled at : %1$s %2$s %3$d</string>
 
@@ -282,4 +282,11 @@
     <string name="lang_english">English</string>
     <!--<item>Arabic</item>-->
     <string name="lang_japnese">Japanese</string>
+    <string name="enter_email_id">メールアドレスを入力</string>
+    <string name="incoming">入ってくる</string>
+    <string name="mins">分</string>
+    <string name="status_ongoing">進行中</string>
+    <string name="service_tax">サービス税</string>
+    <string name="delete_restaurents">このレストランを削除してもよろしいですか？</string>
+    <string name="alert_log_out">ログアウトしますか？</string>
 </resources>
