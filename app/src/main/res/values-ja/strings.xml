@@ -289,4 +289,5 @@
     <string name="service_tax">サービス税</string>
     <string name="delete_restaurents">このレストランを削除してもよろしいですか？</string>
     <string name="alert_log_out">ログアウトしますか？</string>
+    <string name="selectDayError">少なくとも1日追加してください。</string>
 </resources>

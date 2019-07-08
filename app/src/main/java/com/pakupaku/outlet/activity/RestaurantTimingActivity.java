@@ -164,18 +164,14 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
         everyDaySwitch.setChecked(true);
         everyDayTimeLay.setVisibility(View.VISIBLE);
         everyDayLay.setVisibility(View.GONE);
-        everyDaySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    everyDayTimeLay.setVisibility(View.VISIBLE);
-                    everyDayLay.setVisibility(View.GONE);
-                } else {
-                    everyDayLay.setVisibility(View.VISIBLE);
-                    everyDayTimeLay.setVisibility(View.GONE);
-                }
+        everyDaySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                everyDayTimeLay.setVisibility(View.VISIBLE);
+                everyDayLay.setVisibility(View.GONE);
+            } else {
+                everyDayLay.setVisibility(View.VISIBLE);
+                everyDayTimeLay.setVisibility(View.GONE);
             }
-
         });
 
         connectionHelper = new ConnectionHelper(this);
@@ -474,8 +470,12 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
             }
         }
 
-        customDialog.show();
-        updateProfile(map);
+        if (map.size() > 0) {
+            customDialog.show();
+            updateProfile(map);
+        } else {
+            Utils.displayMessage(RestaurantTimingActivity.this, getString(R.string.selectDayError));
+        }
 
     }
 
@@ -490,12 +490,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
                 customDialog.dismiss();
                 if (response.body() != null) {
                     Utils.displayMessage(RestaurantTimingActivity.this, getString(R.string.restaurant_timing_updated_successfully));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            onBackPressed();
-                        }
-                    }, 1000);
+                    new Handler().postDelayed(() -> onBackPressed(), 1000);
 
                 } else {
                     Utils.displayMessage(RestaurantTimingActivity.this, getString(R.string.something_went_wrong));
