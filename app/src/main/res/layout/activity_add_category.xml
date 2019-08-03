@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.pakupaku.outlet.activity.AddCategoryActivity">
+    tools:context="com.dalejoak.outlet.activity.AddCategoryActivity">
 
     <include
         android:id="@+id/toolbar"

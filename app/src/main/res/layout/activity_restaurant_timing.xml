@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pakupaku.outlet.activity.RestaurantTimingActivity">
+    tools:context="com.dalejoak.outlet.activity.RestaurantTimingActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                         android:layout_width="@dimen/_100sdp"
                         android:layout_height="@dimen/_100sdp"
                         android:layout_gravity="center"
-                        android:src="@drawable/logo"
+                        android:src="@drawable/logo_app"
                         android:contentDescription="@string/app_name" />
 
                     <TextView

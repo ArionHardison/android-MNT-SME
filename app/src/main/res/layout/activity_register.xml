@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fdfdfe"
-    tools:context="com.pakupaku.outlet.activity.RegisterActivity">
+    tools:context="com.dalejoak.outlet.activity.RegisterActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/_80sdp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/logo" />
+                android:src="@drawable/logo_app" />
 
             <TextView
                 android:layout_width="wrap_content"

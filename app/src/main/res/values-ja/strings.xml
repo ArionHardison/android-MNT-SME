@@ -2,7 +2,7 @@
 <resources>
 
 
-    <string name="app_name">店舗・レストラン用　PAKU Paku</string>
+    <string name="app_name">Restaurant Jo3ak</string>
 
     <!-- SignUp -->
     <string name="first_name">名前</string>
@@ -289,5 +289,4 @@
     <string name="service_tax">サービス税</string>
     <string name="delete_restaurents">このレストランを削除してもよろしいですか？</string>
     <string name="alert_log_out">ログアウトしますか？</string>
-    <string name="selectDayError">少なくとも1日追加してください。</string>
 </resources>
