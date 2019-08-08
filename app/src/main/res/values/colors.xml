@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E6117E</color>
-    <color name="colorPrimaryDark">#E6117E</color>
-    <color name="colorAccent">#E6117E</color>
+    <color name="colorPrimary">#b31101</color>
+    <color name="colorPrimaryDark">#b31101</color>
+    <color name="colorAccent">#b31101</color>
 
     <!-- App Theme Color-->
-    <color name="colorTheme">#E6117E</color>
+    <color name="colorTheme">#b31101</color>
     <color name="background_color">#f5f5f5</color>
     <color name="background_grey">#eee</color>
 
     <!-- Toolbar Color-->
-    <color name="toolbar_bg">#e9E6117E</color>
+    <color name="toolbar_bg">#b31101</color>
     <color name="toolbar_title">#FFF</color>
 
     <!-- Text-->

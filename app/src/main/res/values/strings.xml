@@ -205,8 +205,8 @@
     <string name="action_save">Save</string>
     <string name="select_delievery_person">Select Delivery Person</string>
     <string name="item_order_price">Price</string>
-    <string name="currency_value">¥</string>
-    <string name="currency_value_tag">¥ </string>
+    <string name="currency_value">ل.ل.</string>
+    <string name="currency_value_tag">ل.ل. </string>
     <string name="schedule_at">Scheduled at : </string>
     <string name="schedule_at_format">Scheduled at : %1$s %2$s %3$d</string>
 
@@ -279,8 +279,7 @@
 
 
     <string name="lang_english">English</string>
-    <!--<item>Arabic</item>-->
-    <string name="lang_japnese">Japanese</string>
+    <string name="lang_arabic">Arabic</string>
     <string name="enter_email_id">Enter Email ID</string>
     <string name="incoming">Incoming</string>
     <string name="scheduled">Scheduled</string>
@@ -291,6 +290,8 @@
     <string name="alert_log_out">Would you like to logout ?</string>
     <string name="_at">at</string>
     <string name="selectDayError">Please add atleast a day.</string>
+    <string name="image_view">Image View</string>
+    <string name="email_address">Email Address</string>
 
 
 </resources>

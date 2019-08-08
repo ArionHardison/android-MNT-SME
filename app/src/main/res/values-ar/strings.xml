@@ -1,0 +1,293 @@
+<resources>
+
+    <string name="app_name">مطعم Jo3ak</string>
+
+    <!-- SignUp -->
+    <string name="first_name">الاسم الاول</string>
+    <string name="last_name">الكنية</string>
+    <string name="phone_number">رقم الهاتف</string>
+    <string name="sign_up">سجل</string>
+    <string name="already_have_an_account_click_here_to">هل لديك حساب؟ انقر هنا ل</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="username_or_email_id">اسم المستخدم أو معرف البريد الإلكتروني</string>
+    <string name="forgot_password">هل نسيت كلمة المرور؟</string>
+
+    <string name="sign_up_here">سجل هنا</string>
+
+    <!-- REGISTER -->
+    <string name="enter_the_details_to_register">أدخل التفاصيل للتسجيل</string>
+    <string name="name">اسم</string>
+    <string name="email">عنوان بريد الكتروني</string>
+    <string name="country">بلد</string>
+    <string name="mob_num">رقم الهاتف</string>
+    <string name="password">كلمه السر</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="register">تسجيل</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="no_account">ليس لديك حساب</string>
+    <string name="donot_have_an_account">ليس لديك حساب?</string>
+    <string name="do_have_an_account">هل لديك حساب?</string>
+    <string name="title_activity_launcher">قاذفة النشاط</string>
+    <string name="title_home">الصفحة الرئيسية</string>
+    <string name="title_dashboard">لوحة القيادة</string>
+    <string name="title_notifications">إخطارات</string>
+    <string name="location">موقعك</string>
+    <string name="address">عنوان</string>
+    <string name="clock_timer">00:00</string>
+    <string name="open_time">وقت متاح</string>
+    <string name="close_time">وقت الاغلاق</string>
+
+    <!-- LOGIN -->
+    <string name="enter_the_details_to_login">أدخل التفاصيل لتسجيل الدخول</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">مرحبا شظية فارغة</string>
+    <string name="empty_string" />
+    <string name="empty">فارغة</string>
+    <string name="search_here">ابحث هنا</string>
+    <string name="logout">الخروج</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="edit_restaurant">تحرير مطعم</string>
+    <string name="edit_timing">تحرير التوقيت</string>
+    <string name="deliveries">التسليم</string>
+    <string name="change_password">غير كلمة السر</string>
+    <string name="change_language">غير اللغة</string>
+    <string name="payment">دفع</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="ongoing">جاري التنفيذ</string>
+    <string name="upcoming">القادمة</string>
+    <string name="cancelled">ألغيت</string>
+    <string name="past">الماضي</string>
+    <string name="favorites">المفضلة</string>
+    <string name="email_id">عنوان الايميل</string>
+    <string name="save">حفظ</string>
+    <string name="title_activity_house_detail">بيت التفاصيل النشاط</string>
+    <string name="action_settings">الإعدادات</string>
+
+    <!--Home Fragment-->
+    <string name="incoming_orders">الطلبات الواردة</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="history">التاريخ</string>
+
+    <string name="restaurant">مطعم</string>
+    <string name="add_ons">إضافات</string>
+    <string name="category">الفئة</string>
+    <string name="product">المنتج</string>
+    <string name="products">قائمة المنتجات</string>
+    <string name="dishes">أطباق</string>
+    <string name="add_add_ons">أضف إضافات</string>
+    <string name="add_ons_list">قائمة الملحق</string>
+    <string name="create_add_ons">إنشاء إضافات</string>
+    <string name="add_products">أضف منتجات</string>
+    <string name="add_category">إضافة فئة</string>
+
+    <!--    Revenue-->
+    <string name="revenue">إيرادات</string>
+    <string name="total_revenue">إجمالي الإيرادات</string>
+    <string name="yesterday">في الامس</string>
+    <string name="today_till_now">اليوم حتى الآن</string>
+    <string name="total_last_week">مجموع الاسبوع الماضي</string>
+    <string name="this_week_till_now">هذا الأسبوع حتى الآن</string>
+    <string name="description">وصف</string>
+    <string name="write_description">اكتب الوصف....</string>
+    <string name="status">الحالة</string>
+    <string name="category_order">ترتيب الفئة</string>
+    <string name="image_upload">تحميل الصور</string>
+    <string name="is_this_a_featured_product">هل هذا منتج متميز؟</string>
+    <string name="is_this_a_selected_food_type">هل هذا هو نوع الغذاء المحدد؟</string>
+    <string name="yes">نعم فعلا</string>
+    <string name="no">لا</string>
+    <string name="veg">الخضار</string>
+    <string name="non_veg">ليس الخضار</string>
+    <string name="featured_image_upload">تحميل صورة مميزة</string>
+    <string name="add_product">إنشاء المنتج</string>
+    <string name="every_day">كل يوم</string>
+    <string name="monday">الإثنين</string>
+    <string name="tuesday">الثلاثاء</string>
+    <string name="wednesday">الأربعاء</string>
+    <string name="friday">يوم الجمعة</string>
+    <string name="saturday">يوم السبت</string>
+    <string name="sunday">الأحد</string>
+    <string name="confirm">تؤكد</string>
+
+    <!--    Change Password Activity-->
+    <string name="current_password">كلمة المرور الحالي</string>
+    <string name="new_password">كلمة السر الجديدة</string>
+
+    <!--    Edit Restaurant Activity-->
+    <string name="is_this_a_pure_veg_restaurant">هل هذا مطعم نباتي صرف؟</string>
+    <string name="min_amount">اقل مبلغ</string>
+    <string name="offer_in_percentage">عرض في نسبة مئوية</string>
+    <string name="maximum_delivery_time">أقصى وقت التسليم</string>
+    <string name="price">السعر</string>
+
+    <!--    Request Accept Activity-->
+    <string name="order_time">وقت الطلب</string>
+    <string name="cancel">إلغاء</string>
+    <string name="accept">قبول</string>
+    <string name="order_list">لائحة الطلبات</string>
+    <string name="notes">ملاحظات</string>
+    <string name="sub_total">المجموع الفرعي</string>
+    <string name="gst">ضريبة</string>
+    <string name="cgst">الضريبة المركزية</string>
+    <string name="sgst">ضريبة الولاية</string>
+    <string name="delivery_charges">رسوم التوصيل</string>
+    <string name="total">مجموع</string>
+
+    <!--    Filter Dialog Activity-->
+    <string name="filter_by">مصنف بواسطة</string>
+    <string name="delivery_person">عامل التوصيل</string>
+    <string name="from">من عند</string>
+    <string name="to">إلى</string>
+    <string name="filter">منقي</string>
+    <string name="calender_date">د د: مم: س س س س</string>
+    <string name="country_name">اسم الدولة</string>
+    <string name="landmark">معلم معروف</string>
+
+    <!--Error Validation-->
+    <string name="please_enter_mail_id">الرجاء إدخال معرف البريد</string>
+    <string name="please_enter_valid_mail_id">الرجاء إدخال معرف بريد صالح</string>
+    <string name="please_enter_password">الرجاء إدخال كلمة المرور</string>
+    <string name="please_enter_new_password">الرجاء إدخال كلمة مرور جديدة</string>
+    <string name="please_enter_minimum_length_password">الرجاء إدخال 6 أحرف على الأقل في كلمة المرور</string>
+    <string name="please_enter_name">من فضلك ادخل الاسم</string>
+    <string name="please_enter_phone_number">الرجاء إدخال رقم هاتف صحيح</string>
+    <string name="please_enter_confirm_password">الرجاء إدخال تأكيد كلمة المرور</string>
+    <string name="password_and_confirm_password_doesnot_match">كلمة المرور وتأكيد كلمة المرور لا يتطابقان!</string>
+    <string name="please_fill_your_address">يرجى ملء عنوانك</string>
+    <string name="please_enter_amount">الرجاء إدخال الحد الأدنى للمبلغ</string>
+    <string name="please_enter_delievery_time">يرجى إدخال أقصى وقت التسليم</string>
+    <string name="please_enter_landmark">الرجاء إدخال معلم</string>
+    <string name="please_select_status">يرجى اختيار الحالة</string>
+    <string name="something_went_wrong">هناك خطأ ما!</string>
+    <string name="oops_no_internet">وجه الفتاة! لا يوجد اتصال بالإنترنت</string>
+    <string name="tax">ضريبة</string>
+    <string name="discount">كمية الترميز</string>
+    <string name="shop_discount">متجر الخصم</string>
+    <string name="addon_">%s(%d x %s)</string>
+    <string name="product_">%s(%d x %s)</string>
+    <string name="order_delivery_time_description">أدخل وقت إعداد الطلب؟</string>
+    <string name="order_delivery_time">طلب وقت التسليم</string>
+    <string name="okay">حسنا</string>
+    <string name="please_enter_delivery_time">يرجى إدخال وقت التسليم</string>
+    <string name="order_ready_time">يجب أن يكون وقت الاستعداد للطلب أكبر من أو يساوي 3 دقائق</string>
+    <string name="order">طلب</string>
+    <string name="orders">أوامر</string>
+    <string name="are_you_sure_want_to_cancel_the_order">هل تريد بالتأكيد إلغاء الطلب؟</string>
+    <string name="please_enter_addons_name">الرجاء إدخال اسم الملحق</string>
+    <string name="addons_added_successfully">الإضافات المضافة بنجاح</string>
+    <string name="addons_updated_successfully">تم تحديث الإضافات بنجاح</string>
+    <string name="are_you_sure_want_to_delete_addon">هل تريد بالتأكيد حذف هذا الملحق؟</string>
+    <string name="are_you_sure_want_to_delete_category">هل تريد بالتأكيد حذف هذه الفئة؟</string>
+    <string name="are_you_sure_want_to_delete_product">هل تريد بالتأكيد حذف هذا المنتج؟</string>
+    <string name="update_add_ons">تحديث إضافات</string>
+    <string name="please_select_avatar">يرجى اختيار الصورة الرمزية</string>
+    <string name="please_enter_all_fields">الرجاء إدخال جميع الحقول</string>
+    <string name="invalid_open_time">يرجى اختيار وقت فتح</string>
+    <string name="invalid_close_time">يرجى اختيار وقت قريب</string>
+    <string name="cuisine">أطباق</string>
+    <string name="invalid_cuisine">يرجى اختيار المطبخ</string>
+    <string name="done">منجز</string>
+    <string name="next">التالى</string>
+    <string name="enable">تمكين</string>
+    <string name="disable">معاق</string>
+    <string name="dispute_created">تم إنشاء النزاع</string>
+    <string name="status_active">نشيط</string>
+    <string name="status_onboarding">التأهيل ل</string>
+    <string name="status_banned">محظور</string>
+
+
+    <!--<string name="splash_tomoeats_partner">TOMOEATS\nRestaurant</string>-->
+    <string name="splash_tomoeats_partner">شريك الطماطم</string>
+    <string name="restaurant_updated_successfully">تم تحديث المطعم بنجاح</string>
+    <string name="password_updated_successfully">تم تحديث كلمة السر بنجاح</string>
+    <string name="restaurant_timing_updated_successfully">تم تحديث توقيت المطعم بنجاح</string>
+    <string name="action_save">حفظ</string>
+    <string name="select_delievery_person">حدد شخص التسليم</string>
+    <string name="item_order_price">السعر</string>
+    <string name="currency_value"> ل.ل.</string>
+    <string name="currency_value_tag"> ل.ل. </string>
+    <string name="schedule_at">من المقرر في : </string>
+    <string name="schedule_at_format">من المقرر في  : %1$s %2$s %3$d</string>
+
+    <!--Order Flow Title-->
+    <string name="order_placed">تم الطلب</string>
+    <string name="order_confirmed">تم تاكيد الطلب</string>
+    <string name="order_processed">تم انهاء الطلب</string>
+    <string name="order_pickedup">ترتيب التقطت</string>
+    <string name="order_delivered">أجل تسليم</string>
+    <string name="order_cancelled">تم الغاء الأمر او الطلب</string>
+
+    <!--Order Flow Description-->
+    <string name="description_1">لقد تلقينا طلبك</string>
+    <string name="description_2">تم تأكيد طلبك</string>
+    <string name="description_3">يتم طهي طعامك</string>
+    <string name="description_4">طعامك في طريقه</string>
+    <string name="description_5">أتمنى لك وجبة شهية</string>
+
+    <!--Product-->
+    <string name="error_msg_product_name">الرجاء إدخال اسم المنتج</string>
+    <string name="error_msg_product_description">الرجاء إدخال وصف المنتج</string>
+    <string name="error_msg_product_order">الرجاء إدخال طلب المنتج</string>
+    <string name="error_msg_product_category">يرجى اختيار الفئة</string>
+    <string name="error_msg_selected_food_type">يرجى اختيار نوع الغذاء</string>
+    <string name="product_select_catefory">اختر الفئة</string>
+    <string name="error_msg_product_select_featured_image">يرجى اختيار صورة مميزة</string>
+    <string name="enter_new_password">أدخل كلمة مرور جديدة</string>
+    <string name="confirm_new_password">تأكيد كلمة المرور الجديدة</string>
+    <string name="change">يتغيرون</string>
+    <string name="please_enter_otp">OTP تفضل</string>
+    <string name="please_new_password">من فضلك أدخل كلمة سر جديدة</string>
+    <string name="order_received">طلب وارد</string>
+    <string name="ordered_delievered">أمرت تسليمها</string>
+    <string name="today_earnings">أرباح اليوم</string>
+    <string name="monthly_earnings">الدخل الشهري</string>
+    <string name="discount_type">نوع الخصم</string>
+    <string name="please_enter_price">الرجاء إدخال السعر</string>
+    <string name="please_select_discount_type">يرجى اختيار نوع الخصم</string>
+    <string name="select_addons">حدد إضافات</string>
+    <string name="category_added_successfully">تمت إضافة الفئة بنجاح</string>
+    <string name="product_added_successfully">تم اضافة المنتج بنجاح</string>
+    <string name="no_addons">لا إضافات</string>
+    <string name="please_enter_category_name">الرجاء إدخال اسم الفئة</string>
+    <string name="please_enter_category_description">الرجاء إدخال وصف الفئة</string>
+    <!--<string name="please_select_status">Please select status</string>-->
+    <string name="please_select_category_image">يرجى اختيار صورة الفئة</string>
+    <string name="please_select_product_image">يرجى اختيار صورة المنتج</string>
+    <string name="category_list">قائمة الفئات</string>
+    <string name="edit_product">تحرير المنتج</string>
+    <string name="edit_category">تحرير الفئة</string>
+    <string name="please_enter_discount_amount">الرجاء إدخال مبلغ الخصم</string>
+    <string name="no_products_added">لا توجد منتجات مضافة</string>
+    <string name="no_addons_added">لا إضافات المضافة</string>
+    <string name="no_upcoming_orders_found">لم يتم العثور على الطلبات القادمة.</string>
+    <string name="no_past_orders_found">لم يتم العثور على الطلبات السابقة</string>
+    <string name="no_cancelled_orders_found">لم يتم العثور على أوامر ملغاة</string>
+    <string name="please_enter_description">الرجاء إدخال الوصف</string>
+    <string name="no_incoming_orders_received">لم ترد أي طلبات واردة</string>
+    <string name="invalid_credentials">بيانات الاعتماد غير صالحة</string>
+    <string name="waiting_for_new_orders">في انتظار أوامر جديدة</string>
+    <string name="shop_image">صورة المحل</string>
+    <string name="shop_banner">متجر راية الصورة</string>
+    <string name="invalid_email">بريد إلكتروني خاطئ</string>
+    <string name="no_deliveries_found">لم يتم العثور على عمليات التسليم</string>
+    <string name="submit">خضع</string>
+    <string name="give_your_feedback">يرجى تحديد سبب الإلغاء</string>
+    <string name="cancel_reason">إلغاء السبب</string>
+    <string name="thursday">الخميس</string>
+
+
+
+    <string name="lang_english">English</string>
+    <string name="lang_arabic">اليابانية</string>
+    <string name="enter_email_id">أدخل معرف البريد الإلكتروني</string>
+    <string name="incoming">الوارد</string>
+    <string name="scheduled">المقرر</string>
+    <string name="mins">دقيقة</string>
+    <string name="status_ongoing">جاري التنفيذ</string>
+    <string name="service_tax">ضريبة الخدمة</string>
+    <string name="delete_restaurents">هل أنت متأكد أنك تريد حذف هذا المطعم؟</string>
+    <string name="alert_log_out">هل ترغب في تسجيل الخروج؟</string>
+    <string name="_at">في</string>
+
+</resources>

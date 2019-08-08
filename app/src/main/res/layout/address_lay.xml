@@ -53,7 +53,7 @@
         android:textColor="@color/colorPrimaryText"
         android:textSize="@dimen/text_tiny" />
 
-    <com.dalejoak.outlet.customviews.SuffixEditText
+    <com.dalejoak.restaurant.customviews.SuffixEditText
         android:id="@+id/etOfferInPercentage"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_size"
@@ -86,7 +86,7 @@
         android:background="@drawable/edit_text_rounded_corner_bg"
         android:orientation="horizontal">
 
-        <com.dalejoak.outlet.customviews.SuffixEditText
+        <com.dalejoak.restaurant.customviews.SuffixEditText
             android:id="@+id/tvMaxTimeDelivery"
             android:layout_width="0dp"
             android:layout_height="match_parent"
