@@ -27,7 +27,8 @@
 
         <RadioButton
             android:id="@+id/rbArabic"
-            android:layout_width="fill_parent"
+            android:visibility="gone"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@null"
             android:drawableEnd="@drawable/language_select_unselect"

@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">مطعم Jo3ak</string>
+    <string name="app_name" translatable="false">Tring24 Restaurant</string>
 
     <!-- SignUp -->
     <string name="first_name">الاسم الاول</string>
