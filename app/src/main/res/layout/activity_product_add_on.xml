@@ -19,8 +19,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:orientation="vertical">
 
             <TextView
@@ -41,11 +41,10 @@
                 android:background="@drawable/edit_text_rounded_corner_bg"
                 android:imeOptions="actionNext"
                 android:inputType="numberDecimal"
-                android:padding="@dimen/_4sdp"
                 android:maxLength="8"
+                android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
-
 
 
             <TextView
@@ -75,6 +74,7 @@
                 android:text="Discount"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
+
             <EditText
                 android:id="@+id/etDiscount"
                 android:layout_width="match_parent"
@@ -84,9 +84,9 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:inputType="numberDecimal"
+                android:maxLength="8"
                 android:padding="@dimen/_6sdp"
                 android:text="0"
-                android:maxLength="8"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
 
@@ -108,16 +108,16 @@
                 <TextView
                     android:id="@+id/tvAddons"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_rounded_corner_white_bg"
                     android:clickable="true"
                     android:focusable="true"
-                    android:inputType="numberDecimal"
-                    android:layout_gravity="center"
-                    android:hint="No addons"
-                    android:padding="@dimen/_10sdp"
-                    android:background="@drawable/edit_text_rounded_corner_white_bg"
                     android:gravity="center|left"
+                    android:hint="No addons"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/_10sdp"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/text_medium" />
 
@@ -127,7 +127,7 @@
                     android:layout_height="@dimen/_60sdp"
                     android:layout_gravity="center"
                     android:background="@color/background_grey"
-                    android:src="@drawable/ic_add_addon"/>
+                    android:src="@drawable/ic_add_addon" />
             </LinearLayout>
 
 
@@ -136,22 +136,15 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:background="@color/colorWhite">
     <Button
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:background="@drawable/rounded_button"
         android:text="@string/save"
         android:textColor="@color/colorTextWhite"
         android:textSize="@dimen/text_medium" />
-
-
-</LinearLayout>
 
 </RelativeLayout>

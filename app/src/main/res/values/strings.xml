@@ -205,8 +205,8 @@
     <string name="action_save">Save</string>
     <string name="select_delievery_person">Select Delivery Person</string>
     <string name="item_order_price">Price</string>
-    <string name="currency_value">ل.ل.</string>
-    <string name="currency_value_tag">ل.ل. </string>
+    <string name="currency_value">$</string>
+    <string name="currency_value_tag">$ </string>
     <string name="schedule_at">Scheduled at : </string>
     <string name="schedule_at_format">Scheduled at : %1$s %2$s %3$d</string>
 
