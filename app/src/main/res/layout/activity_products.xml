@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tringtwentyfour.restaurant.activity.ProductsActivity">
+    tools:context="com.oyola.restaurant.activity.ProductsActivity">
 
     <LinearLayout
         android:layout_above="@+id/add_products_btn"

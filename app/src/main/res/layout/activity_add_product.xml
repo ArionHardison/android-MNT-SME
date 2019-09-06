@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.tringtwentyfour.restaurant.activity.AddProductActivity">
+    tools:context="com.oyola.restaurant.activity.AddProductActivity">
 
     <include
         android:id="@+id/toolbar"

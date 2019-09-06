@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tringtwentyfour.restaurant.activity.HistoryActivity">
+    tools:context="com.oyola.restaurant.activity.HistoryActivity">
 
     <include layout="@layout/toolbar"/>
 

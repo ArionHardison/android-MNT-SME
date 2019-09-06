@@ -1,7 +1,4 @@
 <resources>
-
-    <string name="app_name" translatable="false">Tring24 Restaurant</string>
-
     <!-- SignUp -->
     <string name="first_name">الاسم الاول</string>
     <string name="last_name">الكنية</string>
@@ -275,7 +272,6 @@
     <string name="give_your_feedback">يرجى تحديد سبب الإلغاء</string>
     <string name="cancel_reason">إلغاء السبب</string>
     <string name="thursday">الخميس</string>
-
 
 
     <string name="lang_english">English</string>

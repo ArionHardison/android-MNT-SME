@@ -1,6 +1,5 @@
 <resources>
-
-    <string name="app_name">Tring24 Restaurant</string>
+    <string name="app_name" translatable="false">Oyola Restaurant</string>
 
     <!-- SignUp -->
     <string name="first_name">First name</string>
@@ -275,7 +274,6 @@
     <string name="give_your_feedback">Please select the reason for canceling</string>
     <string name="cancel_reason">Cancel Reason</string>
     <string name="thursday">Thursday</string>
-
 
 
     <string name="lang_english">English</string>
