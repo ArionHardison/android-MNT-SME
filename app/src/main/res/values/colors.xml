@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#41941D</color>
-    <color name="colorPrimaryDark">#41941D</color>
-    <color name="colorAccent">#41941D</color>
+    <color name="colorPrimary">#1D931B</color>
+    <color name="colorPrimaryDark">#1D931B</color>
+    <color name="colorAccent">#1D931B</color>
 
     <!-- App Theme Color-->
-    <color name="colorTheme">#41941D</color>
+    <color name="colorTheme">#1D931B</color>
     <color name="background_color">#f5f5f5</color>
     <color name="background_grey">#eee</color>
 
     <!-- Toolbar Color-->
-    <color name="toolbar_bg">#41941D</color>
+    <color name="toolbar_bg">#1D931B</color>
     <color name="toolbar_title">#FFF</color>
 
     <!-- Text-->
@@ -32,8 +32,9 @@
     <color name="colorYellow">#ffeb3b</color>
     <color name="colorPurple">#D1C4E9</color>
 
-   <!-- BottomSheet Color-->
+    <!-- BottomSheet Color-->
     <color name="bottomSheetInActiveColor">#747474</color>
-    <color name="bottomSheetInAccentColor">#41941D</color>
+    <color name="bottomSheetInAccentColor">#1D931B</color>
 
+    <color name="colorButton">@color/colorPrimary</color>
 </resources>

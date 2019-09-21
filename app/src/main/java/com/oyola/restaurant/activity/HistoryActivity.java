@@ -75,7 +75,7 @@ public class HistoryActivity extends AppCompatActivity {
             for (int i = 0; i < tabChildsCount; i++) {
                 View tabViewChild = vgTab.getChildAt(i);
                 if (tabViewChild instanceof TextView) {
-                    Typeface custom_font = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito_semi_bold);
+                    Typeface custom_font = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito_semibold);
                     ((TextView) tabViewChild).setTypeface(custom_font);
                 }
             }

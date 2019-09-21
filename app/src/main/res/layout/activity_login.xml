@@ -23,13 +23,13 @@
                 android:layout_height="@dimen/_80sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:src="@drawable/logo_app" />
+                android:src="@drawable/ic_app_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium"
                 android:visibility="gone" />
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="@string/enter_the_details_to_login"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_medium" />
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="@string/email"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="@string/password"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
@@ -110,7 +110,7 @@
                 android:id="@+id/txt_forgot_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:gravity="center"
                 android:padding="@dimen/activity_vertical_margin_half"
                 android:text="@string/forgot_password"
@@ -151,7 +151,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="@string/donot_have_an_account"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />

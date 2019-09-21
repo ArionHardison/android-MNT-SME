@@ -9,7 +9,7 @@
         android:id="@+id/tvSelectCusine"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_size"
-        android:fontFamily="@font/nunito_semi_bold"
+        android:fontFamily="@font/nunito_semibold"
         android:background="@drawable/rounded_button"
         android:text="Select Cuisine"
         android:gravity="center|left"
@@ -33,7 +33,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/rounded_button"
         android:text="@string/done"
-        android:fontFamily="@font/nunito_semi_bold"
+        android:fontFamily="@font/nunito_semibold"
         android:textSize="@dimen/text_normal"
         android:textColor="@color/colorWhite" />
 

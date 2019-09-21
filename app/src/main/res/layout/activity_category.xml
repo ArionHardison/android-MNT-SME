@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:textSize="@dimen/text_medium"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="No category added"/>

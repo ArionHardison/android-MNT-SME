@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="Addons"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/text_small_large" />

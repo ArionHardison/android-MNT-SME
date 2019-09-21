@@ -74,7 +74,8 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
                     if (connectionHelper.isConnectingToInternet())
                         new GetProfile(apiInterface, SplashActivity.this);
                     else
-                        Utils.displayMessage(SplashActivity.this, getString(R.string.oops_no_internet));
+                        Utils.displayMessage(SplashActivity.this,
+                                getString(R.string.oops_no_internet));
                 } else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     finish();
@@ -102,7 +103,8 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
         }
 
         try {
-            device_UDID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+            device_UDID = Settings.Secure.getString(getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
             Log.d(TAG, "Device UDID:" + device_UDID);
         } catch (Exception e) {
             device_UDID = "COULD NOT GET UDID";

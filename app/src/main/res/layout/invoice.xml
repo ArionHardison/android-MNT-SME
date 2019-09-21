@@ -16,7 +16,7 @@
             <TextView
                 android:textColor="@color/colorSecondaryText"
                 android:layout_width="match_parent"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/sub_total"
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 android:gravity="end"
                 android:textSize="@dimen/text_medium" />
 
@@ -42,7 +42,7 @@
         <TextView
             android:textColor="@color/colorSecondaryText"
             android:layout_width="match_parent"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/service_tax"
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:gravity="end"
             android:textSize="@dimen/text_medium" />
 
@@ -70,7 +70,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:textColor="@color/colorSecondaryText"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:textColor="@color/colorSecondaryText"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:gravity="end"
             android:textSize="@dimen/text_medium" />
 
@@ -96,7 +96,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:textColor="@color/colorSecondaryText"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:textColor="@color/colorSecondaryText"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:gravity="end"
             android:textSize="@dimen/text_medium" />
 
@@ -124,7 +124,7 @@
         <TextView
             android:textColor="@color/colorSecondaryText"
             android:layout_width="match_parent"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cgst"
@@ -137,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:gravity="end"
             android:textSize="@dimen/text_medium" />
 
@@ -149,7 +149,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:textColor="@color/colorSecondaryText"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:textColor="@color/colorSecondaryText"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:gravity="end"
             android:textSize="@dimen/text_medium" />
 
@@ -174,7 +174,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:textColor="@color/colorSecondaryText"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -188,7 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:textColor="@color/colorSecondaryText"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:gravity="end"
             android:textSize="@dimen/text_medium" />
 
@@ -211,7 +211,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/colorPrimaryText"
@@ -225,7 +225,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:gravity="end"
             android:textSize="@dimen/text_medium" />
 

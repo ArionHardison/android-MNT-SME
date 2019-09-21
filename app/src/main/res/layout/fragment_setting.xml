@@ -33,7 +33,7 @@
                 android:id="@+id/shop_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semi_bold"
+                android:fontFamily="@font/nunito_semibold"
                 tools:text="Subway"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_medium" />

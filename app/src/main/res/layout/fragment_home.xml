@@ -149,7 +149,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:fontFamily="@font/nunito_semi_bold"
+                        android:fontFamily="@font/nunito_semibold"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:textSize="@dimen/_13sdp"
                         android:text="@string/waiting_for_new_orders" />

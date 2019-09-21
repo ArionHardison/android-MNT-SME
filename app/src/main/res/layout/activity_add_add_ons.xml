@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:fontFamily="@font/nunito_semi_bold"
+            android:fontFamily="@font/nunito_semibold"
             android:text="@string/name"
             android:textColor="@color/colorPrimaryText"
             android:textSize="@dimen/text_tiny" />

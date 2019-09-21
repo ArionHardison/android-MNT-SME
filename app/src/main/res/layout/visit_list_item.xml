@@ -44,7 +44,7 @@
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/colorTextBlack"
                     android:text="Georgein avenue"
-                    android:fontFamily="@font/nunito_semi_bold"
+                    android:fontFamily="@font/nunito_semibold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -63,7 +63,7 @@
                     android:paddingTop="@dimen/_4sdp"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/colorTheme"
-                    android:fontFamily="@font/nunito_semi_bold"
+                    android:fontFamily="@font/nunito_semibold"
                     android:text="Visited"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

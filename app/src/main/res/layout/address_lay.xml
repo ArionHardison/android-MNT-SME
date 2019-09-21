@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:fontFamily="@font/nunito_semi_bold"
+        android:fontFamily="@font/nunito_semibold"
         android:text="@string/min_amount"
         android:textColor="@color/colorPrimaryText"
         android:textSize="@dimen/text_tiny" />
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:fontFamily="@font/nunito_semi_bold"
+        android:fontFamily="@font/nunito_semibold"
         android:text="@string/offer_in_percentage"
         android:textColor="@color/colorPrimaryText"
         android:textSize="@dimen/text_tiny" />
@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:fontFamily="@font/nunito_semi_bold"
+        android:fontFamily="@font/nunito_semibold"
         android:text="@string/maximum_delivery_time"
         android:textColor="@color/colorPrimaryText"
         android:textSize="@dimen/text_tiny" />
@@ -113,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:fontFamily="@font/nunito_semi_bold"
+        android:fontFamily="@font/nunito_semibold"
         android:text="@string/description"
         android:textColor="@color/colorPrimaryText"
         android:textSize="@dimen/text_tiny" />
@@ -139,7 +139,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:fontFamily="@font/nunito_semi_bold"
+        android:fontFamily="@font/nunito_semibold"
         android:text="@string/address"
         android:textColor="@color/colorPrimaryText"
         android:textSize="@dimen/text_tiny" />
@@ -176,7 +176,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:fontFamily="@font/nunito_semi_bold"
+        android:fontFamily="@font/nunito_semibold"
         android:text="@string/landmark"
         android:textColor="@color/colorPrimaryText"
         android:textSize="@dimen/text_tiny" />
