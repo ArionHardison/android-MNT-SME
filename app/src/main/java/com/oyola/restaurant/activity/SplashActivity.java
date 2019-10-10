@@ -77,7 +77,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
                         Utils.displayMessage(SplashActivity.this,
                                 getString(R.string.oops_no_internet));
                 } else {
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    startActivity(new Intent(SplashActivity.this, RegisterActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     finish();
                 }
             }
@@ -129,7 +129,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
             Utils.displayMessage(activity, getString(R.string.something_went_wrong));
 
         SharedHelper.putKey(context, "logged", "false");
-        startActivity(new Intent(SplashActivity.this, LoginActivity.class)
+        startActivity(new Intent(SplashActivity.this, RegisterActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         finish();
     }
