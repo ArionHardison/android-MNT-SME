@@ -792,7 +792,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_size"
         android:layout_margin="@dimen/activity_vertical_margin"
-        android:background="@drawable/rounded_button"
+        style="@style/ButtonStyle"
         android:text="@string/confirm"
         android:layout_above="@id/LLBottomLay"
         android:textColor="@color/colorWhite" />

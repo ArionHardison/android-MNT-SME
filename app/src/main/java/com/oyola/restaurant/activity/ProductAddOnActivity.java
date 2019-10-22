@@ -206,62 +206,64 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
         for (int i = 0; i < addOnList.size(); i++) {
             params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
-            params.put("addons_price[" +addOnList.get(i).getId() + "]", RequestBody.create(MediaType.parse("text/plain"),
-                     addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));
+            params.put("addons_price[" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
+                    addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));
+            /*params.put("addons_price[" +addOnList.get(i).getId() + "]", RequestBody.create(MediaType.parse("text/plain"),
+                     addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));*/
         }
-        params.put("status", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductStatus()));
-        params.put("cuisine_id", RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));
-        params.put("food_type", RequestBody.create(MediaType.parse("text/plain"), message.getStrSelectedFoodType()));
+            params.put("status", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductStatus()));
+            params.put("cuisine_id", RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));
+            params.put("food_type", RequestBody.create(MediaType.parse("text/plain"), message.getStrSelectedFoodType()));
 
 
-        MultipartBody.Part filePart1 = null;
-        if (message.getProductImageFile() != null) {
-            File compressToFile = message.getProductImageFile();
-            filePart1 = MultipartBody.Part.createFormData("avatar[]", compressToFile.getName(), RequestBody.create(MediaType.parse("image/*"), compressToFile));
-        }
+            MultipartBody.Part filePart1 = null;
+            if (message.getProductImageFile() != null) {
+                File compressToFile = message.getProductImageFile();
+                filePart1 = MultipartBody.Part.createFormData("avatar[]", compressToFile.getName(), RequestBody.create(MediaType.parse("image/*"), compressToFile));
+            }
 
-        String featured = (message.getFeaturedImageFile() != null) ? "1" : "0";
-        params.put("featured", RequestBody.create(MediaType.parse("text/plain"), featured));
-        params.put("featured_position", RequestBody.create(MediaType.parse("text/plain"), featured));
+            String featured = (message.getFeaturedImageFile() != null) ? "1" : "0";
+            params.put("featured", RequestBody.create(MediaType.parse("text/plain"), featured));
+            params.put("featured_position", RequestBody.create(MediaType.parse("text/plain"), featured));
 
-        MultipartBody.Part filePart2 = null;
-        if (message.getFeaturedImageFile() != null) {
-            File compressToFile = message.getFeaturedImageFile();
-            filePart2 = MultipartBody.Part.createFormData("featured_image", compressToFile.getName(), RequestBody.create(MediaType.parse("image/*"), compressToFile));
-        }
+            MultipartBody.Part filePart2 = null;
+            if (message.getFeaturedImageFile() != null) {
+                File compressToFile = message.getFeaturedImageFile();
+                filePart2 = MultipartBody.Part.createFormData("featured_image", compressToFile.getName(), RequestBody.create(MediaType.parse("image/*"), compressToFile));
+            }
 
 
-        Log.d(TAG, params.toString());
+            Log.d(TAG, params.toString());
 
-        Call<ProductResponse> call;
-        if (productResponse != null) {
-            int product_id = productResponse.getId();
-            params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
-            call = apiInterface.updateProduct(product_id, params, filePart1, filePart2);
-        } else {
-            params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "POST"));
-            call = apiInterface.addProduct(params, filePart1, filePart2);
-        }
+            Call<ProductResponse> call;
+            if (productResponse != null) {
+                int product_id = productResponse.getId();
+                params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "PATCH"));
+                call = apiInterface.updateProduct(product_id, params, filePart1, filePart2);
+            } else {
+                params.put("_method", RequestBody.create(MediaType.parse("text/plain"), "POST"));
+                call = apiInterface.addProduct(params, filePart1, filePart2);
+            }
 
-        call.enqueue(new Callback<ProductResponse>() {
-            @Override
-            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                customDialog.dismiss();
-                if (response.isSuccessful()) {
-                    redirectToProductList();
-                } else {
-                    Utils.displayMessage(ProductAddOnActivity.this, "failed");
+            call.enqueue(new Callback<ProductResponse>() {
+                @Override
+                public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                    customDialog.dismiss();
+                    if (response.isSuccessful()) {
+                        redirectToProductList();
+                    } else {
+                        Utils.displayMessage(ProductAddOnActivity.this, "failed");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ProductResponse> call, Throwable t) {
-                customDialog.dismiss();
-                Log.d("onFailure", "" + t.getMessage());
-                Utils.displayMessage(ProductAddOnActivity.this, t.toString());
-            }
-        });
-    }
+                @Override
+                public void onFailure(Call<ProductResponse> call, Throwable t) {
+                    customDialog.dismiss();
+                    Log.d("onFailure", "" + t.getMessage());
+                    Utils.displayMessage(ProductAddOnActivity.this, t.toString());
+                }
+            });
+        }
 
    /* public File Compress(File compressFile) {
         try {
@@ -281,57 +283,57 @@ public class ProductAddOnActivity extends AppCompatActivity {
     }*/
 
 
-    private void redirectToProductList() {
-        Utils.displayMessage(ProductAddOnActivity.this, getString(R.string.product_added_successfully));
-        new Handler().postDelayed(this::finishAffinity, 1000);
-    }
+        private void redirectToProductList () {
+            Utils.displayMessage(ProductAddOnActivity.this, getString(R.string.product_added_successfully));
+            new Handler().postDelayed(this::finishAffinity, 1000);
+        }
 
-    private boolean validateInput() {
-        strProductPrice = etPrice.getText().toString().trim();
-        strProductDiscount = etDiscount.getText().toString().trim();
+        private boolean validateInput () {
+            strProductPrice = etPrice.getText().toString().trim();
+            strProductDiscount = etDiscount.getText().toString().trim();
 
-        if (strProductPrice.isEmpty()) {
-            Utils.displayMessage(this, getString(R.string.please_enter_price));
-            return false;
-        } else if (strDiscountType.isEmpty()) {
-            Utils.displayMessage(this, getString(R.string.please_select_discount_type));
-            return false;
-        } else if (strProductDiscount.isEmpty()) {
-            Utils.displayMessage(this, getString(R.string.please_enter_discount_amount));
-            return false;
+            if (strProductPrice.isEmpty()) {
+                Utils.displayMessage(this, getString(R.string.please_enter_price));
+                return false;
+            } else if (strDiscountType.isEmpty()) {
+                Utils.displayMessage(this, getString(R.string.please_select_discount_type));
+                return false;
+            } else if (strProductDiscount.isEmpty()) {
+                Utils.displayMessage(this, getString(R.string.please_enter_discount_amount));
+                return false;
+            }
+
+
+            return true;
         }
 
 
-        return true;
-    }
+        @Override
+        protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+            super.onActivityResult(requestCode, resultCode, data);
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == ADD_ON_REQ_CODE && resultCode == RESULT_OK) {
-            if (!addOnList.isEmpty()) {
-                addOnList.clear();
-            }
-            addOnList = data.getParcelableArrayListExtra("addon");
-            String addOns = "";
-            if (addOnList.size() > 0) {
-                for (int i = 0; i < addOnList.size(); i++) {
-                    if (i == 0) {
-                        addOns = addOnList.get(i).getName();
-                    } else {
-                        addOns = addOns + "," + addOnList.get(i).getName();
+            if (requestCode == ADD_ON_REQ_CODE && resultCode == RESULT_OK) {
+                if (!addOnList.isEmpty()) {
+                    addOnList.clear();
+                }
+                addOnList = data.getParcelableArrayListExtra("addon");
+                String addOns = "";
+                if (addOnList.size() > 0) {
+                    for (int i = 0; i < addOnList.size(); i++) {
+                        if (i == 0) {
+                            addOns = addOnList.get(i).getName();
+                        } else {
+                            addOns = addOns + "," + addOnList.get(i).getName();
+                        }
                     }
                 }
+                tvAddons.setText(addOns);
             }
-            tvAddons.setText(addOns);
+        }
+
+        @Override
+        protected void onDestroy () {
+            super.onDestroy();
+            message = null;
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        message = null;
-    }
-}

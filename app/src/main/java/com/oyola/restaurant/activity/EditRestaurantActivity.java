@@ -157,7 +157,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_restaurant);
         ButterKnife.bind(this);
-        Places.initialize(EditRestaurantActivity.this, getResources().getString(R.string.google_api_key));
+        Places.initialize(EditRestaurantActivity.this, getResources().getString(R.string.google_maps_key));
         initViews();
         callProfile();
     }

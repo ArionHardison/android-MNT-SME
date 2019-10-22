@@ -15,6 +15,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,6 +50,7 @@ import com.oyola.restaurant.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -100,6 +102,10 @@ public class RegisterActivity extends AppCompatActivity {
     EditText etMobile;
     @BindView(R.id.llStatusPicker)
     LinearLayout llStatusPicker;
+    @BindView(R.id.takeaway)
+    CheckBox takeaway;
+    @BindView(R.id.delivery)
+    CheckBox delivery;
     Context context;
     Activity activity;
     ConnectionHelper connectionHelper;
@@ -143,7 +149,8 @@ public class RegisterActivity extends AppCompatActivity {
     int SHOP_BANNER = 1;
     int CT_TYPE = SHOP_IMAGE;
     private CountryPicker mCountryPicker;
-     String status;
+    String status;
+    List<String> mRestraurantOffer = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         ButterKnife.bind(this);
-        Places.initialize(RegisterActivity.this, getResources().getString(R.string.google_api_key));
+        Places.initialize(RegisterActivity.this, getResources().getString(R.string.google_maps_key));
 
         context = RegisterActivity.this;
         activity = RegisterActivity.this;
@@ -174,18 +181,19 @@ public class RegisterActivity extends AppCompatActivity {
                 etOfferInPercentage.setText("0");
         });
 
-        if (BuildConfig.DEBUG) {
-            etName.setText("Gary Dango");
-            etEmail.setText("garydango@yopmail.com");
-            etMobile.setText("9003440134");
-            etPassword.setText("112233");
-            etConfirmPassword.setText("112233");
+        /*if (BuildConfig.DEBUG) {
+            etName.setText("Prasanth");
+            etEmail.setText("prasanth.p@appoets.com");
+            etMobile.setText("7904985211");
+            etPassword.setText("123456");
+            etConfirmPassword.setText("123456");
             tvMinAmount.setText("10");
             etOfferInPercentage.setText("5");
             tvMaxTimeDelivery.setText("1");
             etDescription.setText("Awesome food with awesome price");
             etLandmark.setText("Next to bank");
-        }
+        }*/
+
     }
 
     private void resetData() {
@@ -353,6 +361,14 @@ public class RegisterActivity extends AppCompatActivity {
         description = etDescription.getText().toString().trim();
         country_code = txtCountryNumber.getText().toString().trim();
 
+        mRestraurantOffer = new ArrayList<>();
+        mRestraurantOffer.clear();
+        if (takeaway.isChecked()) {
+            mRestraurantOffer.add("Takeaway");
+        }
+        if (delivery.isChecked()) {
+            mRestraurantOffer.add("Delivery");
+        }
         if (offer_percentage == null || offer_percentage.isEmpty() || offer_percentage.equalsIgnoreCase("null"))
             offer_percentage = "0";
 
@@ -364,7 +380,7 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_valid_mail_id));
         else if (CuisineSelectFragment.CUISINES.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.invalid_cuisine));
-        else if (mobile.isEmpty()||mobile.length()!=10)
+        else if (mobile.isEmpty() || mobile.length() != 10)
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_phone_number));
         else if (password.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_password));
@@ -390,7 +406,8 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_landmark));
         else if (tvStatus.getText().toString().isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_select_status));
-
+        else if (mRestraurantOffer.isEmpty())
+            Utils.displayMessage(activity, getResources().getString(R.string.please_select_offer));
         else {
             if (isInternet) {
                 HashMap<String, RequestBody> map = new HashMap<>();
@@ -426,6 +443,13 @@ public class RegisterActivity extends AppCompatActivity {
                 for (int i = 0; i < CuisineSelectFragment.CUISINES.size(); i++) {
                     Cuisine obj = CuisineSelectFragment.CUISINES.get(i);
                     map.put("cuisine_id[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(obj.getId())));
+                }
+                for (int i = 0; i < mRestraurantOffer.size(); i++) {
+                    if (mRestraurantOffer.get(i).equalsIgnoreCase("Takeaway")) {
+                        map.put("i_offer[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), "1"));
+                    } else if (mRestraurantOffer.get(i).equalsIgnoreCase("Delivery")) {
+                        map.put("i_offer[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), "2"));
+                    }
                 }
 
                 GlobalData.registerMap.putAll(map);

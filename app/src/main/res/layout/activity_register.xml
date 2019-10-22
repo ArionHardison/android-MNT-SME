@@ -94,26 +94,17 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_tiny" />
 
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:id="@+id/takeaway"
+                    <CheckBox
+                            android:id="@+id/takeaway"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="true"
                         android:text="@string/takeaway" />
 
-                    <RadioButton
+                    <CheckBox
                         android:id="@+id/delivery"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/delivery" />
-
-                </RadioGroup>
 
             </LinearLayout>
 

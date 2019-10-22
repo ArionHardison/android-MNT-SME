@@ -157,6 +157,7 @@
     <string name="please_enter_delievery_time">Please enter maximum delievery time</string>
     <string name="please_enter_landmark">Please enter landmark</string>
     <string name="please_select_status">Please select status</string>
+    <string name="please_select_offer">Please select offer</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="oops_no_internet">Oops! No internet connection</string>
     <string name="tax">Tax</string>

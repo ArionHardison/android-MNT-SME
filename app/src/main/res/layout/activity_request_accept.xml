@@ -189,8 +189,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button"
             android:backgroundTint="@color/grey"
+            style="@style/ButtonStyle"
             android:text="@string/cancel"
             android:textColor="@color/colorTextWhite"
             android:textSize="@dimen/text_medium" />
@@ -204,7 +204,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button"
+            style="@style/ButtonStyle"
             android:text="@string/accept"
             android:textColor="@color/colorTextWhite"
             android:textSize="@dimen/text_medium" />

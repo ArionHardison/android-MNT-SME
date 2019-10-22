@@ -32,7 +32,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBJqS_Nyg8oI4i9gbCzjaPk2OWAi9uQ1ug" />
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name="com.oyola.restaurant.activity.HomeActivity"
