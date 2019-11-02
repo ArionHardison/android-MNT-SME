@@ -68,6 +68,34 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/i_offer"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <CheckBox
+                        android:id="@+id/takeaway"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/takeaway" />
+
+                    <CheckBox
+                        android:id="@+id/delivery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/delivery" />
+
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -124,6 +124,7 @@ dependencies {
     //Place find
     implementation 'com.google.android.libraries.places:places:1.0.0'
 
+    implementation 'com.chaos.view:pinview:1.3.2'
 
 }
 

@@ -29,16 +29,6 @@ public class MyApplication extends MultiDexApplication {
         return mAppController;
     }
 
-    public static NumberFormat getNumberFormat() {
-//        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", "INR");
-        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", GlobalData.profile.getCurrency());
-
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
-        numberFormat.setCurrency(Currency.getInstance(currencyCode));
-        numberFormat.setMinimumFractionDigits(2);
-        return numberFormat;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -52,4 +42,21 @@ public class MyApplication extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
     }
+
+
+    public static NumberFormat getNumberFormat() {
+//        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", "INR");
+        String currencyCode = SharedHelper.getKey(getInstance(), "currencyCode", GlobalData.profile.getCurrency());
+
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        numberFormat.setCurrency(Currency.getInstance(currencyCode));
+        numberFormat.setMinimumFractionDigits(2);
+        return numberFormat;
+    }
+
+    public static String getCurrencyFormat() {
+        String currencyCode = SharedHelper.getKey(getInstance(), "currency_code", GlobalData.profile.getCurrency());
+        return currencyCode;
+    }
+
 }

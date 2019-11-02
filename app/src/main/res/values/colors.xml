@@ -21,6 +21,7 @@
     <color name="medium_grey">#d1d0d0</color>
     <color name="colorTextWhite">#FFF</color>
     <color name="colorTextBlack">#212121</color>
+    <color name="black">#000000</color>
 
     <!-- Color-->
     <color name="colorTransparent">#00ff6d00</color>
@@ -37,4 +38,5 @@
     <color name="bottomSheetInAccentColor">#1D931B</color>
 
     <color name="colorButton">@color/colorPrimary</color>
+    <color name="colorPink">#F04755</color>
 </resources>

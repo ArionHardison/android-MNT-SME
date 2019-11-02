@@ -35,6 +35,7 @@ import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.Constants;
 import com.oyola.restaurant.utils.Utils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +105,6 @@ public class RevenueFragment extends Fragment {
 
         connectionHelper = new ConnectionHelper(context);
         customDialog = new CustomDialog(context);
-
     }
 
 
@@ -228,11 +228,11 @@ public class RevenueFragment extends Fragment {
 //        NumberFormat formatter = new DecimalFormat("#0.00");
         String currency = SharedHelper.getKey(context, Constants.PREF.CURRENCY);
 
-        String total_revenue = currency + /*formatter.format(*/response.getTotalRevenue();
+        String total_revenue = currency + new DecimalFormat("##.##").format(response.getTotalRevenue());
         String order_received = response.getOrderReceivedToday() + "";
         String order_develievered = response.getOrderDeliveredToday() + "";
-        String today_earnings = currency + /*formatter.format(*/response.getOrderIncomeToday();
-        String monthly_earnings = currency + /*formatter.format(*/response.getOrderIncomeMonthly();
+        String today_earnings = currency +  new DecimalFormat("##.##").format(response.getOrderIncomeToday());
+        String monthly_earnings = currency +  new DecimalFormat("##.##").format(response.getOrderIncomeMonthly());
 
         if (tvTotalRevenue != null) {
             tvTotalRevenue.setText(total_revenue);
@@ -240,7 +240,6 @@ public class RevenueFragment extends Fragment {
             tvOrderDelievered.setText(order_develievered);
             tvTodayEarnings.setText(today_earnings);
             tvMonthlyEarnings.setText(monthly_earnings);
-
 
             prepareBarChart(response.getCompleteCancel());
 

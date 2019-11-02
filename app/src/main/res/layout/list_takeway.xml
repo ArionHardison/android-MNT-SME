@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_layout"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/activity_vertical_margin_half"
-    android:layout_marginEnd="@dimen/activity_vertical_margin"
     android:layout_marginStart="@dimen/activity_vertical_margin"
     android:layout_marginTop="@dimen/activity_vertical_margin_half"
+    android:layout_marginEnd="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin_half"
     android:elevation="@dimen/_4sdp"
     app:cardCornerRadius="@dimen/_4sdp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/very_light_grey"
-        android:padding="@dimen/activity_vertical_margin_half">
+        android:padding="@dimen/activity_vertical_margin_half"
+        android:background="@color/very_light_grey">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_img"
@@ -31,7 +31,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/user_img"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_vertical_margin_half"
             android:paddingStart="@dimen/activity_vertical_margin_half">
 
             <LinearLayout
@@ -53,9 +52,9 @@
                     android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_location"
                     android:drawableLeft="@drawable/ic_location"
                     android:drawablePadding="@dimen/_4sdp"
-                    android:drawableStart="@drawable/ic_location"
                     android:maxLines="1"
                     android:paddingTop="@dimen/_4sdp"
                     android:singleLine="true"
@@ -68,8 +67,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_semibold"
-                    android:text="Paytm"
                     android:paddingTop="@dimen/_4sdp"
+                    android:text="Paytm"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_small" />
 
@@ -78,34 +77,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_semibold"
-                    android:text="Dispute Created"
                     android:paddingTop="@dimen/_4sdp"
+                    android:text="Dispute Created"
                     android:textColor="@color/colorGreen"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_small"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/order_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Delivery"
-                    android:paddingTop="@dimen/_4sdp"
                     android:fontFamily="@font/nunito_semibold"
+                    android:paddingTop="@dimen/_4sdp"
                     android:textColor="@color/colorPink"
                     android:textSize="@dimen/text_small_large" />
-
 
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/order_time"
                     android:gravity="end"
+                    android:text="@string/order_time"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/text_tiny" />
 
@@ -117,7 +116,29 @@
                     android:text="08.15 AM"
                     android:textColor="@color/colorTheme"
                     android:textSize="@dimen/text_tiny" />
+                <LinearLayout
+                    android:id="@+id/lay_schedule_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="end"
+                    android:text="@string/delivery_time"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_tiny" />
 
+                <TextView
+                    android:id="@+id/order_delivery_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="08.15 AM"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="@dimen/text_tiny" />
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +48,7 @@ import com.oyola.restaurant.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -130,6 +132,10 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     LinearLayout llStatusPicker;
     @BindView(R.id.lnrPassword)
     LinearLayout lnrPassword;
+    @BindView(R.id.takeaway)
+    CheckBox chkTakeaway;
+    @BindView(R.id.delivery)
+    CheckBox chkDelivery;
 
     ConnectionHelper connectionHelper;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
@@ -151,6 +157,9 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     private CountryPicker mCountryPicker;
     private int id;
     String status;
+    boolean mIsDelivery = false;
+    boolean mIsTakeaway = false;
+    List<String> mRestraurantOffer = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,10 +234,10 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             txtCountryNumber.setText(country.getDialCode());
             country_code = country.getDialCode();
         } else {
-            Country india = new Country("IN", "India", "+91", R.drawable.flag_in);
-            countryImg.setImageResource(india.getFlag());
-            txtCountryNumber.setText(india.getDialCode());
-            country_code = india.getDialCode();
+            Country mCountry = new Country("AU", "Australia", "+61", R.drawable.flag_au);
+            countryImg.setImageResource(mCountry.getFlag());
+            txtCountryNumber.setText(mCountry.getDialCode());
+            country_code = mCountry.getDialCode();
         }
     }
 
@@ -311,7 +320,14 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         if (offer_percentage == null || offer_percentage.isEmpty() || offer_percentage.equalsIgnoreCase("null")) {
             offer_percentage = "0";
         }
-
+        mRestraurantOffer = new ArrayList<>();
+        mRestraurantOffer.clear();
+        if (chkTakeaway.isChecked()) {
+            mRestraurantOffer.add("Takeaway");
+        }
+        if (chkDelivery.isChecked()) {
+            mRestraurantOffer.add("Delivery");
+        }
 
         if (name.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_name));
@@ -323,6 +339,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.invalid_cuisine));
         else if (mobile.isEmpty() || mobile.length() != 10)
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_phone_number));
+        else if (mRestraurantOffer.isEmpty())
+            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_select_offer));
         else if (offer_min_amount.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_amount));
         else if (delivery_time.isEmpty())
@@ -351,7 +369,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("phone", RequestBody.create(MediaType.parse("text/plain"), mobile));
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
-                /*map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));*/
+                map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
 
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
@@ -374,6 +392,14 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 for (int i = 0; i < CuisineSelectFragment.CUISINES.size(); i++) {
                     Cuisine obj = CuisineSelectFragment.CUISINES.get(i);
                     map.put("cuisine_id[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(obj.getId())));
+                }
+
+                for (int i = 0; i < mRestraurantOffer.size(); i++) {
+                    if (mRestraurantOffer.get(i).equalsIgnoreCase("Takeaway")) {
+                        map.put("i_offer[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), "1"));
+                    } else if (mRestraurantOffer.get(i).equalsIgnoreCase("Delivery")) {
+                        map.put("i_offer[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), "2"));
+                    }
                 }
 
                 MultipartBody.Part filePart1 = null;
@@ -491,7 +517,21 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             radioYes.setChecked(false);
             radioNo.setChecked(true);
         }
-
+        if (profile.getDeliveryOptionList() != null) {
+            mRestraurantOffer = new ArrayList<>();
+            mRestraurantOffer.clear();
+            for (int i = 0; i < profile.getDeliveryOptionList().size(); i++) {
+                mRestraurantOffer.add(profile.getDeliveryOptionList().get(i).getName());
+                if (profile.getDeliveryOptionList().get(i).getName().equalsIgnoreCase("Delivery")) {
+                    mIsDelivery = true;
+                }
+                if (profile.getDeliveryOptionList().get(i).getName().equalsIgnoreCase("Takeaway")) {
+                    mIsTakeaway = true;
+                }
+            }
+            chkDelivery.setChecked(mIsDelivery);
+            chkTakeaway.setChecked(mIsTakeaway);
+        }
         if (profile.getCountry_code() != null && !profile.getCountry_code().equals("null")) {
             Country country = new Country();
             country = country.getCountryByDialCode(profile.getCountry_code());

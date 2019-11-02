@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.activity.RequestAcceptActivity;
+import com.oyola.restaurant.activity.TakeAwayActivity;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.utils.Utils;
@@ -23,12 +25,15 @@ import com.oyola.restaurant.utils.Utils;
 import java.text.ParseException;
 import java.util.List;
 
-public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHolder> {
+/**
+ * Created by Prasanth on 29-10-2019.
+ */
+public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyViewHolder> {
     Context context;
     Activity activity;
     private List<Order> list;
 
-    public RequestAdapter(List<Order> list, Context con) {
+    public TakeAwayAdapter(List<Order> list, Context con) {
         this.list = list;
         this.context = con;
         this.activity = activity;
@@ -38,7 +43,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.request_list_item, parent, false);
+                .inflate(R.layout.list_takeway, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -51,10 +56,18 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         }
         try {
             holder.orderTime.setText(Utils.getTime(order.getCreatedAt()));
+            holder.orderDeliveryTime.setText(Utils.getTime(order.getDeliveryDate()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+        if (order.getScheduleStatus()!=null){
+            if (order.getScheduleStatus()==1){
+                holder.mLayoutSchedule.setVisibility(View.VISIBLE);
+            }else {
+                holder.mLayoutSchedule.setVisibility(View.GONE);
+            }
+        }
         if (order.getPickUpRestaurant()!=null){
             if (order.getPickUpRestaurant()==0){
                 holder.orderType.setText("Order Type : DELIVERY");
@@ -84,7 +97,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 GlobalData.selectedOrder = list.get(position);
-                context.startActivity(new Intent(context, RequestAcceptActivity.class));
+                context.startActivity(new Intent(context, TakeAwayActivity.class));
             }
         });
         Glide.with(context).load(order.getUser().getAvatar())
@@ -115,8 +128,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, orderTime, status,orderType;
+        TextView userName, address, paymentMode, orderTime,orderDeliveryTime, status,orderType;
         CardView itemLayout;
+        LinearLayout mLayoutSchedule;
         ImageView userImg;
 
         public MyViewHolder(View view) {
@@ -129,6 +143,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             itemLayout = view.findViewById(R.id.item_layout);
             userImg = view.findViewById(R.id.user_img);
             orderType = view.findViewById(R.id.order_type);
+            orderDeliveryTime = view.findViewById(R.id.order_delivery_time);
+            mLayoutSchedule = view.findViewById(R.id.lay_schedule_detail);
         }
     }
 

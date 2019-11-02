@@ -254,10 +254,10 @@ public class RegisterActivity extends AppCompatActivity {
             txtCountryNumber.setText(country.getDialCode());
             country_code = country.getDialCode();
         } else {
-            Country india = new Country("IN", "India", "+91", R.drawable.flag_in);
-            countryImg.setImageResource(india.getFlag());
-            txtCountryNumber.setText(india.getDialCode());
-            country_code = india.getDialCode();
+            Country mCountry = new Country("AU", "Australia", "+61", R.drawable.flag_au);
+            countryImg.setImageResource(mCountry.getFlag());
+            txtCountryNumber.setText(mCountry.getDialCode());
+            country_code = mCountry.getDialCode();
         }
     }
 
@@ -426,7 +426,7 @@ public class RegisterActivity extends AppCompatActivity {
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
                 map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
                 map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
-                /*map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));*/
+                map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
                 } else if (tvStatus.getText().toString().equalsIgnoreCase("banned")) {

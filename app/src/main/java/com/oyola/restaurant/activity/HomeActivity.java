@@ -15,6 +15,7 @@ import com.oyola.restaurant.fragment.DishesFragment;
 import com.oyola.restaurant.fragment.HomeFragment;
 import com.oyola.restaurant.fragment.RevenueFragment;
 import com.oyola.restaurant.fragment.SettingFragment;
+import com.oyola.restaurant.fragment.TakeAwayFragment;
 import com.oyola.restaurant.helper.ConnectionHelper;
 
 import butterknife.BindView;
@@ -50,15 +51,16 @@ public class HomeActivity extends AppCompatActivity {
 
         // Create items
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.salver, R.color.grey);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.cash, R.color.grey);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.options, R.color.grey);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.shop, R.color.grey);
+        AHBottomNavigationItem item2= new AHBottomNavigationItem(R.string.empty_string, R.drawable.ic_bag, R.color.grey);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.cash, R.color.grey);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.options, R.color.grey);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.shop, R.color.grey);
         // Add items
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
         bottomNavigation.addItem(item4);
-
+        bottomNavigation.addItem(item5);
         // Set background color
         bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.background_color));
 
@@ -86,12 +88,15 @@ public class HomeActivity extends AppCompatActivity {
                     fragment = new HomeFragment();
                     break;
                 case 1:
-                    fragment = new RevenueFragment();
+                    fragment = new TakeAwayFragment();
                     break;
                 case 2:
-                    fragment = new DishesFragment();
+                    fragment = new RevenueFragment();
                     break;
                 case 3:
+                    fragment = new DishesFragment();
+                    break;
+                case 4:
                     fragment = new SettingFragment();
                     break;
             }

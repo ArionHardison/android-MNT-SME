@@ -104,6 +104,10 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.oyola.restaurant.activity.TakeAwayActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.oyola.restaurant.activity.OrderDetailActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
@@ -146,7 +150,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="3aef7a5b05836cf8166f23c95e43c52517bee917" />
+            android:value="995d4db952b022cae648a19c5cf55d68cc7ad58a" />
     </application>
 
 </manifest>

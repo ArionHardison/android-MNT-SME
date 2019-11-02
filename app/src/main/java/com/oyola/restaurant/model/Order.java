@@ -62,6 +62,9 @@ public class Order {
     @SerializedName("created_at")
     @Expose
     private String createdAt;
+    @SerializedName("pickup_from_restaurants")
+    @Expose
+    private Integer pickUpRestaurant;
     @SerializedName("schedule_status")
     @Expose
     private Integer scheduleStatus;
@@ -328,4 +331,11 @@ public class Order {
         this.reviewrating = reviewrating;
     }
 
+    public Integer getPickUpRestaurant() {
+        return pickUpRestaurant;
+    }
+
+    public void setPickUpRestaurant(Integer pickUpRestaurant) {
+        this.pickUpRestaurant = pickUpRestaurant;
+    }
 }

@@ -165,6 +165,15 @@ public class Utils {
         return time;
     }
 
+
+    public static String getDeliveryTime(String date) throws ParseException {
+        Date d = new SimpleDateFormat("yyyy-mm-dd HH:mm", Locale.ENGLISH).parse(date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        String time = new SimpleDateFormat("hh:mm aaa").format(cal.getTime());
+        return time;
+    }
+
     public static void print(String tag, String message) {
         if (showLog) {
             Log.v(tag, message);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Oyola Restaurant</string>
+    <string name="app_name" translatable="false">Oyola Kitchen</string>
 
     <!-- SignUp -->
     <string name="first_name">First name</string>
@@ -167,12 +167,13 @@
     <string name="product_">%s(%d x %s)</string>
     <string name="order_delivery_time_description">Enter the order preparation time ?</string>
     <string name="order_delivery_time">Order delivery time</string>
+    <string name="delivery_time">Delivery time</string>
     <string name="okay">Okay</string>
     <string name="please_enter_delivery_time">Please enter delivery time</string>
     <string name="order_ready_time">Order Ready Time must be greater than or equal-to 3 min</string>
     <string name="order">Order</string>
     <string name="orders">Orders</string>
-    <string name="are_you_sure_want_to_cancel_the_order">Are you sure want to canel the order?</string>
+    <string name="are_you_sure_want_to_cancel_the_order">Are you sure want to cancel the order?</string>
     <string name="please_enter_addons_name">Please enter Addons name</string>
     <string name="addons_added_successfully">Addons added Successfully</string>
     <string name="addons_updated_successfully">Addons updated Successfully</string>
@@ -297,4 +298,18 @@
     <string name="delivery">Delivery</string>
     <string name="select_images">Select Images</string>
     <string name="write_description">Write Description&#8230;</string>
+    <string name="order_ready">Order Ready</string>
+    <string name="deliver_order">Deliver Order</string>
+    <string name="ready_order_content">Please make sure order is ready?</string>
+    <string name="amount_to_pay">"Amount to Pay"</string>
+    <string name="otp">Otp</string>
+    <string name="enter_otp">Please enter otp</string>
+    <string name="full_amount">Please enter full amount</string>
+    <string name="enter_the_amount_paid">Enter the amount paid</string>
+    <string name="balance">"Balance"</string>
+    <string name="paid">"Paid"</string>
+    <string name="user">"User"</string>
+    <string name="invalid_otp">Please enter valid OTP</string>
+    <string name="manage_order">Manage Orders</string>
+
 </resources>

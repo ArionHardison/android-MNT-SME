@@ -44,7 +44,6 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
         setContentView(R.layout.activity_splash);
         FirebaseApp.initializeApp(this);
 
-
         context = SplashActivity.this;
         activity = SplashActivity.this;
         connectionHelper = new ConnectionHelper(context);
