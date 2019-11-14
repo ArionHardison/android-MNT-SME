@@ -180,6 +180,9 @@ public interface ApiInterface {
     @GET("api/shop/transporterlist")
     Call<List<Transporter>> getTransporter();
 
+    @GET("api/shop/cuisines")
+    Call<List<Cuisine>> getImages();
+
 //    @GET("api/user/ongoing/order")
 //    Call<List<Order>> getOngoingOrders();
 //

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/border_bottom"
+                android:orientation="vertical"
+                android:padding="@dimen/_7sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/bank_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/colorSecondaryText" />
+
+                <EditText
+                    android:id="@+id/edit_bank_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:enabled="true"
+                    android:hint="@string/bank_name"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/border_bottom"
+                android:orientation="vertical"
+                android:padding="@dimen/_7sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/account_number"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/colorSecondaryText" />
+
+                <EditText
+                    android:id="@+id/edit_acc_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:enabled="true"
+                    android:hint="@string/account_number"
+                    android:inputType="number"
+                    android:imeOptions="actionNext"
+                    android:padding="12dp"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/border_bottom"
+                android:orientation="vertical"
+                android:padding="@dimen/_7sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/account_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/colorSecondaryText" />
+
+                <EditText
+                    android:id="@+id/edit_holder_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:enabled="true"
+                    android:hint="@string/account_name"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:padding="12dp"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/border_bottom"
+                android:orientation="vertical"
+                android:padding="@dimen/_7sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/routing_number"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/colorSecondaryText" />
+
+                <EditText
+                    android:id="@+id/edit_routing_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:enabled="true"
+                    android:hint="@string/routing_number"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"
+                    android:padding="12dp"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_medium" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_15sdp"
+                android:layout_weight="1"
+                android:text="@string/submit"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

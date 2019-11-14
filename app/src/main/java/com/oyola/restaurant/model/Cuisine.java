@@ -3,6 +3,8 @@ package com.oyola.restaurant.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by Tamil on 3/16/2018.
  */
@@ -18,6 +20,9 @@ public class Cuisine {
     @SerializedName("pivot")
     @Expose
     private Pivot pivot;
+    @SerializedName("image_gallery")
+    @Expose
+    private List<ImageGallery> imageGallery;
 
     private boolean selected = false;
 
@@ -51,5 +56,13 @@ public class Cuisine {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public List<ImageGallery> getImageGallery() {
+        return imageGallery;
+    }
+
+    public void setImageGallery(List<ImageGallery> imageGallery) {
+        this.imageGallery = imageGallery;
     }
 }

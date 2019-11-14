@@ -46,7 +46,8 @@
     <string name="search_here">Search here</string>
     <string name="logout">Logout</string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="edit_restaurant">Edit Restaurant</string>
+    <string name="edit_restaurant">Edit Kitchen</string>
+    <string name="edit_bank">Edit bank</string>
     <string name="edit_timing">Edit Timing</string>
     <string name="deliveries">Deliveries</string>
     <string name="change_password">Change Password</string>
@@ -68,7 +69,7 @@
     <string name="delete_account">Delete Account</string>
     <string name="history">History</string>
 
-    <string name="restaurant">Restaurant</string>
+    <string name="restaurant">Kitchen</string>
     <string name="add_ons">Add-ons</string>
     <string name="category">Category</string>
     <string name="product">Product</string>
@@ -113,7 +114,7 @@
     <string name="new_password">New Password</string>
 
     <!--    Edit Restaurant Activity-->
-    <string name="is_this_a_pure_veg_restaurant">Is this a pure veg restaurant?</string>
+    <string name="is_this_a_pure_veg_restaurant">Is this a pure veg kitchen?</string>
     <string name="min_amount">Min Amount</string>
     <string name="offer_in_percentage">Offer In Percentage</string>
     <string name="maximum_delivery_time">Maximum Delivery Time</string>
@@ -199,9 +200,9 @@
 
     <!--<string name="splash_tomoeats_partner">TOMOEATS\nRestaurant</string>-->
     <string name="splash_tomoeats_partner">TOMOEATS\nPartner</string>
-    <string name="restaurant_updated_successfully">Restaurant Updated Successfully</string>
+    <string name="restaurant_updated_successfully">Kitchen Updated Successfully</string>
     <string name="password_updated_successfully">Password Updated Successfully</string>
-    <string name="restaurant_timing_updated_successfully">Restaurant Timing Updated Successfully</string>
+    <string name="restaurant_timing_updated_successfully">Kitchen Timing Updated Successfully</string>
     <string name="action_save">Save</string>
     <string name="select_delievery_person">Select Delivery Person</string>
     <string name="item_order_price">Price</string>
@@ -285,7 +286,7 @@
     <string name="mins">Mins</string>
     <string name="status_ongoing">Ongoing</string>
     <string name="service_tax">Service Tax</string>
-    <string name="delete_restaurents">Are you sure you want to delete this restaurant ?</string>
+    <string name="delete_restaurents">Are you sure you want to delete this kitchen ?</string>
     <string name="alert_log_out">Would you like to logout ?</string>
     <string name="_at">at</string>
     <string name="selectDayError">Please add atleast a day.</string>
@@ -311,5 +312,18 @@
     <string name="user">"User"</string>
     <string name="invalid_otp">Please enter valid OTP</string>
     <string name="manage_order">Manage Orders</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="account_name">Account Holder Name</string>
+    <string name="account_number">Account Number</string>
+    <string name="routing_number">Routing Number</string>
+    <string name="enter_bank_name">Please enter bank name</string>
+    <string name="enter_account_number">Please enter account number</string>
+    <string name="enter_holder_name">Please enter account holder name</string>
+    <string name="enter_routing_number">Please enter routing number</string>
+    <string name="bank_details_updated">Bank details updated successfully</string>
+    <string name="image_mail_alert">Can\'t find your desired image, Send your image to below email id</string>
+    <string name="cant_find_image">Can\'t find your desired image</string>
+    <string name="bank_details">Bank Details</string>
+    <string name="library">Library</string>
 
 </resources>

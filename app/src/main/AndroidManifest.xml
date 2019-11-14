@@ -54,6 +54,17 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
+
+        <activity
+            android:name="com.oyola.restaurant.activity.ImageGalleryActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name="com.oyola.restaurant.activity.BankDetailActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait"
+             />
         <activity
             android:name="com.oyola.restaurant.activity.EditProfileActivity"
             android:configChanges="screenSize"

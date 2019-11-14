@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
+import com.oyola.restaurant.activity.BankDetailActivity;
 import com.oyola.restaurant.activity.ChangePasswordActivity;
 import com.oyola.restaurant.activity.DeliveriesActivity;
 import com.oyola.restaurant.activity.EditRestaurantActivity;
@@ -91,6 +92,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             context.startActivity(new Intent(context, EditRestaurantActivity.class));
         } else if (title.equalsIgnoreCase(context.getString(R.string.edit_timing))) {
             Intent intent = new Intent(context, RestaurantTimingActivity.class);
+            intent.putExtra("from", "Settings");
+            context.startActivity(intent);
+        }else if (title.equalsIgnoreCase(context.getString(R.string.edit_bank))) {
+            Intent intent = new Intent(context, BankDetailActivity.class);
             intent.putExtra("from", "Settings");
             context.startActivity(intent);
         } else if (title.equalsIgnoreCase(context.getString(R.string.deliveries))) {

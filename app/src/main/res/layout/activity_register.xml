@@ -124,15 +124,17 @@
                     android:textSize="@dimen/text_tiny" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/imageRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layoutManager="android.support.v7.widget.GridLayoutManager"
                     app:spanCount="4"
-                    tools:itemCount="7" />
+                    tools:itemCount="8" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -160,6 +162,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"

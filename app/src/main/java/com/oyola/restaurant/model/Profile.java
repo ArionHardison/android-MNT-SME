@@ -90,6 +90,10 @@ public class Profile {
     @SerializedName("country_code")
     @Expose
     private String country_code = "";
+
+    @SerializedName("bank")
+    @Expose
+    private BankDetails bank;
     @SerializedName("deliveryoption")
     @Expose
     private List<DeliveryOption> deliveryOptionList=null;
@@ -308,6 +312,14 @@ public class Profile {
 
     public void setDeliveryOptionList(List<DeliveryOption> deliveryOptionList) {
         this.deliveryOptionList = deliveryOptionList;
+    }
+
+    public BankDetails getBank() {
+        return bank;
+    }
+
+    public void setBank(BankDetails bank) {
+        this.bank = bank;
     }
 }
 

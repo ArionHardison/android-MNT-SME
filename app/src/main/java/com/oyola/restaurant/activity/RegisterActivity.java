@@ -11,6 +11,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.oyola.restaurant.BuildConfig;
 import com.oyola.restaurant.R;
+import com.oyola.restaurant.adapter.ImageGalleryAdapter;
 import com.oyola.restaurant.countrypicker.Country;
 import com.oyola.restaurant.countrypicker.CountryPicker;
 import com.oyola.restaurant.countrypicker.CountryPickerListener;
@@ -44,6 +47,7 @@ import com.oyola.restaurant.helper.CustomDialog;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.helper.SharedHelper;
 import com.oyola.restaurant.model.Cuisine;
+import com.oyola.restaurant.model.ImageGallery;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.Utils;
@@ -64,11 +68,14 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.oyola.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 import static com.oyola.restaurant.utils.TextUtils.isValidEmail;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements ImageGalleryAdapter.ImageSelectedListener {
 
     @BindView(R.id.et_name)
     EditText etName;
@@ -141,16 +148,23 @@ public class RegisterActivity extends AppCompatActivity {
 
     @BindView(R.id.etDescription)
     EditText etDescription;
+    @BindView(R.id.imageRecyclerView)
+    RecyclerView image_rv;
     String country_code;
     LatLng location;
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    int PICK_IMAGE_REQUEST = 100;
     int CUISINE_REQUEST_CODE = 2;
     int SHOP_IMAGE = 0;
     int SHOP_BANNER = 1;
     int CT_TYPE = SHOP_IMAGE;
     private CountryPicker mCountryPicker;
     String status;
+    String mSelectedImageId ;
     List<String> mRestraurantOffer = new ArrayList<>();
+    ArrayList<ImageGallery> mImageList = new ArrayList<>();
+    ImageGalleryAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +195,7 @@ public class RegisterActivity extends AppCompatActivity {
                 etOfferInPercentage.setText("0");
         });
 
+        getImageGallery();
         /*if (BuildConfig.DEBUG) {
             etName.setText("Prasanth");
             etEmail.setText("prasanth.p@appoets.com");
@@ -215,6 +230,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         cuisine.setText(cuisneStr.toString());
+
     }
 
     public void bindStatus(CharSequence s) {
@@ -284,6 +300,19 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
             Log.d(TAG, "Failed to complete device UDID");
         }
+    }
+
+    private void setupAdapter() {
+        List<ImageGallery> mGalleryList;
+        if (mImageList.size() > 7) {
+            mGalleryList = mImageList.subList(0, 6);
+        } else {
+            mGalleryList = mImageList;
+        }
+        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true);
+        image_rv.setLayoutManager(new GridLayoutManager(context, 4));
+        image_rv.setHasFixedSize(true);
+        image_rv.setAdapter(mAdapter);
     }
 
     @OnClick({R.id.cuisine, R.id.avatar, R.id.country_picker_lay, R.id.address_lay, R.id.register_btn,
@@ -392,8 +421,8 @@ public class RegisterActivity extends AppCompatActivity {
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
         else if (!confirmPassword.equals(password))
             Utils.displayMessage(activity, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
-        else if (GlobalData.REGISTER_AVATAR == null)
-            Utils.displayMessage(activity, getResources().getString(R.string.please_select_avatar));
+//        else if (GlobalData.REGISTER_AVATAR == null)
+//            Utils.displayMessage(activity, getResources().getString(R.string.please_select_avatar));
         else if (offer_min_amount.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_amount));
         else if (delivery_time.isEmpty())
@@ -435,6 +464,7 @@ public class RegisterActivity extends AppCompatActivity {
                     status = "active";
                 }
                 map.put("status", RequestBody.create(MediaType.parse("text/plain"), status));
+                map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
 
                 //Stored here for login
                 GlobalData.email = email;
@@ -484,6 +514,9 @@ public class RegisterActivity extends AppCompatActivity {
         if (requestCode == CUISINE_REQUEST_CODE) if (resultCode == 1) {
             // 1 is an arbitrary number, can be any int
             // Now do what you need to do after the dialog dismisses.
+        }
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            mSelectedImageId = data.getExtras().getString("image_id");
         }
 
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
@@ -545,6 +578,44 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onImageSelected(ImageGallery mGallery) {
+        mSelectedImageId = String.valueOf(mGallery.getId());
+    }
+
+    @Override
+    public void navigateToImageScreen() {
+        Intent intent = new Intent(context, ImageGalleryActivity.class);
+        intent.putExtra("image_list", mImageList);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    private void getImageGallery() {
+        Call<List<Cuisine>> call = apiInterface.getImages();
+        call.enqueue(new Callback<List<Cuisine>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Cuisine>> call, @NonNull Response<List<Cuisine>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().size() > 0) {
+                        mImageList = new ArrayList<>();
+                        for (int i = 0; i < response.body().size(); i++) {
+                            if (response.body().get(i).getImageGallery() != null) {
+                                mImageList.addAll(response.body().get(i).getImageGallery());
+                            }
+                        }
+                        setupAdapter();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Cuisine>> call, @NonNull Throwable t) {
+                Utils.displayMessage(RegisterActivity.this, getString(R.string.something_went_wrong));
+            }
+        });
+
     }
 
 //    showTimePicker("OPEN");
