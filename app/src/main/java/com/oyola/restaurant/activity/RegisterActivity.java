@@ -160,7 +160,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     int CT_TYPE = SHOP_IMAGE;
     private CountryPicker mCountryPicker;
     String status;
-    String mSelectedImageId ;
+    String mSelectedImageId = "" ;
     List<String> mRestraurantOffer = new ArrayList<>();
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
     ImageGalleryAdapter mAdapter;
@@ -334,7 +334,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
             case R.id.country_picker_lay:
                 break;
             case R.id.address_lay:
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME);
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME,Place.Field.ADDRESS);
                 // Start the autocomplete intent.
                 Intent intent = new Autocomplete.
                         IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
@@ -506,7 +506,11 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) if (resultCode == RESULT_OK) {
 //            Place place = PlaceAutocomplete.getPlace(this, data);
             Place place = Autocomplete.getPlaceFromIntent(data);
-            txtAddress.setText(place.getName());
+            if (place.getAddress().toString().contains(place.getName().toString())) {
+                txtAddress.setText(place.getAddress());
+            } else {
+                txtAddress.setText(place.getName() + ", " + place.getAddress());
+            }
             location = place.getLatLng();
             Log.i(TAG, "Place: " + place.getName());
         }
