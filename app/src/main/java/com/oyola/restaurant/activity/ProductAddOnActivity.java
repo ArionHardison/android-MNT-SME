@@ -60,6 +60,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
     MaterialSpinner spinnerDiscountType;
     ArrayList<String> lstDiscountType = new ArrayList<String>();
     String strDiscountType = "";
+    String mImageGalleryId = "";
     String strProductPrice = "", strProductDiscount = "";
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
@@ -204,6 +205,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("shop", RequestBody.create(MediaType.parse("text/plain"), shop_id));
         params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
+        params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
         for (int i = 0; i < addOnList.size(); i++) {
             params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
             params.put("addons_price[" + i + "]", RequestBody.create(MediaType.parse("text/plain"),

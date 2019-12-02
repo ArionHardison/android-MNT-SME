@@ -325,5 +325,6 @@
     <string name="cant_find_image">Can\'t find your desired image</string>
     <string name="bank_details">Bank Details</string>
     <string name="library">Library</string>
+    <string name="existing_image">Existing Image</string>
 
 </resources>

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     tools:context="com.oyola.restaurant.activity.AddProductActivity">
 
@@ -183,12 +184,43 @@
                     android:layout_height="wrap_content" />
             </RadioGroup>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/select_images"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_tiny" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/imageRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:spanCount="4"
+                    tools:itemCount="8" />
+
+            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lay_existing_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="@string/image_upload"
+                android:text="@string/existing_image"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
 
@@ -207,7 +239,7 @@
                     android:src="@drawable/ic_placeholder_image_upload" />
 
             </RelativeLayout>
-
+        </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.oyola.restaurant.R;
+import com.oyola.restaurant.adapter.ImageGalleryAdapter;
 import com.oyola.restaurant.fragment.CuisineSelectFragment;
 import com.oyola.restaurant.helper.ConnectionHelper;
 import com.oyola.restaurant.helper.CustomDialog;
@@ -37,6 +40,7 @@ import com.oyola.restaurant.messages.ProductMessage;
 import com.oyola.restaurant.model.Category;
 import com.oyola.restaurant.model.Cuisine;
 import com.oyola.restaurant.model.Image;
+import com.oyola.restaurant.model.ImageGallery;
 import com.oyola.restaurant.model.Product;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.model.product.ProductResponse;
@@ -63,7 +67,7 @@ import retrofit2.Response;
 
 import static com.oyola.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 
-public class AddProductActivity extends AppCompatActivity {
+public class AddProductActivity extends AppCompatActivity implements ImageGalleryAdapter.ImageSelectedListener {
 
     @BindView(R.id.back_img)
     ImageView backImg;
@@ -101,6 +105,12 @@ public class AddProductActivity extends AppCompatActivity {
     RadioButton rbVeg;
     @BindView(R.id.rbNonVeg)
     RadioButton rbNonVeg;
+    @BindView(R.id.imageRecyclerView)
+    RecyclerView image_rv;
+    @BindView(R.id.lay_existing_image)
+    LinearLayout layoutExistingImage;
+
+    public static final int PICK_IMAGE_REQUEST = 100;
 
     Context context;
     Activity activity;
@@ -115,11 +125,14 @@ public class AddProductActivity extends AppCompatActivity {
     ArrayList<String> lstCategoryNames = new ArrayList<String>();
     HashMap<String, Integer> hshCategory = new HashMap<>();
     ArrayList<String> lstStatus = new ArrayList<String>();
-    File productImageFile, featuredImageFile;
+    File productImageFile = null, featuredImageFile;
     ProductResponse productResponse;
     int selected_pos = 0;
     private String foodType;
-
+    String mSelectedImageId = "";
+    boolean isImageChanged = false;
+    ArrayList<ImageGallery> mImageList = new ArrayList<>();
+    ImageGalleryAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +152,8 @@ public class AddProductActivity extends AppCompatActivity {
         activity = AddProductActivity.this;
         connectionHelper = new ConnectionHelper(context);
         customDialog = new CustomDialog(context);
-
+        customDialog.show();
+        getImageGallery();
         setStatusSpinner();
 
         if (connectionHelper.isConnectingToInternet())
@@ -183,7 +197,7 @@ public class AddProductActivity extends AppCompatActivity {
                     productResponse.getImages().size() > 0) {
                 List<Image> imageList = productResponse.getImages();
                 String url = imageList.get(0).getUrl();
-
+                layoutExistingImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .asBitmap()
                         .load(url)
@@ -191,7 +205,7 @@ public class AddProductActivity extends AppCompatActivity {
                             @Override
                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                 productImg.setImageBitmap(resource);
-                                productImageFile = Utils.storeInFile(context, resource, "product_image.png", "png");
+//                                productImageFile = Utils.storeInFile(context, resource, "product_image.png", "png");
                             }
                         });
 
@@ -300,6 +314,47 @@ public class AddProductActivity extends AppCompatActivity {
         }
     }
 
+    private void getImageGallery() {
+        Call<List<Cuisine>> call = apiInterface.getImages();
+        call.enqueue(new Callback<List<Cuisine>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Cuisine>> call, @NonNull Response<List<Cuisine>> response) {
+                customDialog.dismiss();
+                if (response.isSuccessful()) {
+                    if (response.body().size() > 0) {
+                        mImageList = new ArrayList<>();
+                        for (int i = 0; i < response.body().size(); i++) {
+                            if (response.body().get(i).getImageGallery() != null) {
+                                mImageList.addAll(response.body().get(i).getImageGallery());
+                            }
+                        }
+                        setupAdapter();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Cuisine>> call, @NonNull Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(AddProductActivity.this, getString(R.string.something_went_wrong));
+            }
+        });
+
+    }
+
+    private void setupAdapter() {
+        List<ImageGallery> mGalleryList;
+        if (mImageList.size() > 7) {
+            mGalleryList = mImageList.subList(0, 7);
+        } else {
+            mGalleryList = mImageList;
+        }
+        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true);
+        image_rv.setLayoutManager(new GridLayoutManager(context, 4));
+        image_rv.setHasFixedSize(true);
+        image_rv.setAdapter(mAdapter);
+    }
+
     @OnClick({R.id.back_img, R.id.rlProductImage, R.id.rlFeaturedImage, R.id.next_btn, R.id.cuisine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -392,6 +447,9 @@ public class AddProductActivity extends AppCompatActivity {
         message.setStrProductStatus(strStatus.equals("Enabled") ? "1" : "0");
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
+        if (isImageChanged) {
+            message.setImageGalleryId(mSelectedImageId);
+        }
         if (rbYes.isChecked()) {
             message.setIsFeatured("1");
         } else {
@@ -523,6 +581,12 @@ public class AddProductActivity extends AppCompatActivity {
 
             }
         });
+
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            mSelectedImageId = data.getExtras().getString("image_id");
+            isImageChanged = true;
+        }
     }
 
     public void bindCuisine() {
@@ -535,6 +599,20 @@ public class AddProductActivity extends AppCompatActivity {
         }
 
         cuisine.setText(cuisneStr.toString());
+    }
+
+
+    @Override
+    public void onImageSelected(ImageGallery mGallery) {
+        mSelectedImageId = String.valueOf(mGallery.getId());
+        isImageChanged = true;
+    }
+
+    @Override
+    public void navigateToImageScreen() {
+        Intent intent = new Intent(context, ImageGalleryActivity.class);
+        intent.putExtra("image_list", mImageList);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
     class CommonOnItemSelectListener implements MaterialSpinner.OnItemSelectedListener {

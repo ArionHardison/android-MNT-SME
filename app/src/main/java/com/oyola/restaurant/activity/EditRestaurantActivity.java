@@ -1,6 +1,7 @@
 package com.oyola.restaurant.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -9,6 +10,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +33,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.oyola.restaurant.R;
+import com.oyola.restaurant.adapter.ImageGalleryAdapter;
 import com.oyola.restaurant.controller.GetProfile;
 import com.oyola.restaurant.controller.ProfileListener;
 import com.oyola.restaurant.countrypicker.Country;
@@ -41,6 +45,7 @@ import com.oyola.restaurant.helper.ConnectionHelper;
 import com.oyola.restaurant.helper.CustomDialog;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.model.Cuisine;
+import com.oyola.restaurant.model.ImageGallery;
 import com.oyola.restaurant.model.Profile;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
@@ -70,7 +75,7 @@ import retrofit2.Response;
 import static com.oyola.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 import static com.oyola.restaurant.utils.TextUtils.isValidEmail;
 
-public class EditRestaurantActivity extends AppCompatActivity implements ProfileListener {
+public class EditRestaurantActivity extends AppCompatActivity implements ProfileListener, ImageGalleryAdapter.ImageSelectedListener {
 
     @BindView(R.id.back_img)
     ImageView backImg;
@@ -136,7 +141,9 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     CheckBox chkTakeaway;
     @BindView(R.id.delivery)
     CheckBox chkDelivery;
-
+    @BindView(R.id.imageRecyclerView)
+    RecyclerView image_rv;
+    public static final int PICK_IMAGE_REQUEST = 100;
     ConnectionHelper connectionHelper;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
@@ -160,6 +167,9 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     boolean mIsDelivery = false;
     boolean mIsTakeaway = false;
     List<String> mRestraurantOffer = new ArrayList<>();
+    String mSelectedImageId = "";
+    ArrayList<ImageGallery> mImageList = new ArrayList<>();
+    ImageGalleryAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +179,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         Places.initialize(EditRestaurantActivity.this, getResources().getString(R.string.google_maps_key));
         initViews();
         callProfile();
+        customDialog.show();
+        getImageGallery();
     }
 
     private void initViews() {
@@ -261,8 +273,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 mCountryPicker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
                 break;
             case R.id.shop_img:
-                CT_TYPE = SHOP_IMAGE;
-                galleryIntent(SHOP_IMAGE);
+//                CT_TYPE = SHOP_IMAGE;
+//                galleryIntent(SHOP_IMAGE);
                 break;
             case R.id.shop_banner:
                 CT_TYPE = SHOP_BANNER;
@@ -370,7 +382,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
                 map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
-
+                map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"),mSelectedImageId));
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
                 } else if (tvStatus.getText().toString().equalsIgnoreCase("banned")) {
@@ -509,7 +521,9 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         etDescription.setText(profile.getDescription());
         txtAddress.setText(profile.getMapsAddress());
         etLandmark.setText(profile.getAddress());
-
+        if (profile.getImageGalleyId() != null) {
+            mSelectedImageId = String.valueOf(profile.getImageGalleyId());
+        }
         if (profile.getPureVeg() == 1) {
             radioYes.setChecked(true);
             radioNo.setChecked(false);
@@ -595,6 +609,10 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             // Now do what you need to do after the dialog dismisses.
         }
 
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            mSelectedImageId = data.getExtras().getString("image_id");
+        }
+
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
@@ -640,4 +658,57 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         });
     }
 
+    private void getImageGallery() {
+        Call<List<Cuisine>> call = apiInterface.getImages();
+        call.enqueue(new Callback<List<Cuisine>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Cuisine>> call, @NonNull Response<List<Cuisine>> response) {
+                customDialog.dismiss();
+                if (response.isSuccessful()) {
+                    if (response.body().size() > 0) {
+                        mImageList = new ArrayList<>();
+                        for (int i = 0; i < response.body().size(); i++) {
+                            if (response.body().get(i).getImageGallery() != null) {
+                                mImageList.addAll(response.body().get(i).getImageGallery());
+                            }
+                        }
+                        setupAdapter();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Cuisine>> call, @NonNull Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.something_went_wrong));
+            }
+        });
+
+    }
+
+    private void setupAdapter() {
+        List<ImageGallery> mGalleryList;
+        if (mImageList.size() > 7) {
+            mGalleryList = mImageList.subList(0, 7);
+        } else {
+            mGalleryList = mImageList;
+        }
+        mAdapter = new ImageGalleryAdapter(mGalleryList, this, this, true);
+        image_rv.setLayoutManager(new GridLayoutManager(this, 4));
+        image_rv.setHasFixedSize(true);
+        image_rv.setAdapter(mAdapter);
+    }
+
+
+    @Override
+    public void onImageSelected(ImageGallery mGallery) {
+        mSelectedImageId = String.valueOf(mGallery.getId());
+    }
+
+    @Override
+    public void navigateToImageScreen() {
+        Intent intent = new Intent(EditRestaurantActivity.this, ImageGalleryActivity.class);
+        intent.putExtra("image_list", mImageList);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
 }

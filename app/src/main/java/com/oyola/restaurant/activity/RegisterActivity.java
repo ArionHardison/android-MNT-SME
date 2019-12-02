@@ -194,20 +194,8 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
             if (!hasFocus && etOfferInPercentage.getText().toString().trim().isEmpty())
                 etOfferInPercentage.setText("0");
         });
-
+        customDialog.show();
         getImageGallery();
-        /*if (BuildConfig.DEBUG) {
-            etName.setText("Prasanth");
-            etEmail.setText("prasanth.p@appoets.com");
-            etMobile.setText("7904985211");
-            etPassword.setText("123456");
-            etConfirmPassword.setText("123456");
-            tvMinAmount.setText("10");
-            etOfferInPercentage.setText("5");
-            tvMaxTimeDelivery.setText("1");
-            etDescription.setText("Awesome food with awesome price");
-            etLandmark.setText("Next to bank");
-        }*/
 
     }
 
@@ -305,7 +293,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     private void setupAdapter() {
         List<ImageGallery> mGalleryList;
         if (mImageList.size() > 7) {
-            mGalleryList = mImageList.subList(0, 6);
+            mGalleryList = mImageList.subList(0, 7);
         } else {
             mGalleryList = mImageList;
         }
@@ -601,6 +589,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
         call.enqueue(new Callback<List<Cuisine>>() {
             @Override
             public void onResponse(@NonNull Call<List<Cuisine>> call, @NonNull Response<List<Cuisine>> response) {
+                customDialog.dismiss();
                 if (response.isSuccessful()) {
                     if (response.body().size() > 0) {
                         mImageList = new ArrayList<>();
@@ -616,6 +605,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
 
             @Override
             public void onFailure(@NonNull Call<List<Cuisine>> call, @NonNull Throwable t) {
+                customDialog.dismiss();
                 Utils.displayMessage(RegisterActivity.this, getString(R.string.something_went_wrong));
             }
         });

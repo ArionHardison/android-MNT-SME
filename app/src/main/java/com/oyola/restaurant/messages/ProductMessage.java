@@ -12,6 +12,7 @@ public class ProductMessage {
     private File featuredImageFile;
     private String strCuisineId = "";
     private String isFeatured = "";
+    private String imageGalleryId = "";
 
     private String strSelectedFoodType = "";
 
@@ -95,4 +96,11 @@ public class ProductMessage {
         return isFeatured;
     }
 
+    public String getImageGalleryId() {
+        return imageGalleryId;
+    }
+
+    public void setImageGalleryId(String imageGalleryId) {
+        this.imageGalleryId = imageGalleryId;
+    }
 }

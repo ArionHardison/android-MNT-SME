@@ -91,6 +91,10 @@ public class Profile {
     @Expose
     private String country_code = "";
 
+    @SerializedName("image_gallery_id")
+    @Expose
+    private Integer imageGalleyId ;
+
     @SerializedName("bank")
     @Expose
     private BankDetails bank;
@@ -320,6 +324,14 @@ public class Profile {
 
     public void setBank(BankDetails bank) {
         this.bank = bank;
+    }
+
+    public Integer getImageGalleyId() {
+        return imageGalleyId;
+    }
+
+    public void setImageGalleyId(Integer imageGalleyId) {
+        this.imageGalleyId = imageGalleyId;
     }
 }
 

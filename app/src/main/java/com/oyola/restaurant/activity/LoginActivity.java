@@ -81,12 +81,6 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         customDialog = new CustomDialog(context);
 
         etPasswordEyeImg.setTag(1);
-
-//        if (BuildConfig.DEBUG){
-//            etEmail.setText("sundaram@appoets.com");
-//            etPassword.setText("1234567");
-//        }
-
     }
 
     @OnClick({R.id.et_password_eye_img, R.id.login_btn, R.id.txt_register, R.id.txt_forgot_password})

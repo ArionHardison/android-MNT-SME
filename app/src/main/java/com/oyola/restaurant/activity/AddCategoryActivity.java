@@ -12,11 +12,14 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,12 +29,15 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.oyola.restaurant.R;
+import com.oyola.restaurant.adapter.ImageGalleryAdapter;
 import com.oyola.restaurant.helper.ConnectionHelper;
 import com.oyola.restaurant.helper.CustomDialog;
 import com.oyola.restaurant.helper.SharedHelper;
 //import com.comida.outlet.imagecompressor.Compressor;
 import com.oyola.restaurant.model.Category;
+import com.oyola.restaurant.model.Cuisine;
 import com.oyola.restaurant.model.Image;
+import com.oyola.restaurant.model.ImageGallery;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.Constants;
@@ -58,7 +64,7 @@ import id.zelory.compressor.Compressor;
 
 import static com.oyola.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 
-public class AddCategoryActivity extends AppCompatActivity {
+public class AddCategoryActivity extends AppCompatActivity implements ImageGalleryAdapter.ImageSelectedListener {
 
     @BindView(R.id.back_img)
     ImageView backImg;
@@ -76,16 +82,24 @@ public class AddCategoryActivity extends AppCompatActivity {
     Button saveBtn;
     @BindView(R.id.category_order_picker)
     EditText categoryOrderPicker;
-
+    @BindView(R.id.imageRecyclerView)
+    RecyclerView image_rv;
+    @BindView(R.id.lay_existing_image)
+    LinearLayout layoutExistingImage;
+    public static final int PICK_IMAGE_REQUEST = 100;
     Context context;
     Activity activity;
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    File categoryImageFile;
+    File categoryImageFile=null;
     ArrayList<String> lstItems = new ArrayList<>();
     String strCategoryName, strDescription, strCategoryOrder, strStatus;
     private Category categoryDetails;
+    String mSelectedImageId = "";
+    boolean isImageChanged = false;
+    ArrayList<ImageGallery> mImageList = new ArrayList<>();
+    ImageGalleryAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +134,8 @@ public class AddCategoryActivity extends AppCompatActivity {
             }
             return false;
         });
-
+        customDialog.show();
+        getImageGallery();
     }
 
     private void setSpinnerAdpater() {
@@ -132,6 +147,47 @@ public class AddCategoryActivity extends AppCompatActivity {
         });
     }
 
+    private void getImageGallery() {
+        Call<List<Cuisine>> call = apiInterface.getImages();
+        call.enqueue(new Callback<List<Cuisine>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Cuisine>> call, @NonNull Response<List<Cuisine>> response) {
+                customDialog.dismiss();
+                if (response.isSuccessful()) {
+                    if (response.body().size() > 0) {
+                        mImageList = new ArrayList<>();
+                        for (int i = 0; i < response.body().size(); i++) {
+                            if (response.body().get(i).getImageGallery() != null) {
+                                mImageList.addAll(response.body().get(i).getImageGallery());
+                            }
+                        }
+                        setupAdapter();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Cuisine>> call, @NonNull Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(AddCategoryActivity.this, getString(R.string.something_went_wrong));
+            }
+        });
+
+    }
+
+    private void setupAdapter() {
+        List<ImageGallery> mGalleryList;
+        if (mImageList.size() > 7) {
+            mGalleryList = mImageList.subList(0, 7);
+        } else {
+            mGalleryList = mImageList;
+        }
+        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true);
+        image_rv.setLayoutManager(new GridLayoutManager(context, 4));
+        image_rv.setHasFixedSize(true);
+        image_rv.setAdapter(mAdapter);
+    }
+
     @OnClick({R.id.back_img, R.id.category_img, R.id.save_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -139,7 +195,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.category_img:
-                galleryIntent();
+//                galleryIntent();
                 break;
             case R.id.save_btn:
                 if (validateFields()) {
@@ -151,6 +207,9 @@ public class AddCategoryActivity extends AppCompatActivity {
                         params.put("status", RequestBody.create(MediaType.parse("text/plain"), strStatus.toLowerCase()));
                         params.put("shop_id", RequestBody.create(MediaType.parse("text/plain"), shop_id));
                         params.put("position", RequestBody.create(MediaType.parse("text/plain"), strCategoryOrder));
+                        if (isImageChanged) {
+                            params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
+                        }
                         addCategory(params);
                     } else {
                         Utils.displayMessage(this, getString(R.string.oops_no_internet));
@@ -177,10 +236,11 @@ public class AddCategoryActivity extends AppCompatActivity {
         } else if (strStatus.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.please_select_status));
             return false;
-        } else if (categoryImageFile == null) {
+        }
+        /*else if (categoryImageFile == null) {
             Utils.displayMessage(this, getString(R.string.please_select_category_image));
             return false;
-        }
+        }*/
         return true;
     }
 
@@ -188,11 +248,11 @@ public class AddCategoryActivity extends AppCompatActivity {
         customDialog.show();
         MultipartBody.Part filePart = null;
         if (categoryImageFile != null) {
-            /*try {
+            try {
                 categoryImageFile = new Compressor(context).compressToFile(categoryImageFile);
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
+            }
             filePart = MultipartBody.Part.createFormData("image", categoryImageFile.getName(),
                     RequestBody.create(MediaType.parse("image/*"), categoryImageFile));
         }
@@ -252,6 +312,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         if (categoryDetails.getImages() != null && categoryDetails.getImages().size() > 0) {
             List<Image> images = categoryDetails.getImages();
             if (images != null && images.size() > 0) {
+                layoutExistingImage.setVisibility(View.VISIBLE);
                 String img = images.get(0).getUrl();
                 /*Glide.with(context).load(img)
                         .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(categoryImg);*/
@@ -263,7 +324,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                             @Override
                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                                 categoryImg.setImageBitmap(resource);
-                                categoryImageFile = Utils.storeInFile(context, resource, "category_image.jpg", "jpeg");
+//                                categoryImageFile = Utils.storeInFile(context, resource, "category_image.jpg", "jpeg");
                             }
                         });
             }
@@ -312,8 +373,6 @@ public class AddCategoryActivity extends AppCompatActivity {
 
             @Override
             public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-//                categoryImageFile = imageFiles.get(0);
-
                 try {
                     categoryImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
                 } catch (IOException e) {
@@ -334,6 +393,23 @@ public class AddCategoryActivity extends AppCompatActivity {
 
             }
         });
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            mSelectedImageId = data.getExtras().getString("image_id");
+            isImageChanged = true;
+        }
     }
 
+    @Override
+    public void onImageSelected(ImageGallery mGallery) {
+        mSelectedImageId = String.valueOf(mGallery.getId());
+        isImageChanged = true;
+    }
+
+    @Override
+    public void navigateToImageScreen() {
+        Intent intent = new Intent(context, ImageGalleryActivity.class);
+        intent.putExtra("image_list", mImageList);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
 }
