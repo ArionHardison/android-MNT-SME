@@ -15,6 +15,7 @@ public class ProductMessage {
     private String imageGalleryId = "";
 
     private String strSelectedFoodType = "";
+    boolean isImageChanged;
 
     public String getStrCuisineId() {
         return strCuisineId;
@@ -102,5 +103,13 @@ public class ProductMessage {
 
     public void setImageGalleryId(String imageGalleryId) {
         this.imageGalleryId = imageGalleryId;
+    }
+
+    public boolean isImageChanged() {
+        return isImageChanged;
+    }
+
+    public void setImageChanged(boolean imageChanged) {
+        isImageChanged = imageChanged;
     }
 }

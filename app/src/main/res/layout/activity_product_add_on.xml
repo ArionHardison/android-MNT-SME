@@ -31,7 +31,7 @@
                 android:fontFamily="@font/nunito_semibold"
                 android:text="@string/price"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
+                 />
 
             <EditText
                 android:id="@+id/etPrice"

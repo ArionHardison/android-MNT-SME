@@ -45,7 +45,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Order order = list.get(position);
-        holder.address.setText(order.getAddress().getMapAddress());
+        if (order.getAddress()!= null) {
+            holder.address.setText(order.getAddress().getMapAddress());
+        }
         holder.price.setText(/*context.getString(R.string.currency_value)*/GlobalData.profile.getCurrency() + "" + order.getInvoice().getNet());
 
         //Default Status and color
@@ -54,7 +56,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         if (order.getDispute().equalsIgnoreCase("CREATED")) {
             holder.status.setText(status);
-        } else if (order.getStatus().equals("CANCELLED") || order.getStatus().equals("COMPLETED") ) {
+        } else if (order.getStatus().equals("CANCELLED") || order.getStatus().equals("COMPLETED")) {
             status = "";
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
             holder.status.setText(status);

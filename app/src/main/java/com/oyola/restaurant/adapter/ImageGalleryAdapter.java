@@ -25,8 +25,9 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     Context mContext;
     private int selectedIndex = -1;
     ImageSelectedListener mListener;
-boolean mIsFromRegister=false;
-    public ImageGalleryAdapter(List<ImageGallery> list, Context context, ImageSelectedListener listener,boolean isFrom) {
+    boolean mIsFromRegister = false;
+
+    public ImageGalleryAdapter(List<ImageGallery> list, Context context, ImageSelectedListener listener, boolean isFrom) {
         this.mList = list;
         this.mContext = context;
         this.mListener = listener;
@@ -63,7 +64,7 @@ boolean mIsFromRegister=false;
     public int getItemCount() {
         if (mIsFromRegister) {
             return mList.size() + 1;
-        }else {
+        } else {
             return mList.size();
         }
     }

@@ -21,12 +21,13 @@
         android:fontFamily="@font/nunito_semibold"/>
 
     <TextView
+        android:id="@+id/tvPriceHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Price"
         android:textColor="@color/colorTextBlack"
         android:fontFamily="@font/nunito_semibold"
-        android:textSize="@dimen/_14sdp"/>
+        android:textSize="@dimen/text_tiny"/>
 
     <EditText
         android:id="@+id/etPrice"

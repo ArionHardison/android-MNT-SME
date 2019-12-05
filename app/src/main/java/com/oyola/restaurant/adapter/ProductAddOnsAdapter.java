@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.helper.GlobalData;
@@ -63,14 +64,16 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
             }
         });
         final String prefix = GlobalData.profile.getCurrency()/*activity.getResources().getString(R.string.currency_value)*/;
-        if (!data.getPrice().isEmpty() && !data.getPrice().startsWith(prefix)) {
+        holder.tvPriceHeader.setText("Price (" + prefix + ")");
+        /*if (!data.getPrice().isEmpty() && !data.getPrice().startsWith(prefix)) {
             holder.etPrice.setText(prefix + data.getPrice());
         } else if (!data.getPrice().isEmpty() && data.getPrice().startsWith(prefix)) {
             holder.etPrice.setText(data.getPrice());
         } else {
             holder.etPrice.setText(prefix);
         }
-        Selection.setSelection(holder.etPrice.getText(), holder.etPrice.getText().length());
+        Selection.setSelection(holder.etPrice.getText(), holder.etPrice.getText().length());*/
+        holder.etPrice.setText(data.getPrice());
         holder.etPrice.addTextChangedListener(new GenericTextWatcher(holder.etPrice));
         holder.etPrice.setTag(position);
         holder.ctvAddOnName.setTag(position);
@@ -120,12 +123,14 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         EditText etPrice;
+        TextView tvPriceHeader;
         CheckedTextView ctvAddOnName;
 
         public MyViewHolder(View view) {
             super(view);
 
             etPrice = view.findViewById(R.id.etPrice);
+            tvPriceHeader = view.findViewById(R.id.tvPriceHeader);
             ctvAddOnName = view.findViewById(R.id.ctvAddOnName);
         }
     }
@@ -150,13 +155,16 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if (!editable.toString().startsWith(prefix)) {
+          /*  if (!editable.toString().startsWith(prefix)) {
                 view.setText(prefix);
                 Selection.setSelection(view.getText(), view.getText().length());
             } else {
                 Addon data = list.get((int) view.getTag());
                 data.setPrice(editable.toString());
-            }
+            }*/
+
+            Addon data = list.get((int) view.getTag());
+            data.setPrice(editable.toString());
         }
     }
 

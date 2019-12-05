@@ -206,7 +206,7 @@
     <string name="action_save">Save</string>
     <string name="select_delievery_person">Select Delivery Person</string>
     <string name="item_order_price">Price</string>
-    <string name="currency_value">$</string>
+    <string name="currency_value">AU$</string>
     <string name="currency_value_tag">$ </string>
     <string name="schedule_at">Scheduled at : </string>
     <string name="schedule_at_format">Scheduled at : %1$s %2$s %3$d</string>
@@ -219,12 +219,27 @@
     <string name="order_delivered">Order Delivered</string>
     <string name="order_cancelled">Order Cancelled</string>
 
+
+    <string name="order_placed_new">Order Received</string>
+    <string name="order_scheduled_new">Order Scheduled</string>
+    <string name="order_confirmed_new">Order Accepted</string>
+    <string name="order_processed_new">Being Prepared</string>
+    <string name="order_pickedup_new">Ready for Pickup</string>
+    <string name="order_delivered_new">Arrived</string>
+    <string name="order_cancelled_new">Order Cancelled</string>
+
     <!--Order Flow Description-->
     <string name="description_1">We have received your order.</string>
     <string name="description_2">Your order has been confirmed.</string>
     <string name="description_3">Your food is getting cooked.</string>
     <string name="description_4">Your food is on its way.</string>
     <string name="description_5">Enjoy your meal.</string>
+
+    <string name="description_1_new">Your order has been received.</string>
+    <string name="description_2_new">Your order has been confirmed.</string>
+    <string name="description_3_new">Your order is being prepared.</string>
+    <string name="description_4_new">Your order is ready for pickup.</string>
+    <string name="description_5_new">Your order has arrived successfully.</string>
 
     <!--Product-->
     <string name="error_msg_product_name">Please enter product name</string>

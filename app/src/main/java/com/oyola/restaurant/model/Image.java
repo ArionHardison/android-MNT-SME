@@ -18,6 +18,9 @@ public class Image implements Parcelable {
     @SerializedName("position")
     @Expose
     private Integer position;
+    @SerializedName("image_gallery_id")
+    @Expose
+    private Integer imageGalleryId;
 
 
     protected Image(Parcel in) {
@@ -27,6 +30,12 @@ public class Image implements Parcelable {
         } else {
             position = in.readInt();
         }
+        if (in.readByte() == 0) {
+            imageGalleryId = null;
+        } else {
+            imageGalleryId = in.readInt();
+        }
+
     }
 
     public static final Creator<Image> CREATOR = new Creator<Image>() {
@@ -58,6 +67,14 @@ public class Image implements Parcelable {
     }
 
 
+    public Integer getImageGalleryId() {
+        return imageGalleryId;
+    }
+
+    public void setImageGalleryId(Integer imageGalleryId) {
+        this.imageGalleryId = imageGalleryId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -71,6 +88,12 @@ public class Image implements Parcelable {
         } else {
             dest.writeByte((byte) 1);
             dest.writeInt(position);
+        }
+        if (imageGalleryId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(imageGalleryId);
         }
     }
 }

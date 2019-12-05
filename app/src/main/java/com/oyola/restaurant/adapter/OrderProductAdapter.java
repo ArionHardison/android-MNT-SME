@@ -77,7 +77,7 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
             holder.itemLayout.setVisibility(View.VISIBLE);
             String value = context.getString(R.string.addon_, object.getAddonProduct().getAddon().getName(), object.getQuantity(), GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/object.getAddonProduct().getPrice())/*)*/;
             holder.addonDetail.setText(value);
-            int totalAmount = /*Double.valueOf(*/object.getAddonProduct().getPrice() * object.getQuantity();
+            Double totalAmount = /*Double.valueOf(*/object.getAddonProduct().getPrice() * object.getQuantity();
             holder.addonPrice.setText(GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/totalAmount)/*)*/;
         } else {
             holder.itemLayout.setVisibility(View.GONE);

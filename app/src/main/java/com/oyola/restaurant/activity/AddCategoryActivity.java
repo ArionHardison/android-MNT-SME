@@ -207,9 +207,10 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
                         params.put("status", RequestBody.create(MediaType.parse("text/plain"), strStatus.toLowerCase()));
                         params.put("shop_id", RequestBody.create(MediaType.parse("text/plain"), shop_id));
                         params.put("position", RequestBody.create(MediaType.parse("text/plain"), strCategoryOrder));
-                        if (isImageChanged) {
+                        params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
+                        /*if (isImageChanged) {
                             params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
-                        }
+                        }*/
                         addCategory(params);
                     } else {
                         Utils.displayMessage(this, getString(R.string.oops_no_internet));
@@ -314,6 +315,7 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
             if (images != null && images.size() > 0) {
                 layoutExistingImage.setVisibility(View.VISIBLE);
                 String img = images.get(0).getUrl();
+                mSelectedImageId= String.valueOf(images.get(0).getImageGalleryId());
                 /*Glide.with(context).load(img)
                         .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(categoryImg);*/
 

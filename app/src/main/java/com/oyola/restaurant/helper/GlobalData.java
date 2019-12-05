@@ -27,8 +27,10 @@ public class GlobalData {
     public static HashMap<String, RequestBody> registerMap = new HashMap<>();
     public static File REGISTER_AVATAR = null;
     public static File REGISTER_SHOP_BANNER = null;
-    public static List<String> ORDER_STATUS = Arrays.asList("ORDERED", "RECEIVED", "ASSIGNED", "PROCESSING", "REACHED", "PICKEDUP", "ARRIVED", "COMPLETED");
-
+    public static List<String> ORDER_STATUS_OLD = Arrays.asList("ORDERED", "RECEIVED", "ASSIGNED", "PROCESSING", "REACHED", "PICKEDUP", "ARRIVED", "COMPLETED");
+    public static List<String> ORDER_STATUS = Arrays.asList("ORDERED", "RECEIVED", "ASSIGNED",
+            "PROCESSING", "REACHED", "PICKEDUP", "ARRIVED","SCHEDULED","PICKUP_USER","READY",
+            "COMPLETED","CANCELLED","'SEARCHING'");
     public static double roundoff(double data) {
         double value = Math.round(data);
         return value;

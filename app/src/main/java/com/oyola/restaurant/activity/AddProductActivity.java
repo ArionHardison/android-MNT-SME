@@ -197,6 +197,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                     productResponse.getImages().size() > 0) {
                 List<Image> imageList = productResponse.getImages();
                 String url = imageList.get(0).getUrl();
+                mSelectedImageId= String.valueOf(imageList.get(0).getImageGalleryId());
                 layoutExistingImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .asBitmap()
@@ -218,7 +219,6 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                     productResponse.getFeaturedImages().size() > 0) {
                 List<Image> imageList = productResponse.getFeaturedImages();
                 String url = imageList.get(0).getUrl();
-
                 Glide.with(this)
                         .asBitmap()
                         .load(url)
@@ -383,8 +383,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         }
     }
 
-    private void
-    getCategory() {
+    private void getCategory() {
         customDialog.show();
         Call<List<Category>> call = apiInterface.getCategory();
         call.enqueue(new Callback<List<Category>>() {
@@ -447,9 +446,14 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         message.setStrProductStatus(strStatus.equals("Enabled") ? "1" : "0");
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
-        if (isImageChanged) {
+        /*if (isImageChanged) {
             message.setImageGalleryId(mSelectedImageId);
-        }
+            message.setImageChanged(isImageChanged);
+        }else {
+            message.setImageChanged(isImageChanged);
+        }*/
+
+        message.setImageGalleryId(mSelectedImageId);
         if (rbYes.isChecked()) {
             message.setIsFeatured("1");
         } else {

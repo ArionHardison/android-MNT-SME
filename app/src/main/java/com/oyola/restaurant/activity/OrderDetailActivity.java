@@ -150,7 +150,9 @@ public class OrderDetailActivity extends AppCompatActivity {
         payment_mode = payment_mode.substring(0, 1).toUpperCase() + payment_mode.substring(1);
 
         userName.setText(name);
-        address.setText(order.getAddress().getMapAddress());
+        if (order.getAddress() != null) {
+            address.setText(order.getAddress().getMapAddress());
+        }
         paymentMode.setText(payment_mode);
 
         if (order.getNote() != null)
@@ -214,12 +216,35 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void setOrderFlowAdapter() {
-        List<OrderFlow> orderFlowList = new ArrayList<>();
+       /* List<OrderFlow> orderFlowList = new ArrayList<>();
         orderFlowList.add(new OrderFlow(getString(R.string.order_placed), getString(R.string.description_1), R.drawable.ic_order_placed, ORDER_STATUS.get(0)));
         orderFlowList.add(new OrderFlow(getString(R.string.order_confirmed), getString(R.string.description_2), R.drawable.ic_order_confirmed, ORDER_STATUS.get(1)));
         orderFlowList.add(new OrderFlow(getString(R.string.order_processed), getString(R.string.description_3), R.drawable.ic_order_processed, ORDER_STATUS.get(2) + ORDER_STATUS.get(3) + ORDER_STATUS.get(4)));
         orderFlowList.add(new OrderFlow(getString(R.string.order_pickedup), getString(R.string.description_4), R.drawable.ic_order_picked_up, ORDER_STATUS.get(5) + ORDER_STATUS.get(6)));
         orderFlowList.add(new OrderFlow(getString(R.string.order_delivered), getString(R.string.description_5), R.drawable.ic_order_delivered, ORDER_STATUS.get(7)));
+*/
+        List<OrderFlow> orderFlowList = new ArrayList<>();
+        if (order != null) {
+            if (order.getPickUpRestaurant() == 0) {
+                orderFlowList.add(new OrderFlow(getString(R.string.order_placed_new), getString(R.string.description_1_new), R.drawable.ic_order_placed, ORDER_STATUS.get(0)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_confirmed_new), getString(R.string.description_2_new), R.drawable.ic_order_confirmed, ORDER_STATUS.get(1)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_processed_new), getString(R.string.description_3_new), R.drawable.ic_order_processed, ORDER_STATUS.get(2) + ORDER_STATUS.get(3) + ORDER_STATUS.get(4)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_pickedup_new), getString(R.string.description_4_new), R.drawable.ic_order_picked_up, ORDER_STATUS.get(5) + ORDER_STATUS.get(6)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_delivered_new), getString(R.string.description_5_new), R.drawable.ic_order_delivered, ORDER_STATUS.get(7) + ORDER_STATUS.get(10)));
+            } else if (order.getPickUpRestaurant() == 1) {
+                orderFlowList.add(new OrderFlow(getString(R.string.order_placed_new), getString(R.string.description_1_new), R.drawable.ic_order_placed, ORDER_STATUS.get(0)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_confirmed_new), getString(R.string.description_2_new), R.drawable.ic_order_confirmed, ORDER_STATUS.get(1)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_processed_new), getString(R.string.description_3_new), R.drawable.ic_order_processed, ORDER_STATUS.get(2) + ORDER_STATUS.get(3) + ORDER_STATUS.get(4) + ORDER_STATUS.get(7) + ORDER_STATUS.get(8) + ORDER_STATUS.get(9)));
+//                    orderFlowList.add(new OrderFlow(getString(R.string.order_pickedup), getString(R.string.description_4_new), R.drawable.ic_order_picked_up, ORDER_STATUS.get(5) + ORDER_STATUS.get(6)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_delivered_new), getString(R.string.description_5_new), R.drawable.ic_order_delivered, ORDER_STATUS.get(7) + ORDER_STATUS.get(10)));
+            } else {
+                orderFlowList.add(new OrderFlow(getString(R.string.order_placed_new), getString(R.string.description_1_new), R.drawable.ic_order_placed, ORDER_STATUS.get(0)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_confirmed_new), getString(R.string.description_2_new), R.drawable.ic_order_confirmed, ORDER_STATUS.get(1)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_processed_new), getString(R.string.description_3_new), R.drawable.ic_order_processed, ORDER_STATUS.get(2) + ORDER_STATUS.get(3) + ORDER_STATUS.get(4)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_pickedup_new), getString(R.string.description_4_new), R.drawable.ic_order_picked_up, ORDER_STATUS.get(5) + ORDER_STATUS.get(6)));
+                orderFlowList.add(new OrderFlow(getString(R.string.order_delivered_new), getString(R.string.description_5_new), R.drawable.ic_order_delivered, ORDER_STATUS.get(7) + ORDER_STATUS.get(10)));
+            }
+        }
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         orderFlowRv.setLayoutManager(manager);
@@ -311,10 +336,14 @@ public class OrderDetailActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     GlobalData.isselectedOrder = response.body().getOrder();
                     Log.i("isSelectedOrder : ", GlobalData.selectedOrder.toString());
-                    if (adapter == null)
-                        setOrderFlowAdapter();
-                    else
-                        adapter.notifyDataSetChanged();
+                    if (GlobalData.isselectedOrder.getStatus().equalsIgnoreCase("CANCELLED")) {
+                        orderFlowRv.setVisibility(View.GONE);
+                    } else {
+                        if (adapter == null)
+                            setOrderFlowAdapter();
+                        else
+                            adapter.notifyDataSetChanged();
+                    }
                 } else {
                     try {
 
