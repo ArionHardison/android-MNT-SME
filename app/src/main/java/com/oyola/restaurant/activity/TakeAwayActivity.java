@@ -125,7 +125,8 @@ public class TakeAwayActivity extends AppCompatActivity {
     HashMap<String, String> map = new HashMap<>();
     String numberFormat;
     private double bal = 0;
-    private double mRoundedAmt=0;
+    private double mRoundedAmt = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,7 +161,7 @@ public class TakeAwayActivity extends AppCompatActivity {
 
         userName.setText(name);
         if (order.getAddress() != null) {
-            if (order.getAddress().getMapAddress()!=null) {
+            if (order.getAddress().getMapAddress() != null) {
                 address.setText(order.getAddress().getMapAddress());
             }
         }
@@ -282,7 +283,25 @@ public class TakeAwayActivity extends AppCompatActivity {
                 cancelAlert.show();
                 break;
             case R.id.deliver_btn:
-                paymentPopupWindow("COMPLETED");
+//                paymentPopupWindow("COMPLETED");
+                if (GlobalData.selectedOrder == null || GlobalData.selectedOrder.getInvoice() == null) {
+                    return;
+                }
+                final Invoice invoice = GlobalData.selectedOrder.getInvoice();
+
+                if (invoice.getPaid() != 1) {
+                    map = new HashMap<>();
+                    map.put("status", "COMPLETED");
+                    map.put("total_pay", String.valueOf(invoice.getPayable()));
+                    map.put("tender_pay", String.valueOf(bal));
+                    map.put("payment_mode", invoice.getPaymentMode());
+                    map.put("payment_status", "success");
+                    updateOrderStatus(map);
+                } else {
+                    map = new HashMap<>();
+                    map.put("status", "COMPLETED");
+                    updateOrderStatus(map);
+                }
                 break;
         }
     }
@@ -359,7 +378,7 @@ public class TakeAwayActivity extends AppCompatActivity {
                     final TextView amount_to_pay = dialogView.findViewById(R.id.amount_to_pay);
                     final EditText amount_paid = dialogView.findViewById(R.id.amount_paid);
                     final TextView balance = dialogView.findViewById(R.id.balance);
-                     mRoundedAmt = GlobalData.roundoff(invoice.getPayable());
+                    mRoundedAmt = GlobalData.roundoff(invoice.getPayable());
                     amount_to_pay.setText(numberFormat + invoice.getPayable());
                     amount_paid.addTextChangedListener(new TextWatcher() {
                         @Override
