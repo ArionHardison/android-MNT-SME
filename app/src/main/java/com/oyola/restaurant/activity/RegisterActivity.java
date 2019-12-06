@@ -194,6 +194,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
             if (!hasFocus && etOfferInPercentage.getText().toString().trim().isEmpty())
                 etOfferInPercentage.setText("0");
         });
+        tvStatus.setText("Active");
         customDialog.show();
         getImageGallery();
 

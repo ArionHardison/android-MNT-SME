@@ -46,7 +46,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Order order = list.get(position);
         if (order.getAddress()!= null) {
-            holder.address.setText(order.getAddress().getMapAddress());
+            if (order.getAddress().getMapAddress()!=null) {
+                holder.address.setText(order.getAddress().getMapAddress());
+            }
         }
         holder.price.setText(/*context.getString(R.string.currency_value)*/GlobalData.profile.getCurrency() + "" + order.getInvoice().getNet());
 

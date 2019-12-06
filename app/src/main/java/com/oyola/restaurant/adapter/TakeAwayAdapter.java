@@ -52,7 +52,9 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Order order = list.get(position);
         if (order.getAddress()!=null) {
-            holder.address.setText(order.getAddress().getMapAddress());
+            if (order.getAddress().getMapAddress() != null) {
+                holder.address.setText(order.getAddress().getMapAddress());
+            }
         }
         try {
             holder.orderTime.setText(Utils.getTime(order.getCreatedAt()));
