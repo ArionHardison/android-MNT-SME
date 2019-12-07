@@ -87,7 +87,7 @@ public class Utils {
         System.out.println("Time : " + time);
         String value = "";
         try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, hh:mm aa");
 
             if (time != null) {
@@ -150,15 +150,23 @@ public class Utils {
     }
 
     public static String getMonth(String date) throws ParseException {
-        Date d = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.ENGLISH).parse(date);
+        Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
         return monthName;
     }
 
+    public static String getDate(String date) throws ParseException {
+        Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH).parse(date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        String mDate = new SimpleDateFormat("dd/MM/yyyy").format(cal.getTime());
+        return mDate;
+    }
+
     public static String getTime(String date) throws ParseException {
-        Date d = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.ENGLISH).parse(date);
+        Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         String time = new SimpleDateFormat("hh:mm aaa").format(cal.getTime());
@@ -167,7 +175,7 @@ public class Utils {
 
 
     public static String getDeliveryTime(String date) throws ParseException {
-        Date d = new SimpleDateFormat("yyyy-mm-dd HH:mm", Locale.ENGLISH).parse(date);
+        Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         String time = new SimpleDateFormat("hh:mm aaa").format(cal.getTime());

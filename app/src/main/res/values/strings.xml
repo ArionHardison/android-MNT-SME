@@ -139,7 +139,7 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="filter">Filter</string>
-    <string name="calender_date">dd:mm:yyyy</string>
+    <string name="calender_date">dd:MM:yyyy</string>
     <string name="country_name">Country Name</string>
     <string name="landmark">Landmark</string>
 

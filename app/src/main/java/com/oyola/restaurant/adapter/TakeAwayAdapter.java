@@ -57,7 +57,9 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
             }
         }
         try {
+            holder.orderDate.setText(Utils.getDate(order.getCreatedAt()));
             holder.orderTime.setText(Utils.getTime(order.getCreatedAt()));
+            holder.orderDeliveryDate.setText(Utils.getDate(order.getDeliveryDate()));
             holder.orderDeliveryTime.setText(Utils.getTime(order.getDeliveryDate()));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -130,7 +132,7 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, orderTime,orderDeliveryTime, status,orderType;
+        TextView userName, address, paymentMode, orderTime,orderDate,orderDeliveryDate,orderDeliveryTime, status,orderType;
         CardView itemLayout;
         LinearLayout mLayoutSchedule;
         ImageView userImg;
@@ -138,6 +140,7 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
         public MyViewHolder(View view) {
             super(view);
             userName = view.findViewById(R.id.user_name);
+            orderDate = view.findViewById(R.id.order_date);
             orderTime = view.findViewById(R.id.order_time);
             address = view.findViewById(R.id.address);
             paymentMode = view.findViewById(R.id.payment_mode);
@@ -145,6 +148,7 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
             itemLayout = view.findViewById(R.id.item_layout);
             userImg = view.findViewById(R.id.user_img);
             orderType = view.findViewById(R.id.order_type);
+            orderDeliveryDate = view.findViewById(R.id.delivery_date);
             orderDeliveryTime = view.findViewById(R.id.order_delivery_time);
             mLayoutSchedule = view.findViewById(R.id.lay_schedule_detail);
         }

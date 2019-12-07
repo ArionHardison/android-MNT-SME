@@ -110,6 +110,14 @@
                     android:textSize="@dimen/text_tiny" />
 
                 <TextView
+                    android:id="@+id/order_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="@dimen/text_tiny" />
+
+                <TextView
                     android:id="@+id/order_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

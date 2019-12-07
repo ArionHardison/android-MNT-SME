@@ -46,24 +46,27 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Order order = list.get(position);
-        if (order.getAddress()!=null) {
+        if (order.getAddress() != null) {
             if (order.getAddress().getMapAddress() != null) {
                 holder.address.setText(order.getAddress().getMapAddress());
             }
         }
         try {
-            holder.orderTime.setText(Utils.getTime(order.getCreatedAt()));
+            if (order.getCreatedAt() != null) {
+                holder.orderDate.setText(Utils.getDate(order.getCreatedAt()));
+                holder.orderTime.setText(Utils.getTime(order.getCreatedAt()));
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        if (order.getPickUpRestaurant()!=null){
-            if (order.getPickUpRestaurant()==0){
+        if (order.getPickUpRestaurant() != null) {
+            if (order.getPickUpRestaurant() == 0) {
                 holder.orderType.setText("Order Type : DELIVERY");
-            }else   if (order.getPickUpRestaurant()==1){
+            } else if (order.getPickUpRestaurant() == 1) {
                 holder.orderType.setText("Order Type : PICKUP");
                 holder.address.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.orderType.setText("Order Type : DELIVERY");
             }
         }
@@ -117,13 +120,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, orderTime, status,orderType;
+        TextView userName, address, paymentMode, orderTime, orderDate, status, orderType;
         CardView itemLayout;
         ImageView userImg;
 
         public MyViewHolder(View view) {
             super(view);
             userName = view.findViewById(R.id.user_name);
+            orderDate = view.findViewById(R.id.order_date);
             orderTime = view.findViewById(R.id.order_time);
             address = view.findViewById(R.id.address);
             paymentMode = view.findViewById(R.id.payment_mode);
