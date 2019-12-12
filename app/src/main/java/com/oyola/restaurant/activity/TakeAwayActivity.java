@@ -93,6 +93,8 @@ public class TakeAwayActivity extends AppCompatActivity {
     Button deliverBtn;
     @BindView(R.id.button_lay)
     LinearLayout buttonLay;
+    @BindView(R.id.lay_deliverycharge)
+    LinearLayout layDeliveryCharge;
     @BindView(R.id.txt_order_type)
     TextView txtOrderType;
     @BindView(R.id.txt_order_time)
@@ -140,6 +142,7 @@ public class TakeAwayActivity extends AppCompatActivity {
         numberFormat = MyApplication.getCurrencyFormat();
 
         backImg.setVisibility(View.VISIBLE);
+        layDeliveryCharge.setVisibility(View.GONE);
 
         if (GlobalData.selectedOrder != null) {
             order = GlobalData.selectedOrder;
@@ -173,20 +176,14 @@ public class TakeAwayActivity extends AppCompatActivity {
             notes.setText(getResources().getString(R.string.empty));
 
         if (order.getPickUpRestaurant() != null) {
-            if (order.getPickUpRestaurant() == 0) {
-                txtOrderType.setText("Order Type : DELIVERY");
-                txtOrderTime.setVisibility(View.GONE);
-            } else if (order.getPickUpRestaurant() == 1) {
-                txtOrderType.setText("Order Type : PICKUP");
-                address.setVisibility(View.GONE);
-                try {
-                    txtOrderTime.setText("Pickup Time : " + Utils.getDeliveryTime(order.getDeliveryDate()));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                txtOrderType.setText("Order Type : DELIVERY");
-                txtOrderTime.setVisibility(View.GONE);
+          if (order.getPickUpRestaurant() == 1) {
+              txtOrderType.setText(getString(R.string.order_type_takeaway));
+              address.setVisibility(View.GONE);
+              try {
+                  txtOrderTime.setText(getString(R.string.pick_up_time)+" : " + Utils.getDeliveryTime(order.getDeliveryDate()));
+              } catch (ParseException e) {
+                  e.printStackTrace();
+              }
             }
         }
 

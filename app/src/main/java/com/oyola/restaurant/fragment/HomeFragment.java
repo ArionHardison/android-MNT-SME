@@ -188,7 +188,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
 
 
     private void prepareAdapter() {
-        if (incomingRv!=null) {
+        if (incomingRv != null) {
             requestAdapter = new RequestAdapter(orderList, context);
             incomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             incomingRv.setHasFixedSize(true);

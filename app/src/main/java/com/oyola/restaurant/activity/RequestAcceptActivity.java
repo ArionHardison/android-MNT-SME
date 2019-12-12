@@ -171,18 +171,18 @@ public class RequestAcceptActivity extends AppCompatActivity {
 
         if (order.getPickUpRestaurant()!=null){
             if (order.getPickUpRestaurant()==0){
-                txtOrderType.setText("Order Type : DELIVERY");
+                txtOrderType.setText(getString(R.string.order_type_delivery));
                 txtOrderTime.setVisibility(View.GONE);
             }else   if (order.getPickUpRestaurant()==1){
-                txtOrderType.setText("Order Type : PICKUP");
+                txtOrderType.setText(getString(R.string.order_type_takeaway));
                 address.setVisibility(View.GONE);
                 try {
-                    txtOrderTime.setText("Pickup Time : "+Utils.getDeliveryTime(order.getDeliveryDate()));
+                    txtOrderTime.setText(getString(R.string.pick_up_time)+" : "+Utils.getDeliveryTime(order.getDeliveryDate()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }else {
-                txtOrderType.setText("Order Type : DELIVERY");
+                txtOrderType.setText(getString(R.string.order_type_delivery));
                 txtOrderTime.setVisibility(View.GONE);
             }
         }

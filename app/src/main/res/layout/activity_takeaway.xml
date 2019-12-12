@@ -124,7 +124,7 @@
                         android:padding="@dimen/_5sdp"
                         android:fontFamily="@font/nunito_bold"
                         android:textColor="@color/colorPink"
-                        android:text="Order Type : DELIVERY" />
+                   />
 
                     <TextView
                         android:id="@+id/txt_order_time"

@@ -74,12 +74,12 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
         }
         if (order.getPickUpRestaurant()!=null){
             if (order.getPickUpRestaurant()==0){
-                holder.orderType.setText("Order Type : DELIVERY");
+                holder.orderType.setText(context.getString(R.string.order_type_delivery));
             }else   if (order.getPickUpRestaurant()==1){
-                holder.orderType.setText("Order Type : PICKUP");
+                holder.orderType.setText(context.getString(R.string.order_type_takeaway));
                 holder.address.setVisibility(View.GONE);
             }else {
-                holder.orderType.setText("Order Type : DELIVERY");
+                holder.orderType.setText(context.getString(R.string.order_type_delivery));
             }
         }
         //Default Status and color

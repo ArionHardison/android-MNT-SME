@@ -341,5 +341,8 @@
     <string name="bank_details">Bank Details</string>
     <string name="library">Library</string>
     <string name="existing_image">Existing Image</string>
+    <string name="order_type_delivery">Order Type : DELIVERY</string>
+    <string name="order_type_takeaway">Order Type : PICKUP</string>
+    <string name="pick_up_time">Pickup Time</string>
 
 </resources>
