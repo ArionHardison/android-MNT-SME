@@ -55,9 +55,9 @@ public class HistoryActivity extends AppCompatActivity {
         title.setText(getResources().getString(R.string.history));
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new UpcomingVisitFragment(), getString(R.string.ongoing));
-        adapter.addFragment(new PastVisitFragment(), getString(R.string.past));
-        adapter.addFragment(new CancelOrderFragment(), getString(R.string.cancelled));
+        adapter.addFragment(new UpcomingVisitFragment(), getString(R.string.ongoing_order));
+        adapter.addFragment(new PastVisitFragment(), getString(R.string.past_order));
+        adapter.addFragment(new CancelOrderFragment(), getString(R.string.cancelled_order));
         viewPager.setAdapter(adapter);
         //set ViewPager
         tabLayout.setupWithViewPager(viewPager);

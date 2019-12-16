@@ -107,7 +107,7 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
         setContentView(R.layout.activity_add_category);
         ButterKnife.bind(this);
 
-        title.setText(getString(R.string.add_category));
+        title.setText(getString(R.string.create_category));
         backImg.setVisibility(View.VISIBLE);
         context = AddCategoryActivity.this;
         activity = AddCategoryActivity.this;

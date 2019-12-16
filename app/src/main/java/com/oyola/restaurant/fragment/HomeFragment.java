@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
     private void updateUI(Profile profile) {
         if (profile != null && profile.getDefaultBanner() != null)
             Glide.with(context)
-                    .load(profile.getDefaultBanner())
+                    .load(profile.getAvatar())
                     .apply(new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.ic_place_holder_image)

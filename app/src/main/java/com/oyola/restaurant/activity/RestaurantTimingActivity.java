@@ -523,7 +523,8 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     @OnClick({R.id.txt_open_time, R.id.txt_close_time, R.id.mon_txt_open_time, R.id.mon_txt_close_time,
             R.id.tue_txt_open_time, R.id.tue_txt_close_time, R.id.wed_txt_open_time, R.id.wed_txt_close_time,
             R.id.thur_txt_open_time, R.id.thur_txt_close_time, R.id.frid_txt_open_time, R.id.frid_txt_close_time,
-            R.id.sat_txt_open_time, R.id.sat_txt_close_time, R.id.sun_txt_open_time, R.id.sun_txt_close_time, R.id.back_img})
+            R.id.sat_txt_open_time, R.id.sat_txt_close_time, R.id.sun_txt_open_time, R.id.sun_txt_close_time,
+            R.id.back_img,R.id.txt_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.txt_open_time:
@@ -576,6 +577,10 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
                 break;
             case R.id.back_img:
                 onBackPressed();
+                break;
+            case R.id.txt_login:
+                startActivity(new Intent(this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                finish();
                 break;
         }
     }
