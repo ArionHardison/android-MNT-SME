@@ -113,6 +113,8 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     CheckBox takeaway;
     @BindView(R.id.delivery)
     CheckBox delivery;
+    @BindView(R.id.halal)
+    CheckBox halal;
     Context context;
     Activity activity;
     ConnectionHelper connectionHelper;
@@ -160,7 +162,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     int CT_TYPE = SHOP_IMAGE;
     private CountryPicker mCountryPicker;
     String status;
-    String mSelectedImageId = "" ;
+    String mSelectedImageId = "";
     List<String> mRestraurantOffer = new ArrayList<>();
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
     ImageGalleryAdapter mAdapter;
@@ -323,7 +325,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
             case R.id.country_picker_lay:
                 break;
             case R.id.address_lay:
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME,Place.Field.ADDRESS);
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ADDRESS);
                 // Start the autocomplete intent.
                 Intent intent = new Autocomplete.
                         IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
@@ -454,7 +456,12 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
                 }
                 map.put("status", RequestBody.create(MediaType.parse("text/plain"), status));
                 map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
-
+                map.put("halal", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(halal.isChecked() ? 1 : 0)));
+//                if (halal.isChecked()) {
+//                    map.put("halal", RequestBody.create(MediaType.parse("text/plain"), "1"));
+//                } else {
+//                    map.put("halal", RequestBody.create(MediaType.parse("text/plain"), "0"));
+//                }
                 //Stored here for login
                 GlobalData.email = email;
                 GlobalData.password = password;

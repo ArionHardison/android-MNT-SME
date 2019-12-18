@@ -141,6 +141,10 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     CheckBox chkTakeaway;
     @BindView(R.id.delivery)
     CheckBox chkDelivery;
+    @BindView(R.id.halal)
+    CheckBox halal;
+    @BindView(R.id.free_delivery)
+    CheckBox freeDelivery;
     @BindView(R.id.imageRecyclerView)
     RecyclerView image_rv;
     public static final int PICK_IMAGE_REQUEST = 100;
@@ -382,7 +386,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
                 map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
-                map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"),mSelectedImageId));
+                map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
                 } else if (tvStatus.getText().toString().equalsIgnoreCase("banned")) {
@@ -391,6 +395,19 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                     status = "active";
                 }
                 map.put("status", RequestBody.create(MediaType.parse("text/plain"), status));
+               /* if (halal.isChecked()) {
+                    map.put("halal", RequestBody.create(MediaType.parse("text/plain"), "1"));
+                } else {
+                    map.put("halal", RequestBody.create(MediaType.parse("text/plain"), "0"));
+                }
+                if (freeDelivery.isChecked()) {
+                    map.put("free_delivery", RequestBody.create(MediaType.parse("text/plain"), "1"));
+                } else {
+                    map.put("free_delivery", RequestBody.create(MediaType.parse("text/plain"), "0"));
+                }*/
+
+                map.put("halal", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(halal.isChecked() ? 1: 0)));
+                map.put("free_delivery", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(freeDelivery.isChecked() ? 1 : 0)));
 
                 if (location != null) {
                     map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
@@ -546,6 +563,11 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             chkDelivery.setChecked(mIsDelivery);
             chkTakeaway.setChecked(mIsTakeaway);
         }
+
+        if (profile.getHalal() != null)
+            halal.setChecked(profile.getHalal() == 1);
+        if (profile.getFreeDelivery() != null)
+            freeDelivery.setChecked(profile.getFreeDelivery() == 1);
         if (profile.getCountry_code() != null && !profile.getCountry_code().equals("null")) {
             Country country = new Country();
             country = country.getCountryByDialCode(profile.getCountry_code());

@@ -6,6 +6,7 @@
 
     <!-- App Theme Color-->
     <color name="colorTheme">#1D931B</color>
+<!--    <color name="colorTheme">#F99D30</color>-->
     <color name="background_color">#f5f5f5</color>
     <color name="background_grey">#eee</color>
 

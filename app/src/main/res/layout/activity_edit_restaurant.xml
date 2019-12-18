@@ -94,6 +94,17 @@
                         android:layout_height="wrap_content"
                         android:text="@string/delivery" />
 
+                    <CheckBox
+                        android:id="@+id/halal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/halal" />
+
+                    <CheckBox
+                        android:id="@+id/free_delivery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/offer_free_delivery" />
                 </LinearLayout>
 
                 <LinearLayout

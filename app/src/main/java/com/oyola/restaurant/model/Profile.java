@@ -95,6 +95,14 @@ public class Profile {
     @Expose
     private Integer imageGalleyId ;
 
+    @SerializedName("halal")
+    @Expose
+    private Integer halal ;
+
+    @SerializedName("free_delivery")
+    @Expose
+    private Integer freeDelivery ;
+
     @SerializedName("bank")
     @Expose
     private BankDetails bank;
@@ -332,6 +340,22 @@ public class Profile {
 
     public void setImageGalleyId(Integer imageGalleyId) {
         this.imageGalleyId = imageGalleyId;
+    }
+
+    public Integer getHalal() {
+        return halal;
+    }
+
+    public void setHalal(Integer halal) {
+        this.halal = halal;
+    }
+
+    public Integer getFreeDelivery() {
+        return freeDelivery;
+    }
+
+    public void setFreeDelivery(Integer freeDelivery) {
+        this.freeDelivery = freeDelivery;
     }
 }
 
