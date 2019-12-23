@@ -65,6 +65,8 @@ public class ProductResponse implements Parcelable {
     private Prices prices;
     @SerializedName("status")
     private String status;
+    @SerializedName("ingredients")
+    private String ingredients;
 
     protected ProductResponse(Parcel in) {
         featured = in.readInt();
@@ -114,6 +116,7 @@ public class ProductResponse implements Parcelable {
         }
         prices = (Prices) in.readValue(Prices.class.getClassLoader());
         status = in.readString();
+        ingredients = in.readString();
     }
 
     public int getFeatured() {
@@ -276,6 +279,14 @@ public class ProductResponse implements Parcelable {
         this.featuredImages = featuredImages;
     }
 
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -329,5 +340,6 @@ public class ProductResponse implements Parcelable {
         }
         dest.writeValue(prices);
         dest.writeString(status);
+        dest.writeString(ingredients);
     }
 }

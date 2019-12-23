@@ -184,6 +184,28 @@
                     android:layout_height="wrap_content" />
             </RadioGroup>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/ingredients"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+
+            <EditText
+                android:id="@+id/et_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/edit_text_rounded_corner_bg"
+                android:imeOptions="actionNext"
+                android:gravity="start"
+                android:inputType="text"
+                android:padding="@dimen/_4sdp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_medium" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

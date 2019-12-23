@@ -354,6 +354,7 @@
     <string name="order_type_takeaway">Order Type : PICKUP</string>
     <string name="pick_up_time">Pickup Time</string>
     <string name="halal">Halal</string>
-    <string name="offer_free_delivery">Offer Free Delivery</string>
-
+    <string name="offer_free_delivery">Offer\'s Free Delivery</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="error_msg_ingredients">Please enter ingredient details</string>
 </resources>

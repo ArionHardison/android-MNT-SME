@@ -206,6 +206,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
         params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
+        params.put("ingredients", RequestBody.create(MediaType.parse("text/plain"), message.getProductIngredients()));
         /*if (message.isImageChanged()) {
             params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
         }*/

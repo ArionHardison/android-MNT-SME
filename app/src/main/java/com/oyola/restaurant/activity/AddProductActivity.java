@@ -109,6 +109,8 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     RecyclerView image_rv;
     @BindView(R.id.lay_existing_image)
     LinearLayout layoutExistingImage;
+    @BindView(R.id.et_ingredients)
+    EditText edtIngredients;
 
     public static final int PICK_IMAGE_REQUEST = 100;
 
@@ -120,7 +122,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     String TAG = "AddProductActivity";
     int PRODUCT_IMAGE_TYPE = 0;
     int FEATURE_IMAGE_TYPE = 1;
-    String strProductName, strProductDescription, strStatus = "Enabled", strProductOrder = "0", strCategory;
+    String strProductName, strProductDescription, strStatus = "Enabled", strProductOrder = "0", strCategory, strIngredients;
     List<Category> listCategory;
     ArrayList<String> lstCategoryNames = new ArrayList<String>();
     HashMap<String, Integer> hshCategory = new HashMap<>();
@@ -192,12 +194,13 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
 
             etProductOrder.setText(productResponse.getPosition() + "");
 
-
+            if (productResponse.getIngredients() != null)
+                edtIngredients.setText(productResponse.getIngredients());
             if (productResponse.getImages() != null &&
                     productResponse.getImages().size() > 0) {
                 List<Image> imageList = productResponse.getImages();
                 String url = imageList.get(0).getUrl();
-                mSelectedImageId= String.valueOf(imageList.get(0).getImageGalleryId());
+                mSelectedImageId = String.valueOf(imageList.get(0).getImageGalleryId());
                 layoutExistingImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .asBitmap()
@@ -446,6 +449,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         message.setStrProductStatus(strStatus.equals("Enabled") ? "1" : "0");
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
+        message.setProductIngredients(strIngredients);
         /*if (isImageChanged) {
             message.setImageGalleryId(mSelectedImageId);
             message.setImageChanged(isImageChanged);
@@ -503,6 +507,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         strProductName = etProductName.getText().toString().trim();
         strProductDescription = etDescription.getText().toString().trim();
         strProductOrder = etProductOrder.getText().toString().trim();
+        strIngredients = edtIngredients.getText().toString().trim();
         if (strProductOrder.equals("")) {
             strProductOrder = "0";
         }
@@ -521,6 +526,9 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
             return false;
         } else if (!rbVeg.isChecked() && !rbNonVeg.isChecked()) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_selected_food_type));
+            return false;
+        } else if (strIngredients == null || strIngredients.isEmpty()) {
+            Utils.displayMessage(activity, getResources().getString(R.string.error_msg_ingredients));
             return false;
         }
 //        else if (productImageFile == null) {
