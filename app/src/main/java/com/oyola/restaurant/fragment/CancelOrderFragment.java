@@ -128,7 +128,7 @@ public class CancelOrderFragment extends Fragment {
                                 llNoRecords.setVisibility(View.GONE);
                             if (cancelRv != null)
                                 cancelRv.setVisibility(View.VISIBLE);
-                            orderList = historyModel.getCOMPLETED();
+                            orderList = historyModel.getCANCELLED();
                             historyAdapter.setList(orderList);
                             historyAdapter.notifyDataSetChanged();
                         } else {

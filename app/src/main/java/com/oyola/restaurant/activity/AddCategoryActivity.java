@@ -182,7 +182,7 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
         } else {
             mGalleryList = mImageList;
         }
-        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true);
+        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true,false);
         image_rv.setLayoutManager(new GridLayoutManager(context, 4));
         image_rv.setHasFixedSize(true);
         image_rv.setAdapter(mAdapter);
@@ -208,8 +208,8 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
                         params.put("shop_id", RequestBody.create(MediaType.parse("text/plain"), shop_id));
                         params.put("position", RequestBody.create(MediaType.parse("text/plain"), strCategoryOrder));
                         params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
-                        /*if (isImageChanged) {
-                            params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
+                        /*if (isProductImageChanged) {
+                            params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedProductImageId));
                         }*/
                         addCategory(params);
                     } else {
@@ -403,13 +403,13 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
     }
 
     @Override
-    public void onImageSelected(ImageGallery mGallery) {
+    public void onImageSelected(ImageGallery mGallery,boolean isFeatured) {
         mSelectedImageId = String.valueOf(mGallery.getId());
         isImageChanged = true;
     }
 
     @Override
-    public void navigateToImageScreen() {
+    public void navigateToImageScreen(boolean isFeatured) {
         Intent intent = new Intent(context, ImageGalleryActivity.class);
         intent.putExtra("image_list", mImageList);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);

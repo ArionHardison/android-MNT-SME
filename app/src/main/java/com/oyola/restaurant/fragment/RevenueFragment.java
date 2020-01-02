@@ -139,11 +139,11 @@ public class RevenueFragment extends Fragment {
 
         BarDataSet set1, set2;
         set1 = new BarDataSet(entriesGroup1, getResources().getString(R.string.order_delivered));
-        set1.setColor(context.getResources().getColor(R.color.colorGreen));
+        set1.setColor(context.getResources().getColor(R.color.color_green));
         set1.setDrawValues(false);
 
         set2 = new BarDataSet(entriesGroup2, getResources().getString(R.string.order_cancelled));
-        set2.setColor(context.getResources().getColor(R.color.colorRed));
+        set2.setColor(context.getResources().getColor(R.color.grey));
         set2.setDrawValues(false);
 
         BarData data = new BarData(set1, set2);

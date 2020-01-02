@@ -107,10 +107,18 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     RadioButton rbNonVeg;
     @BindView(R.id.imageRecyclerView)
     RecyclerView image_rv;
+    @BindView(R.id.imageFeatureRecyclerView)
+    RecyclerView rvFeature;
+    @BindView(R.id.lay_feature_rv)
+    LinearLayout layoutFeatureRv;
     @BindView(R.id.lay_existing_image)
     LinearLayout layoutExistingImage;
+    @BindView(R.id.layfeature_existing_image)
+    LinearLayout layoutFeatureExistingImage;
     @BindView(R.id.et_ingredients)
     EditText edtIngredients;
+    @BindView(R.id.exist_feature_img)
+    ImageView existFeatureImage;
 
     public static final int PICK_IMAGE_REQUEST = 100;
 
@@ -131,10 +139,11 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     ProductResponse productResponse;
     int selected_pos = 0;
     private String foodType;
-    String mSelectedImageId = "";
-    boolean isImageChanged = false;
+    String mSelectedProductImageId = "";
+    String mSelectedFeaturedImageId = "";
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
-    ImageGalleryAdapter mAdapter;
+    ImageGalleryAdapter mProductAdapter;
+    ImageGalleryAdapter mFeatureAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +188,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         //Default
         rlFeaturedImage.setClickable(false);
         rlFeaturedImage.setAlpha(0.5f);
-
+        layoutFeatureRv.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             title.setText(R.string.edit_product);
@@ -200,7 +209,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                     productResponse.getImages().size() > 0) {
                 List<Image> imageList = productResponse.getImages();
                 String url = imageList.get(0).getUrl();
-                mSelectedImageId = String.valueOf(imageList.get(0).getImageGalleryId());
+                mSelectedProductImageId = String.valueOf(imageList.get(0).getImageGalleryId());
                 layoutExistingImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .asBitmap()
@@ -222,14 +231,16 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                     productResponse.getFeaturedImages().size() > 0) {
                 List<Image> imageList = productResponse.getFeaturedImages();
                 String url = imageList.get(0).getUrl();
+                mSelectedFeaturedImageId = String.valueOf(imageList.get(0).getFeaturedImageGalleryId());
+                layoutFeatureExistingImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .asBitmap()
                         .load(url)
                         .into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                                featuredImg.setImageBitmap(resource);
-                                featuredImageFile = Utils.storeInFile(context, resource, "featured_image.png", "png");
+                                existFeatureImage.setImageBitmap(resource);
+//                                featuredImageFile = Utils.storeInFile(context, resource, "featured_image.png", "png");
                             }
                         });
 
@@ -254,11 +265,15 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                 rbNo.setChecked(false);
                 rlFeaturedImage.setClickable(true);
                 rlFeaturedImage.setAlpha(1.0f);
+                layoutFeatureRv.setVisibility(View.VISIBLE);
+                layoutFeatureExistingImage.setVisibility(View.VISIBLE);
             } else {
                 rbYes.setChecked(false);
                 rbNo.setChecked(true);
                 rlFeaturedImage.setClickable(false);
                 rlFeaturedImage.setAlpha(0.5f);
+                layoutFeatureRv.setVisibility(View.GONE);
+                layoutFeatureExistingImage.setVisibility(View.GONE);
             }
 
             if (productResponse.getProductcuisines() != null) {
@@ -274,9 +289,11 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
             if (isChecked) {
                 rlFeaturedImage.setClickable(true);
                 rlFeaturedImage.setAlpha(1.0f);
+                layoutFeatureRv.setVisibility(View.VISIBLE);
             } else {
                 rlFeaturedImage.setClickable(false);
                 rlFeaturedImage.setAlpha(0.5f);
+                layoutFeatureRv.setVisibility(View.GONE);
             }
         });
         rbVeg.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -352,10 +369,14 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         } else {
             mGalleryList = mImageList;
         }
-        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true);
+        mProductAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true, false);
         image_rv.setLayoutManager(new GridLayoutManager(context, 4));
         image_rv.setHasFixedSize(true);
-        image_rv.setAdapter(mAdapter);
+        image_rv.setAdapter(mProductAdapter);
+        mFeatureAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true, true);
+        rvFeature.setLayoutManager(new GridLayoutManager(context, 4));
+        rvFeature.setHasFixedSize(true);
+        rvFeature.setAdapter(mFeatureAdapter);
     }
 
     @OnClick({R.id.back_img, R.id.rlProductImage, R.id.rlFeaturedImage, R.id.next_btn, R.id.cuisine})
@@ -450,16 +471,17 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
         message.setProductIngredients(strIngredients);
-        /*if (isImageChanged) {
-            message.setImageGalleryId(mSelectedImageId);
-            message.setImageChanged(isImageChanged);
+        /*if (isProductImageChanged) {
+            message.setImageGalleryId(mSelectedProductImageId);
+            message.setImageChanged(isProductImageChanged);
         }else {
-            message.setImageChanged(isImageChanged);
+            message.setImageChanged(isProductImageChanged);
         }*/
 
-        message.setImageGalleryId(mSelectedImageId);
+        message.setImageGalleryId(mSelectedProductImageId);
         if (rbYes.isChecked()) {
             message.setIsFeatured("1");
+            message.setFeaturedGalleryId(mSelectedFeaturedImageId);
         } else {
             message.setIsFeatured("0");
         }
@@ -531,14 +553,14 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_ingredients));
             return false;
         }
-//        else if (productImageFile == null) {
-//            Utils.displayMessage(activity, getString(R.string.please_select_product_image));
-//            return false;
-//        }
-        else if (rbYes.isChecked() && featuredImageFile == null) {
+        /* else if (productImageFile == null) {
+            Utils.displayMessage(activity, getString(R.string.please_select_product_image));
+            return false;
+        }*/
+       /* else if (rbYes.isChecked() && featuredImageFile == null) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_product_select_featured_image));
             return false;
-        }
+        }*/
 
         return true;
     }
@@ -596,8 +618,12 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
 
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            mSelectedImageId = data.getExtras().getString("image_id");
-            isImageChanged = true;
+            if (data.getExtras().getBoolean("is_featured")) {
+                mSelectedFeaturedImageId = data.getExtras().getString("image_id");
+            } else {
+                mSelectedProductImageId = data.getExtras().getString("image_id");
+            }
+
         }
     }
 
@@ -615,15 +641,19 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
 
 
     @Override
-    public void onImageSelected(ImageGallery mGallery) {
-        mSelectedImageId = String.valueOf(mGallery.getId());
-        isImageChanged = true;
+    public void onImageSelected(ImageGallery mGallery, boolean isFeatured) {
+        if (isFeatured) {
+            mSelectedFeaturedImageId = String.valueOf(mGallery.getId());
+        } else {
+            mSelectedProductImageId = String.valueOf(mGallery.getId());
+        }
     }
 
     @Override
-    public void navigateToImageScreen() {
+    public void navigateToImageScreen(boolean isFeatured) {
         Intent intent = new Intent(context, ImageGalleryActivity.class);
         intent.putExtra("image_list", mImageList);
+        intent.putExtra("is_featured", isFeatured);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 

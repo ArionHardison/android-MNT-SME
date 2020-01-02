@@ -42,6 +42,7 @@ public class ImageGalleryActivity extends AppCompatActivity implements ImageGall
     Context context;
     List<ImageGallery> mGalleryList = new ArrayList<>();
     ImageGalleryAdapter mAdapter;
+    boolean mIsFeatured = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class ImageGalleryActivity extends AppCompatActivity implements ImageGall
         title.setText(getResources().getString(R.string.library));
         backImg.setVisibility(View.VISIBLE);
         mGalleryList = (List<ImageGallery>) getIntent().getSerializableExtra("image_list");
+        mIsFeatured = getIntent().getExtras().getBoolean("is_featured");
         setupAdapter();
     }
 
@@ -67,23 +69,24 @@ public class ImageGalleryActivity extends AppCompatActivity implements ImageGall
     }
 
     private void setupAdapter() {
-        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this,false);
+        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, false, false);
         image_rv.setLayoutManager(new GridLayoutManager(context, 4));
         image_rv.setHasFixedSize(true);
         image_rv.setAdapter(mAdapter);
     }
 
     @Override
-    public void onImageSelected(ImageGallery mGallery) {
-        String mSelectedId= String.valueOf(mGallery.getId());
+    public void onImageSelected(ImageGallery mGallery, boolean isFeatured) {
+        String mSelectedId = String.valueOf(mGallery.getId());
         Intent intent = new Intent();
         intent.putExtra("image_id", mSelectedId);
+        intent.putExtra("is_featured", mIsFeatured);
         setResult(RESULT_OK, intent);
         finish();
     }
 
     @Override
-    public void navigateToImageScreen() {
+    public void navigateToImageScreen(boolean isFeatured) {
         Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show();
     }
 

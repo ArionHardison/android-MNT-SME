@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     tools:context="com.oyola.restaurant.activity.AddProductActivity">
 
@@ -20,8 +20,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:orientation="vertical">
 
             <TextView
@@ -41,8 +41,8 @@
                 android:background="@drawable/edit_text_rounded_corner_bg"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress|textCapWords"
-                android:padding="@dimen/_4sdp"
                 android:maxLength="100"
+                android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
 
@@ -62,14 +62,15 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 android:background="@drawable/edit_text_rounded_corner_bg"
                 android:gravity="start"
-                android:minLines="3"
                 android:hint="@string/write_description"
                 android:imeOptions="actionNext"
                 android:inputType="textMultiLine"
                 android:maxLength="255"
+                android:minLines="3"
                 android:padding="@dimen/_5sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +79,8 @@
                 android:text="Product Cuisine"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/cuisine"
                 android:layout_width="match_parent"
@@ -90,7 +92,7 @@
                 android:padding="@dimen/_6sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
 
             <TextView
@@ -111,6 +113,7 @@
                 android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,8 +131,8 @@
                 android:background="@drawable/edit_text_rounded_corner_bg"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:padding="@dimen/_4sdp"
                 android:maxLength="8"
+                android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
 
@@ -148,8 +151,8 @@
                 android:layout_height="@dimen/material_spinner_height"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:background="@drawable/edit_text_rounded_corner_bg"
-                android:padding="@dimen/_4sdp"
                 android:hint="Select Category"
+                android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
 
@@ -163,25 +166,25 @@
                 android:textSize="@dimen/text_tiny" />
 
             <RadioGroup
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/rbVeg"
-                    android:textSize="@dimen/text_small"
-                    android:textColor="@color/colorSecondaryText"
-                    android:text="@string/veg"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/veg"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_small" />
 
                 <RadioButton
                     android:id="@+id/rbNonVeg"
-                    android:textSize="@dimen/text_small"
-                    android:textColor="@color/colorSecondaryText"
-                    android:text="@string/non_veg"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/non_veg"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_small" />
             </RadioGroup>
 
             <TextView
@@ -199,8 +202,8 @@
                 android:layout_height="@dimen/_100sdp"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:background="@drawable/edit_text_rounded_corner_bg"
-                android:imeOptions="actionNext"
                 android:gravity="start"
+                android:imeOptions="actionNext"
                 android:inputType="text"
                 android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
@@ -217,7 +220,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:fontFamily="@font/nunito_semibold"
-                    android:text="@string/select_images"
+                    android:text="@string/select_images_product"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_tiny" />
 
@@ -230,38 +233,40 @@
                     tools:itemCount="8" />
 
             </LinearLayout>
-        <LinearLayout
-            android:id="@+id/lay_existing_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-            <TextView
+
+            <LinearLayout
+                android:id="@+id/lay_existing_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:fontFamily="@font/nunito_semibold"
-                android:text="@string/existing_image"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <RelativeLayout
-                android:id="@+id/rlProductImage"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
-                android:background="@drawable/edit_text_rounded_corner_bg">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/existing_product_image"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_tiny" />
 
-                <ImageView
-                    android:id="@+id/product_img"
-                    android:layout_width="@dimen/_80sdp"
-                    android:layout_height="@dimen/_80sdp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_placeholder_image_upload" />
+                <RelativeLayout
+                    android:id="@+id/rlProductImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@drawable/edit_text_rounded_corner_bg">
 
-            </RelativeLayout>
-        </LinearLayout>
+                    <ImageView
+                        android:id="@+id/product_img"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_placeholder_image_upload" />
+
+                </RelativeLayout>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -273,34 +278,35 @@
                 android:textSize="@dimen/text_tiny" />
 
             <RadioGroup
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/rbYes"
-                    android:textSize="@dimen/text_small"
-                    android:textColor="@color/colorSecondaryText"
-                    android:text="@string/yes"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/yes"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_small" />
 
                 <RadioButton
                     android:id="@+id/rbNo"
-                    android:textSize="@dimen/text_small"
-                    android:textColor="@color/colorSecondaryText"
-                    android:text="@string/no"
-                    android:checked="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/no"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_small" />
             </RadioGroup>
 
 
             <LinearLayout
                 android:id="@+id/fetured_img_lay"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -313,9 +319,9 @@
 
                 <RelativeLayout
                     android:id="@+id/rlFeaturedImage"
-                    android:layout_marginTop="@dimen/_4sdp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     android:background="@drawable/edit_text_rounded_corner_bg">
 
                     <ImageView
@@ -330,34 +336,104 @@
                 <!--This is dummy view to show bottom imageview-->
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_80sdp"/>
+                    android:layout_height="@dimen/_80sdp" />
 
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/lay_feature_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/select_images_featured"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/imageFeatureRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                        app:spanCount="4"
+                        tools:itemCount="8" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layfeature_existing_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/existing_featured_image"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="@dimen/text_tiny" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlFeatureImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@drawable/edit_text_rounded_corner_bg">
+
+                        <ImageView
+                            android:id="@+id/exist_feature_img"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="@dimen/_80sdp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_placeholder_image_upload" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_80sdp" />
 
 
+            </LinearLayout>
         </LinearLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:background="@color/colorWhite">
-    <Button
-        android:id="@+id/next_btn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        style="@style/ButtonStyle"
-        android:text="@string/next"
-        android:textColor="@color/colorTextWhite"
-        android:textSize="@dimen/text_medium" />
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite">
+
+        <Button
+            android:id="@+id/next_btn"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:text="@string/next"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="@dimen/text_medium" />
 
 
-</LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

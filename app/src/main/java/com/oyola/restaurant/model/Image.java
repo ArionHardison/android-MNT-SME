@@ -21,6 +21,9 @@ public class Image implements Parcelable {
     @SerializedName("image_gallery_id")
     @Expose
     private Integer imageGalleryId;
+    @SerializedName("featuredimage_gallery_id")
+    @Expose
+    private Integer featuredImageGalleryId;
 
 
     protected Image(Parcel in) {
@@ -34,6 +37,12 @@ public class Image implements Parcelable {
             imageGalleryId = null;
         } else {
             imageGalleryId = in.readInt();
+        }
+
+        if (in.readByte() == 0) {
+            featuredImageGalleryId = null;
+        } else {
+            featuredImageGalleryId = in.readInt();
         }
 
     }
@@ -75,6 +84,15 @@ public class Image implements Parcelable {
         this.imageGalleryId = imageGalleryId;
     }
 
+
+    public Integer getFeaturedImageGalleryId() {
+        return featuredImageGalleryId;
+    }
+
+    public void setFeaturedImageGalleryId(Integer featuredImageGalleryId) {
+        this.featuredImageGalleryId = featuredImageGalleryId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -94,6 +112,12 @@ public class Image implements Parcelable {
         } else {
             dest.writeByte((byte) 1);
             dest.writeInt(imageGalleryId);
+        }
+        if (featuredImageGalleryId == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(featuredImageGalleryId);
         }
     }
 }

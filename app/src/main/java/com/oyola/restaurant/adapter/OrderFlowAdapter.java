@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.oyola.restaurant.R;
@@ -25,7 +26,6 @@ public class OrderFlowAdapter extends RecyclerView.Adapter<OrderFlowAdapter.MyVi
     public String orderStatus = "";
     private List<OrderFlow> list;
     private Context context;
-
 
     public OrderFlowAdapter(List<OrderFlow> list, Context con) {
         this.list = list;
@@ -82,6 +82,7 @@ public class OrderFlowAdapter extends RecyclerView.Adapter<OrderFlowAdapter.MyVi
                 CurrentOrderDetailActivity.orderCancelTxt.setVisibility(View.GONE);
                 CurrentOrderDetailActivity.otpTxt.setVisibility(View.VISIBLE);
             }*/
+
         } else {
             holder.statusTitle.setTextColor(ContextCompat.getColor(context, R.color.colorSecondaryText));
         }
@@ -90,6 +91,7 @@ public class OrderFlowAdapter extends RecyclerView.Adapter<OrderFlowAdapter.MyVi
             holder.viewLine.setVisibility(View.GONE);
         else
             holder.viewLine.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -101,6 +103,7 @@ public class OrderFlowAdapter extends RecyclerView.Adapter<OrderFlowAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView statusImage;
         private View viewLine;
+        private RelativeLayout layContent;
         private TextView statusTitle, statusDescription;
 
 
@@ -110,6 +113,7 @@ public class OrderFlowAdapter extends RecyclerView.Adapter<OrderFlowAdapter.MyVi
             statusTitle = (TextView) view.findViewById(R.id.order_status_title);
             statusDescription = (TextView) view.findViewById(R.id.order_status_description);
             viewLine = (View) view.findViewById(R.id.view_line);
+            layContent = view.findViewById(R.id.lay_content);
 //            notificatioLayout.setOnClickListener(this);
         }
 

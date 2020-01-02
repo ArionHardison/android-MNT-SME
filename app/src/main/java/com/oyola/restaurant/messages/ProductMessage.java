@@ -13,10 +13,9 @@ public class ProductMessage {
     private String strCuisineId = "";
     private String isFeatured = "";
     private String imageGalleryId = "";
+    private String featuredGalleryId = "";
     private String productIngredients = "";
-
     private String strSelectedFoodType = "";
-    boolean isImageChanged;
 
     public String getStrCuisineId() {
         return strCuisineId;
@@ -106,12 +105,13 @@ public class ProductMessage {
         this.imageGalleryId = imageGalleryId;
     }
 
-    public boolean isImageChanged() {
-        return isImageChanged;
+
+    public String getFeaturedGalleryId() {
+        return featuredGalleryId;
     }
 
-    public void setImageChanged(boolean imageChanged) {
-        isImageChanged = imageChanged;
+    public void setFeaturedGalleryId(String featuredGalleryId) {
+        this.featuredGalleryId = featuredGalleryId;
     }
 
     public String getProductIngredients() {
@@ -121,4 +121,6 @@ public class ProductMessage {
     public void setProductIngredients(String productIngredients) {
         this.productIngredients = productIngredients;
     }
+
+
 }

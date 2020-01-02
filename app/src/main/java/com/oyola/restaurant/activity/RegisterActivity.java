@@ -300,7 +300,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
         } else {
             mGalleryList = mImageList;
         }
-        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true);
+        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true,false);
         image_rv.setLayoutManager(new GridLayoutManager(context, 4));
         image_rv.setHasFixedSize(true);
         image_rv.setAdapter(mAdapter);
@@ -581,12 +581,12 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     }
 
     @Override
-    public void onImageSelected(ImageGallery mGallery) {
+    public void onImageSelected(ImageGallery mGallery,boolean isFeatured) {
         mSelectedImageId = String.valueOf(mGallery.getId());
     }
 
     @Override
-    public void navigateToImageScreen() {
+    public void navigateToImageScreen(boolean isFeatured) {
         Intent intent = new Intent(context, ImageGalleryActivity.class);
         intent.putExtra("image_list", mImageList);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);

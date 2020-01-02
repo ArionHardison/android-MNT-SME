@@ -187,7 +187,7 @@
                 android:fontFamily="@font/nunito_semibold"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:textColor="@color/colorTheme"
+                android:textColor="@color/colorPink"
                 android:textSize="@dimen/text_medium" />
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/chart"

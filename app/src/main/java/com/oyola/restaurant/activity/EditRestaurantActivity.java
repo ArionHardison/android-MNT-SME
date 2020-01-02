@@ -715,7 +715,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         } else {
             mGalleryList = mImageList;
         }
-        mAdapter = new ImageGalleryAdapter(mGalleryList, this, this, true);
+        mAdapter = new ImageGalleryAdapter(mGalleryList, this, this, true,false);
         image_rv.setLayoutManager(new GridLayoutManager(this, 4));
         image_rv.setHasFixedSize(true);
         image_rv.setAdapter(mAdapter);
@@ -723,12 +723,12 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
 
     @Override
-    public void onImageSelected(ImageGallery mGallery) {
+    public void onImageSelected(ImageGallery mGallery,boolean isFeatured) {
         mSelectedImageId = String.valueOf(mGallery.getId());
     }
 
     @Override
-    public void navigateToImageScreen() {
+    public void navigateToImageScreen(boolean isFeatured) {
         Intent intent = new Intent(EditRestaurantActivity.this, ImageGalleryActivity.class);
         intent.putExtra("image_list", mImageList);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);

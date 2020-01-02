@@ -28,7 +28,7 @@
     <color name="colorTransparent">#00ff6d00</color>
     <color name="grey">#888888</color>
     <color name="colorGreen">#00a551</color>
-    <color name="colorRed">#F48034</color>
+    <color name="colorOrange">#F48034</color>
     <color name="colorBlue">#3b8771</color>
     <color name="colorWhite">#FFF</color>
     <color name="colorYellow">#ffeb3b</color>
@@ -40,4 +40,6 @@
 
     <color name="colorButton">@color/colorPrimary</color>
     <color name="colorPink">#F04755</color>
+    <color name="colorRed">#b31101</color>
+    <color name="color_green">#1E941C</color>
 </resources>

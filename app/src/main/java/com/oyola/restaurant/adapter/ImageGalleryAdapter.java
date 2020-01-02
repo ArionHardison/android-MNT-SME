@@ -26,12 +26,15 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     private int selectedIndex = -1;
     ImageSelectedListener mListener;
     boolean mIsFromRegister = false;
+    boolean mIsFromFeatured = false;
 
-    public ImageGalleryAdapter(List<ImageGallery> list, Context context, ImageSelectedListener listener, boolean isFrom) {
+    public ImageGalleryAdapter(List<ImageGallery> list, Context context, ImageSelectedListener listener,
+                               boolean isFrom, boolean isFromFeatured) {
         this.mList = list;
         this.mContext = context;
         this.mListener = listener;
         this.mIsFromRegister = isFrom;
+        this.mIsFromFeatured = isFromFeatured;
     }
 
     @NonNull
@@ -96,9 +99,9 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
                         if (selectedIndex < mList.size()) {
                             mList.get(selectedIndex).setSelected(true);
                             notifyItemChanged(selectedIndex);
-                            mListener.onImageSelected(mList.get(selectedIndex));
+                            mListener.onImageSelected(mList.get(selectedIndex), mIsFromFeatured);
                         } else {
-                            mListener.navigateToImageScreen();
+                            mListener.navigateToImageScreen(mIsFromFeatured);
                         }
                     }
                     break;
@@ -107,8 +110,8 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     }
 
     public interface ImageSelectedListener {
-        void onImageSelected(ImageGallery mGallery);
+        void onImageSelected(ImageGallery mGallery, boolean isFeatured);
 
-        void navigateToImageScreen();
+        void navigateToImageScreen(boolean isFeatured);
     }
 }

@@ -206,8 +206,9 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
         params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
+        params.put("featuredimage_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getFeaturedGalleryId()));
         params.put("ingredients", RequestBody.create(MediaType.parse("text/plain"), message.getProductIngredients()));
-        /*if (message.isImageChanged()) {
+        /*if (message.isProductImageChanged()) {
             params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
         }*/
         for (int i = 0; i < addOnList.size(); i++) {
@@ -228,9 +229,9 @@ public class ProductAddOnActivity extends AppCompatActivity {
             filePart1 = MultipartBody.Part.createFormData("avatar[]", compressToFile.getName(), RequestBody.create(MediaType.parse("image/*"), compressToFile));
         }
 
-        String featured = (message.getFeaturedImageFile() != null) ? "1" : "0";
-        params.put("featured", RequestBody.create(MediaType.parse("text/plain"), featured));
-        params.put("featured_position", RequestBody.create(MediaType.parse("text/plain"), featured));
+//        String featured = (message.getFeaturedImageFile() != null) ? "1" : "0";
+        params.put("featured", RequestBody.create(MediaType.parse("text/plain"), message.getIsFeatured()));
+        params.put("featured_position", RequestBody.create(MediaType.parse("text/plain"), message.getIsFeatured()));
 
         MultipartBody.Part filePart2 = null;
         if (message.getFeaturedImageFile() != null) {
