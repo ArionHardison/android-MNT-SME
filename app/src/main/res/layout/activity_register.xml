@@ -125,12 +125,37 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:fontFamily="@font/nunito_semibold"
-                    android:text="@string/select_images"
+                    android:text="@string/select_shop_image"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_tiny" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/imageRecyclerView"
+                    android:id="@+id/imageShopRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:spanCount="4"
+                    tools:itemCount="8" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/select_banner_image"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_tiny" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/imageBannerRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layoutManager="android.support.v7.widget.GridLayoutManager"

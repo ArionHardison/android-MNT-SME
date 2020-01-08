@@ -147,6 +147,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     CheckBox freeDelivery;
     @BindView(R.id.imageRecyclerView)
     RecyclerView image_rv;
+    @BindView(R.id.imageBannerRecyclerView)
+    RecyclerView bannerImage_rv;
     public static final int PICK_IMAGE_REQUEST = 100;
     ConnectionHelper connectionHelper;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
@@ -172,8 +174,9 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     boolean mIsTakeaway = false;
     List<String> mRestraurantOffer = new ArrayList<>();
     String mSelectedImageId = "";
+    String mSelectedBannerImageId = "";
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
-    ImageGalleryAdapter mAdapter;
+    ImageGalleryAdapter mShopImageAdapter, mBannerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,8 +284,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 //                galleryIntent(SHOP_IMAGE);
                 break;
             case R.id.shop_banner:
-                CT_TYPE = SHOP_BANNER;
-                galleryIntent(SHOP_BANNER);
+//                CT_TYPE = SHOP_BANNER;
+//                galleryIntent(SHOP_BANNER);
                 break;
             case R.id.address_lay:
 
@@ -387,6 +390,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
                 map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
                 map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
+                map.put("image_banner_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageId));
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
                 } else if (tvStatus.getText().toString().equalsIgnoreCase("banned")) {
@@ -406,7 +410,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                     map.put("free_delivery", RequestBody.create(MediaType.parse("text/plain"), "0"));
                 }*/
 
-                map.put("halal", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(halal.isChecked() ? 1: 0)));
+                map.put("halal", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(halal.isChecked() ? 1 : 0)));
                 map.put("free_delivery", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(freeDelivery.isChecked() ? 1 : 0)));
 
                 if (location != null) {
@@ -541,6 +545,9 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         if (profile.getImageGalleyId() != null) {
             mSelectedImageId = String.valueOf(profile.getImageGalleyId());
         }
+        if (profile.getImageBannerId() != null) {
+            mSelectedBannerImageId = String.valueOf(profile.getImageBannerId());
+        }
         if (profile.getPureVeg() == 1) {
             radioYes.setChecked(true);
             radioNo.setChecked(false);
@@ -632,7 +639,11 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         }
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            mSelectedImageId = data.getExtras().getString("image_id");
+            if (data.getExtras().getBoolean("is_featured")) {
+                mSelectedBannerImageId = data.getExtras().getString("image_id");
+            } else {
+                mSelectedImageId = data.getExtras().getString("image_id");
+            }
         }
 
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
@@ -715,22 +726,31 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         } else {
             mGalleryList = mImageList;
         }
-        mAdapter = new ImageGalleryAdapter(mGalleryList, this, this, true,false);
+        mShopImageAdapter = new ImageGalleryAdapter(mGalleryList, this, this, true, false);
         image_rv.setLayoutManager(new GridLayoutManager(this, 4));
         image_rv.setHasFixedSize(true);
-        image_rv.setAdapter(mAdapter);
+        image_rv.setAdapter(mShopImageAdapter);
+        mBannerAdapter = new ImageGalleryAdapter(mGalleryList, this, this, true, true);
+        bannerImage_rv.setLayoutManager(new GridLayoutManager(this, 4));
+        bannerImage_rv.setHasFixedSize(true);
+        bannerImage_rv.setAdapter(mBannerAdapter);
     }
 
 
     @Override
-    public void onImageSelected(ImageGallery mGallery,boolean isFeatured) {
-        mSelectedImageId = String.valueOf(mGallery.getId());
+    public void onImageSelected(ImageGallery mGallery, boolean isFeatured) {
+        if (isFeatured) {
+            mSelectedBannerImageId = String.valueOf(mGallery.getId());
+        } else {
+            mSelectedImageId = String.valueOf(mGallery.getId());
+        }
     }
 
     @Override
     public void navigateToImageScreen(boolean isFeatured) {
         Intent intent = new Intent(EditRestaurantActivity.this, ImageGalleryActivity.class);
         intent.putExtra("image_list", mImageList);
+        intent.putExtra("is_featured", isFeatured);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 }

@@ -33,7 +33,6 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.oyola.restaurant.BuildConfig;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.adapter.ImageGalleryAdapter;
 import com.oyola.restaurant.countrypicker.Country;
@@ -150,8 +149,10 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
 
     @BindView(R.id.etDescription)
     EditText etDescription;
-    @BindView(R.id.imageRecyclerView)
-    RecyclerView image_rv;
+    @BindView(R.id.imageShopRecyclerView)
+    RecyclerView shopImageRV;
+    @BindView(R.id.imageBannerRecyclerView)
+    RecyclerView bannerImageRV;
     String country_code;
     LatLng location;
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
@@ -162,10 +163,11 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     int CT_TYPE = SHOP_IMAGE;
     private CountryPicker mCountryPicker;
     String status;
-    String mSelectedImageId = "";
+    String mSelectedShopImageId = "";
+    String mSelectedBannerImageId = "";
     List<String> mRestraurantOffer = new ArrayList<>();
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
-    ImageGalleryAdapter mAdapter;
+    ImageGalleryAdapter mShopAdapter,mBannerAdapter;
 
 
     @Override
@@ -300,10 +302,14 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
         } else {
             mGalleryList = mImageList;
         }
-        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true,false);
-        image_rv.setLayoutManager(new GridLayoutManager(context, 4));
-        image_rv.setHasFixedSize(true);
-        image_rv.setAdapter(mAdapter);
+        mShopAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true,false);
+        shopImageRV.setLayoutManager(new GridLayoutManager(context, 4));
+        shopImageRV.setHasFixedSize(true);
+        shopImageRV.setAdapter(mShopAdapter);
+        mBannerAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true,true);
+        bannerImageRV.setLayoutManager(new GridLayoutManager(context, 4));
+        bannerImageRV.setHasFixedSize(true);
+        bannerImageRV.setAdapter(mBannerAdapter);
     }
 
     @OnClick({R.id.cuisine, R.id.avatar, R.id.country_picker_lay, R.id.address_lay, R.id.register_btn,
@@ -455,7 +461,8 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
                     status = "active";
                 }
                 map.put("status", RequestBody.create(MediaType.parse("text/plain"), status));
-                map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
+                map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedShopImageId));
+                map.put("image_banner_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageId));
                 map.put("halal", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(halal.isChecked() ? 1 : 0)));
 //                if (halal.isChecked()) {
 //                    map.put("halal", RequestBody.create(MediaType.parse("text/plain"), "1"));
@@ -516,7 +523,11 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
             // Now do what you need to do after the dialog dismisses.
         }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            mSelectedImageId = data.getExtras().getString("image_id");
+            if (data.getExtras().getBoolean("is_featured")) {
+                mSelectedBannerImageId = data.getExtras().getString("image_id");
+            } else {
+                mSelectedShopImageId = data.getExtras().getString("image_id");
+            }
         }
 
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
@@ -582,13 +593,18 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
 
     @Override
     public void onImageSelected(ImageGallery mGallery,boolean isFeatured) {
-        mSelectedImageId = String.valueOf(mGallery.getId());
+        if (isFeatured) {
+            mSelectedBannerImageId = String.valueOf(mGallery.getId());
+        } else {
+            mSelectedShopImageId = String.valueOf(mGallery.getId());
+        }
     }
 
     @Override
     public void navigateToImageScreen(boolean isFeatured) {
         Intent intent = new Intent(context, ImageGalleryActivity.class);
         intent.putExtra("image_list", mImageList);
+        intent.putExtra("is_featured", isFeatured);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 

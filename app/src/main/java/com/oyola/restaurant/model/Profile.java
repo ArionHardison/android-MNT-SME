@@ -110,6 +110,10 @@ public class Profile {
     @Expose
     private List<DeliveryOption> deliveryOptionList=null;
 
+    @SerializedName("image_banner_id")
+    @Expose
+    private Integer imageBannerId ;
+
     public String getCountry_code() {
         return country_code;
     }
@@ -356,6 +360,14 @@ public class Profile {
 
     public void setFreeDelivery(Integer freeDelivery) {
         this.freeDelivery = freeDelivery;
+    }
+
+    public Integer getImageBannerId() {
+        return imageBannerId;
+    }
+
+    public void setImageBannerId(Integer imageBannerId) {
+        this.imageBannerId = imageBannerId;
     }
 }
 

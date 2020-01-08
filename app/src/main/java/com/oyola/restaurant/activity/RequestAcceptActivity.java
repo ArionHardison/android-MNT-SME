@@ -381,6 +381,7 @@ public class RequestAcceptActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Order> call, Response<Order> response) {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
+                    startActivity(new Intent(context, HistoryActivity.class));
                     finish();
                 } else {
                     Gson gson = new Gson();

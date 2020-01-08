@@ -322,6 +322,8 @@
     <string name="takeaway">Takeaway</string>
     <string name="delivery">Delivery</string>
     <string name="select_images">Select Images</string>
+    <string name="select_shop_image">Select Shop Image</string>
+    <string name="select_banner_image">Select Banner Image</string>
     <string name="select_images_product">Select Product Image</string>
     <string name="select_images_featured">Select Featured Image</string>
     <string name="write_description">Write Description&#8230;</string>
@@ -352,6 +354,8 @@
     <string name="bank_details">Bank Details</string>
     <string name="library">Library</string>
     <string name="existing_image">Existing Image</string>
+    <string name="existing_shop_image">Existing Shop Image</string>
+    <string name="existing_banner_image">Existing Banner Image</string>
     <string name="existing_product_image">Existing Product Image</string>
     <string name="existing_featured_image">Existing Featured Image</string>
     <string name="order_type_delivery">Order Type : DELIVERY</string>
