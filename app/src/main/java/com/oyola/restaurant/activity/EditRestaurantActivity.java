@@ -291,7 +291,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 break;
             case R.id.address_lay:
 
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME);
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ADDRESS);
                 // Start the autocomplete intent.
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                         .build(this);
@@ -634,10 +634,14 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) if (resultCode == RESULT_OK) {
+
             Place place = Autocomplete.getPlaceFromIntent(data);
-            txtAddress.setText(place.getName());
+            if (place.getAddress().toString().contains(place.getName().toString())) {
+                txtAddress.setText(place.getAddress());
+            } else {
+                txtAddress.setText(place.getName() + ", " + place.getAddress());
+            }
             location = place.getLatLng();
-            Log.i(TAG, "Place: " + place.getName());
         }
 
         if (requestCode == CUISINE_REQUEST_CODE) if (resultCode == 1) {
