@@ -8,11 +8,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +58,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -163,8 +164,8 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     int CT_TYPE = SHOP_IMAGE;
     private CountryPicker mCountryPicker;
     String status;
-    String mSelectedShopImageId = "";
-    String mSelectedBannerImageId = "";
+    String mSelectedShopImageId,mSelectedShopImageUrl = "";
+    String mSelectedBannerImageId,mSelectedBannerImageUrl = "";
     List<String> mRestraurantOffer = new ArrayList<>();
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
     ImageGalleryAdapter mShopAdapter,mBannerAdapter;
@@ -276,8 +277,13 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
                 device_token = SharedHelper.getKey(context, "device_token");
                 Log.d(TAG, "GCM Registration Token: " + device_token);
             } else {
-                device_token = "" + FirebaseInstanceId.getInstance().getToken();
-                SharedHelper.putKey(context, "device_token", "" + FirebaseInstanceId.getInstance().getToken());
+                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()){
+                        return;
+                    }
+                    device_token = ""+ Objects.requireNonNull(task.getResult()).getToken();
+                    SharedHelper.putKey(context, "device_token", device_token);
+                });
                 Log.d(TAG, "Failed to complete token refresh: " + device_token);
             }
         } catch (Exception e) {
@@ -461,8 +467,10 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
                     status = "active";
                 }
                 map.put("status", RequestBody.create(MediaType.parse("text/plain"), status));
-                map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedShopImageId));
-                map.put("image_banner_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageId));
+             /*   map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedShopImageId));
+                map.put("image_banner_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageId));*/
+                map.put("image_gallery_img", RequestBody.create(MediaType.parse("text/plain"), mSelectedShopImageUrl));
+                map.put("image_banner_img", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageUrl));
                 map.put("halal", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(halal.isChecked() ? 1 : 0)));
 //                if (halal.isChecked()) {
 //                    map.put("halal", RequestBody.create(MediaType.parse("text/plain"), "1"));
@@ -506,6 +514,7 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) if (resultCode == RESULT_OK) {
 //            Place place = PlaceAutocomplete.getPlace(this, data);
             Place place = Autocomplete.getPlaceFromIntent(data);
@@ -524,9 +533,11 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
         }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             if (data.getExtras().getBoolean("is_featured")) {
-                mSelectedBannerImageId = data.getExtras().getString("image_id");
+//                mSelectedBannerImageId = data.getExtras().getString("image_id");
+                mSelectedBannerImageUrl = data.getExtras().getString("image_url");
             } else {
-                mSelectedShopImageId = data.getExtras().getString("image_id");
+//                mSelectedShopImageId = data.getExtras().getString("image_id");
+                mSelectedShopImageUrl = data.getExtras().getString("image_url");
             }
         }
 
@@ -594,9 +605,11 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     @Override
     public void onImageSelected(ImageGallery mGallery,boolean isFeatured) {
         if (isFeatured) {
-            mSelectedBannerImageId = String.valueOf(mGallery.getId());
+//            mSelectedBannerImageId = String.valueOf(mGallery.getId());
+            mSelectedBannerImageUrl = mGallery.getImage();
         } else {
-            mSelectedShopImageId = String.valueOf(mGallery.getId());
+//            mSelectedShopImageId = String.valueOf(mGallery.getId());
+            mSelectedShopImageUrl = mGallery.getImage();
         }
     }
 

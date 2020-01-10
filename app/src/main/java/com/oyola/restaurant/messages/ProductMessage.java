@@ -14,6 +14,8 @@ public class ProductMessage {
     private String isFeatured = "";
     private String imageGalleryId = "";
     private String featuredGalleryId = "";
+    private String imageGalleryUrl = "";
+    private String featuredGalleryUrl = "";
     private String productIngredients = "";
     private String strSelectedFoodType = "";
 
@@ -122,5 +124,19 @@ public class ProductMessage {
         this.productIngredients = productIngredients;
     }
 
+    public String getImageGalleryUrl() {
+        return imageGalleryUrl;
+    }
 
+    public void setImageGalleryUrl(String imageGalleryUrl) {
+        this.imageGalleryUrl = imageGalleryUrl;
+    }
+
+    public String getFeaturedGalleryUrl() {
+        return featuredGalleryUrl;
+    }
+
+    public void setFeaturedGalleryUrl(String featuredGalleryUrl) {
+        this.featuredGalleryUrl = featuredGalleryUrl;
+    }
 }

@@ -2,10 +2,10 @@ package com.oyola.restaurant.activity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.tabs.TabLayout;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,6 +21,8 @@ import com.oyola.restaurant.helper.CustomDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -54,7 +56,7 @@ public class HistoryActivity extends AppCompatActivity {
         backImg.setVisibility(View.VISIBLE);
         title.setText(getResources().getString(R.string.history));
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         adapter.addFragment(new UpcomingVisitFragment(), getString(R.string.ongoing_order));
         adapter.addFragment(new PastVisitFragment(), getString(R.string.past_order));
         adapter.addFragment(new CancelOrderFragment(), getString(R.string.cancelled_order));

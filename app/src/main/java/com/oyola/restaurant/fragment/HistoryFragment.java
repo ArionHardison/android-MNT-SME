@@ -2,9 +2,9 @@ package com.oyola.restaurant.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,8 @@ import com.oyola.restaurant.adapter.ViewPagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +42,7 @@ public class HistoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         unbinder = ButterKnife.bind(this, view);
         //ViewPager Adapter
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(),BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         adapter.addFragment(new UpcomingVisitFragment(), getString(R.string.upcoming));
         adapter.addFragment(new PastVisitFragment(), getString(R.string.past));
         adapter.addFragment(new CancelOrderFragment(), getString(R.string.cancelled));

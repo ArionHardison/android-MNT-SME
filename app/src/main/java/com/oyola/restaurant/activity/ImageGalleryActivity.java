@@ -1,15 +1,19 @@
 package com.oyola.restaurant.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,6 +24,8 @@ import android.widget.Toast;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.adapter.ImageGalleryAdapter;
 import com.oyola.restaurant.model.ImageGallery;
+import com.unsplash.pickerandroid.photopicker.data.UnsplashPhoto;
+import com.unsplash.pickerandroid.photopicker.presentation.UnsplashPickerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +43,15 @@ public class ImageGalleryActivity extends AppCompatActivity implements ImageGall
     ImageView backImg;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.txt_load_more)
+    TextView mTxtLoadMore;
     @BindView(R.id.imageRecyclerView)
     RecyclerView image_rv;
     Context context;
     List<ImageGallery> mGalleryList = new ArrayList<>();
     ImageGalleryAdapter mAdapter;
     boolean mIsFeatured = false;
+    private final int REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,15 +64,20 @@ public class ImageGalleryActivity extends AppCompatActivity implements ImageGall
         mGalleryList = (List<ImageGallery>) getIntent().getSerializableExtra("image_list");
         mIsFeatured = getIntent().getExtras().getBoolean("is_featured");
         setupAdapter();
+        mTxtLoadMore.setPaintFlags(mTxtLoadMore.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
-    @OnClick({R.id.btnNoImage, R.id.back_img})
+    @OnClick({R.id.btnNoImage, R.id.back_img, R.id.txt_load_more})
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.back_img:
                 onBackPressed();
             case R.id.btnNoImage:
                 showAlertDialog();
+                break;
+            case R.id.txt_load_more:
+                Intent intent = new Intent(this, UnsplashPickerActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
                 break;
         }
     }
@@ -80,6 +94,7 @@ public class ImageGalleryActivity extends AppCompatActivity implements ImageGall
         String mSelectedId = String.valueOf(mGallery.getId());
         Intent intent = new Intent();
         intent.putExtra("image_id", mSelectedId);
+        intent.putExtra("image_url", mGallery.getImage());
         intent.putExtra("is_featured", mIsFeatured);
         setResult(RESULT_OK, intent);
         finish();
@@ -104,4 +119,37 @@ public class ImageGalleryActivity extends AppCompatActivity implements ImageGall
         alertDialog.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE && data != null) {
+
+            ArrayList<UnsplashPhoto> mList = new ArrayList<>();
+            mList.clear();
+            mList = data.getParcelableArrayListExtra(UnsplashPickerActivity.EXTRA_PHOTOS);
+            if (mList != null && mList.size() > 0) {
+                String mImageUrl = "";
+                Intent intent = new Intent();
+                intent.putExtra("image_id", "");
+                if (mList.get(0).getUrls().getSmall() != null) {
+                    mImageUrl = mList.get(0).getUrls().getSmall();
+                } else if (mList.get(0).getUrls().getRegular() != null) {
+                    mImageUrl = mList.get(0).getUrls().getRegular();
+                }else if (mList.get(0).getUrls().getFull() != null) {
+                    mImageUrl = mList.get(0).getUrls().getFull();
+                }
+                intent.putExtra("image_url", mImageUrl);
+                intent.putExtra("is_featured", mIsFeatured);
+                setResult(RESULT_OK, intent);
+                finish();
+            } else {
+                Intent intent = new Intent();
+                intent.putExtra("image_id", "");
+                intent.putExtra("image_url", "");
+                intent.putExtra("is_featured", mIsFeatured);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+    }
 }

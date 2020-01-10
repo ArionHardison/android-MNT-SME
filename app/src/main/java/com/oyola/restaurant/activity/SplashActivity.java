@@ -6,12 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.controller.GetProfile;
 import com.oyola.restaurant.controller.ProfileListener;
@@ -24,6 +29,8 @@ import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.LocaleUtils;
 import com.oyola.restaurant.utils.Utils;
+
+import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity implements ProfileListener {
 
@@ -94,8 +101,13 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
                 device_token = SharedHelper.getKey(context, "device_token");
                 Log.d(TAG, "GCM Registration Token: " + device_token);
             } else {
-                device_token = "" + FirebaseInstanceId.getInstance().getToken();
-                SharedHelper.putKey(context, "device_token", "" + device_token);
+                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()){
+                        return;
+                    }
+                    device_token = ""+ Objects.requireNonNull(task.getResult()).getToken();
+                    SharedHelper.putKey(context, "device_token",  device_token);
+                });
                 Log.d(TAG, "Failed to complete token refresh: " + device_token);
             }
         } catch (Exception e) {

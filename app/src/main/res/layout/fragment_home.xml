@@ -9,12 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.CoordinatorLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/activity_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.design.widget.AppBarLayout
+            <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
                 app:elevation="0dp">
 
 
-                <android.support.design.widget.CollapsingToolbarLayout
+                <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:id="@+id/collapsing_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -76,7 +76,7 @@
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/text_medium" />
 
-                        <android.support.v7.widget.AppCompatRatingBar
+                        <androidx.appcompat.widget.AppCompatRatingBar
                             style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -93,17 +93,17 @@
                     </RelativeLayout>
 
 
-                    <android.support.v7.widget.Toolbar
+                    <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         app:layout_collapseMode="pin" />
 
-                </android.support.design.widget.CollapsingToolbarLayout>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-            </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
 
-            <android.support.v4.widget.NestedScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite"
@@ -122,14 +122,14 @@
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="@dimen/text_medium" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/incoming_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         android:nestedScrollingEnabled="false">
 
-                    </android.support.v7.widget.RecyclerView>
+                    </androidx.recyclerview.widget.RecyclerView>
 
                     <LinearLayout
                         android:id="@+id/llNoRecords"
@@ -158,10 +158,10 @@
 
 
 
-            </android.support.v4.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
 
-        </android.support.design.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </RelativeLayout>
 
 </FrameLayout>

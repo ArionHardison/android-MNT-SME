@@ -1,17 +1,18 @@
 package com.oyola.restaurant.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,6 +64,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -173,8 +175,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     boolean mIsDelivery = false;
     boolean mIsTakeaway = false;
     List<String> mRestraurantOffer = new ArrayList<>();
-    String mSelectedImageId = "";
-    String mSelectedBannerImageId = "";
+    String mSelectedImageId,mSelectedImageUrl = "";
+    String mSelectedBannerImageId,mSelectedBannerImageUrl = "";
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
     ImageGalleryAdapter mShopImageAdapter, mBannerAdapter;
 
@@ -389,8 +391,10 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
                 map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
                 map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
-                map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
-                map.put("image_banner_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageId));
+               /* map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
+                map.put("image_banner_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageId));*/
+                map.put("image_gallery_img", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageUrl));
+                map.put("image_banner_img", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageUrl));
                 if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
                 } else if (tvStatus.getText().toString().equalsIgnoreCase("banned")) {
@@ -528,14 +532,16 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         etMobile.setText(profile.getPhone());
         String status = profile.getStatus();
 
-        if (profile.getAvatar() != null)
+        if (profile.getAvatar() != null) {
+            mSelectedImageUrl=profile.getAvatar();
             Glide.with(EditRestaurantActivity.this).load(profile.getAvatar())
                     .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
-
-        if (profile.getDefaultBanner() != null)
+        }
+        if (profile.getDefaultBanner() != null) {
+            mSelectedBannerImageUrl=profile.getDefaultBanner();
             Glide.with(EditRestaurantActivity.this).load(profile.getDefaultBanner())
                     .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(shop_banner);
-
+        }
         tvMinAmount.setText("" + profile.getOfferMinAmount());
         etOfferInPercentage.setText("" + profile.getOfferPercent());
         etMaximumDeliveryTime.setText("" + profile.getEstimatedDeliveryTime());
@@ -626,6 +632,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) if (resultCode == RESULT_OK) {
             Place place = Autocomplete.getPlaceFromIntent(data);
             txtAddress.setText(place.getName());
@@ -640,9 +647,11 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             if (data.getExtras().getBoolean("is_featured")) {
-                mSelectedBannerImageId = data.getExtras().getString("image_id");
+//                mSelectedBannerImageId = data.getExtras().getString("image_id");
+                mSelectedBannerImageUrl = data.getExtras().getString("image_url");
             } else {
-                mSelectedImageId = data.getExtras().getString("image_id");
+//                mSelectedImageId = data.getExtras().getString("image_id");
+                mSelectedImageUrl = data.getExtras().getString("image_url");
             }
         }
 
@@ -657,7 +666,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 if (type == SHOP_IMAGE) {
 //                    GlobalData.REGISTER_AVATAR = imageFiles.get(0);
                     try {
-                        GlobalData.REGISTER_AVATAR = new id.zelory.compressor.Compressor(EditRestaurantActivity.this).compressToFile(imageFiles.get(0));
+                        GlobalData.REGISTER_AVATAR = new Compressor(EditRestaurantActivity.this).compressToFile(imageFiles.get(0));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -670,7 +679,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 } else if (type == SHOP_BANNER) {
 //                    GlobalData.REGISTER_SHOP_BANNER = imageFiles.get(0);
                     try {
-                        GlobalData.REGISTER_SHOP_BANNER = new id.zelory.compressor.Compressor(EditRestaurantActivity.this).compressToFile(imageFiles.get(0));
+                        GlobalData.REGISTER_SHOP_BANNER = new Compressor(EditRestaurantActivity.this).compressToFile(imageFiles.get(0));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -740,9 +749,11 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     @Override
     public void onImageSelected(ImageGallery mGallery, boolean isFeatured) {
         if (isFeatured) {
-            mSelectedBannerImageId = String.valueOf(mGallery.getId());
+//            mSelectedBannerImageId = String.valueOf(mGallery.getId());
+            mSelectedBannerImageUrl = mGallery.getImage();
         } else {
-            mSelectedImageId = String.valueOf(mGallery.getId());
+//            mSelectedImageId = String.valueOf(mGallery.getId());
+            mSelectedImageUrl = mGallery.getImage();
         }
     }
 

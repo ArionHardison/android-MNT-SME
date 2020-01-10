@@ -153,12 +153,6 @@
             </intent-filter>
         </service>
 
-        <service android:name="com.oyola.restaurant.notification.MyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="995d4db952b022cae648a19c5cf55d68cc7ad58a" />

@@ -1,7 +1,7 @@
 package com.oyola.restaurant.controller;
 
 import android.provider.Settings;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
@@ -28,7 +28,7 @@ public class GetProfile {
     public GetProfile(ApiInterface apiInterface, final ProfileListener profileListener) {
         String device_id = Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID);
         String device_type = "Android";
-        String device_token = FirebaseInstanceId.getInstance().getToken();
+        String device_token = SharedHelper.getKey(MyApplication.getInstance(), "device_token");
 
         HashMap<String, String> params = new HashMap<>();
         params.put("device_id", device_id);

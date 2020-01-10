@@ -6,14 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -96,7 +99,7 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
     ArrayList<String> lstItems = new ArrayList<>();
     String strCategoryName, strDescription, strCategoryOrder, strStatus;
     private Category categoryDetails;
-    String mSelectedImageId = "";
+    String mSelectedImageId,mSelectedShopImageUrl = "";
     boolean isImageChanged = false;
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
     ImageGalleryAdapter mAdapter;
@@ -207,7 +210,8 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
                         params.put("status", RequestBody.create(MediaType.parse("text/plain"), strStatus.toLowerCase()));
                         params.put("shop_id", RequestBody.create(MediaType.parse("text/plain"), shop_id));
                         params.put("position", RequestBody.create(MediaType.parse("text/plain"), strCategoryOrder));
-                        params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
+//                        params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
+                        params.put("image_gallery_img", RequestBody.create(MediaType.parse("text/plain"), mSelectedShopImageUrl));
                         /*if (isProductImageChanged) {
                             params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedProductImageId));
                         }*/
@@ -315,18 +319,23 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
             if (images != null && images.size() > 0) {
                 layoutExistingImage.setVisibility(View.VISIBLE);
                 String img = images.get(0).getUrl();
-                mSelectedImageId= String.valueOf(images.get(0).getImageGalleryId());
+//                mSelectedImageId= String.valueOf(images.get(0).getImageGalleryId());
+                mSelectedShopImageUrl= img;
                 /*Glide.with(context).load(img)
                         .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(categoryImg);*/
 
                 Glide.with(this)
                         .asBitmap()
                         .load(img)
-                        .into(new SimpleTarget<Bitmap>() {
+                        .into(new CustomTarget<Bitmap>() {
                             @Override
-                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                 categoryImg.setImageBitmap(resource);
-//                                categoryImageFile = Utils.storeInFile(context, resource, "category_image.jpg", "jpeg");
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
                             }
                         });
             }
@@ -397,14 +406,16 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
         });
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            mSelectedImageId = data.getExtras().getString("image_id");
+//            mSelectedImageId = data.getExtras().getString("image_id");
+            mSelectedShopImageUrl = data.getExtras().getString("image_url");
             isImageChanged = true;
         }
     }
 
     @Override
     public void onImageSelected(ImageGallery mGallery,boolean isFeatured) {
-        mSelectedImageId = String.valueOf(mGallery.getId());
+//        mSelectedImageId = String.valueOf(mGallery.getId());
+        mSelectedShopImageUrl = mGallery.getImage();
         isImageChanged = true;
     }
 

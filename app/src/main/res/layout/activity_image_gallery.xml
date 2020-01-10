@@ -9,38 +9,50 @@
 
     <include layout="@layout/toolbar" />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:fontFamily="@font/nunito_semibold"
-            android:text="@string/select_images"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/text_tiny" />
+            android:layout_margin="@dimen/_5sdp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/imageRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="android.support.v7.widget.GridLayoutManager"
-            app:spanCount="4"
-            tools:itemCount="8" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/select_images"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imageRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:itemCount="8" />
 
-    <Button
-        android:id="@+id/btnNoImage"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/cant_find_image"
-        />
+            <TextView
+                android:id="@+id/txt_load_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="@string/load_more"/>
+            <Button
+                android:id="@+id/btnNoImage"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/cant_find_image" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

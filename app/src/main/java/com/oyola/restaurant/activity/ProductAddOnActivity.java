@@ -3,8 +3,8 @@ package com.oyola.restaurant.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -205,8 +205,10 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("shop", RequestBody.create(MediaType.parse("text/plain"), shop_id));
         params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
         params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
-        params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
-        params.put("featuredimage_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getFeaturedGalleryId()));
+        /*params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
+        params.put("featuredimage_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getFeaturedGalleryId()));*/
+        params.put("image_gallery_img", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryUrl()));
+        params.put("featuredimage_gallery_img", RequestBody.create(MediaType.parse("text/plain"), message.getFeaturedGalleryUrl()));
         params.put("ingredients", RequestBody.create(MediaType.parse("text/plain"), message.getProductIngredients()));
         /*if (message.isProductImageChanged()) {
             params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));

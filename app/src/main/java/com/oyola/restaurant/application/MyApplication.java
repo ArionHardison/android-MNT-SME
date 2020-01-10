@@ -1,12 +1,13 @@
 package com.oyola.restaurant.application;
 
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.helper.SharedHelper;
 import com.facebook.stetho.Stetho;
+import com.unsplash.pickerandroid.photopicker.UnsplashPhotoPicker;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -36,6 +37,9 @@ public class MyApplication extends MultiDexApplication {
         Stetho.initializeWithDefaults(this);
 
         mAppController = this;
+        UnsplashPhotoPicker.INSTANCE.init(this,
+                "0813811a510708005bed659afd6c652e6ef32ad72df534d37598dcd05f46af35",
+                "42dc66500397d66972dea4952edb76699cf6f9c8824dba27df1354bc1bfdaa50",20);
     }
 
     @Override

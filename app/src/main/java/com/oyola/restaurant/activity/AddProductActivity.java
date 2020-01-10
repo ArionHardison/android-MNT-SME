@@ -7,13 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
@@ -139,8 +142,8 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     ProductResponse productResponse;
     int selected_pos = 0;
     private String foodType;
-    String mSelectedProductImageId = "";
-    String mSelectedFeaturedImageId = "";
+    String mSelectedProductImageId,mSelectedProductImageUrl = "";
+    String mSelectedFeaturedImageId,mSelectedFeaturedImageUrl = "";
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
     ImageGalleryAdapter mProductAdapter;
     ImageGalleryAdapter mFeatureAdapter;
@@ -209,18 +212,24 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                     productResponse.getImages().size() > 0) {
                 List<Image> imageList = productResponse.getImages();
                 String url = imageList.get(0).getUrl();
-                mSelectedProductImageId = String.valueOf(imageList.get(0).getImageGalleryId());
+//                mSelectedProductImageId = String.valueOf(imageList.get(0).getImageGalleryId());
+                mSelectedProductImageUrl=url;
                 layoutExistingImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .asBitmap()
                         .load(url)
-                        .into(new SimpleTarget<Bitmap>() {
+                        .into(new CustomTarget<Bitmap>() {
                             @Override
-                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                 productImg.setImageBitmap(resource);
-//                                productImageFile = Utils.storeInFile(context, resource, "product_image.png", "png");
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
                             }
                         });
+
 
                /* Glide.with(context).load(url)
                         .apply(new RequestOptions().centerCrop().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(productImg);*/
@@ -231,16 +240,21 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                     productResponse.getFeaturedImages().size() > 0) {
                 List<Image> imageList = productResponse.getFeaturedImages();
                 String url = imageList.get(0).getUrl();
-                mSelectedFeaturedImageId = String.valueOf(imageList.get(0).getFeaturedImageGalleryId());
+                mSelectedFeaturedImageUrl = url;
+//                mSelectedFeaturedImageId = String.valueOf(imageList.get(0).getFeaturedImageGalleryId());
                 layoutFeatureExistingImage.setVisibility(View.VISIBLE);
                 Glide.with(this)
                         .asBitmap()
                         .load(url)
-                        .into(new SimpleTarget<Bitmap>() {
+                        .into(new CustomTarget<Bitmap>() {
                             @Override
-                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                 existFeatureImage.setImageBitmap(resource);
-//                                featuredImageFile = Utils.storeInFile(context, resource, "featured_image.png", "png");
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
                             }
                         });
 
@@ -471,17 +485,13 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
         message.setProductIngredients(strIngredients);
-        /*if (isProductImageChanged) {
-            message.setImageGalleryId(mSelectedProductImageId);
-            message.setImageChanged(isProductImageChanged);
-        }else {
-            message.setImageChanged(isProductImageChanged);
-        }*/
 
-        message.setImageGalleryId(mSelectedProductImageId);
+//        message.setImageGalleryId(mSelectedProductImageId);
+        message.setImageGalleryUrl(mSelectedProductImageUrl);
         if (rbYes.isChecked()) {
             message.setIsFeatured("1");
-            message.setFeaturedGalleryId(mSelectedFeaturedImageId);
+//            message.setFeaturedGalleryId(mSelectedFeaturedImageId);
+            message.setFeaturedGalleryUrl(mSelectedFeaturedImageUrl);
         } else {
             message.setIsFeatured("0");
         }
@@ -568,6 +578,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
@@ -619,9 +630,11 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             if (data.getExtras().getBoolean("is_featured")) {
-                mSelectedFeaturedImageId = data.getExtras().getString("image_id");
+//                mSelectedFeaturedImageId = data.getExtras().getString("image_id");
+                mSelectedFeaturedImageUrl = data.getExtras().getString("image_url");
             } else {
-                mSelectedProductImageId = data.getExtras().getString("image_id");
+//                mSelectedProductImageId = data.getExtras().getString("image_id");
+                mSelectedProductImageUrl = data.getExtras().getString("image_url");
             }
 
         }
@@ -643,9 +656,11 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     @Override
     public void onImageSelected(ImageGallery mGallery, boolean isFeatured) {
         if (isFeatured) {
-            mSelectedFeaturedImageId = String.valueOf(mGallery.getId());
+//            mSelectedFeaturedImageId = String.valueOf(mGallery.getId());
+            mSelectedFeaturedImageUrl= mGallery.getImage();
         } else {
-            mSelectedProductImageId = String.valueOf(mGallery.getId());
+//            mSelectedProductImageId = String.valueOf(mGallery.getId());
+            mSelectedProductImageUrl = mGallery.getImage();
         }
     }
 

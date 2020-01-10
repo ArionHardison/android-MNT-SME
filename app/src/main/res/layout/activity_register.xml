@@ -7,7 +7,7 @@
     android:background="#fdfdfe"
     tools:context="com.oyola.restaurant.activity.RegisterActivity">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/register_btn"
@@ -129,11 +129,11 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_tiny" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/imageShopRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="4"
                     tools:itemCount="8" />
 
@@ -154,11 +154,11 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_tiny" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/imageBannerRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="4"
                     tools:itemCount="8" />
 
@@ -259,7 +259,7 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/register_btn"
