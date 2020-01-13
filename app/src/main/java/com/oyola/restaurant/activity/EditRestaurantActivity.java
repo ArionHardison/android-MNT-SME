@@ -653,9 +653,15 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             if (data.getExtras().getBoolean("is_featured")) {
 //                mSelectedBannerImageId = data.getExtras().getString("image_id");
                 mSelectedBannerImageUrl = data.getExtras().getString("image_url");
+                Glide.with(EditRestaurantActivity.this).load(mSelectedBannerImageUrl)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate()).into(shop_banner);
             } else {
 //                mSelectedImageId = data.getExtras().getString("image_id");
                 mSelectedImageUrl = data.getExtras().getString("image_url");
+                Glide.with(EditRestaurantActivity.this).load(mSelectedImageUrl)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
             }
         }
 
@@ -755,9 +761,15 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         if (isFeatured) {
 //            mSelectedBannerImageId = String.valueOf(mGallery.getId());
             mSelectedBannerImageUrl = mGallery.getImage();
+            Glide.with(EditRestaurantActivity.this).load(mSelectedBannerImageUrl)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                            .error(R.drawable.ic_place_holder_image).dontAnimate()).into(shop_banner);
         } else {
 //            mSelectedImageId = String.valueOf(mGallery.getId());
             mSelectedImageUrl = mGallery.getImage();
+            Glide.with(EditRestaurantActivity.this).load(mSelectedImageUrl)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                            .error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImg);
         }
     }
 

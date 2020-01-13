@@ -142,6 +142,12 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     @BindView(R.id.tvMinAmount)
     EditText tvMinAmount;
 
+    @BindView(R.id.shop_img)
+    ImageView shopImage;
+
+    @BindView(R.id.shop_banner)
+    ImageView shopBanner;
+
     @BindView(R.id.etOfferInPercentage)
     SuffixEditText etOfferInPercentage;
 
@@ -535,9 +541,15 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
             if (data.getExtras().getBoolean("is_featured")) {
 //                mSelectedBannerImageId = data.getExtras().getString("image_id");
                 mSelectedBannerImageUrl = data.getExtras().getString("image_url");
+                Glide.with(this).load(mSelectedBannerImageUrl)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopBanner);
             } else {
 //                mSelectedShopImageId = data.getExtras().getString("image_id");
                 mSelectedShopImageUrl = data.getExtras().getString("image_url");
+                Glide.with(this).load(mSelectedShopImageUrl)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImage);
             }
         }
 
@@ -607,9 +619,15 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
         if (isFeatured) {
 //            mSelectedBannerImageId = String.valueOf(mGallery.getId());
             mSelectedBannerImageUrl = mGallery.getImage();
+            Glide.with(this).load(mSelectedBannerImageUrl)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                            .error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImage);
         } else {
 //            mSelectedShopImageId = String.valueOf(mGallery.getId());
             mSelectedShopImageUrl = mGallery.getImage();
+            Glide.with(this).load(mSelectedShopImageUrl)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                            .error(R.drawable.ic_place_holder_image).dontAnimate()).into(shopImage);
         }
     }
 

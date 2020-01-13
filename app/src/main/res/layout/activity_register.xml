@@ -136,6 +136,12 @@
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="4"
                     tools:itemCount="8" />
+                <ImageView
+                    android:id="@+id/shop_img"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:src="@drawable/ic_placeholder_image_upload" />
 
             </LinearLayout>
 
@@ -161,6 +167,13 @@
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="4"
                     tools:itemCount="8" />
+
+                <ImageView
+                    android:id="@+id/shop_banner"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:src="@drawable/ic_placeholder_image_upload" />
 
             </LinearLayout>
 

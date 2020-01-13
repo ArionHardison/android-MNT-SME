@@ -10,12 +10,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +30,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.oyola.restaurant.R;
@@ -95,12 +96,11 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    File categoryImageFile=null;
+    File categoryImageFile = null;
     ArrayList<String> lstItems = new ArrayList<>();
     String strCategoryName, strDescription, strCategoryOrder, strStatus;
     private Category categoryDetails;
-    String mSelectedImageId,mSelectedShopImageUrl = "";
-    boolean isImageChanged = false;
+    String mSelectedImageId, mSelectedShopImageUrl = "";
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
     ImageGalleryAdapter mAdapter;
 
@@ -185,7 +185,7 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
         } else {
             mGalleryList = mImageList;
         }
-        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true,false);
+        mAdapter = new ImageGalleryAdapter(mGalleryList, context, this, true, false);
         image_rv.setLayoutManager(new GridLayoutManager(context, 4));
         image_rv.setHasFixedSize(true);
         image_rv.setAdapter(mAdapter);
@@ -320,11 +320,12 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
                 layoutExistingImage.setVisibility(View.VISIBLE);
                 String img = images.get(0).getUrl();
 //                mSelectedImageId= String.valueOf(images.get(0).getImageGalleryId());
-                mSelectedShopImageUrl= img;
-                /*Glide.with(context).load(img)
-                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(categoryImg);*/
-
-                Glide.with(this)
+                mSelectedShopImageUrl = img;
+               /* Glide.with(context).load(img)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate()).into(categoryImg);
+*/
+               /* Glide.with(this)
                         .asBitmap()
                         .load(img)
                         .into(new CustomTarget<Bitmap>() {
@@ -337,7 +338,12 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
                             public void onLoadCleared(@Nullable Drawable placeholder) {
 
                             }
-                        });
+                        });*/
+                Glide.with(this)
+                        .load(img)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate())
+                        .into(categoryImg);
             }
         }
 
@@ -376,6 +382,7 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
@@ -390,8 +397,7 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
                     e.printStackTrace();
                 }
 
-                Glide
-                        .with(context)
+                Glide.with(context)
                         .load(imageFiles.get(0))
                         .apply(new RequestOptions()
                                 .placeholder(R.drawable.ic_place_holder_image)
@@ -408,15 +414,25 @@ public class AddCategoryActivity extends AppCompatActivity implements ImageGalle
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
 //            mSelectedImageId = data.getExtras().getString("image_id");
             mSelectedShopImageUrl = data.getExtras().getString("image_url");
-            isImageChanged = true;
+            layoutExistingImage.setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(mSelectedShopImageUrl)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                            .error(R.drawable.ic_place_holder_image).dontAnimate())
+                    .into(categoryImg);
         }
     }
 
     @Override
-    public void onImageSelected(ImageGallery mGallery,boolean isFeatured) {
+    public void onImageSelected(ImageGallery mGallery, boolean isFeatured) {
 //        mSelectedImageId = String.valueOf(mGallery.getId());
         mSelectedShopImageUrl = mGallery.getImage();
-        isImageChanged = true;
+        layoutExistingImage.setVisibility(View.VISIBLE);
+        Glide.with(this)
+                .load(mSelectedShopImageUrl)
+                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                        .error(R.drawable.ic_place_holder_image).dontAnimate())
+                .into(categoryImg);
     }
 
     @Override

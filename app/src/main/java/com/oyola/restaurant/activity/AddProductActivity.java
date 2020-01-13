@@ -215,7 +215,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
 //                mSelectedProductImageId = String.valueOf(imageList.get(0).getImageGalleryId());
                 mSelectedProductImageUrl=url;
                 layoutExistingImage.setVisibility(View.VISIBLE);
-                Glide.with(this)
+             /*   Glide.with(this)
                         .asBitmap()
                         .load(url)
                         .into(new CustomTarget<Bitmap>() {
@@ -228,12 +228,13 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                             public void onLoadCleared(@Nullable Drawable placeholder) {
 
                             }
-                        });
+                        });*/
 
-
-               /* Glide.with(context).load(url)
-                        .apply(new RequestOptions().centerCrop().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(productImg);*/
-
+                Glide.with(this)
+                        .load(url)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate())
+                        .into(productImg);
             }
 
             if (productResponse.getFeaturedImages() != null &&
@@ -243,7 +244,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                 mSelectedFeaturedImageUrl = url;
 //                mSelectedFeaturedImageId = String.valueOf(imageList.get(0).getFeaturedImageGalleryId());
                 layoutFeatureExistingImage.setVisibility(View.VISIBLE);
-                Glide.with(this)
+                /*Glide.with(this)
                         .asBitmap()
                         .load(url)
                         .into(new CustomTarget<Bitmap>() {
@@ -256,11 +257,12 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                             public void onLoadCleared(@Nullable Drawable placeholder) {
 
                             }
-                        });
-
-               /* Glide.with(context).load(url)
-                        .apply(new RequestOptions().centerCrop().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(productImg);*/
-
+                        });*/
+                Glide.with(this)
+                        .load(url)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate())
+                        .into(existFeatureImage);
             }
 
             if (productResponse.getFoodType() != null &&
@@ -308,6 +310,13 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
                 rlFeaturedImage.setClickable(false);
                 rlFeaturedImage.setAlpha(0.5f);
                 layoutFeatureRv.setVisibility(View.GONE);
+            }
+        });
+        rbNo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                layoutFeatureExistingImage.setVisibility(View.GONE);
+            } else {
+                layoutFeatureExistingImage.setVisibility(View.VISIBLE);
             }
         });
         rbVeg.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -632,9 +641,21 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
             if (data.getExtras().getBoolean("is_featured")) {
 //                mSelectedFeaturedImageId = data.getExtras().getString("image_id");
                 mSelectedFeaturedImageUrl = data.getExtras().getString("image_url");
+                layoutFeatureExistingImage.setVisibility(View.VISIBLE);
+                Glide.with(this)
+                        .load(mSelectedFeaturedImageUrl)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate())
+                        .into(existFeatureImage);
             } else {
 //                mSelectedProductImageId = data.getExtras().getString("image_id");
                 mSelectedProductImageUrl = data.getExtras().getString("image_url");
+                layoutExistingImage.setVisibility(View.VISIBLE);
+                Glide.with(this)
+                        .load(mSelectedProductImageUrl)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate())
+                        .into(productImg);
             }
 
         }
@@ -658,9 +679,21 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         if (isFeatured) {
 //            mSelectedFeaturedImageId = String.valueOf(mGallery.getId());
             mSelectedFeaturedImageUrl= mGallery.getImage();
+            layoutFeatureExistingImage.setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(mSelectedFeaturedImageUrl)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                            .error(R.drawable.ic_place_holder_image).dontAnimate())
+                    .into(existFeatureImage);
         } else {
 //            mSelectedProductImageId = String.valueOf(mGallery.getId());
             mSelectedProductImageUrl = mGallery.getImage();
+            layoutExistingImage.setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(mSelectedProductImageUrl)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                            .error(R.drawable.ic_place_holder_image).dontAnimate())
+                    .into(productImg);
         }
     }
 
