@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +45,8 @@ public class AddAddOnsActivity extends AppCompatActivity {
     TextView title;
     @BindView(R.id.et_addons_name)
     EditText etAddonsName;
+    @BindView(R.id.et_calories)
+    EditText etCalories;
     @BindView(R.id.save_btn)
     Button saveBtn;
 
@@ -66,6 +70,11 @@ public class AddAddOnsActivity extends AppCompatActivity {
                     !addon.getName().equalsIgnoreCase("null") && addon.getName().length() > 0) {
                 etAddonsName.setText(addon.getName());
             }
+            if (addon != null && addon.getCalories() != null) {
+                etCalories.setText(""+addon.getCalories());
+            }else {
+                etCalories.setText("0");
+            }
         } else
             title.setText(getString(R.string.create_add_ons));
         backImg.setVisibility(View.VISIBLE);
@@ -86,22 +95,27 @@ public class AddAddOnsActivity extends AppCompatActivity {
                 break;
             case R.id.save_btn:
                 String name = etAddonsName.getText().toString();
-                if (!name.isEmpty()) {
-                    addAddOns(name);
-                } else
+                String calories = etCalories.getText().toString();
+                if (name.isEmpty()) {
                     Utils.displayMessage(activity, getResources().getString(R.string.please_enter_addons_name));
+                } else if (calories.isEmpty() && calories.equalsIgnoreCase("0")) {
+                    Utils.displayMessage(activity, getResources().getString(R.string.please_enter_calories));
+                } else {
+                    addAddOns(name, calories);
+                }
+
                 break;
         }
     }
 
-    private void addAddOns(String name) {
+    private void addAddOns(String name, String calorie) {
         customDialog.show();
         Call<Addon> call;
         String shop_id = SharedHelper.getKey(this, Constants.PREF.PROFILE_ID);
         if (getIntent().getBooleanExtra("is_update", false))
-            call = apiInterface.updateAddon(GlobalData.selectedAddon.getId(), name,shop_id);
+            call = apiInterface.updateAddon(GlobalData.selectedAddon.getId(), name, calorie, shop_id);
         else
-            call = apiInterface.addAddon(name,shop_id);
+            call = apiInterface.addAddon(name, calorie, shop_id);
 
         call.enqueue(new Callback<Addon>() {
             @Override

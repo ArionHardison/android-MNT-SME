@@ -18,6 +18,7 @@ public class ProductMessage {
     private String featuredGalleryUrl = "";
     private String productIngredients = "";
     private String strSelectedFoodType = "";
+    private String strCalorieValue = "";
 
     public String getStrCuisineId() {
         return strCuisineId;
@@ -138,5 +139,13 @@ public class ProductMessage {
 
     public void setFeaturedGalleryUrl(String featuredGalleryUrl) {
         this.featuredGalleryUrl = featuredGalleryUrl;
+    }
+
+    public String getStrCalorieValue() {
+        return strCalorieValue;
+    }
+
+    public void setStrCalorieValue(String strCalorieValue) {
+        this.strCalorieValue = strCalorieValue;
     }
 }

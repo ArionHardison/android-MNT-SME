@@ -16,15 +16,25 @@
         android:text="Mayonnise"
         android:textSize="@dimen/_14sdp"
         android:checked="false"
+        android:gravity="center"
         android:textColor="@color/colorTextBlack"
         android:checkMark="?android:attr/listChoiceIndicatorSingle"
         android:fontFamily="@font/nunito_semibold"/>
 
     <TextView
+        android:id="@+id/txtCalorieDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/calories"
+        android:textColor="@color/colorTextBlack"
+        android:fontFamily="@font/nunito_semibold"
+        android:textSize="@dimen/text_tiny"/>
+
+    <TextView
         android:id="@+id/tvPriceHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price"
+        android:text="@string/price"
         android:textColor="@color/colorTextBlack"
         android:fontFamily="@font/nunito_semibold"
         android:textSize="@dimen/text_tiny"/>

@@ -67,6 +67,8 @@ public class ProductResponse implements Parcelable {
     private String status;
     @SerializedName("ingredients")
     private String ingredients;
+    @SerializedName("calories")
+    private Double calories;
 
     protected ProductResponse(Parcel in) {
         featured = in.readInt();
@@ -117,6 +119,7 @@ public class ProductResponse implements Parcelable {
         prices = (Prices) in.readValue(Prices.class.getClassLoader());
         status = in.readString();
         ingredients = in.readString();
+        calories = in.readByte() == 0x00 ? null : in.readDouble();
     }
 
     public int getFeatured() {
@@ -283,6 +286,14 @@ public class ProductResponse implements Parcelable {
         return ingredients;
     }
 
+    public Double getCalories() {
+        return calories;
+    }
+
+    public void setCalories(Double calories) {
+        this.calories = calories;
+    }
+
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
@@ -341,5 +352,13 @@ public class ProductResponse implements Parcelable {
         dest.writeValue(prices);
         dest.writeString(status);
         dest.writeString(ingredients);
+        if (calories == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(calories);
+        }
     }
+
+
 }

@@ -33,6 +33,9 @@ public class Addon implements Parcelable {
     @SerializedName("shop_id")
     @Expose
     private Integer shopId;
+    @SerializedName("calories")
+    @Expose
+    private Double calories;
     @SerializedName("deleted_at")
     @Expose
     private Object deletedAt;
@@ -46,6 +49,7 @@ public class Addon implements Parcelable {
         id = in.readByte() == 0x00 ? null : in.readInt();
         name = in.readString();
         shopId = in.readByte() == 0x00 ? null : in.readInt();
+        calories = in.readByte() == 0x00 ? null : in.readDouble();
         deletedAt = (Object) in.readValue(Object.class.getClassLoader());
         price = in.readString();
         isChecked = in.readByte() != 0x00;
@@ -110,6 +114,14 @@ public class Addon implements Parcelable {
         this.deletedAt = deletedAt;
     }
 
+    public Double getCalories() {
+        return calories;
+    }
+
+    public void setCalories(Double calories) {
+        this.calories = calories;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -129,6 +141,12 @@ public class Addon implements Parcelable {
         } else {
             dest.writeByte((byte) (0x01));
             dest.writeInt(shopId);
+        }
+        if (calories == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(calories);
         }
         dest.writeValue(deletedAt);
         dest.writeString(price);

@@ -210,6 +210,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("image_gallery_img", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryUrl()));
         params.put("featuredimage_gallery_img", RequestBody.create(MediaType.parse("text/plain"), message.getFeaturedGalleryUrl()));
         params.put("ingredients", RequestBody.create(MediaType.parse("text/plain"), message.getProductIngredients()));
+        params.put("calories", RequestBody.create(MediaType.parse("text/plain"), message.getStrCalorieValue()));
         /*if (message.isProductImageChanged()) {
             params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
         }*/

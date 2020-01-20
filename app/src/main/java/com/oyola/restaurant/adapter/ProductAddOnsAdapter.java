@@ -42,6 +42,7 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Addon data = list.get(position);
         holder.ctvAddOnName.setText(data.getName());
+        holder.txtCalorieDetail.setText(activity.getString(R.string.calories)+" : "+data.getCalories());
 
         if (data.isChecked()) {
             holder.ctvAddOnName.setChecked(true);
@@ -123,6 +124,7 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         EditText etPrice;
         TextView tvPriceHeader;
+        TextView txtCalorieDetail;
         CheckedTextView ctvAddOnName;
 
         public MyViewHolder(View view) {
@@ -130,6 +132,7 @@ public class ProductAddOnsAdapter extends RecyclerView.Adapter<ProductAddOnsAdap
 
             etPrice = view.findViewById(R.id.etPrice);
             tvPriceHeader = view.findViewById(R.id.tvPriceHeader);
+            txtCalorieDetail = view.findViewById(R.id.txtCalorieDetail);
             ctvAddOnName = view.findViewById(R.id.ctvAddOnName);
         }
     }

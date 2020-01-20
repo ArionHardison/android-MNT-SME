@@ -10,12 +10,14 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -120,6 +122,8 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     LinearLayout layoutFeatureExistingImage;
     @BindView(R.id.et_ingredients)
     EditText edtIngredients;
+    @BindView(R.id.et_calories)
+    EditText edtCalories;
     @BindView(R.id.exist_feature_img)
     ImageView existFeatureImage;
 
@@ -133,7 +137,8 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     String TAG = "AddProductActivity";
     int PRODUCT_IMAGE_TYPE = 0;
     int FEATURE_IMAGE_TYPE = 1;
-    String strProductName, strProductDescription, strStatus = "Enabled", strProductOrder = "0", strCategory, strIngredients;
+    String strProductName, strProductDescription, strStatus = "Enabled", strProductOrder = "0",
+            strCategory, strIngredients, strCalories;
     List<Category> listCategory;
     ArrayList<String> lstCategoryNames = new ArrayList<String>();
     HashMap<String, Integer> hshCategory = new HashMap<>();
@@ -142,8 +147,8 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     ProductResponse productResponse;
     int selected_pos = 0;
     private String foodType;
-    String mSelectedProductImageId,mSelectedProductImageUrl = "";
-    String mSelectedFeaturedImageId,mSelectedFeaturedImageUrl = "";
+    String mSelectedProductImageId, mSelectedProductImageUrl = "";
+    String mSelectedFeaturedImageId, mSelectedFeaturedImageUrl = "";
     ArrayList<ImageGallery> mImageList = new ArrayList<>();
     ImageGalleryAdapter mProductAdapter;
     ImageGalleryAdapter mFeatureAdapter;
@@ -208,12 +213,17 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
 
             if (productResponse.getIngredients() != null)
                 edtIngredients.setText(productResponse.getIngredients());
+            if (productResponse.getCalories() != null) {
+                edtCalories.setText("" + productResponse.getCalories());
+            } else {
+                edtCalories.setText("0");
+            }
             if (productResponse.getImages() != null &&
                     productResponse.getImages().size() > 0) {
                 List<Image> imageList = productResponse.getImages();
                 String url = imageList.get(0).getUrl();
 //                mSelectedProductImageId = String.valueOf(imageList.get(0).getImageGalleryId());
-                mSelectedProductImageUrl=url;
+                mSelectedProductImageUrl = url;
                 layoutExistingImage.setVisibility(View.VISIBLE);
              /*   Glide.with(this)
                         .asBitmap()
@@ -494,6 +504,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         message.setStrProductCategory(strCategory);
         message.setStrProductOrder(strProductOrder);
         message.setProductIngredients(strIngredients);
+        message.setStrCalorieValue(strCalories);
 
 //        message.setImageGalleryId(mSelectedProductImageId);
         message.setImageGalleryUrl(mSelectedProductImageUrl);
@@ -549,6 +560,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         strProductDescription = etDescription.getText().toString().trim();
         strProductOrder = etProductOrder.getText().toString().trim();
         strIngredients = edtIngredients.getText().toString().trim();
+        strCalories = edtCalories.getText().toString().trim();
         if (strProductOrder.equals("")) {
             strProductOrder = "0";
         }
@@ -570,6 +582,9 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
             return false;
         } else if (strIngredients == null || strIngredients.isEmpty()) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_ingredients));
+            return false;
+        } else if (strCalories == null || strCalories.isEmpty()) {
+            Utils.displayMessage(activity, getResources().getString(R.string.please_enter_calories));
             return false;
         }
         /* else if (productImageFile == null) {
@@ -678,7 +693,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
     public void onImageSelected(ImageGallery mGallery, boolean isFeatured) {
         if (isFeatured) {
 //            mSelectedFeaturedImageId = String.valueOf(mGallery.getId());
-            mSelectedFeaturedImageUrl= mGallery.getImage();
+            mSelectedFeaturedImageUrl = mGallery.getImage();
             layoutFeatureExistingImage.setVisibility(View.VISIBLE);
             Glide.with(this)
                     .load(mSelectedFeaturedImageUrl)
