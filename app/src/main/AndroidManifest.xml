@@ -127,6 +127,14 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.oyola.restaurant.activity.FoodSafetyActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.oyola.restaurant.activity.DocumentViewActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.oyola.restaurant.activity.ForgotPassword"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />

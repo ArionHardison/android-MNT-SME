@@ -23,6 +23,7 @@ import com.oyola.restaurant.activity.BankDetailActivity;
 import com.oyola.restaurant.activity.ChangePasswordActivity;
 import com.oyola.restaurant.activity.DeliveriesActivity;
 import com.oyola.restaurant.activity.EditRestaurantActivity;
+import com.oyola.restaurant.activity.FoodSafetyActivity;
 import com.oyola.restaurant.activity.HistoryActivity;
 import com.oyola.restaurant.activity.HomeActivity;
 import com.oyola.restaurant.activity.LoginActivity;
@@ -100,6 +101,8 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             context.startActivity(intent);
         } else if (title.equalsIgnoreCase(context.getString(R.string.deliveries))) {
             context.startActivity(new Intent(context, DeliveriesActivity.class));
+        }else if (title.equalsIgnoreCase(context.getString(R.string.food_safety))) {
+            context.startActivity(new Intent(context, FoodSafetyActivity.class));
         } else if (title.equalsIgnoreCase(context.getString(R.string.change_language))) {
             changeLanguage();
         } else if (title.equalsIgnoreCase(context.getString(R.string.change_password))) {

@@ -51,6 +51,7 @@
     <string name="edit_timing">Edit Timing</string>
     <string name="deliveries">Deliveries</string>
     <string name="change_password">Change Password</string>
+    <string name="food_safety">Food Safety</string>
     <string name="change_language">Change Language</string>
     <string name="payment">Payment</string>
     <string name="profile">Profile</string>
@@ -368,4 +369,8 @@
     <string name="please_enter_calories">Please enter calorie details</string>
     <string name="load_more">Load more...</string>
     <string name="calories">Calories</string>
+    <string name="documents">Documents</string>
+    <string name="document">Document</string>
+    <string name="no_documents">No Documents Found</string>
+    <string name="date">Date</string>
 </resources>

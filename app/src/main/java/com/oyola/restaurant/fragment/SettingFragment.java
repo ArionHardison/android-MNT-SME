@@ -109,9 +109,11 @@ public class SettingFragment extends Fragment implements ProfileListener {
         settingArrayList.add(new Setting(getString(R.string.edit_timing), R.drawable.ic_edit_time));
         settingArrayList.add(new Setting(getString(R.string.edit_bank), R.drawable.ic_edit_bank));
         settingArrayList.add(new Setting(getString(R.string.deliveries), R.drawable.ic_delivery_truck));
-        settingArrayList.add(new Setting(getString(R.string.change_language), R.drawable.ic_translate));
+        settingArrayList.add(new Setting(getString(R.string.food_safety), R.drawable.ic_announcement));
+//        settingArrayList.add(new Setting(getString(R.string.change_language), R.drawable.ic_translate));
         settingArrayList.add(new Setting(getString(R.string.change_password), R.drawable.ic_padlock));
         settingArrayList.add(new Setting(getString(R.string.logout), R.drawable.logout));
+        settingArrayList.add(new Setting(getString(R.string.delete_account), R.drawable.trash));
         settingArrayList.add(new Setting(getString(R.string.delete_account), R.drawable.trash));
 
         settingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));

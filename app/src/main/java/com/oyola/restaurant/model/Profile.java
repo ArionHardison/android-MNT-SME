@@ -109,6 +109,9 @@ public class Profile {
     @SerializedName("deliveryoption")
     @Expose
     private List<DeliveryOption> deliveryOptionList=null;
+    @SerializedName("training_module")
+    @Expose
+    private List<TrainingModule> trainingModules=null;
 
     @SerializedName("image_banner_id")
     @Expose
@@ -368,6 +371,14 @@ public class Profile {
 
     public void setImageBannerId(Integer imageBannerId) {
         this.imageBannerId = imageBannerId;
+    }
+
+    public List<TrainingModule> getTrainingModules() {
+        return trainingModules;
+    }
+
+    public void setTrainingModules(List<TrainingModule> trainingModules) {
+        this.trainingModules = trainingModules;
     }
 }
 
