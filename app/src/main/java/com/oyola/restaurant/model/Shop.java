@@ -46,7 +46,7 @@ public class Shop {
     private String email;
 
     @SerializedName("offer_min_amount")
-    private int offerMinAmount;
+    private double offerMinAmount;
 
     @SerializedName("longitude")
     private double longitude;
@@ -185,7 +185,7 @@ public class Shop {
         this.email = email;
     }
 
-    public int getOfferMinAmount() {
+    public double getOfferMinAmount() {
         return offerMinAmount;
     }
 
