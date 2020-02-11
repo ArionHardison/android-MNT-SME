@@ -74,6 +74,7 @@ import retrofit2.Response;
 
 import static com.oyola.restaurant.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 import static com.oyola.restaurant.utils.TextUtils.isValidEmail;
+import static com.oyola.restaurant.utils.TextUtils.isValidPassword;
 
 public class RegisterActivity extends AppCompatActivity implements ImageGalleryAdapter.ImageSelectedListener {
 
@@ -422,12 +423,16 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_phone_number));
         else if (password.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_password));
-        else if (!password.isEmpty() && password.length() < 6)
-            Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
+//        else if (!password.isEmpty() && password.length() < 6)
+//            Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
+        else if (!isValidPassword(password))
+            Utils.displayMessage(activity, getResources().getString(R.string.password_validation_text));
         else if (confirmPassword.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_confirm_password));
-        else if (!confirmPassword.isEmpty() && confirmPassword.length() < 6)
-            Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
+        else if (!isValidPassword(confirmPassword))
+            Utils.displayMessage(activity, getResources().getString(R.string.password_validation_text));
+//        else if (!confirmPassword.isEmpty() && confirmPassword.length() < 6)
+//            Utils.displayMessage(activity, getResources().getString(R.string.please_enter_minimum_length_password));
         else if (!confirmPassword.equals(password))
             Utils.displayMessage(activity, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
 //        else if (GlobalData.REGISTER_AVATAR == null)

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +34,8 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.oyola.restaurant.utils.TextUtils.isValidPassword;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -144,10 +148,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
         } else if (strPassword.isEmpty()) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_new_password));
-        } else if (strPassword.length() < 6 || strCurrentPassword.length() < 6) {
-            Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
+        } else if (!isValidPassword(strPassword)) {
+            Utils.displayMessage(activity, getResources().getString(R.string.password_validation_text));
+//        else if (strPassword.length() < 6 || strCurrentPassword.length() < 6) {
+//            Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_minimum_length_password));
+//        }
         } else if (strConfirmPassword.isEmpty()) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.please_enter_new_password));
+        } else if (!isValidPassword(strConfirmPassword)) {
+            Utils.displayMessage(activity, getResources().getString(R.string.password_validation_text));
         } else if (!strConfirmPassword.equals(strPassword)) {
             Utils.displayMessage(ChangePasswordActivity.this, getResources().getString(R.string.password_and_confirm_password_doesnot_match));
         } else {
