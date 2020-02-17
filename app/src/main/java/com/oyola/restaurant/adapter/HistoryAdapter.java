@@ -3,9 +3,11 @@ package com.oyola.restaurant.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.core.content.ContextCompat;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +47,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Order order = list.get(position);
-        if (order.getAddress()!= null) {
-            if (order.getAddress().getMapAddress()!=null) {
+        if (order.getAddress() != null) {
+            if (order.getAddress().getMapAddress() != null) {
                 holder.address.setText(order.getAddress().getMapAddress());
             }
         }
@@ -69,10 +71,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             holder.status.setText(status);
         }
 
-        String name = Utils.toFirstCharUpperAll(order.getUser().getName());
+        if (order.getUser() != null) {
+            String name = Utils.toFirstCharUpperAll(order.getUser().getName());
+            holder.userName.setText(name);
+            Glide.with(context).load(order.getUser().getAvatar())
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(holder.userImg);
+        }
         String payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
 
-        holder.userName.setText(name);
         holder.paymentMode.setText(payment_mode);
 
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +88,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                 context.startActivity(new Intent(context, OrderDetailActivity.class));
             }
         });
-        Glide.with(context).load(order.getUser().getAvatar())
-                .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(holder.userImg);
 
     }
 

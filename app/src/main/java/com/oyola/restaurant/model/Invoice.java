@@ -19,7 +19,7 @@ public class Invoice {
     private double discount;
 
     @SerializedName("promocode_amount")
-    private int promocode_amount;
+    private double promocode_amount;
 
     @SerializedName("created_at")
     private String createdAt;
@@ -101,11 +101,11 @@ public class Invoice {
         this.discount = discount;
     }
 
-    public int getPromocode_amount() {
+    public double getPromocode_amount() {
         return promocode_amount;
     }
 
-    public void setPromocode_amount(int promocode_amount) {
+    public void setPromocode_amount(double promocode_amount) {
         this.promocode_amount = promocode_amount;
     }
 
