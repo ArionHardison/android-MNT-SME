@@ -214,12 +214,20 @@ public class ProductAddOnActivity extends AppCompatActivity {
         /*if (message.isProductImageChanged()) {
             params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
         }*/
-        for (int i = 0; i < addOnList.size(); i++) {
-            params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
-            params.put("addons_price[" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
-                    addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));
+        if (productResponse!=null) {
+            for (int i = 0; i < addOnList.size(); i++) {
+                params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
+                params.put("addons_price[" + addOnList.get(i).getId() + "]", RequestBody.create(MediaType.parse("text/plain"),
+                        addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));
             /*params.put("addons_price[" +addOnList.get(i).getId() + "]", RequestBody.create(MediaType.parse("text/plain"),
                      addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));*/
+            }
+        }else {
+            for (int i = 0; i < addOnList.size(); i++) {
+                params.put("addons[" + i + "]", RequestBody.create(MediaType.parse("text/plain"), addOnList.get(i).getId() + ""));
+                params.put("addons_price[" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
+                        addOnList.get(i).getPrice().replace(getString(R.string.currency_value), "")));
+            }
         }
         params.put("status", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductStatus()));
         params.put("cuisine_id", RequestBody.create(MediaType.parse("text/plain"), message.getStrCuisineId()));
