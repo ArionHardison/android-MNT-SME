@@ -295,9 +295,10 @@ public class TakeAwayActivity extends AppCompatActivity {
                     map.put("payment_status", "success");
                     updateOrderStatus(map);
                 } else {
-                    map = new HashMap<>();
+                   /* map = new HashMap<>();
                     map.put("status", "COMPLETED");
-                    updateOrderStatus(map);
+                    updateOrderStatus(map);*/
+                    otpValidation(GlobalData.selectedOrder,"COMPLETED");
                 }
                 break;
         }
@@ -473,6 +474,46 @@ public class TakeAwayActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void otpValidation(final Order order, final String status) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(TakeAwayActivity.this);
+        final FrameLayout frameView = new FrameLayout(TakeAwayActivity.this);
+        builder.setView(frameView);
+        alertDialog = builder.create();
+        LayoutInflater inflater = alertDialog.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_otp, frameView);
+        alertDialog.setCancelable(false);
+        if (paymentOnce) {
+            paymentOnce = false;
+            final Button paid = dialogView.findViewById(R.id.paid);
+            final PinView pinView = dialogView.findViewById(R.id.pinView);
+            paid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (pinView.getText().toString().equals("")) {
+                        Toast.makeText(getApplicationContext(), getString(R.string
+                                .enter_otp), Toast.LENGTH_SHORT).show();
+                    } else if (!pinView.getText().toString().equals("") || !pinView
+                            .getText().toString().equals("null")) {
+                        if (order != null) {
+                            if (!String.valueOf(order.getOrderOtp()).equals(pinView
+                                    .getText().toString())) {
+                                Toast.makeText(getApplicationContext(), getString(R
+                                        .string.invalid_otp), Toast.LENGTH_SHORT).show();
+                            } else {
+                                map = new HashMap<>();
+                                map.put("status", status);
+                                updateOrderStatus(map);
+                            }
+                        }
+                    }
+                }
+            });
+            if (alertDialog.getWindow() != null)
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            alertDialog.show();
+        }
     }
 
 

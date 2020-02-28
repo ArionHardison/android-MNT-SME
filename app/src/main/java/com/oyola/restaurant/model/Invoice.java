@@ -46,7 +46,7 @@ public class Invoice {
     private String paymentId;
 
     @SerializedName("paid")
-    private double paid;
+    private Integer paid;
 
     @SerializedName("tender_pay")
     private double tenderPay;
@@ -173,11 +173,11 @@ public class Invoice {
         this.paymentId = paymentId;
     }
 
-    public double getPaid() {
+    public Integer getPaid() {
         return paid;
     }
 
-    public void setPaid(int paid) {
+    public void setPaid(Integer paid) {
         this.paid = paid;
     }
 
