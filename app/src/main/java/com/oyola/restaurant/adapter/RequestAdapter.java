@@ -3,14 +3,15 @@ package com.oyola.restaurant.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import androidx.core.content.ContextCompat;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -56,6 +57,23 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
                 holder.orderDate.setText(Utils.getDate(order.getCreatedAt()));
                 holder.orderTime.setText(Utils.getTime(order.getCreatedAt()));
             }
+            if (order.getScheduleStatus() != null) {
+                if (order.getScheduleStatus() == 1) {
+                    holder.tvScheduleLabel.setVisibility(View.VISIBLE);
+                    holder.scehduleDate.setVisibility(View.VISIBLE);
+                    holder.scehduleTime.setVisibility(View.VISIBLE);
+                    holder.scehduleDate.setText(Utils.getDate(order.getDeliveryDate()));
+                    holder.scehduleTime.setText(Utils.getTime(order.getDeliveryDate()));
+                } else {
+                    holder.tvScheduleLabel.setVisibility(View.GONE);
+                    holder.scehduleDate.setVisibility(View.GONE);
+                    holder.scehduleTime.setVisibility(View.GONE);
+                }
+            } else {
+                holder.tvScheduleLabel.setVisibility(View.GONE);
+                holder.scehduleDate.setVisibility(View.GONE);
+                holder.scehduleTime.setVisibility(View.GONE);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -85,12 +103,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         holder.userName.setText(name);
         holder.paymentMode.setText(payment_mode);
 
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GlobalData.selectedOrder = list.get(position);
-                context.startActivity(new Intent(context, RequestAcceptActivity.class));
-            }
+        holder.itemLayout.setOnClickListener(v -> {
+            GlobalData.selectedOrder = list.get(position);
+            context.startActivity(new Intent(context, RequestAcceptActivity.class));
         });
         Glide.with(context).load(order.getUser().getAvatar())
                 .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(holder.userImg);
@@ -120,7 +135,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, orderTime, orderDate, status, orderType;
+        TextView userName, address, paymentMode, orderTime, orderDate, tvScheduleLabel,
+                scehduleTime, scehduleDate, status, orderType;
         CardView itemLayout;
         ImageView userImg;
 
@@ -129,6 +145,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             userName = view.findViewById(R.id.user_name);
             orderDate = view.findViewById(R.id.order_date);
             orderTime = view.findViewById(R.id.order_time);
+            tvScheduleLabel = view.findViewById(R.id.tvScheduleLabel);
+            scehduleDate = view.findViewById(R.id.schedule_date);
+            scehduleTime = view.findViewById(R.id.schedule_time);
             address = view.findViewById(R.id.address);
             paymentMode = view.findViewById(R.id.payment_mode);
             status = view.findViewById(R.id.status);

@@ -17,6 +17,7 @@
 
     <style name="TextAppearance.Text.SemiBold" parent="android:TextAppearance">
         <item name="android:fontFamily">fonts/nunito_semi_bold</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -131,6 +131,7 @@
 
     <!--    Request Accept Activity-->
     <string name="order_time">Order Time</string>
+    <string name="schedule_time">Schedule Time</string>
     <string name="cancel">Cancel</string>
     <string name="accept">Accept</string>
     <string name="order_list">Order List</string>
@@ -362,6 +363,7 @@
     <string name="order_type_delivery">Order Type : DELIVERY</string>
     <string name="order_type_takeaway">Order Type : PICKUP</string>
     <string name="pick_up_time">Pickup Time</string>
+    <string name="scheduled_at">Schedule Time</string>
     <string name="halal">Halal</string>
     <string name="offer_free_delivery">Offer\'s Free Delivery</string>
     <string name="ingredients">Ingredients</string>

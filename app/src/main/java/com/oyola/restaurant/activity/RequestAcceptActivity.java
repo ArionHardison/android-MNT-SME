@@ -7,10 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +22,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -157,7 +158,7 @@ public class RequestAcceptActivity extends AppCompatActivity {
         payment_mode = payment_mode.substring(0, 1).toUpperCase() + payment_mode.substring(1);
 
         userName.setText(name);
-        if (order.getAddress()!=null) {
+        if (order.getAddress() != null) {
             if (order.getAddress().getMapAddress() != null) {
                 address.setText(order.getAddress().getMapAddress());
             }
@@ -169,28 +170,34 @@ public class RequestAcceptActivity extends AppCompatActivity {
         else
             notes.setText(getResources().getString(R.string.empty));
 
-        if (order.getPickUpRestaurant()!=null){
-            if (order.getPickUpRestaurant()==0){
+        if (order.getPickUpRestaurant() != null) {
+            if (order.getPickUpRestaurant() == 0) {
                 txtOrderType.setText(getString(R.string.order_type_delivery));
                 txtOrderTime.setVisibility(View.GONE);
-            }else   if (order.getPickUpRestaurant()==1){
+            } else if (order.getPickUpRestaurant() == 1) {
                 txtOrderType.setText(getString(R.string.order_type_takeaway));
                 address.setVisibility(View.GONE);
                 try {
-                    txtOrderTime.setText(getString(R.string.pick_up_time)+" : "+Utils.getDeliveryTime(order.getDeliveryDate()));
+                    txtOrderTime.setText(getString(R.string.pick_up_time) + " : " + Utils.getDeliveryTime(order.getDeliveryDate()));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            }else {
+            } else {
                 txtOrderType.setText(getString(R.string.order_type_delivery));
                 txtOrderTime.setVisibility(View.GONE);
             }
         }
 
-        if (order.getScheduleStatus()!=null){
-            if (order.getScheduleStatus()==1){
+        if (order.getScheduleStatus() != null) {
+            if (order.getScheduleStatus() == 1) {
                 txtOrderTime.setVisibility(View.VISIBLE);
-            }else {
+                try {
+                    txtOrderTime.setText(getString(R.string.scheduled_at) + " : " +
+                            Utils.getDate(order.getDeliveryDate()) + " " + Utils.getDeliveryTime(order.getDeliveryDate()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } else {
                 txtOrderTime.setVisibility(View.GONE);
             }
         }
@@ -213,9 +220,9 @@ public class RequestAcceptActivity extends AppCompatActivity {
         service_tax.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getTax());
 
         discount.setText(GlobalData.profile.getCurrency() + "-" + /*String.format("%.2f"*/(order.getInvoice().getDiscount()));
-        if (order.getInvoice().getPromocode_amount() > 0){
+        if (order.getInvoice().getPromocode_amount() > 0) {
             promocodeLayout.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             promocodeLayout.setVisibility(View.GONE);
         }
         promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +/*String.format("%.2f"*/(order.getInvoice().getPromocode_amount()));
@@ -280,12 +287,12 @@ public class RequestAcceptActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String deliveryTime = edittext.getText().toString();
                         int deliverytime = 0;
-                        if (!deliveryTime.isEmpty()){
+                        if (!deliveryTime.isEmpty()) {
                             deliverytime = Integer.parseInt(deliveryTime);
                         }
                         if (deliveryTime.isEmpty()) {
                             Toast.makeText(context, getResources().getString(R.string.please_enter_delivery_time), Toast.LENGTH_SHORT).show();
-                        } else if (deliverytime < 3){
+                        } else if (deliverytime < 3) {
                             Toast.makeText(context, getResources().getString(R.string.order_ready_time), Toast.LENGTH_SHORT).show();
                         } else {
                             HashMap<String, String> map = new HashMap<>();
@@ -417,7 +424,7 @@ public class RequestAcceptActivity extends AppCompatActivity {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
 
-                    if (response.body()!=null) {
+                    if (response.body() != null) {
 
                         feedback_array = new ArrayList<>();
                         if (response.body().getReasonList().size() > 0) {
