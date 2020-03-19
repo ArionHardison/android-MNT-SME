@@ -42,12 +42,12 @@ public class UpcomingVisitFragment extends Fragment {
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
 
-    Unbinder unbinder;
-    Context context;
-    Activity activity;
+    private Unbinder unbinder;
+    private Context context;
+    private Activity activity;
 
-    HistoryAdapter historyAdapter;
-    List<Order> orderList = new ArrayList<>();
+    private HistoryAdapter historyAdapter;
+    private List<Order> orderList = new ArrayList<>();
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     public UpcomingVisitFragment() {
@@ -73,25 +73,17 @@ public class UpcomingVisitFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_upcoming_visit, container, false);
         unbinder = ButterKnife.bind(this, view);
         setupAdapter();
-        getOnGoingOrders();
         return view;
     }
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-//        getOnGoingOrders();
-    }*/
 
     private void setupAdapter() {
         historyAdapter = new HistoryAdapter(orderList, context);
         upcomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        upcomingRv.setHasFixedSize(true);
         upcomingRv.setAdapter(historyAdapter);
+        getOnGoingOrders();
     }
 
     private void getOnGoingOrders() {
@@ -105,7 +97,7 @@ public class UpcomingVisitFragment extends Fragment {
                     orderList.clear();
                     if (response.body() != null) {
                         IncomingOrders incomingOrders = response.body();
-                        if (incomingOrders != null && incomingOrders.getOrders() != null && incomingOrders.getOrders().size() > 0) {
+                        if (incomingOrders.getOrders() != null && incomingOrders.getOrders().size() > 0) {
                             llNoRecords.setVisibility(View.GONE);
                             upcomingRv.setVisibility(View.VISIBLE);
                             orderList.addAll(incomingOrders.getOrders());
@@ -116,7 +108,6 @@ public class UpcomingVisitFragment extends Fragment {
                             upcomingRv.setVisibility(View.GONE);
                         }
                     }
-
                 } else {
                     Gson gson = new Gson();
                     try {
@@ -134,7 +125,6 @@ public class UpcomingVisitFragment extends Fragment {
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
         });
-
     }
 
     @Override
