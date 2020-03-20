@@ -51,7 +51,7 @@ public class FoodSafetyActivity extends AppCompatActivity implements ProfileList
         ButterKnife.bind(this);
         connectionHelper = new ConnectionHelper(this);
         customDialog = new CustomDialog(this);
-        title.setText(getString(R.string.documents));
+        title.setText(getString(R.string.food_safety));
         backImg.setVisibility(View.VISIBLE);
         getProfile();
     }

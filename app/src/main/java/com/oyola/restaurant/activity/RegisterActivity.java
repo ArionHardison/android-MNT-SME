@@ -116,6 +116,8 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     CheckBox delivery;
     @BindView(R.id.halal)
     CheckBox halal;
+    @BindView(R.id.free_delivery)
+    CheckBox freeDelivery;
     Context context;
     Activity activity;
     ConnectionHelper connectionHelper;
@@ -483,6 +485,8 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
                 map.put("image_gallery_img", RequestBody.create(MediaType.parse("text/plain"), mSelectedShopImageUrl));
                 map.put("image_banner_img", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageUrl));
                 map.put("halal", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(halal.isChecked() ? 1 : 0)));
+                map.put("free_delivery", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(freeDelivery.isChecked() ? 1 : 0)));
+
 //                if (halal.isChecked()) {
 //                    map.put("halal", RequestBody.create(MediaType.parse("text/plain"), "1"));
 //                } else {
