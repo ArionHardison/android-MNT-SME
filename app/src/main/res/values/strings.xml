@@ -142,6 +142,7 @@
     <string name="sgst">SGST</string>
     <string name="delivery_charges">Delivery Charges</string>
     <string name="total">Total</string>
+    <string name="wallet_detection">Wallet Detection</string>
 
     <!--    Filter Dialog Activity-->
     <string name="filter_by">Filter By</string>

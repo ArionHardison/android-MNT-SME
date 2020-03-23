@@ -198,6 +198,31 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="@string/wallet_detection"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:id="@+id/wallet_amount_detection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="@font/nunito_semibold"
+            android:gravity="end"
+            android:text="$56"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/text_medium" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

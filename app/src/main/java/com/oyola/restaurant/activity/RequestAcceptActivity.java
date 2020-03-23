@@ -118,6 +118,8 @@ public class RequestAcceptActivity extends AppCompatActivity {
     TextView discount;
     @BindView(R.id.promocode_amount)
     TextView promocode_amount;
+    @BindView(R.id.wallet_amount_detection)
+    TextView walletAmountDetection;
     RadioGroup rg;
     FeedBack feedBack;
     ArrayList<FeedBack> feedback_array;
@@ -226,10 +228,11 @@ public class RequestAcceptActivity extends AppCompatActivity {
             promocodeLayout.setVisibility(View.GONE);
         }
         promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +/*String.format("%.2f"*/(order.getInvoice().getPromocode_amount()));
+        walletAmountDetection.setText(GlobalData.profile.getCurrency() + order.getInvoice().getWalletAmount() + "");
         tv_cgst.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/cgst);
         tv_sgst.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/sgst);
         deliveryCharges.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getDeliveryCharge());
-        total.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getNet());
+        total.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getPayable());
 
         if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
             disputeBtn.setVisibility(View.GONE);

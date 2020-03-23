@@ -80,6 +80,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     TextView service_tax;
     @BindView(R.id.promocode_amount)
     TextView promocode_amount;
+    @BindView(R.id.wallet_amount_detection)
+    TextView walletAmountDetection;
     @BindView(R.id.tv_cgst)
     TextView tv_cgst;
     @BindView(R.id.tv_sgst)
@@ -184,7 +186,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         tv_cgst.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/cgst);
         tv_sgst.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/sgst);
         deliveryCharges.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getDeliveryCharge());
-        total.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getNet());
+        total.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getPayable());
         service_tax.setText(GlobalData.profile.getCurrency() + /*String.format("%.2f"*/order.getInvoice().getTax());
 
         if (order.getInvoice().getPromocode_amount() > 0) {
@@ -194,6 +196,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
 
         promocode_amount.setText(GlobalData.profile.getCurrency() + "-" +/*String.format("%.2f"*/(order.getInvoice().getPromocode_amount()));
+        walletAmountDetection.setText(GlobalData.profile.getCurrency() + order.getInvoice().getWalletAmount() + "");
 
         /*if(order.getStatus().equals("ORDERED")&&order.getDispute().equals("NODISPUTE")){
             disputeBtn.setVisibility(View.GONE);
