@@ -123,7 +123,7 @@
     <string name="new_password">New Password</string>
 
     <!--    Edit Restaurant Activity-->
-    <string name="is_this_a_pure_veg_restaurant">Is this a pure veg kitchen?</string>
+    <string name="is_this_a_pure_veg_restaurant">Is this a veg kitchen?</string>
     <string name="min_amount">Min Amount</string>
     <string name="offer_in_percentage">Offer In Percentage</string>
     <string name="maximum_delivery_time">Maximum Delivery Time</string>
