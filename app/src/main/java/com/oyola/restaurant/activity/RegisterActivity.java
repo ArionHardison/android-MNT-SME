@@ -241,28 +241,13 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
     }
 
     private void setListener() {
-        mCountryPicker.setListener(new CountryPickerListener() {
-            @Override
-            public void onSelectCountry(String name, String code, String dialCode,
-                                        int flagDrawableResID) {
-                txtCountryNumber.setText(dialCode);
-                countryImg.setImageResource(flagDrawableResID);
-                mCountryPicker.dismiss();
-            }
+        mCountryPicker.setListener((name, code, dialCode, flagDrawableResID) -> {
+            txtCountryNumber.setText(dialCode);
+            countryImg.setImageResource(flagDrawableResID);
+            mCountryPicker.dismiss();
         });
-        countryPickerLay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCountryPicker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
-            }
-        });
-        llStatusPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new StatusPicker().show(getSupportFragmentManager(), "STATUS_PICKER");
-            }
-        });
-
+        countryPickerLay.setOnClickListener(v -> mCountryPicker.show(getSupportFragmentManager(), "COUNTRY_PICKER"));
+        llStatusPicker.setOnClickListener(v -> new StatusPicker().show(getSupportFragmentManager(), "STATUS_PICKER"));
         getUserCountryInfo();
     }
 
