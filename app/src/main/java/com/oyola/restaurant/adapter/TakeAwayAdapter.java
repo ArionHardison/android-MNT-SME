@@ -3,15 +3,16 @@ package com.oyola.restaurant.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import androidx.core.content.ContextCompat;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -27,30 +28,28 @@ import java.util.List;
 /**
  * Created by Prasanth on 29-10-2019.
  */
-public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyViewHolder> {
-    Context context;
-    Activity activity;
+public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.MyViewHolder> {
+
+    private Context context;
+    private Activity activity;
     private List<Order> list;
 
     public TakeAwayAdapter(List<Order> list, Context con) {
         this.list = list;
         this.context = con;
-        this.activity = activity;
     }
-
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_takeway, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Order order = list.get(position);
-        if (order.getAddress()!=null) {
+        if (order.getAddress() != null) {
             if (order.getAddress().getMapAddress() != null) {
                 holder.address.setText(order.getAddress().getMapAddress());
             }
@@ -64,20 +63,25 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
             e.printStackTrace();
         }
 
-        if (order.getScheduleStatus()!=null){
-            if (order.getScheduleStatus()==1){
+        if (order.getScheduleStatus() != null) {
+            if (order.getScheduleStatus() == 1) {
                 holder.mLayoutSchedule.setVisibility(View.VISIBLE);
-            }else {
+                holder.tvScheduleStatus.setVisibility(View.VISIBLE);
+            } else {
                 holder.mLayoutSchedule.setVisibility(View.GONE);
+                holder.tvScheduleStatus.setVisibility(View.GONE);
             }
+        } else {
+            holder.mLayoutSchedule.setVisibility(View.GONE);
+            holder.tvScheduleStatus.setVisibility(View.GONE);
         }
-        if (order.getPickUpRestaurant()!=null){
-            if (order.getPickUpRestaurant()==0){
+        if (order.getPickUpRestaurant() != null) {
+            if (order.getPickUpRestaurant() == 0) {
                 holder.orderType.setText(context.getString(R.string.order_type_delivery));
-            }else   if (order.getPickUpRestaurant()==1){
+            } else if (order.getPickUpRestaurant() == 1) {
                 holder.orderType.setText(context.getString(R.string.order_type_takeaway));
                 holder.address.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.orderType.setText(context.getString(R.string.order_type_delivery));
             }
         }
@@ -96,16 +100,12 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
         holder.userName.setText(name);
         holder.paymentMode.setText(payment_mode);
 
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GlobalData.selectedOrder = list.get(position);
-                context.startActivity(new Intent(context, TakeAwayActivity.class));
-            }
+        holder.itemLayout.setOnClickListener(v -> {
+            GlobalData.selectedOrder = list.get(position);
+            context.startActivity(new Intent(context, TakeAwayActivity.class));
         });
         Glide.with(context).load(order.getUser().getAvatar())
                 .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(holder.userImg);
-
     }
 
     @Override
@@ -131,7 +131,8 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, orderTime,orderDate,orderDeliveryDate,orderDeliveryTime, status,orderType;
+        TextView userName, address, paymentMode, orderTime, orderDate, orderDeliveryDate,
+                orderDeliveryTime, status, orderType, tvScheduleStatus;
         CardView itemLayout;
         LinearLayout mLayoutSchedule;
         ImageView userImg;
@@ -147,10 +148,10 @@ public class TakeAwayAdapter  extends RecyclerView.Adapter<TakeAwayAdapter.MyVie
             itemLayout = view.findViewById(R.id.item_layout);
             userImg = view.findViewById(R.id.user_img);
             orderType = view.findViewById(R.id.order_type);
+            tvScheduleStatus = view.findViewById(R.id.tvScheduleStatus);
             orderDeliveryDate = view.findViewById(R.id.delivery_date);
             orderDeliveryTime = view.findViewById(R.id.order_delivery_time);
             mLayoutSchedule = view.findViewById(R.id.lay_schedule_detail);
         }
     }
-
 }

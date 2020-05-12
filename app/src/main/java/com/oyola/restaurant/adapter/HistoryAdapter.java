@@ -1,18 +1,16 @@
 package com.oyola.restaurant.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.core.content.ContextCompat;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -25,22 +23,19 @@ import com.oyola.restaurant.utils.Utils;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
-    Context context;
-    Activity activity;
+
+    private Context context;
     private List<Order> list;
 
     public HistoryAdapter(List<Order> list, Context con) {
         this.list = list;
         this.context = con;
-        this.activity = activity;
     }
-
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_order_history, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
@@ -70,7 +65,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
             holder.status.setText(status);
         }
-
+        if (!order.getStatus().equals("CANCELLED") && !order.getStatus().equals("COMPLETED")) {
+            if (order.getScheduleStatus() != null) {
+                if (order.getScheduleStatus() == 1) {
+                    holder.tvScheduleStatus.setVisibility(View.VISIBLE);
+                } else {
+                    holder.tvScheduleStatus.setVisibility(View.GONE);
+                }
+            } else {
+                holder.tvScheduleStatus.setVisibility(View.GONE);
+            }
+        } else {
+            holder.tvScheduleStatus.setVisibility(View.GONE);
+        }
         if (order.getUser() != null) {
             String name = Utils.toFirstCharUpperAll(order.getUser().getName());
             holder.userName.setText(name);
@@ -80,15 +87,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         String payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
 
         holder.paymentMode.setText(payment_mode);
-
-        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GlobalData.selectedOrder = list.get(position);
-                context.startActivity(new Intent(context, OrderDetailActivity.class));
-            }
+        holder.itemLayout.setOnClickListener(v -> {
+            GlobalData.selectedOrder = list.get(position);
+            context.startActivity(new Intent(context, OrderDetailActivity.class));
         });
-
     }
 
     @Override
@@ -114,7 +116,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, price, status;
+        TextView userName, address, paymentMode, price, status, tvScheduleStatus;
         CardView itemLayout;
         ImageView userImg;
 
@@ -125,9 +127,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             address = view.findViewById(R.id.address);
             paymentMode = view.findViewById(R.id.payment_mode);
             status = view.findViewById(R.id.status);
+            tvScheduleStatus = view.findViewById(R.id.tvScheduleStatus);
             itemLayout = view.findViewById(R.id.item_layout);
             userImg = view.findViewById(R.id.user_img);
         }
     }
-
 }
