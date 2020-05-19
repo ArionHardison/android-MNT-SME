@@ -162,7 +162,8 @@ public class RequestAcceptActivity extends AppCompatActivity {
         userName.setText(name);
         if (order.getAddress() != null) {
             if (order.getAddress().getMapAddress() != null) {
-                address.setText(order.getAddress().getMapAddress());
+                address.setText((order.getAddress().getBuilding() != null ? order.getAddress().getBuilding() + ", " : "") +
+                        order.getAddress().getMapAddress());
             }
         }
         paymentMode.setText(payment_mode);

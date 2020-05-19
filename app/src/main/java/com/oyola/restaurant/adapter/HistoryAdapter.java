@@ -44,7 +44,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         Order order = list.get(position);
         if (order.getAddress() != null) {
             if (order.getAddress().getMapAddress() != null) {
-                holder.address.setText(order.getAddress().getMapAddress());
+                holder.address.setText((order.getAddress().getBuilding() != null ? order.getAddress().getBuilding() + ", " : "") +
+                        order.getAddress().getMapAddress());
             }
         }
         holder.price.setText(/*context.getString(R.string.currency_value)*/GlobalData.profile.getCurrency() + "" + order.getInvoice().getPayable());
