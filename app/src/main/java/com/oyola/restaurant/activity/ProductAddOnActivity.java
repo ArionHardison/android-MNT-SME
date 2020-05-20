@@ -104,10 +104,10 @@ public class ProductAddOnActivity extends AppCompatActivity {
             }
             if (productResponse.getPrices().getDiscountType().equalsIgnoreCase("percentage")) {
                 spinnerDiscountType.setSelectedIndex(1);
-                strDiscountType = "Percentage";
+                strDiscountType = "percentage";
             } else if (productResponse.getPrices().getDiscountType().equalsIgnoreCase("amount")) {
                 spinnerDiscountType.setSelectedIndex(2);
-                strDiscountType = "Amount";
+                strDiscountType = "amount";
             }
 
             if (productResponse.getPrices() != null) {
