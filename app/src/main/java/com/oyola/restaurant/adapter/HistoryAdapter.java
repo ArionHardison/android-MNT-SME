@@ -89,8 +89,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             Glide.with(context).load(order.getUser().getAvatar())
                     .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(holder.userImg);
         }
-        String payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
-
+        String payment_mode;
+        if (order.getInvoice().getPaymentMode().equalsIgnoreCase("stripe")) {
+            payment_mode = context.getString(R.string.credit_card);
+        } else {
+            payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
+        }
         holder.paymentMode.setText(payment_mode);
         holder.itemLayout.setOnClickListener(v -> {
             GlobalData.selectedOrder = list.get(position);

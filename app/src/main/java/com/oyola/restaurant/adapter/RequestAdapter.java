@@ -103,8 +103,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         }
         holder.status.setText(status);
         String name = Utils.toFirstCharUpperAll(order.getUser().getName());
-        String payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
-
+        String payment_mode;
+        if (order.getInvoice().getPaymentMode().equalsIgnoreCase("stripe")) {
+            payment_mode = context.getString(R.string.credit_card);
+        } else {
+            payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
+        }
         holder.userName.setText(name);
         holder.paymentMode.setText(payment_mode);
 
