@@ -1,10 +1,5 @@
 package com.oyola.restaurant.network;
 
-/**
- * Created by tamil@appoets.com on 30-08-2017.
- */
-
-
 import com.oyola.restaurant.model.Addon;
 import com.oyola.restaurant.model.AuthToken;
 import com.oyola.restaurant.model.CancelReasons;
@@ -45,9 +40,7 @@ import retrofit2.http.QueryMap;
 
 public interface ApiInterface {
 
-
     /*-------------USER--------------------*/
-
     @GET("api/shop/profile")
     Call<Profile> getProfile(@QueryMap HashMap<String, String> params);
 
@@ -75,7 +68,6 @@ public interface ApiInterface {
     @POST("api/shop/register")
     Call<Profile> signUp(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename1, @Part MultipartBody.Part filename2);
 
-
     @GET("api/shop/cuisines")
     Call<List<Cuisine>> getCuisines();
 
@@ -98,15 +90,14 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/shop/addons")
-    Call<Addon> addAddon(@Field("name") String name,@Field("calories") String mCalories,@Field("shop_id") String shop_id);
+    Call<Addon> addAddon(@Field("name") String name, @Field("calories") String mCalories, @Field("shop_id") String shop_id);
 
     @FormUrlEncoded
     @PATCH("api/shop/addons/{id}")
-    Call<Addon> updateAddon(@Path("id") int id, @Field("name") String name, @Field("calories") String mCalories,@Field("shop_id") String shop_id);
+    Call<Addon> updateAddon(@Path("id") int id, @Field("name") String name, @Field("calories") String mCalories, @Field("shop_id") String shop_id);
 
     @DELETE("api/shop/addons/{id}")
     Call<List<Addon>> deleteAddon(@Path("id") int id);
-
 
     /*------------- CATEGORY --------------------*/
     @GET("api/shop/categories")
@@ -136,17 +127,15 @@ public interface ApiInterface {
     @POST("api/shop/verifyotp")
     Call<ForgotPasswordResponse> verifyOTP(@FieldMap HashMap<String, String> params);
 
-
     @FormUrlEncoded
     @POST("api/shop/reset/password")
     Call<ResetPasswordResponse> resetPassword(@FieldMap HashMap<String, String> params);
 
     /*........Revenue Fragment......*/
-
     @GET("api/shop/revenue")
     Call<RevenueResponse> getRevenueDetails();
 
-//    @Headers("Content-Type: application/json")
+    //    @Headers("Content-Type: application/json")
     @Multipart
     @POST("api/shop/products")
     Call<ProductResponse> addProduct(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1, @Part MultipartBody.Part filepart2);
@@ -159,7 +148,6 @@ public interface ApiInterface {
     Call<ResponseBody> deleteProduct(@Path("id") int id);
 
     /*....Account....*/
-
     @DELETE("api/shop/remove/{id}")
     Call<ResponseBody> deleteAccount(@Path("id") String id);
 
@@ -167,7 +155,6 @@ public interface ApiInterface {
     Call<ResponseBody> logOut();
 
     /*-------------ORDER--------------------*/
-
     @GET("api/shop/order")
     Call<IncomingOrders> getIncomingOrders(@Query("t") String type);
 
@@ -204,14 +191,12 @@ public interface ApiInterface {
 //    Call <AddCart> reOrder(@FieldMap HashMap<String, String> params);
 //
 //     /*-------------DISPUTE--------------------*/
-//
 //    @GET("api/user/disputehelp")
 //    Call<List<DisputeMessage>> getDisputeList();
 //
 //    @FormUrlEncoded
 //    @POST("api/user/dispute")
 //    Call<Order> postDispute(@FieldMap HashMap<String, String> params);
-//
 //
 //    /*-------------SEARCH--------------------*/
 //    @GET("api/user/search")
@@ -227,11 +212,10 @@ public interface ApiInterface {
 //    @FormUrlEncoded
 //    @POST("api/user/wallet/promocode")
 //    Call<PromotionResponse> applyWalletPromoCode(@Field("promocode_id") String id);
-//
-//
-//    @GET("json?")
-//    Call<ResponseBody> getResponse(@Query("latlng") String param1, @Query("key") String param2);
-//
+
+    @GET("json?")
+    Call<ResponseBody> getResponse(@Query("latlng") String param1, @Query("key") String param2);
+
 //    /*-------------PAYMENT--------------------*/
 //    @GET("api/user/card")
 //    Call<List<Card>> getCardList();
@@ -246,6 +230,4 @@ public interface ApiInterface {
 //
 //    @DELETE("api/user/card/{id}")
 //    Call<ChangePassword> deleteCard(@Path("id") int id);
-
-
 }

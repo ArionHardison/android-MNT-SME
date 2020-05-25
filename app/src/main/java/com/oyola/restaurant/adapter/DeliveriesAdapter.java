@@ -72,6 +72,10 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.My
             if (address != null && address.getMapAddress() != null) {
                 holder.address.setText((address.getBuilding() != null ? address.getBuilding() + ", " : "") +
                         address.getMapAddress());
+            } else {
+                if (order.getShop().getMapsAddress() != null) {
+                    holder.address.setText(order.getShop().getMapsAddress());
+                }
             }
 
             Invoice invoice = order.getInvoice();

@@ -54,6 +54,10 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.MyView
                 holder.address.setText((order.getAddress().getBuilding() != null ? order.getAddress().getBuilding() + ", " : "") +
                         order.getAddress().getMapAddress());
             }
+        } else {
+            if (order.getShop().getMapsAddress() != null) {
+                holder.address.setText(order.getShop().getMapsAddress());
+            }
         }
         try {
             holder.orderDate.setText(Utils.getDate(order.getCreatedAt()));

@@ -52,6 +52,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
                 holder.address.setText((order.getAddress().getBuilding() != null ? order.getAddress().getBuilding() + ", " : "") +
                         order.getAddress().getMapAddress());
             }
+        } else {
+            if (order.getShop().getMapsAddress() != null) {
+                holder.address.setText(order.getShop().getMapsAddress());
+            }
         }
         try {
             if (order.getCreatedAt() != null) {

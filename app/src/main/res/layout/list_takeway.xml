@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/user_img"
+            android:layout_toEndOf="@+id/user_img"
             android:orientation="horizontal"
             android:paddingStart="@dimen/activity_vertical_margin_half">
 
@@ -44,7 +44,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_semibold"
-                    android:text="Willaiam jane"
                     android:textColor="@color/colorTextBlack"
                     android:textSize="@dimen/text_small" />
 
@@ -53,12 +52,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_location"
-                    android:drawableLeft="@drawable/ic_location"
                     android:drawablePadding="@dimen/_4sdp"
                     android:maxLines="1"
                     android:paddingTop="@dimen/_4sdp"
                     android:singleLine="true"
-                    android:text="District 2 1642 avenue, divide roads PO box 3700 S30 225-432"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/text_tiny" />
 
@@ -68,7 +65,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_semibold"
                     android:paddingTop="@dimen/_4sdp"
-                    android:text="Paytm"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_small" />
 
@@ -89,7 +85,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_semibold"
                     android:paddingTop="@dimen/_4sdp"
-                    android:text="Dispute Created"
                     android:textColor="@color/colorGreen"
                     android:textSize="@dimen/text_small"
                     android:visibility="gone" />
@@ -102,8 +97,6 @@
                     android:paddingTop="@dimen/_4sdp"
                     android:textColor="@color/colorPink"
                     android:textSize="@dimen/text_small_large" />
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -132,7 +125,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="08.15 AM"
                     android:textColor="@color/colorTheme"
                     android:textSize="@dimen/text_tiny" />
 
@@ -164,17 +156,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="08.15 AM"
                         android:textColor="@color/colorTheme"
                         android:textSize="@dimen/text_tiny" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
-
     </RelativeLayout>
-
-
 </androidx.cardview.widget.CardView>
