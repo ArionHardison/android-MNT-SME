@@ -193,8 +193,10 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("price", RequestBody.create(MediaType.parse("text/plain"), strProductPrice));
         params.put("product_position", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductOrder()));
         params.put("shop", RequestBody.create(MediaType.parse("text/plain"), shop_id));
-        params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
-        params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
+        if (!strProductDiscount.isEmpty()) {
+            params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
+            params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
+        }
         /*params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
         params.put("featuredimage_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getFeaturedGalleryId()));*/
         if (message.getImageGalleryUrl() != null)
@@ -296,13 +298,13 @@ public class ProductAddOnActivity extends AppCompatActivity {
         if (strProductPrice.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.please_enter_price));
             return false;
-        } else if (strDiscountType.isEmpty()) {
+        }/* else if (strDiscountType.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.please_select_discount_type));
             return false;
         } else if (strProductDiscount.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.please_enter_discount_amount));
             return false;
-        }
+        }*/
         return true;
     }
 
