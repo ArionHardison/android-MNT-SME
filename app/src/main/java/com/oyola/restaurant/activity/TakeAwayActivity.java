@@ -156,14 +156,12 @@ public class TakeAwayActivity extends AppCompatActivity {
         title.setText("#" + order.getId());
 
         String name = order.getUser().getName();
-        String payment_mode = order.getInvoice().getPaymentMode();
-
-        //No minimum character limit in register screen.
-        if (name.length() > 1)
-            name = name.substring(0, 1).toUpperCase() + name.substring(1);
-
-        payment_mode = payment_mode.substring(0, 1).toUpperCase() + payment_mode.substring(1);
-
+        String payment_mode;
+        if (order.getInvoice().getPaymentMode().equalsIgnoreCase("stripe")) {
+            payment_mode = context.getString(R.string.credit_card);
+        } else {
+            payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
+        }
         userName.setText(name);
         if (order.getAddress() != null) {
             if (order.getAddress().getMapAddress() != null) {

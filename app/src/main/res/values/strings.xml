@@ -378,5 +378,5 @@
     <string name="date">Date</string>
     <string name="password_validation_text">Password must contain number, symbol,capital and small letters</string>
     <string name="calories_symbol">kJ</string>
-    <string name="credit_card">Credit Card</string>
+    <string name="credit_card">Card</string>
 </resources>
