@@ -63,6 +63,12 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
         holder.productDetail.setText(value);
         double totalAmount = /*Double.valueOf(*/item.getQuantity() * item.getProduct().getPrices().getOrignalPrice();
         holder.productPrice.setText(GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/totalAmount)/*)*/;
+        if (item.getProduct().getNote() != null) {
+            holder.tvNotes.setVisibility(View.VISIBLE);
+            holder.tvNotes.setText(item.getProduct().getNote());
+        } else {
+            holder.tvNotes.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -92,6 +98,7 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
 
         TextView productDetail;
         TextView productPrice;
+        TextView tvNotes;
         TextView addonDetail;
         TextView addonPrice;
         LinearLayout itemLayout;
@@ -101,6 +108,7 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
             if (isHeader) {
                 productDetail = itemView.findViewById(R.id.product_detail);
                 productPrice = itemView.findViewById(R.id.product_price);
+                tvNotes = itemView.findViewById(R.id.tvNotes);
             } else {
                 addonPrice = itemView.findViewById(R.id.addon_price);
                 addonDetail = itemView.findViewById(R.id.addon_detail);

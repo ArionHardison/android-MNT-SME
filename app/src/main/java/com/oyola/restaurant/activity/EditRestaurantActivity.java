@@ -134,8 +134,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     LinearLayout addressLay;
     @BindView(R.id.save_btn)
     Button saveBtn;
-    @BindView(R.id.et_landmark)
-    EditText etLandmark;
+    /*@BindView(R.id.et_landmark)
+    EditText etLandmark;*/
     @BindView(R.id.cuisine)
     TextView cuisine;
     @BindView(R.id.tvStatus)
@@ -160,7 +160,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
     ConnectionHelper connectionHelper;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
-    String name, email, password, mobile, confirmPassword, address, landmark, offer_min_amount, offer_percentage, delivery_time, description;
+    String name, email, password, mobile, confirmPassword, address, /*landmark,*/ offer_min_amount, offer_percentage, delivery_time, description;
 
     LatLng location;
 
@@ -307,7 +307,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         password = etPassword.getText().toString().trim();
         confirmPassword = etConfirmPassword.getText().toString().trim();
         address = txtAddress.getText().toString().trim();
-        landmark = etLandmark.getText().toString().trim();
+//        landmark = etLandmark.getText().toString().trim();
         offer_min_amount = tvMinAmount.getText().toString().trim();
         offer_percentage = etOfferInPercentage.getText().toString().trim();
         delivery_time = etMaximumDeliveryTime.getText().toString().trim();
@@ -345,8 +345,8 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
             Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.please_enter_description));
         else if (address.isEmpty())
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_fill_your_address));
-        else if (landmark.isEmpty())
-            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_landmark));
+        /*else if (landmark.isEmpty())
+            Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_enter_landmark));*/
 
         /*else if (GlobalData.REGISTER_AVATAR == null)
             Utils.displayMessage(EditRestaurantActivity.this, getResources().getString(R.string.please_select_avatar));*/
@@ -364,7 +364,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                 map.put("estimated_delivery_time", RequestBody.create(MediaType.parse("text/plain"), delivery_time));
                 map.put("phone", RequestBody.create(MediaType.parse("text/plain"), mobile));
                 map.put("maps_address", RequestBody.create(MediaType.parse("text/plain"), address));
-                map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
+//                map.put("address", RequestBody.create(MediaType.parse("text/plain"), landmark));
                 map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
                /* map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedImageId));
                 map.put("image_banner_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageId));*/
@@ -514,7 +514,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
         etMaximumDeliveryTime.setText("" + profile.getEstimatedDeliveryTime());
         etDescription.setText(profile.getDescription());
         txtAddress.setText(profile.getMapsAddress());
-        etLandmark.setText(profile.getAddress());
+//        etLandmark.setText(profile.getAddress());
         if (profile.getImageGalleyId() != null) {
             mSelectedImageId = String.valueOf(profile.getImageGalleyId());
         }

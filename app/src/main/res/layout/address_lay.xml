@@ -177,7 +177,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -199,6 +199,6 @@
         android:padding="@dimen/_6sdp"
         android:singleLine="true"
         android:textColor="@color/colorSecondaryText"
-        android:textSize="@dimen/text_medium" />
+        android:textSize="@dimen/text_medium" />-->
 
 </LinearLayout>

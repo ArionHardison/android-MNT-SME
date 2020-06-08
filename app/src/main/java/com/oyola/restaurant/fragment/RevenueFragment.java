@@ -4,13 +4,14 @@ package com.oyola.restaurant.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -35,7 +36,6 @@ import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.Constants;
 import com.oyola.restaurant.utils.Utils;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +50,6 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class RevenueFragment extends Fragment {
-
 
     @BindView(R.id.back_img)
     ImageView backImg;
@@ -75,7 +74,6 @@ public class RevenueFragment extends Fragment {
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    String TAG = "RevenueFragment";
 
     public RevenueFragment() {
         // Required empty public constructor
@@ -90,7 +88,6 @@ public class RevenueFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -102,23 +99,20 @@ public class RevenueFragment extends Fragment {
         title.setText(getString(R.string.revenue));
         context = getContext();
         activity = getActivity();
-
         connectionHelper = new ConnectionHelper(context);
         customDialog = new CustomDialog(context);
     }
 
-
     private void prepareBarChart(List<CompleteCancel> completeCancelList) {
-        ArrayList monthsList = new ArrayList<>();
+        ArrayList<String> monthsList = new ArrayList<>();
         for (int i = 0; i < completeCancelList.size(); i++) {
             monthsList.add(completeCancelList.get(i).getMonth());
         }
 
+        ArrayList<BarEntry> entriesGroup1 = new ArrayList<>();
+        ArrayList<BarEntry> entriesGroup2 = new ArrayList<>();
 
-        ArrayList entriesGroup1 = new ArrayList<>();
-        ArrayList entriesGroup2 = new ArrayList<>();
-
-// fill the lists
+        // fill the lists
         for (int i = 0; i < monthsList.size(); i++) {
             entriesGroup1.add(new BarEntry(i, Float.parseFloat(completeCancelList.get(i).getDelivered())));
             entriesGroup2.add(new BarEntry(i, Float.parseFloat(completeCancelList.get(i).getCancelled())));
@@ -129,7 +123,6 @@ public class RevenueFragment extends Fragment {
         float barWidth = 0.3f;
         float barSpace = 0f;
         float groupSpace = 0.4f;
-
 
         mChart.setDescription(null);
         mChart.setPinchZoom(true);
@@ -166,7 +159,6 @@ public class RevenueFragment extends Fragment {
         l.setYEntrySpace(0f);
         //l.setTextSize(8f);
 
-
         //X-axis
         XAxis xAxis = mChart.getXAxis();
         xAxis.setGranularity(1f);
@@ -186,15 +178,7 @@ public class RevenueFragment extends Fragment {
 
         mChart.setScaleMinima((float) 12 / 17f, 1f);
         mChart.zoom(-10f, 0f, 0, 0);
-
     }
-
-
-  /*  @Override
-    public void onResume() {
-        super.onResume();
-//        getRevenueDetails();
-    }*/
 
     private void getRevenueDetails() {
         customDialog.show();
@@ -212,7 +196,6 @@ public class RevenueFragment extends Fragment {
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }
-
                 }
             }
 
@@ -225,30 +208,22 @@ public class RevenueFragment extends Fragment {
     }
 
     private void updateUI(RevenueResponse response) {
-//        NumberFormat formatter = new DecimalFormat("#0.00");
         String currency = SharedHelper.getKey(context, Constants.PREF.CURRENCY);
-
-        String total_revenue = currency + new DecimalFormat("##.##").format(response.getTotalRevenue());
+        String total_revenue = currency + String.format("%.2f", response.getTotalRevenue());
         String order_received = response.getOrderReceivedToday() + "";
-        String order_develievered = response.getOrderDeliveredToday() + "";
-        String today_earnings = currency +  new DecimalFormat("##.##").format(response.getOrderIncomeToday());
-        String monthly_earnings = currency +  new DecimalFormat("##.##").format(response.getOrderIncomeMonthly());
-
+        String order_delivered = response.getOrderDeliveredToday() + "";
+        String today_earnings = currency + String.format("%.2f", response.getOrderIncomeToday());
+        String monthly_earnings = currency + String.format("%.2f", response.getOrderIncomeMonthly());
         if (tvTotalRevenue != null) {
             tvTotalRevenue.setText(total_revenue);
             tvOrderReceived.setText(order_received);
-            tvOrderDelievered.setText(order_develievered);
+            tvOrderDelievered.setText(order_delivered);
             tvTodayEarnings.setText(today_earnings);
             tvMonthlyEarnings.setText(monthly_earnings);
-
             prepareBarChart(response.getCompleteCancel());
-
         }
-
         //prepareBarChart(response.getCompleteCancel());
-
     }
-
 
     @Override
     public void onDestroyView() {

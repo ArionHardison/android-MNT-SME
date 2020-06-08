@@ -38,6 +38,8 @@ public class Product implements Parcelable {
     private Prices prices;
     @SerializedName("status")
     private String status;
+    @SerializedName("note")
+    private String note;
 
     protected Product(Parcel in) {
         featured = in.readInt();
@@ -54,6 +56,7 @@ public class Product implements Parcelable {
         position = in.readInt();
         prices = in.readParcelable(Prices.class.getClassLoader());
         status = in.readString();
+        note = in.readString();
     }
 
     @Override
@@ -72,6 +75,7 @@ public class Product implements Parcelable {
         dest.writeInt(position);
         dest.writeParcelable(prices, flags);
         dest.writeString(status);
+        dest.writeString(note);
     }
 
     @Override
@@ -203,4 +207,11 @@ public class Product implements Parcelable {
         this.status = status;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 }
