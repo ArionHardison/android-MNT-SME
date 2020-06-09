@@ -6,18 +6,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +18,14 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -561,9 +554,6 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         strProductOrder = etProductOrder.getText().toString().trim();
         strIngredients = edtIngredients.getText().toString().trim();
         strCalories = edtCalories.getText().toString().trim();
-        if (strProductOrder.equals("")) {
-            strProductOrder = "0";
-        }
 
         if (strProductName == null || strProductName.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_name));
@@ -571,7 +561,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageGaller
         } else if (strProductDescription == null || strProductDescription.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_description));
             return false;
-        } else if (strProductOrder == null || strProductOrder.isEmpty()) {
+        } else if (strProductOrder == null || strProductOrder.isEmpty() || strProductOrder.equals("0")) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_order));
             return false;
         } else if (strCategory == null || strCategory.isEmpty()) {

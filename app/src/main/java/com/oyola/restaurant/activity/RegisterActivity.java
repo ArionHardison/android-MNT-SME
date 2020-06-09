@@ -457,14 +457,14 @@ public class RegisterActivity extends AppCompatActivity implements ImageGalleryA
                 map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
                 map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
                 map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
-                if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
+                /*if (tvStatus.getText().toString().equalsIgnoreCase("onboarding")) {
                     status = "onboarding";
                 } else if (tvStatus.getText().toString().equalsIgnoreCase("banned")) {
                     status = "banned";
                 } else if (tvStatus.getText().toString().equalsIgnoreCase("active")) {
                     status = "active";
                 }
-                map.put("status", RequestBody.create(MediaType.parse("text/plain"), status));
+                map.put("status", RequestBody.create(MediaType.parse("text/plain"), status));*/
              /*   map.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedShopImageId));
                 map.put("image_banner_id", RequestBody.create(MediaType.parse("text/plain"), mSelectedBannerImageId));*/
                 map.put("image_gallery_img", RequestBody.create(MediaType.parse("text/plain"), mSelectedShopImageUrl));

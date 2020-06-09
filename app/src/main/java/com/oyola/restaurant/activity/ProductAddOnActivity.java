@@ -193,7 +193,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("price", RequestBody.create(MediaType.parse("text/plain"), strProductPrice));
         params.put("product_position", RequestBody.create(MediaType.parse("text/plain"), message.getStrProductOrder()));
         params.put("shop", RequestBody.create(MediaType.parse("text/plain"), shop_id));
-        if (!strProductDiscount.isEmpty()) {
+        if (!strProductDiscount.isEmpty() && !strProductDiscount.equals("0")) {
             params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
             params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
         }
