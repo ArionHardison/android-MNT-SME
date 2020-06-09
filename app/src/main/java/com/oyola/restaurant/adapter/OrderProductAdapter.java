@@ -76,10 +76,12 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
         if (!list.get(section).getCartAddons().isEmpty()) {
             CartAddon object = list.get(section).getCartAddons().get(relativePosition);
             holder.itemLayout.setVisibility(View.VISIBLE);
-            String value = context.getString(R.string.addon_, object.getAddonProduct().getAddon().getName(), object.getQuantity(), GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/object.getAddonProduct().getPrice())/*)*/;
+            String value = context.getString(R.string.addon_, object.getAddonProduct().getAddon().getName(),
+                    list.get(section).getQuantity() * object.getQuantity(),
+                    GlobalData.profile.getCurrency() + object.getAddonProduct().getPrice());
             holder.addonDetail.setText(value);
-            Double totalAmount = /*Double.valueOf(*/object.getAddonProduct().getPrice() * object.getQuantity();
-            holder.addonPrice.setText(GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/totalAmount)/*)*/;
+            Double totalAmount = object.getAddonProduct().getPrice() * list.get(section).getQuantity() * object.getQuantity();
+            holder.addonPrice.setText(GlobalData.profile.getCurrency() + totalAmount);
         } else {
             holder.itemLayout.setVisibility(View.GONE);
         }
