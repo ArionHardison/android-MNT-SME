@@ -95,7 +95,7 @@ dependencies {
     implementation 'com.afollestad:sectioned-recyclerview:0.2.3'
 
     //      BarChart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     //      Loader
     implementation 'com.wang.avi:library:2.1.3'

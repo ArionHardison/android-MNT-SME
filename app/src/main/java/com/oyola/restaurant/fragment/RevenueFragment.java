@@ -140,7 +140,7 @@ public class RevenueFragment extends Fragment {
         set2.setDrawValues(false);
 
         BarData data = new BarData(set1, set2);
-        data.setValueFormatter(new LargeValueFormatter());
+//        data.setValueFormatter(new LargeValueFormatter());
         mChart.setData(data);
         mChart.getBarData().setBarWidth(barWidth);
         mChart.getXAxis().setAxisMinimum(0);
@@ -171,7 +171,7 @@ public class RevenueFragment extends Fragment {
 //Y-axis
         mChart.getAxisRight().setEnabled(false);
         YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setValueFormatter(new LargeValueFormatter());
+//        leftAxis.setValueFormatter(new LargeValueFormatter());
         leftAxis.setDrawGridLines(true);
         leftAxis.setSpaceTop(35f);
         leftAxis.setAxisMinimum(0f);
