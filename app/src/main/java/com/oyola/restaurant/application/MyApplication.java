@@ -3,7 +3,6 @@ package com.oyola.restaurant.application;
 import android.content.Context;
 import androidx.multidex.MultiDexApplication;
 
-import com.crashlytics.android.Crashlytics;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.helper.SharedHelper;
 import com.facebook.stetho.Stetho;
@@ -12,9 +11,6 @@ import com.unsplash.pickerandroid.photopicker.UnsplashPhotoPicker;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
-
-import io.fabric.sdk.android.Fabric;
-//import com.facebook.stetho.Stetho;
 
 /**
  * Created by Tamil on 3/17/2018.
@@ -33,7 +29,6 @@ public class MyApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
         Stetho.initializeWithDefaults(this);
 
         mAppController = this;
