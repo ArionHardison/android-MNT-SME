@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.provider.Settings;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +13,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
+import com.oyola.restaurant.adapter.AppConstants;
 import com.oyola.restaurant.config.AppConfigure;
 import com.oyola.restaurant.controller.GetProfile;
 import com.oyola.restaurant.controller.ProfileListener;
@@ -29,9 +32,11 @@ import com.oyola.restaurant.model.Profile;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
+import com.oyola.restaurant.utils.TextUtils;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,6 +72,8 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     String TAG = "LoginActivity";
     String email, password;
+    private String deviceToken;
+    private String deviceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,9 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         customDialog = new CustomDialog(context);
 
         etPasswordEyeImg.setTag(1);
+        deviceToken = SharedHelper.getKey(context, "device_token");
+        deviceId = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
     }
 
     @OnClick({R.id.et_password_eye_img, R.id.login_btn, R.id.txt_register, R.id.txt_forgot_password})
@@ -122,6 +132,9 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         else {
             if (isInternetAvailable) {
                 HashMap<String, String> map = new HashMap<>();
+                map.put("device_id", deviceId);
+                map.put("device_token", deviceToken);
+                map.put("device_type", AppConstants.DEVICE_TYPE);
                 map.put("username", email);
                 map.put("password", password);
                 map.put("grant_type", "password");
@@ -149,7 +162,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
                 } else {
                     try {
                         ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
-                        if (serverError.getError().contains("invalid")) {
+                        if (serverError.getError() != null && serverError.getError().toLowerCase().contains("invalid")) {
                             Utils.displayMessage(activity, getString(R.string.invalid_credentials));
                         } else {
                             Utils.displayMessage(activity, getString(R.string.something_went_wrong));
@@ -165,9 +178,10 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
             }
 
             @Override
-            public void onFailure(@NonNull Call<AuthToken> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<AuthToken> call, @NonNull Throwable throwable) {
                 customDialog.dismiss();
-                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+                String message = !TextUtils.isEmpty(Objects.requireNonNull(throwable.getMessage())) ? throwable.getMessage() : getString(R.string.something_went_wrong);
+                Utils.displayMessage(activity, message);
             }
         });
 

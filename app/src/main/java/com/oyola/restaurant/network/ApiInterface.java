@@ -61,7 +61,7 @@ public interface ApiInterface {
 //    Call<Otp> postOtp(@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
-    @POST("oauth/token")
+    @POST("api/shop/oauth/token")
     Call<AuthToken> login(@FieldMap HashMap<String, String> params);
 
     @Multipart
