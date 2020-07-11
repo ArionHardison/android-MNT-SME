@@ -2,8 +2,10 @@ package com.oyola.restaurant.network;
 
 import android.util.Log;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.oyola.restaurant.config.AppConfigure;
 import com.oyola.restaurant.helper.GlobalData;
+import com.oyola.restaurant.utils.TextUtils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +17,6 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 /**
  * Created by Tamil on 30-08-2017.
@@ -58,7 +59,9 @@ public class ApiClient {
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             builder.addHeader("X-Requested-With", "XMLHttpRequest");
-            builder.addHeader("Authorization", GlobalData.accessToken);
+            if (!TextUtils.isEmpty(GlobalData.accessToken)) {
+                builder.addHeader("Authorization", GlobalData.accessToken);
+            }
             Log.e("access_token", GlobalData.accessToken);
 
             return chain.proceed(builder.build());

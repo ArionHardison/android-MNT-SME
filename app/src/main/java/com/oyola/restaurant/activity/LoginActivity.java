@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     boolean isInternetAvailable;
-    ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+    ApiInterface apiInterface;
     String TAG = "LoginActivity";
     String email, password;
     private String deviceToken;
@@ -84,13 +85,15 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         context = LoginActivity.this;
         activity = LoginActivity.this;
         connectionHelper = new ConnectionHelper(context);
-        isInternetAvailable = connectionHelper.isConnectingToInternet();
         customDialog = new CustomDialog(context);
 
         etPasswordEyeImg.setTag(1);
         deviceToken = SharedHelper.getKey(context, "device_token");
         deviceId = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
+        SharedHelper.putKey(context, "access_token", "");
+        GlobalData.accessToken = "";
+        apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     }
 
     @OnClick({R.id.et_password_eye_img, R.id.login_btn, R.id.txt_register, R.id.txt_forgot_password})
@@ -130,6 +133,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         else if (password.isEmpty())
             Utils.displayMessage(activity, getResources().getString(R.string.please_enter_password));
         else {
+            isInternetAvailable = connectionHelper.isConnectingToInternet();
             if (isInternetAvailable) {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("device_id", deviceId);
@@ -156,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
             @Override
             public void onResponse(@NonNull Call<AuthToken> call, @NonNull Response<AuthToken> response) {
                 if (response.isSuccessful()) {
-                    SharedHelper.putKey(context, "access_token", response.body().getTokenType() + " " + response.body().getAccessToken());
+                    SharedHelper.putKey(context, "access_token", response.body().getAccessToken());
                     GlobalData.accessToken = SharedHelper.getKey(context, "access_token");
                     new GetProfile(apiInterface, LoginActivity.this);
                 } else {
@@ -199,8 +203,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
     @Override
     public void onFailure(String error) {
         customDialog.dismiss();
-        if (error.isEmpty())
-            Utils.displayMessage(activity, getString(R.string.something_went_wrong));
-        else Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+        String message = !TextUtils.isEmpty(error) ? error : getString(R.string.something_went_wrong);
+        Utils.displayMessage(activity, message);
     }
 }

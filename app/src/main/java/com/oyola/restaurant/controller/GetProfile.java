@@ -10,6 +10,7 @@ import com.oyola.restaurant.application.MyApplication;
 import com.oyola.restaurant.helper.SharedHelper;
 import com.oyola.restaurant.model.Profile;
 import com.oyola.restaurant.model.ServerError;
+import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.Constants;
 
@@ -26,6 +27,7 @@ import retrofit2.Response;
 public class GetProfile {
 
     public GetProfile(ApiInterface apiInterface, final ProfileListener profileListener) {
+        apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);;
         String device_id = Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID);
         String device_type = "Android";
         String device_token = SharedHelper.getKey(MyApplication.getInstance(), "device_token");
