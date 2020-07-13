@@ -3,25 +3,30 @@ package com.oyola.restaurant.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.activity.HistoryActivity;
-import com.oyola.restaurant.adapter.HistoryAdapter;
+import com.oyola.restaurant.adapter.OnGoingStickyAdapter;
+import com.oyola.restaurant.helper.stickyadapter.StickyHeaderLayoutManager;
 import com.oyola.restaurant.model.IncomingOrders;
+import com.oyola.restaurant.model.OngoingHistoryModel;
 import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
+import com.oyola.restaurant.utils.TextUtils;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.ArrayList;
@@ -46,7 +51,7 @@ public class UpcomingVisitFragment extends Fragment {
     private Context context;
     private Activity activity;
 
-    private HistoryAdapter historyAdapter;
+    private OnGoingStickyAdapter adapter;
     private List<Order> orderList = new ArrayList<>();
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
@@ -58,8 +63,8 @@ public class UpcomingVisitFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        if (context instanceof Activity){
-            this.activity=(Activity) context;
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
         }
     }
 
@@ -75,15 +80,45 @@ public class UpcomingVisitFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_upcoming_visit, container, false);
         unbinder = ButterKnife.bind(this, view);
-        setupAdapter();
         return view;
     }
 
-    private void setupAdapter() {
-        historyAdapter = new HistoryAdapter(orderList, context);
-        upcomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        upcomingRv.setAdapter(historyAdapter);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        adapter = new OnGoingStickyAdapter(getContext());
+        upcomingRv.setLayoutManager(new StickyHeaderLayoutManager());
+        upcomingRv.setItemAnimator(new DefaultItemAnimator());
+        upcomingRv.setAdapter(adapter);
         getOnGoingOrders();
+    }
+
+    private void splitUpList(List<Order> orderList) {
+        List<OngoingHistoryModel> onGoingHistoryList = new ArrayList<>();
+
+        List<Order> scheduledOrders = new ArrayList<>();
+        List<Order> onGoingOrders = new ArrayList<>();
+
+        for (int i = 0, size = orderList.size(); i < size; i++) {
+            Order order = orderList.get(i);
+            if (order != null) {
+                if (!TextUtils.isEmpty(order.getStatus()) &&
+                        !order.getStatus().equals("CANCELLED") && !order.getStatus().equals("COMPLETED") &&
+                        order.getScheduleStatus() != null && order.getScheduleStatus() == 1) {
+                    scheduledOrders.add(order);
+                } else {
+                    onGoingOrders.add(order);
+                }
+            }
+        }
+
+        if (scheduledOrders.size() > 0) {
+            onGoingHistoryList.add(new OngoingHistoryModel("Scheduled Orders", scheduledOrders));
+        }
+        if (onGoingOrders.size() > 0) {
+            onGoingHistoryList.add(new OngoingHistoryModel("Ongoing Orders", onGoingOrders));
+        }
+        adapter.setStickyItemList(onGoingHistoryList);
     }
 
     private void getOnGoingOrders() {
@@ -101,8 +136,7 @@ public class UpcomingVisitFragment extends Fragment {
                             llNoRecords.setVisibility(View.GONE);
                             upcomingRv.setVisibility(View.VISIBLE);
                             orderList.addAll(incomingOrders.getOrders());
-                            historyAdapter.setList(orderList);
-                            historyAdapter.notifyDataSetChanged();
+                            splitUpList(orderList);
                         } else {
                             llNoRecords.setVisibility(View.VISIBLE);
                             upcomingRv.setVisibility(View.GONE);

@@ -119,6 +119,9 @@ dependencies {
 
     //Unsplash image api
     implementation 'com.unsplash.pickerandroid:photopicker:1.0.0'
+
+    /*Section Header Adapter*/
+    implementation 'org.zakariya.stickyheaders:stickyheaders:0.7.10'
 }
 
 apply plugin: 'com.google.gms.google-services'
