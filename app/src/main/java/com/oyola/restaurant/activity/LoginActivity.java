@@ -146,6 +146,11 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
                 map.put("client_secret", AppConfigure.CLIENT_SECRET);
                 map.put("guard", "shops");
                 login(map);
+
+                //["username": "ios@demo.com", "guard": "shops", "password": "123456", "grant_type": "password",
+                // "client_secret": "aCaCS0Kf2MArewwGDgHqfTz9q4U3GRqZwgK1LR70", "client_id": "2",
+                // "device_id": "EC3BFD0D-2007-4BDF-99DC-817030ACEC48", "device_type": "ios",
+                // "device_token": "0e72accd48569a70aeb131d178fc72d54a835434c57a070fdc4871eb78c72c50"]
             } else {
                 Utils.displayMessage(activity, getResources().getString(R.string.oops_no_internet));
             }

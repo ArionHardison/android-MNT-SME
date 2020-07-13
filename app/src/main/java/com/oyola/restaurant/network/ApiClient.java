@@ -60,9 +60,9 @@ public class ApiClient {
             Request.Builder builder = chain.request().newBuilder();
             builder.addHeader("X-Requested-With", "XMLHttpRequest");
             if (!TextUtils.isEmpty(GlobalData.accessToken)) {
-                builder.addHeader("Authorization", GlobalData.accessToken);
+                builder.addHeader("Authorization", "Bearer " + GlobalData.accessToken);
+                Log.e("access_token", GlobalData.accessToken);
             }
-            Log.e("access_token", GlobalData.accessToken);
 
             return chain.proceed(builder.build());
         }
