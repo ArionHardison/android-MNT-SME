@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
@@ -65,8 +66,17 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
 
     @Override
     public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemUserType) {
-        View view = inflater.inflate(R.layout.item_order_history, parent, false);
+        View view = inflater.inflate(R.layout.item_ongoing_history_child, parent, false);
         return new ItemChildViewHolder(view);
+    }
+
+    @Override
+    public GhostHeaderViewHolder onCreateGhostHeaderViewHolder(ViewGroup parent) {
+        final View ghostView = new View(parent.getContext());
+        ghostView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        return new GhostHeaderViewHolder(ghostView);
     }
 
     @Override
@@ -103,6 +113,12 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
         holder.setChildDataToView(order);
     }
 
+    @Override
+    public void onBindGhostHeaderViewHolder(SectioningAdapter.GhostHeaderViewHolder viewHolder,
+                                            int sectionIndex) {
+        viewHolder.itemView.setBackgroundColor(0xFF9999FF);
+    }
+
     class ItemHeaderViewHolder extends HeaderViewHolder {
 
         private TextView tvHeader;
@@ -120,7 +136,7 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
     class ItemChildViewHolder extends SectioningAdapter.ItemViewHolder {
 
         private TextView userName, address, paymentMode, price, tvStatus;
-        private CardView itemLayout;
+        private RelativeLayout itemLayout;
         private ImageView userImg;
 
         public ItemChildViewHolder(View view) {
@@ -129,7 +145,7 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
             price = view.findViewById(R.id.price);
             address = view.findViewById(R.id.address);
             paymentMode = view.findViewById(R.id.payment_mode);
-            tvStatus = view.findViewById(R.id.status);
+            tvStatus = view.findViewById(R.id.tv_status);
             itemLayout = view.findViewById(R.id.item_layout);
             userImg = view.findViewById(R.id.user_img);
         }

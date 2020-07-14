@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:background="@drawable/bg_card"
+        android:padding="@dimen/_15sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_img"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_place_holder_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/user_img"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/activity_vertical_margin_half">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="@dimen/text_small" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_location"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_tiny" />
+
+                <TextView
+                    android:id="@+id/payment_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:text="@string/scheduled"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/text_small" />
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:text="@string/scheduled"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="@dimen/text_small" />
+
+                <TextView
+                    android:id="@+id/tvScheduleStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:text="@string/scheduled"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="@dimen/text_small"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/item_order_price"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_tiny" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="@dimen/text_tiny" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

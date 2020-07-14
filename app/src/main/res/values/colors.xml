@@ -18,6 +18,7 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#747474</color>
     <color name="light_grey">#f1f1f1</color>
+    <color name="grey_light">#ECE9E9</color>
     <color name="very_light_grey">#fafafa</color>
     <color name="medium_grey">#d1d0d0</color>
     <color name="colorTextWhite">#FFF</color>

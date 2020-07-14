@@ -30,6 +30,7 @@ import com.oyola.restaurant.utils.TextUtils;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -113,12 +114,23 @@ public class UpcomingVisitFragment extends Fragment {
         }
 
         if (scheduledOrders.size() > 0) {
+            sortOrdersToDescending(scheduledOrders);
             onGoingHistoryList.add(new OngoingHistoryModel("Scheduled Orders", scheduledOrders));
         }
         if (onGoingOrders.size() > 0) {
+            sortOrdersToDescending(onGoingOrders);
             onGoingHistoryList.add(new OngoingHistoryModel("Ongoing Orders", onGoingOrders));
         }
         adapter.setStickyItemList(onGoingHistoryList);
+    }
+
+    private void sortOrdersToDescending(List<Order> orderList) {
+        Collections.sort(orderList, (lhs, rhs) -> {
+            if (rhs.getCreatedAtDate() == null || lhs.getCreatedAtDate() == null) {
+                return 0;
+            }
+            return rhs.getCreatedAtDate().compareTo(lhs.getCreatedAtDate());
+        });
     }
 
     private void getOnGoingOrders() {

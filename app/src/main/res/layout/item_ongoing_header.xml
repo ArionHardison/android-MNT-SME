@@ -3,6 +3,6 @@
     android:id="@+id/tv_ongoing_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/very_light_grey"
+    android:background="@color/grey_light"
     android:fontFamily="@font/nunito_bold"
     android:padding="@dimen/_10sdp" />
