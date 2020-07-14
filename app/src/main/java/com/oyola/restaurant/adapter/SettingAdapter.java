@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -38,6 +40,7 @@ import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.Constants;
 import com.oyola.restaurant.utils.LocaleUtils;
+import com.oyola.restaurant.utils.TextUtils;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.List;
@@ -95,13 +98,13 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
             Intent intent = new Intent(context, RestaurantTimingActivity.class);
             intent.putExtra("from", "Settings");
             context.startActivity(intent);
-        }else if (title.equalsIgnoreCase(context.getString(R.string.edit_bank))) {
+        } else if (title.equalsIgnoreCase(context.getString(R.string.edit_bank))) {
             Intent intent = new Intent(context, BankDetailActivity.class);
             intent.putExtra("from", "Settings");
             context.startActivity(intent);
         } else if (title.equalsIgnoreCase(context.getString(R.string.deliveries))) {
             context.startActivity(new Intent(context, DeliveriesActivity.class));
-        }else if (title.equalsIgnoreCase(context.getString(R.string.food_safety))) {
+        } else if (title.equalsIgnoreCase(context.getString(R.string.food_safety))) {
             context.startActivity(new Intent(context, FoodSafetyActivity.class));
         } else if (title.equalsIgnoreCase(context.getString(R.string.change_language))) {
             changeLanguage();
@@ -198,13 +201,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
                 if (response.isSuccessful()) {
                     clearAndExit();
                 } else {
-                    Gson gson = new Gson();
-                    try {
-                        ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
-                        Utils.displayMessage(activity, serverError.getError());
-                    } catch (JsonSyntaxException e) {
-                        Utils.displayMessage(activity, activity.getString(R.string.something_went_wrong));
-                    }
+                    ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
+                    String message = serverError != null ? serverError.getError() : null;
+                    clearAndExit();
+                    Log.e("Error", !TextUtils.isEmpty(message) ? message : "");
                 }
             }
 
