@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.helper.GlobalData;
+import com.oyola.restaurant.model.AddonProduct;
 import com.oyola.restaurant.model.CartAddon;
 import com.oyola.restaurant.model.Item;
 
@@ -74,13 +75,16 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
     @Override
     public void onBindViewHolder(ViewHolder holder, int section, int relativePosition, int absolutePosition) {
         if (!list.get(section).getCartAddons().isEmpty()) {
-            CartAddon object = list.get(section).getCartAddons().get(relativePosition);
+            CartAddon cartAddon = list.get(section).getCartAddons().get(relativePosition);
+            AddonProduct addonProduct = cartAddon.getAddonProduct();
+            double price = (addonProduct != null ? (addonProduct.getPrice() != null ? addonProduct.getPrice() : 0) : 0);
+
             holder.itemLayout.setVisibility(View.VISIBLE);
-            String value = context.getString(R.string.addon_, object.getAddonProduct().getAddon().getName(),
-                    list.get(section).getQuantity() * object.getQuantity(),
-                    GlobalData.profile.getCurrency() + object.getAddonProduct().getPrice());
+            String value = context.getString(R.string.addon_, (addonProduct != null ? addonProduct.getAddon().getName() : ""),
+                    list.get(section).getQuantity() * cartAddon.getQuantity(),
+                    GlobalData.profile.getCurrency() + price);
             holder.addonDetail.setText(value);
-            Double totalAmount = object.getAddonProduct().getPrice() * list.get(section).getQuantity() * object.getQuantity();
+            Double totalAmount = price * list.get(section).getQuantity() * cartAddon.getQuantity();
             holder.addonPrice.setText(GlobalData.profile.getCurrency() + totalAmount);
         } else {
             holder.itemLayout.setVisibility(View.GONE);
