@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +29,6 @@ import com.oyola.restaurant.utils.TextUtils;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UpcomingVisitFragment extends Fragment {
+public class UpcomingVisitFragment extends BaseFragment {
 
     @BindView(R.id.upcoming_rv)
     RecyclerView upcomingRv;
@@ -122,15 +120,6 @@ public class UpcomingVisitFragment extends Fragment {
             onGoingHistoryList.add(new OngoingHistoryModel("Ongoing Orders", onGoingOrders));
         }
         adapter.setStickyItemList(onGoingHistoryList);
-    }
-
-    private void sortOrdersToDescending(List<Order> orderList) {
-        Collections.sort(orderList, (lhs, rhs) -> {
-            if (rhs.getCreatedAtDate() == null || lhs.getCreatedAtDate() == null) {
-                return 0;
-            }
-            return rhs.getCreatedAtDate().compareTo(lhs.getCreatedAtDate());
-        });
     }
 
     private void getOnGoingOrders() {

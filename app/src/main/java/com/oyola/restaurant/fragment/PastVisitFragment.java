@@ -4,20 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.oyola.restaurant.activity.LoginActivity;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.activity.HistoryActivity;
+import com.oyola.restaurant.activity.LoginActivity;
 import com.oyola.restaurant.adapter.HistoryAdapter;
 import com.oyola.restaurant.model.HistoryModel;
 import com.oyola.restaurant.model.Order;
@@ -27,6 +27,7 @@ import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PastVisitFragment extends Fragment {
+public class PastVisitFragment extends BaseFragment {
 
     public static CancelledListListener cancelledListListener;
     @BindView(R.id.past_rv)
@@ -58,8 +59,8 @@ public class PastVisitFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        if (context instanceof Activity){
-            this.activity=(Activity) context;
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
         }
     }
 
@@ -121,6 +122,7 @@ public class PastVisitFragment extends Fragment {
                             llNoRecords.setVisibility(View.GONE);
                             pastRv.setVisibility(View.VISIBLE);
                             orderList = historyModel.getCOMPLETED();
+                            sortOrdersToDescending(orderList);
                             historyAdapter.setList(orderList);
                             historyAdapter.notifyDataSetChanged();
                         } else {
@@ -139,9 +141,10 @@ public class PastVisitFragment extends Fragment {
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
-                        if (response.code() == 401)
-                        {context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            activity.finish();}
+                        if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            activity.finish();
+                        }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }
