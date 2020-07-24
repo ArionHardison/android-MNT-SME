@@ -15,6 +15,7 @@ import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.model.AddonProduct;
 import com.oyola.restaurant.model.CartAddon;
 import com.oyola.restaurant.model.Item;
+import com.oyola.restaurant.utils.TextUtils;
 
 import java.util.List;
 
@@ -77,15 +78,19 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
         if (!list.get(section).getCartAddons().isEmpty()) {
             CartAddon cartAddon = list.get(section).getCartAddons().get(relativePosition);
             AddonProduct addonProduct = cartAddon.getAddonProduct();
-            double price = (addonProduct != null ? (addonProduct.getPrice() != null ? addonProduct.getPrice() : 0) : 0);
+            double price = (addonProduct != null && addonProduct.getPrice() != null) ? addonProduct.getPrice() : 0;
+            String name = (addonProduct != null && addonProduct.getAddon() != null && !TextUtils.isEmpty(addonProduct.getAddon().getName())) ?
+                    addonProduct.getAddon().getName() : "";
 
             holder.itemLayout.setVisibility(View.VISIBLE);
-            String value = context.getString(R.string.addon_, (addonProduct != null ? addonProduct.getAddon().getName() : ""),
+            String value = context.getString(R.string.addon_, name,
                     list.get(section).getQuantity() * cartAddon.getQuantity(),
                     GlobalData.profile.getCurrency() + price);
             holder.addonDetail.setText(value);
-            Double totalAmount = price * list.get(section).getQuantity() * cartAddon.getQuantity();
-            holder.addonPrice.setText(GlobalData.profile.getCurrency() + totalAmount);
+            double totalAmount = price * list.get(section).getQuantity() * cartAddon.getQuantity();
+            String currency = (GlobalData.profile != null && !TextUtils.isEmpty(GlobalData.profile.getCurrency())) ?
+                    GlobalData.profile.getCurrency() :"";
+            holder.addonPrice.setText(currency + totalAmount);
         } else {
             holder.itemLayout.setVisibility(View.GONE);
         }
