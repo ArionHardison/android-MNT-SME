@@ -92,7 +92,7 @@
 
     <!--    Revenue-->
     <string name="revenue">Revenue</string>
-    <string name="total_revenue">Total Revenue</string>
+    <string name="total_revenue">Monthly Total Revenue</string>
     <string name="yesterday">Yesterday</string>
     <string name="today_till_now">Today Till Now</string>
     <string name="total_last_week">Total Last Week</string>
@@ -142,7 +142,7 @@
     <string name="sgst">SGST</string>
     <string name="delivery_charges">Delivery Charges</string>
     <string name="total">Total</string>
-    <string name="wallet_detection">Wallet Detection</string>
+    <string name="wallet_detection">Oyola Credit applied</string>
 
     <!--    Filter Dialog Activity-->
     <string name="filter_by">Filter By</string>
@@ -174,7 +174,7 @@
     <string name="oops_no_internet">Oops! No internet connection</string>
     <string name="tax">Tax</string>
     <string name="discount">Promocode Amount</string>
-    <string name="shop_discount">Shop Discount</string>
+    <string name="shop_discount">Oyola credit</string>
     <string name="addon_">%s(%d x %s)</string>
     <string name="product_">%s(%d x %s)</string>
     <string name="order_delivery_time_description">Enter the order preparation time ?</string>
@@ -379,4 +379,5 @@
     <string name="password_validation_text">Password must contain number, symbol,capital and small letters</string>
     <string name="calories_symbol">kJ</string>
     <string name="credit_card">Card</string>
+    <string name="oyola_credit">Oyola Credit</string>
 </resources>

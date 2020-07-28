@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -190,6 +189,8 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
             String payment_mode;
             if (order.getInvoice().getPaymentMode().equalsIgnoreCase("stripe")) {
                 payment_mode = context.getString(R.string.credit_card);
+            } else if (order.getInvoice().getPaymentMode().toLowerCase().contains("wallet")) {
+                payment_mode = context.getString(R.string.oyola_credit);
             } else {
                 payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
             }
