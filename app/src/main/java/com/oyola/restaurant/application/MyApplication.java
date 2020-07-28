@@ -1,8 +1,13 @@
 package com.oyola.restaurant.application;
 
 import android.content.Context;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.multidex.MultiDexApplication;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.helper.SharedHelper;
 import com.facebook.stetho.Stetho;
@@ -35,6 +40,20 @@ public class MyApplication extends MultiDexApplication {
         UnsplashPhotoPicker.INSTANCE.init(this,
                 "0813811a510708005bed659afd6c652e6ef32ad72df534d37598dcd05f46af35",
                 "42dc66500397d66972dea4952edb76699cf6f9c8824dba27df1354bc1bfdaa50",20);
+        fetchDeviceToken();
+    }
+
+    public void fetchDeviceToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(
+                instanceIdResult -> {
+                    String newToken = instanceIdResult.getToken();
+                    SharedHelper.putKey(getApplicationContext(), "device_token", "" + newToken);
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("FireBaseToken", "onFailure : " + e.toString());
+            }
+        });
     }
 
     @Override
