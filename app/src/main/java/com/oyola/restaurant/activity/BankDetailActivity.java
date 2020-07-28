@@ -3,13 +3,14 @@ package com.oyola.restaurant.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.controller.GetProfile;
@@ -52,7 +53,7 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
     EditText mEdtRoutingNumber;
 
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    CustomDialog customDialog;
+    private CustomDialog customDialog;
     Integer mId = 0;
     String strFrom = "Register";
     ConnectionHelper connectionHelper;
@@ -63,7 +64,6 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
         setContentView(R.layout.activity_bank);
         ButterKnife.bind(this);
         connectionHelper = new ConnectionHelper(this);
-        customDialog = new CustomDialog(this);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.containsKey("from")) {
             strFrom = bundle.getString("from");
@@ -85,18 +85,17 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-                onBackPressed();
+                finish();
+                break;
             case R.id.btnSubmit:
                 validateDetails();
-                break;
-            default:
                 break;
         }
     }
 
     private void callProfile() {
         if (connectionHelper.isConnectingToInternet()) {
-            customDialog.show();
+            showLoading();
             new GetProfile(apiInterface, this);
         } else {
             Utils.displayMessage(this, getResources().getString(R.string.oops_no_internet));
@@ -113,13 +112,12 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
         } else if (mEdtRoutingNumber.getText().toString().isEmpty()) {
             Toast.makeText(this, getString(R.string.enter_routing_number), Toast.LENGTH_SHORT).show();
         } else {
-            updatebankDetails();
+            updateBankDetails();
         }
     }
 
-    private void updatebankDetails() {
-        if (customDialog != null && !isDestroyed())
-            customDialog.show();
+    private void updateBankDetails() {
+        showLoading();
         HashMap<String, RequestBody> map = new HashMap<>();
         map.put("bank_name", RequestBody.create(MediaType.parse("text/plain"), mEdtBankName.getText().toString()));
         map.put("account_number", RequestBody.create(MediaType.parse("text/plain"), mEdtAccountNo.getText().toString()));
@@ -131,7 +129,7 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
-                customDialog.dismiss();
+                hideLoading();
                 if (response.body() != null) {
                     Utils.displayMessage(BankDetailActivity.this, getString(R.string.bank_details_updated));
                     new Handler().postDelayed(new Runnable() {
@@ -154,16 +152,29 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
 
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {
-                customDialog.dismiss();
+                hideLoading();
                 Utils.displayMessage(BankDetailActivity.this, getString(R.string.something_went_wrong));
             }
         });
     }
 
+    private void showLoading() {
+        if (customDialog == null) {
+            customDialog = new CustomDialog(this);
+        }
+        customDialog.show();
+    }
+
+    private void hideLoading() {
+        if (customDialog != null && customDialog.isShowing()) {
+            customDialog.dismiss();
+        }
+    }
+
     @Override
     public void onSuccess(Profile profile) {
-        customDialog.dismiss();
-        mId=profile.getId();
+        hideLoading();
+        mId = profile.getId();
         if (profile.getBank() != null) {
             mEdtBankName.setText(profile.getBank().getBankName());
             mEdtAccountNo.setText(profile.getBank().getAccountNumber());
@@ -174,7 +185,7 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
 
     @Override
     public void onFailure(String error) {
-        customDialog.dismiss();
+        hideLoading();
         if (error.isEmpty())
             Utils.displayMessage(BankDetailActivity.this, getString(R.string.something_went_wrong));
         else Utils.displayMessage(BankDetailActivity.this, error);
