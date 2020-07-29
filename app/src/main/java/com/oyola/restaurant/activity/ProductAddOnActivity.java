@@ -195,7 +195,7 @@ public class ProductAddOnActivity extends AppCompatActivity {
         params.put("shop", RequestBody.create(MediaType.parse("text/plain"), shop_id));
         if (!strProductDiscount.isEmpty() && !strProductDiscount.equals("0")) {
             params.put("discount", RequestBody.create(MediaType.parse("text/plain"), strProductDiscount));
-            params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType));
+            params.put("discount_type", RequestBody.create(MediaType.parse("text/plain"), strDiscountType.toLowerCase()));
         }
         /*params.put("image_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getImageGalleryId()));
         params.put("featuredimage_gallery_id", RequestBody.create(MediaType.parse("text/plain"), message.getFeaturedGalleryId()));*/
