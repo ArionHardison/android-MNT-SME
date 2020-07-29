@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.adapter.AppConstants;
+import com.oyola.restaurant.application.MyApplication;
 import com.oyola.restaurant.config.AppConfigure;
 import com.oyola.restaurant.controller.GetProfile;
 import com.oyola.restaurant.controller.ProfileListener;
@@ -82,13 +83,13 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        MyApplication.getInstance().fetchDeviceToken();
         context = LoginActivity.this;
         activity = LoginActivity.this;
         connectionHelper = new ConnectionHelper(context);
         customDialog = new CustomDialog(context);
 
         etPasswordEyeImg.setTag(1);
-        deviceToken = SharedHelper.getKey(context, "device_token");
         deviceId = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         SharedHelper.putKey(context, "access_token", "");
@@ -135,6 +136,7 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
         else {
             isInternetAvailable = connectionHelper.isConnectingToInternet();
             if (isInternetAvailable) {
+                deviceToken = SharedHelper.getKey(context, "device_token");
                 HashMap<String, String> map = new HashMap<>();
                 map.put("device_id", deviceId);
                 map.put("device_token", deviceToken);

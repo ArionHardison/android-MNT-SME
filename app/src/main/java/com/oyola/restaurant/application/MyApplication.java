@@ -40,7 +40,6 @@ public class MyApplication extends MultiDexApplication {
         UnsplashPhotoPicker.INSTANCE.init(this,
                 "0813811a510708005bed659afd6c652e6ef32ad72df534d37598dcd05f46af35",
                 "42dc66500397d66972dea4952edb76699cf6f9c8824dba27df1354bc1bfdaa50",20);
-        fetchDeviceToken();
     }
 
     public void fetchDeviceToken() {
