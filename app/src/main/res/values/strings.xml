@@ -174,7 +174,7 @@
     <string name="oops_no_internet">Oops! No internet connection</string>
     <string name="tax">Tax</string>
     <string name="discount">Promocode Amount</string>
-    <string name="shop_discount">Oyola credit</string>
+    <string name="shop_discount">Kitchen Discount</string>
     <string name="addon_">%s(%d x %s)</string>
     <string name="product_">%s(%d x %s)</string>
     <string name="order_delivery_time_description">Enter the order preparation time ?</string>
