@@ -39,6 +39,7 @@ import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.model.ordernew.OrderResponse;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
+import com.oyola.restaurant.utils.TextUtils;
 import com.oyola.restaurant.utils.Utils;
 
 import org.json.JSONObject;
@@ -162,11 +163,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             }
         }
         paymentMode.setText(payment_mode);
-
-        if (order.getNote() != null)
-            notes.setText(order.getNote());
-        else
-            notes.setText(getResources().getString(R.string.empty));
+        notes.setText(!TextUtils.isEmpty(order.getNote()) ? order.getNote() : getString(R.string.empty));
 
         orderProductAdapter = new OrderProductAdapter(context, order.getItems());
         orderProductRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));

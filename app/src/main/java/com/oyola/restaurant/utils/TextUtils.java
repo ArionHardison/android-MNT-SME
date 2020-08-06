@@ -21,8 +21,8 @@ public class TextUtils {
 )			# End of group*/
 
     //Check empty edit text
-    public static boolean isEmpty(String strText) {
-        return strText.length() == 0;
+    public static boolean isEmpty(String str) {
+        return str == null || str.trim().isEmpty();
     }
 
     //check Valid Mail address
