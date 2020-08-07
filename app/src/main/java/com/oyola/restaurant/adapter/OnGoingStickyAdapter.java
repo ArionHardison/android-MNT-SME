@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,7 +66,7 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
 
     @Override
     public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemUserType) {
-        View view = inflater.inflate(R.layout.item_ongoing_history_child, parent, false);
+        View view = inflater.inflate(R.layout.item_ongoing_history, parent, false);
         return new ItemChildViewHolder(view);
     }
 
@@ -134,19 +135,21 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
 
     class ItemChildViewHolder extends SectioningAdapter.ItemViewHolder {
 
-        private TextView userName, address, paymentMode, price, tvStatus;
+        private TextView userName, address, paymentMode, price, tvStatus, tvDeliveryTime, tvOrderTime;
         private RelativeLayout itemLayout;
         private ImageView userImg;
 
         public ItemChildViewHolder(View view) {
             super(view);
-            userName = view.findViewById(R.id.user_name);
-            price = view.findViewById(R.id.price);
-            address = view.findViewById(R.id.address);
-            paymentMode = view.findViewById(R.id.payment_mode);
+            userName = view.findViewById(R.id.tv_username);
+            price = view.findViewById(R.id.tv_price);
+            address = view.findViewById(R.id.tv_address);
+            paymentMode = view.findViewById(R.id.tv_payment_mode);
             tvStatus = view.findViewById(R.id.tv_status);
-            itemLayout = view.findViewById(R.id.item_layout);
-            userImg = view.findViewById(R.id.user_img);
+            tvDeliveryTime = view.findViewById(R.id.tv_delivery_time);
+            tvOrderTime = view.findViewById(R.id.tv_order_time);
+            itemLayout = view.findViewById(R.id.layout_ongoing);
+            userImg = view.findViewById(R.id.img_user);
         }
 
         public void setChildDataToView(Order order) {
@@ -195,6 +198,13 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
                 payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
             }
             paymentMode.setText(payment_mode);
+
+            String deliveryTime = (!TextUtils.isEmpty(order.getDeliveryDate()) && Utils.getDisplayDateAndTime(order.getDeliveryDate()) != null) ?
+                    Utils.getDisplayDateAndTime(order.getDeliveryDate()) : "";
+            String orderTime = (!TextUtils.isEmpty(order.getDeliveryDate()) && Utils.getDisplayDateAndTime(order.getDeliveryDate()) != null) ?
+                    Utils.getDisplayDateAndTime(order.getDeliveryDate()) : "";
+            tvDeliveryTime.setText(!TextUtils.isEmpty(deliveryTime) ? deliveryTime : "NA");
+            tvOrderTime.setText(!TextUtils.isEmpty(orderTime) ? deliveryTime : "NA");
             itemLayout.setOnClickListener(v -> {
                 GlobalData.selectedOrder = order;
                 context.startActivity(new Intent(context, OrderDetailActivity.class));

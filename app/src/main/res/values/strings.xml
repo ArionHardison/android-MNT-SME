@@ -99,6 +99,10 @@
     <string name="this_week_till_now">This Week Till Now</string>
     <string name="description">Description</string>
     <string name="status">Status</string>
+    <string name="history_status">Status :</string>
+    <string name="history_payment_mode">Payment Mode :</string>
+    <string name="history_delivery_time">Delivery Time :</string>
+    <string name="history_order_time">Order Time :</string>
     <string name="category_order">Category Order</string>
     <string name="image_upload">Image Upload</string>
     <string name="is_this_a_featured_product">Is this is a featured product?</string>

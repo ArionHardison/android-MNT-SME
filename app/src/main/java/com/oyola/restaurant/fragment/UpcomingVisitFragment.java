@@ -113,11 +113,11 @@ public class UpcomingVisitFragment extends BaseFragment {
 
         if (scheduledOrders.size() > 0) {
             sortOrdersToDescending(scheduledOrders);
-            onGoingHistoryList.add(new OngoingHistoryModel("Scheduled Orders", scheduledOrders));
+            onGoingHistoryList.add(new OngoingHistoryModel("SCHEDULED ORDERS", scheduledOrders));
         }
         if (onGoingOrders.size() > 0) {
             sortOrdersToDescending(onGoingOrders);
-            onGoingHistoryList.add(new OngoingHistoryModel("Ongoing Orders", onGoingOrders));
+            onGoingHistoryList.add(new OngoingHistoryModel("ONGOING ORDERS", onGoingOrders));
         }
         adapter.setStickyItemList(onGoingHistoryList);
     }

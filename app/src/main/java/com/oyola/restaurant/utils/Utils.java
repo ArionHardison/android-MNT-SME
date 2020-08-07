@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.network.ApiInterface;
 
@@ -16,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -175,11 +177,29 @@ public class Utils {
 
 
     public static String getDeliveryTime(String date) throws ParseException {
+        if (TextUtils.isEmpty(date)) {
+            return null;
+        }
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         String time = new SimpleDateFormat("hh:mm aaa").format(cal.getTime());
         return time;
+    }
+
+    public static String getDisplayDateAndTime(String dateString) {
+        if (TextUtils.isEmpty(dateString)) {
+            return null;
+        }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        DateFormat dateStringFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        try {
+            Date date = dateFormat.parse(dateString);
+            return dateStringFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void print(String tag, String message) {
