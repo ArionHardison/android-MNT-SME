@@ -28,6 +28,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
@@ -171,7 +173,8 @@ public class RequestAcceptActivity extends AppCompatActivity {
         }
         paymentMode.setText(payment_mode);
         notes.setText(!TextUtils.isEmpty(order.getNote()) ? order.getNote() : getString(R.string.empty));
-
+        Glide.with(this).load(order.getUser().getAvatar())
+                .apply(new RequestOptions().placeholder(R.drawable.delete_shop).error(R.drawable.delete_shop).dontAnimate()).into(userImg);
         if (order.getPickUpRestaurant() != null) {
             if (order.getPickUpRestaurant() == 0) {
                 txtOrderType.setText(getString(R.string.order_type_delivery));
