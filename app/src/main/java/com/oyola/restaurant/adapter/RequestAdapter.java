@@ -94,14 +94,18 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             }
         }
         //Default Status and color
-        String status = context.getResources().getString(R.string.dispute_created);
-        holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
-
+        String status = "";
+        holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
         if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
             status = context.getResources().getString(R.string.incoming);
-            holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
+        } else if (order.getStatus().equals("RECEIVED")) {
+            status = "Processing";
+        } else {
+            holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
+            context.getResources().getString(R.string.dispute_created);
         }
         holder.status.setText(status);
+
         String name = Utils.toFirstCharUpperAll(order.getUser().getName());
         String payment_mode;
         if (order.getInvoice().getPaymentMode().equalsIgnoreCase("stripe")) {

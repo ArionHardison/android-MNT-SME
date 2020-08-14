@@ -271,6 +271,8 @@
     <string name="please_new_password">Please Enter New Password</string>
     <string name="order_received">Order Received</string>
     <string name="ordered_delievered">Ordered Delivered</string>
+    <string name="order_received_today">Order Received Today</string>
+    <string name="ordered_delievered_today">Ordered Delivered Today</string>
     <string name="today_earnings">Today Earnings</string>
     <string name="monthly_earnings">Monthly Earnings</string>
     <string name="discount_type">Discount Type</string>

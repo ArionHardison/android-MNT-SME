@@ -135,7 +135,7 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
 
     class ItemChildViewHolder extends SectioningAdapter.ItemViewHolder {
 
-        private TextView userName, address, paymentMode, price, tvStatus, tvDeliveryTime, tvOrderTime;
+        private TextView userName, address, paymentMode, price, tvStatus, tvDeliveryTime;
         private RelativeLayout itemLayout;
         private ImageView userImg;
 
@@ -147,7 +147,6 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
             paymentMode = view.findViewById(R.id.tv_payment_mode);
             tvStatus = view.findViewById(R.id.tv_status);
             tvDeliveryTime = view.findViewById(R.id.tv_delivery_time);
-            tvOrderTime = view.findViewById(R.id.tv_order_time);
             itemLayout = view.findViewById(R.id.layout_ongoing);
             userImg = view.findViewById(R.id.img_user);
         }
@@ -201,10 +200,7 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
 
             String deliveryTime = (!TextUtils.isEmpty(order.getDeliveryDate()) && Utils.getDisplayDateAndTime(order.getDeliveryDate()) != null) ?
                     Utils.getDisplayDateAndTime(order.getDeliveryDate()) : "";
-            String orderTime = (!TextUtils.isEmpty(order.getDeliveryDate()) && Utils.getDisplayDateAndTime(order.getDeliveryDate()) != null) ?
-                    Utils.getDisplayDateAndTime(order.getDeliveryDate()) : "";
             tvDeliveryTime.setText(!TextUtils.isEmpty(deliveryTime) ? deliveryTime : "NA");
-            tvOrderTime.setText(!TextUtils.isEmpty(orderTime) ? deliveryTime : "NA");
             itemLayout.setOnClickListener(v -> {
                 GlobalData.selectedOrder = order;
                 context.startActivity(new Intent(context, OrderDetailActivity.class));

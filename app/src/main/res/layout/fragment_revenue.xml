@@ -63,7 +63,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/order_received"
+                        android:text="@string/order_received_today"
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="@dimen/text_small" />
 
@@ -87,7 +87,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/ordered_delievered"
+                        android:text="@string/ordered_delievered_today"
                         android:textColor="@color/colorPrimaryText"
                         android:textSize="@dimen/text_small" />
 

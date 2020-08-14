@@ -136,7 +136,7 @@ public class RevenueFragment extends Fragment {
         set1.setDrawValues(false);
 
         set2 = new BarDataSet(entriesGroup2, getResources().getString(R.string.order_cancelled));
-        set2.setColor(context.getResources().getColor(R.color.grey));
+        set2.setColor(context.getResources().getColor(R.color.colorRed));
         set2.setDrawValues(false);
 
         BarData data = new BarData(set1, set2);
@@ -168,6 +168,7 @@ public class RevenueFragment extends Fragment {
         xAxis.setAxisMaximum(monthsList.size());
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(monthsList));
+        xAxis.setLabelCount(monthsList.size());
 //Y-axis
         mChart.getAxisRight().setEnabled(false);
         YAxis leftAxis = mChart.getAxisLeft();

@@ -25,7 +25,6 @@ import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
-import com.oyola.restaurant.utils.TextUtils;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.ArrayList;
@@ -101,9 +100,10 @@ public class UpcomingVisitFragment extends BaseFragment {
         for (int i = 0, size = orderList.size(); i < size; i++) {
             Order order = orderList.get(i);
             if (order != null) {
-                if (!TextUtils.isEmpty(order.getStatus()) &&
-                        !order.getStatus().equals("CANCELLED") && !order.getStatus().equals("COMPLETED") &&
-                        order.getScheduleStatus() != null && order.getScheduleStatus() == 1) {
+                if (order.getScheduleStatus() != null && order.getScheduleStatus() == 1 &&
+                        (order.getStatus().equalsIgnoreCase("RECEIVED") ||
+                                order.getStatus().equalsIgnoreCase("SCHEDULED") ||
+                                order.getStatus().equalsIgnoreCase("PICKUP_USER"))) {
                     scheduledOrders.add(order);
                 } else {
                     onGoingOrders.add(order);
