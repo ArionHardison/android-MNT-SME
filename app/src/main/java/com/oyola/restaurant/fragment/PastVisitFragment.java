@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,12 +28,10 @@ import com.oyola.restaurant.network.ApiInterface;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,9 +43,9 @@ public class PastVisitFragment extends BaseFragment {
     RecyclerView pastRv;
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
-    List<Order> orderList = new ArrayList<>();
-    HistoryAdapter historyAdapter;
-    private Unbinder unbinder;
+
+    private List<Order> orderList = new ArrayList<>();
+    private HistoryAdapter historyAdapter;
     private Context context;
     private Activity activity;
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
@@ -71,21 +70,18 @@ public class PastVisitFragment extends BaseFragment {
             activity = getActivity();
     }
 
-    public void setCancelledListListener(CancelledListListener cancelledListListener) {
-        this.cancelledListListener = cancelledListListener;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_past_visit, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        return inflater.inflate(R.layout.fragment_past_visit, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
         setupAdapter();
-
         getHistory();
-
-        return view;
     }
 
     private void setupAdapter() {
@@ -93,18 +89,6 @@ public class PastVisitFragment extends BaseFragment {
         pastRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         pastRv.setHasFixedSize(true);
         pastRv.setAdapter(historyAdapter);
-    }
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-//        getHistory();
-    }*/
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     private void getHistory() {

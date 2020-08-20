@@ -117,7 +117,7 @@ public class UpcomingVisitFragment extends BaseFragment {
         }
         if (onGoingOrders.size() > 0) {
             sortOrdersToDescending(onGoingOrders);
-            onGoingHistoryList.add(new OngoingHistoryModel("ONGOING ORDERS", onGoingOrders));
+            onGoingHistoryList.add(new OngoingHistoryModel("ASAP ORDERS", onGoingOrders));
         }
         adapter.setStickyItemList(onGoingHistoryList);
     }

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -135,7 +134,7 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
 
     class ItemChildViewHolder extends SectioningAdapter.ItemViewHolder {
 
-        private TextView userName, address, paymentMode, price, tvStatus, tvDeliveryTime;
+        private TextView userName, address, paymentMode, price, tvStatusLabel, tvStatus, tvDeliveryTime;
         private RelativeLayout itemLayout;
         private ImageView userImg;
 
@@ -145,6 +144,7 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
             price = view.findViewById(R.id.tv_price);
             address = view.findViewById(R.id.tv_address);
             paymentMode = view.findViewById(R.id.tv_payment_mode);
+            tvStatusLabel = view.findViewById(R.id.tv_status_label);
             tvStatus = view.findViewById(R.id.tv_status);
             tvDeliveryTime = view.findViewById(R.id.tv_delivery_time);
             itemLayout = view.findViewById(R.id.layout_ongoing);
@@ -166,20 +166,21 @@ public class OnGoingStickyAdapter extends SectioningAdapter {
                     GlobalData.profile.getCurrency() + "" + order.getInvoice().getPayable());
 
             //Default Status and color
-            String status = context.getResources().getString(R.string.dispute_created);
-            tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
-
+            String status;
+            tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
             if (order.getDispute().equalsIgnoreCase("CREATED")) {
+                status = context.getResources().getString(R.string.dispute_created);
+                tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                 tvStatus.setText(status);
             } else if (order.getStatus().equals("CANCELLED") || order.getStatus().equals("COMPLETED")) {
                 status = "";
-                tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
                 tvStatus.setText(status);
-
-            } else {
+            } else if (order.getStatus().equals("RECEIVED")) {
                 status = context.getResources().getString(R.string.status_ongoing);
-                tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
                 tvStatus.setText(status);
+            } else {
+                tvStatusLabel.setVisibility(View.GONE);
+                tvStatus.setVisibility(View.GONE);
             }
 
             if (order.getUser() != null) {

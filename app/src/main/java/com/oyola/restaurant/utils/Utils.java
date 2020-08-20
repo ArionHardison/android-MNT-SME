@@ -216,6 +216,17 @@ public class Utils {
         return sb.toString();
     }
 
+    public static String getExtensionFromUrl(String url) {
+        if (url == null) {
+            return null;
+        }
+
+        return url.substring(url.lastIndexOf("."));
+    }
+
+    public static void showToast(Context context, String input) {
+        Toast.makeText(context, input, Toast.LENGTH_SHORT).show();
+    }
 
 //
 //    public String getAddress(final Context context, final double latitude, final double longitude) {
