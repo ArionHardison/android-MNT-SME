@@ -71,7 +71,7 @@
 
     <!--Home Fragment-->
     <string name="incoming_orders">Incoming Orders</string>
-    <string name="incoming_request">Incoming Requests</string>
+    <string name="incoming_request">Upcoming Requests</string>
     <string name="delete_account">Delete Account</string>
     <string name="history">History</string>
 

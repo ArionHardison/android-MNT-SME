@@ -8,16 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.widget.AppCompatRatingBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,21 +16,36 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRatingBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.oyola.restaurant.activity.LoginActivity;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
+import com.oyola.restaurant.activity.LoginActivity;
 import com.oyola.restaurant.adapter.RequestAdapter;
+import com.oyola.restaurant.adapter.RequestHeaderAdapter;
 import com.oyola.restaurant.controller.GetProfile;
 import com.oyola.restaurant.controller.ProfileListener;
 import com.oyola.restaurant.helper.ConnectionHelper;
 import com.oyola.restaurant.helper.CustomDialog;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.model.IncomingOrders;
+import com.oyola.restaurant.model.OngoingHistoryModel;
 import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.model.Profile;
+import com.oyola.restaurant.model.SectionHeaderItem;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
@@ -52,7 +57,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,8 +77,8 @@ public class HomeFragment extends Fragment implements ProfileListener {
     RecyclerView incomingRv;
     @BindView(R.id.activity_main)
     CoordinatorLayout activityMain;
-    Unbinder unbinder;
-    RequestAdapter requestAdapter;
+
+    private RequestHeaderAdapter adapter;
     List<Order> orderList;
     Context context;
     Activity activity;
@@ -114,11 +118,14 @@ public class HomeFragment extends Fragment implements ProfileListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
 
-        return view;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        prepareAdapter();
     }
 
     @Override
@@ -147,26 +154,6 @@ public class HomeFragment extends Fragment implements ProfileListener {
                 }
             }
         });
-
-       /* isVisible = true;
-        getProfile();
-        getIncomingOrders();
-        homeHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isInternet) {
-                    if (isVisible && incomingRv != null) {
-                        getIncomingOrders();
-                        homeHandler.postDelayed(this, 3000);
-                    }
-                }
-            }
-        }, 3000);*/
-
-
-      /*  LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
-                new IntentFilter(Constants.BROADCAST.UPDATE_ORDERS));*/
-
     }
 
     private void updateUI(Profile profile) {
@@ -189,10 +176,10 @@ public class HomeFragment extends Fragment implements ProfileListener {
 
     private void prepareAdapter() {
         if (incomingRv != null) {
-            requestAdapter = new RequestAdapter(orderList, context);
+            adapter = new RequestHeaderAdapter(getContext());
             incomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
             incomingRv.setHasFixedSize(true);
-            incomingRv.setAdapter(requestAdapter);
+            incomingRv.setAdapter(adapter);
         }
     }
 
@@ -225,14 +212,6 @@ public class HomeFragment extends Fragment implements ProfileListener {
         }
     }
 
-   /* @Override
-    public void onPause() {
-        super.onPause();
-        isVisible = false;
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
-    }*/
-
-
     private void getIncomingOrders() {
         //customDialog.show();
         Call<IncomingOrders> call = apiInterface.getIncomingOrders("ordered");
@@ -249,11 +228,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
                         }
                         orderList.clear();
                         orderList.addAll(response.body().getOrders());
-                        if (requestAdapter == null) {
-                            prepareAdapter();
-                        } else {
-                            requestAdapter.notifyDataSetChanged();
-                        }
+                        splitUpList(orderList);
                     } else {
                         if (incomingRv != null && llNoRecords != null) {
                             incomingRv.setVisibility(View.GONE);
@@ -282,14 +257,32 @@ public class HomeFragment extends Fragment implements ProfileListener {
 //                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
         });
-
-
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    private void splitUpList(List<Order> orderList) {
+        List<SectionHeaderItem> sectionHeaderItemList = new ArrayList<>();
+
+        List<Order> scheduledOrders = new ArrayList<>();
+        List<Order> onGoingOrders = new ArrayList<>();
+
+        for (int i = 0, size = orderList.size(); i < size; i++) {
+            Order order = orderList.get(i);
+            if (order != null) {
+                if (order.getScheduleStatus() != null && order.getScheduleStatus() == 1) {
+                    scheduledOrders.add(order);
+                } else {
+                    onGoingOrders.add(order);
+                }
+            }
+        }
+
+        if (scheduledOrders.size() > 0) {
+            sectionHeaderItemList.add(new SectionHeaderItem("SCHEDULED ORDERS", scheduledOrders));
+        }
+        if (onGoingOrders.size() > 0) {
+            sectionHeaderItemList.add(new SectionHeaderItem("ASAP ORDERS", onGoingOrders));
+        }
+        adapter.setRequestItemList(sectionHeaderItemList);
     }
 
     @Override
