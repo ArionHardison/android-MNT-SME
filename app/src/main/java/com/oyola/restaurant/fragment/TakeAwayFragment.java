@@ -5,15 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -24,6 +26,7 @@ import com.oyola.restaurant.helper.ConnectionHelper;
 import com.oyola.restaurant.helper.CustomDialog;
 import com.oyola.restaurant.model.IncomingOrders;
 import com.oyola.restaurant.model.Order;
+import com.oyola.restaurant.model.SectionHeaderItem;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
@@ -34,7 +37,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,18 +44,15 @@ import retrofit2.Response;
 /**
  * Created by Prasanth on 25-10-2019.
  */
-public class TakeAwayFragment  extends Fragment {
+public class TakeAwayFragment extends Fragment {
 
 
     @BindView(R.id.incoming_ta)
     RecyclerView takeawayRv;
     @BindView(R.id.title)
     TextView title;
-    Unbinder unbinder;
-    TakeAwayAdapter mAdapter;
+    private TakeAwayAdapter mAdapter;
     List<Order> orderList;
-    Context context;
-    Activity activity;
     ConnectionHelper connectionHelper;
     CustomDialog customDialog;
     boolean isInternet;
@@ -72,22 +71,23 @@ public class TakeAwayFragment  extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_takeaway, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        return inflater.inflate(R.layout.fragment_takeaway, container, false);
+    }
 
-        return view;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        prepareAdapter();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         orderList = new ArrayList<>();
-        context = getContext();
-        activity = getActivity();
-        connectionHelper = new ConnectionHelper(context);
+        connectionHelper = new ConnectionHelper(getContext());
         isInternet = connectionHelper.isConnectingToInternet();
-        customDialog = new CustomDialog(context);
+        customDialog = new CustomDialog(getContext());
         title.setText(getString(R.string.manage_order));
         getIncomingOrders();
        /* isVisible = true;
@@ -113,8 +113,8 @@ public class TakeAwayFragment  extends Fragment {
 
     private void prepareAdapter() {
         if (takeawayRv != null) {
-            mAdapter = new TakeAwayAdapter(orderList, context);
-            takeawayRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            mAdapter = new TakeAwayAdapter(getContext());
+            takeawayRv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             takeawayRv.setHasFixedSize(true);
             takeawayRv.setAdapter(mAdapter);
         }
@@ -144,11 +144,7 @@ public class TakeAwayFragment  extends Fragment {
                         }
                         orderList.clear();
                         orderList.addAll(response.body().getOrders());
-                        if (mAdapter == null) {
-                            prepareAdapter();
-                        } else {
-                            mAdapter.notifyDataSetChanged();
-                        }
+                        splitUpList(orderList);
                     } else {
                         if (takeawayRv != null && llNoRecords != null) {
                             takeawayRv.setVisibility(View.GONE);
@@ -160,10 +156,10 @@ public class TakeAwayFragment  extends Fragment {
                     Gson gson = new Gson();
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
-                        Utils.displayMessage(activity, serverError.getError());
+                        Utils.displayMessage(getActivity(), serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            activity.finish();
+                            startActivity(new Intent(getContext(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            getActivity().finish();
                         }
                     } catch (JsonSyntaxException e) {
 //                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
@@ -174,17 +170,33 @@ public class TakeAwayFragment  extends Fragment {
             @Override
             public void onFailure(Call<IncomingOrders> call, Throwable t) {
                 customDialog.dismiss();
-//                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
         });
-
-
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+    private void splitUpList(List<Order> orderList) {
+        List<SectionHeaderItem> sectionHeaderItemList = new ArrayList<>();
 
+        List<Order> scheduledOrders = new ArrayList<>();
+        List<Order> onGoingOrders = new ArrayList<>();
+
+        for (int i = 0, size = orderList.size(); i < size; i++) {
+            Order order = orderList.get(i);
+            if (order != null) {
+                if (order.getScheduleStatus() != null && order.getScheduleStatus() == 1) {
+                    scheduledOrders.add(order);
+                } else {
+                    onGoingOrders.add(order);
+                }
+            }
+        }
+
+        if (scheduledOrders.size() > 0) {
+            sectionHeaderItemList.add(new SectionHeaderItem("SCHEDULED ORDERS", scheduledOrders));
+        }
+        if (onGoingOrders.size() > 0) {
+            sectionHeaderItemList.add(new SectionHeaderItem("ASAP ORDERS", onGoingOrders));
+        }
+        mAdapter.setRequestItemList(sectionHeaderItemList);
+    }
 }

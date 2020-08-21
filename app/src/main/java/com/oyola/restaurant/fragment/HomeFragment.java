@@ -194,11 +194,11 @@ public class HomeFragment extends Fragment implements ProfileListener {
                 if (isInternet) {
                     if (isVisible && incomingRv != null) {
                         getIncomingOrders();
-                        homeHandler.postDelayed(this, 3000);
+                        homeHandler.postDelayed(this, 5000);
                     }
                 }
             }
-        }, 3000);
+        }, 5000);
         getProfile();
 
 

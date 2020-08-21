@@ -1,6 +1,5 @@
 package com.oyola.restaurant.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,45 +9,74 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.activity.TakeAwayActivity;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.model.Order;
+import com.oyola.restaurant.model.SectionHeaderItem;
 import com.oyola.restaurant.utils.Utils;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Prasanth on 29-10-2019.
  */
-public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.MyViewHolder> {
+public class TakeAwayAdapter extends SectionedRecyclerViewAdapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private Activity activity;
-    private List<Order> list;
+    private List<SectionHeaderItem> requestItemList;
 
-    public TakeAwayAdapter(List<Order> list, Context con) {
-        this.list = list;
-        this.context = con;
+    public TakeAwayAdapter(Context context) {
+        this.context = context;
+        requestItemList = new ArrayList<>();
+    }
+
+    public void setRequestItemList(List<SectionHeaderItem> itemList) {
+        if (itemList == null) {
+            return;
+        }
+
+        this.requestItemList.clear();
+        this.requestItemList.addAll(itemList);
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_HEADER) {
+            View headerView = LayoutInflater.from(context).inflate(R.layout.item_ongoing_header, parent, false);
+            return new HeaderViewHolder(headerView);
+        } else {
+            View itemView = LayoutInflater.from(context).inflate(R.layout.list_takeway, parent, false);
+            return new ItemViewHolder(itemView);
+        }
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_takeway, parent, false);
-        return new MyViewHolder(itemView);
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int section) {
+        SectionHeaderItem item = requestItemList.get(section);
+        HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
+        headerViewHolder.setHeaderDataToView(item.getSectionTitle());
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        Order order = list.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int section, int position, int absolutePosition) {
+        List<Order> orderList = requestItemList.get(section).getOrderList();
+        Order order = orderList.get(position);
+
+        ItemViewHolder holder = (ItemViewHolder) viewHolder;
+
         if (order.getAddress() != null) {
             if (order.getAddress().getMapAddress() != null) {
                 holder.address.setText((order.getAddress().getBuilding() != null ? order.getAddress().getBuilding() + ", " : "") +
@@ -110,7 +138,7 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.MyView
         holder.paymentMode.setText(payment_mode);
 
         holder.itemLayout.setOnClickListener(v -> {
-            GlobalData.selectedOrder = list.get(position);
+            GlobalData.selectedOrder = order;
             context.startActivity(new Intent(context, TakeAwayActivity.class));
         });
         Glide.with(context).load(order.getUser().getAvatar())
@@ -118,27 +146,30 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.MyView
     }
 
     @Override
-    public int getItemCount() {
-        return list.size();
+    public int getSectionCount() {
+        return requestItemList.size();
     }
 
-    public void add(Order item, int position) {
-        list.add(position, item);
-        notifyItemInserted(position);
+    @Override
+    public int getItemCount(int section) {
+        return requestItemList.get(section).getOrderList().size();
     }
 
-    public void remove(Order item) {
-        int position = list.indexOf(item);
-        list.remove(position);
-        notifyItemRemoved(position);
-        notifyDataSetChanged();
+    class HeaderViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView tvHeader;
+
+        public HeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvHeader = itemView.findViewById(R.id.tv_ongoing_header);
+        }
+
+        public void setHeaderDataToView(String headerTitle) {
+            tvHeader.setText(headerTitle);
+        }
     }
 
-    public void setList(List<Order> list) {
-        this.list = list;
-    }
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView userName, address, paymentMode, orderTime, orderDate, orderDeliveryDate,
                 orderDeliveryTime, status, orderType, tvScheduleStatus;
@@ -146,7 +177,7 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.MyView
         LinearLayout mLayoutSchedule;
         ImageView userImg;
 
-        public MyViewHolder(View view) {
+        public ItemViewHolder(View view) {
             super(view);
             userName = view.findViewById(R.id.user_name);
             orderDate = view.findViewById(R.id.order_date);
