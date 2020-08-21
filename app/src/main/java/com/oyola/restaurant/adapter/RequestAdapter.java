@@ -1,6 +1,5 @@
 package com.oyola.restaurant.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -26,13 +25,11 @@ import java.util.List;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHolder> {
     Context context;
-    Activity activity;
     private List<Order> list;
 
     public RequestAdapter(List<Order> list, Context con) {
         this.list = list;
         this.context = con;
-        this.activity = activity;
     }
 
 
@@ -102,7 +99,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
             status = "Processing";
         } else {
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
-            context.getResources().getString(R.string.dispute_created);
+            status = context.getResources().getString(R.string.dispute_created);
         }
         holder.status.setText(status);
 
