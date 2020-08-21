@@ -118,6 +118,15 @@ public class Utils {
         builder.show();
     }
 
+    public static void showAlertDialog(final Context context, String title, String message) {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
     public static boolean checktimings(String time) {
 
         String pattern = "HH:mm";

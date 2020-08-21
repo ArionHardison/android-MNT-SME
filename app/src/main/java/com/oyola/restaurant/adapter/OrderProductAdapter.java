@@ -16,6 +16,7 @@ import com.oyola.restaurant.model.AddonProduct;
 import com.oyola.restaurant.model.CartAddon;
 import com.oyola.restaurant.model.Item;
 import com.oyola.restaurant.utils.TextUtils;
+import com.oyola.restaurant.utils.Utils;
 
 import java.util.List;
 
@@ -65,11 +66,12 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
         holder.productDetail.setText(value);
         double totalAmount = /*Double.valueOf(*/item.getQuantity() * item.getProduct().getPrices().getOrignalPrice();
         holder.productPrice.setText(GlobalData.profile.getCurrency() +/*MyApplication.getNumberFormat().format(*/totalAmount)/*)*/;
-        if (item.getProduct().getNote() != null) {
-            holder.tvNotes.setVisibility(View.VISIBLE);
-            holder.tvNotes.setText(item.getProduct().getNote());
+        if (!TextUtils.isEmpty(item.getNote())) {
+            holder.productDetail.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_info, 0, 0, 0);
+            holder.productDetail.setOnClickListener(v -> Utils.showAlertDialog(context, "Message", item.getNote()));
         } else {
-            holder.tvNotes.setVisibility(View.GONE);
+            holder.productDetail.setOnClickListener(null);
+            holder.productDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
     }
 
@@ -89,7 +91,7 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
             holder.addonDetail.setText(value);
             double totalAmount = price * list.get(section).getQuantity() * cartAddon.getQuantity();
             String currency = (GlobalData.profile != null && !TextUtils.isEmpty(GlobalData.profile.getCurrency())) ?
-                    GlobalData.profile.getCurrency() :"";
+                    GlobalData.profile.getCurrency() : "";
             holder.addonPrice.setText(currency + totalAmount);
         } else {
             holder.itemLayout.setVisibility(View.GONE);
@@ -109,7 +111,6 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
 
         TextView productDetail;
         TextView productPrice;
-        TextView tvNotes;
         TextView addonDetail;
         TextView addonPrice;
         LinearLayout itemLayout;
@@ -119,7 +120,6 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
             if (isHeader) {
                 productDetail = itemView.findViewById(R.id.product_detail);
                 productPrice = itemView.findViewById(R.id.product_price);
-                tvNotes = itemView.findViewById(R.id.tvNotes);
             } else {
                 addonPrice = itemView.findViewById(R.id.addon_price);
                 addonDetail = itemView.findViewById(R.id.addon_detail);

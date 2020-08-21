@@ -92,7 +92,7 @@
 
     <!--    Revenue-->
     <string name="revenue">Revenue</string>
-    <string name="total_revenue">Monthly Total Revenue</string>
+    <string name="total_revenue">Total Revenue</string>
     <string name="yesterday">Yesterday</string>
     <string name="today_till_now">Today Till Now</string>
     <string name="total_last_week">Total Last Week</string>
