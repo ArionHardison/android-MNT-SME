@@ -151,6 +151,10 @@
     <!--    Filter Dialog Activity-->
     <string name="filter_by">Filter By</string>
     <string name="delivery_person">Delivery Person</string>
+    <string name="order_type">Order Type</string>
+    <string name="order_status_all">All</string>
+    <string name="order_status_completed">Completed</string>
+    <string name="order_status_cancelled">Cancelled</string>
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="filter">Filter</string>
@@ -220,6 +224,7 @@
     <string name="restaurant_timing_updated_successfully">Kitchen Timing Updated Successfully</string>
     <string name="action_save">Save</string>
     <string name="select_delievery_person">Select Delivery Person</string>
+    <string name="select_order_type">Select Order Type</string>
     <string name="item_order_price">Price</string>
     <string name="currency_value">AU$</string>
     <string name="currency_value_tag">$ </string>

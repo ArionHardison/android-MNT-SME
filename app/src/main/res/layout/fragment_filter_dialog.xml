@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorTextWhite"
-            android:orientation="vertical"
             android:clickable="true"
+            android:orientation="vertical"
             android:padding="@dimen/activity_vertical_margin">
 
 
@@ -51,33 +51,72 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:fontFamily="@font/nunito_semibold"
+                android:text="@string/order_type"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/order_type_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dropDownWidth="wrap_content"
+                android:maxLines="1"
+                android:padding="@dimen/_4sdp"
+                android:textColor="@color/colorSecondaryText"
+                app:ms_background_color="@color/light_grey"
+                app:ms_dropdown_height="wrap_content"
+                app:ms_dropdown_max_height="200dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semibold"
                 android:text="@string/delivery_person"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="@dimen/text_tiny" />
 
-           <!-- <Spinner
-                android:id="@+id/status_spin"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_size"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/edit_text_rounded_corner_bg"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:padding="@dimen/_4sdp"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_medium" />-->
-
             <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/status_spin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:dropDownWidth="wrap_content"
-                app:ms_dropdown_max_height="200dp"
                 android:maxLines="1"
-                app:ms_background_color="@color/light_grey"
                 android:padding="@dimen/_4sdp"
                 android:textColor="@color/colorSecondaryText"
+                app:ms_background_color="@color/light_grey"
                 app:ms_dropdown_height="wrap_content"
+                app:ms_dropdown_max_height="200dp" />
+
+            <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="@string/order_status_all" />
+
+                <RadioButton
+                    android:id="@+id/rb_completed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="@string/order_status_completed" />
+
+                <RadioButton
+                    android:id="@+id/rb_cancelled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="@string/order_status_cancelled" />
+            </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -138,8 +177,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_vertical_margin_half"
                     android:layout_marginStart="@dimen/activity_vertical_margin_half"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin_half"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -188,10 +227,10 @@
 
             <Button
                 android:id="@+id/filter_btn"
+                style="@style/ButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_size"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                style="@style/ButtonStyle"
                 android:inputType="text"
                 android:text="@string/filter"
                 android:textColor="@color/colorTextWhite" />

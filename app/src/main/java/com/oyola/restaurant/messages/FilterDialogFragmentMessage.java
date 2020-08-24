@@ -4,11 +4,27 @@ public class FilterDialogFragmentMessage {
     private int delieveryPersonId;
     private String fromDate;
     private String toDate;
-
+    private String orderType;
+    private String orderStatus;
     private int selectePos;
     private String formattedFromDate;
     private String formattedToDate;
 
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
     public int getSelectePos() {
         return selectePos;
