@@ -48,6 +48,7 @@
         <activity
             android:name="com.oyola.restaurant.activity.LoginActivity"
             android:configChanges="screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.oyola.restaurant.activity.RegisterActivity"

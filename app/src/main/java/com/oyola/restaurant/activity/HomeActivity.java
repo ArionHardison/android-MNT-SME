@@ -2,35 +2,26 @@ package com.oyola.restaurant.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 import androidx.appcompat.app.AppCompatActivity;
-import android.widget.FrameLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.oyola.restaurant.R;
-import com.oyola.restaurant.fragment.DishesFragment;
-import com.oyola.restaurant.fragment.HomeFragment;
-import com.oyola.restaurant.fragment.RevenueFragment;
-import com.oyola.restaurant.fragment.SettingFragment;
-import com.oyola.restaurant.fragment.TakeAwayFragment;
-import com.oyola.restaurant.helper.ConnectionHelper;
+import com.oyola.restaurant.adapter.HomePagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
 
-    @BindView(R.id.main_container)
-    FrameLayout mainContainer;
+    @BindView(R.id.pager)
+    ViewPager viewPager;
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation bottomNavigation;
-    FragmentTransaction transaction;
-    private ConnectionHelper connectionHelper;
-    private Fragment fragment;
-    private FragmentManager fragmentManager;
+
+    private HomePagerAdapter pagerAdapter;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -39,19 +30,17 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        pagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
 
-        fragmentManager = getSupportFragmentManager();
-        transaction = fragmentManager.beginTransaction();
         String notification = getIntent().getStringExtra("Notification");
-        if (notification!=null && notification.isEmpty()) {
-            fragment = new HomeFragment();
-            transaction.add(R.id.main_container, fragment).commit();
+        if (notification != null && notification.isEmpty()) {
             bottomNavigation.setCurrentItem(0);
         }
 
         // Create items
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.salver, R.color.grey);
-        AHBottomNavigationItem item2= new AHBottomNavigationItem(R.string.empty_string, R.drawable.ic_bag, R.color.grey);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.ic_bag, R.color.grey);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.cash, R.color.grey);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.options, R.color.grey);
         AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.empty_string, R.drawable.shop, R.color.grey);
@@ -70,39 +59,14 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_HIDE);
 
-// Change colors
         bottomNavigation.setAccentColor(getResources().getColor(R.color.colorPrimaryDark));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.bottomSheetInActiveColor));
 
-
-        // Set current item programmatically
-        fragment = new HomeFragment();
-        transaction.add(R.id.main_container, fragment).commit();
         bottomNavigation.setCurrentItem(0);
 
         // Set listeners
         bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
-            // Do something cool here...
-            switch (position) {
-                case 0:
-                    fragment = new HomeFragment();
-                    break;
-                case 1:
-                    fragment = new TakeAwayFragment();
-                    break;
-                case 2:
-                    fragment = new RevenueFragment();
-                    break;
-                case 3:
-                    fragment = new DishesFragment();
-                    break;
-                case 4:
-                    fragment = new SettingFragment();
-                    break;
-            }
-
-            transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.main_container, fragment).commit();
+            viewPager.setCurrentItem(position);
             return true;
         });
 

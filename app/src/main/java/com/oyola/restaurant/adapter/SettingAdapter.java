@@ -271,8 +271,8 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
     private void clearAndExit() {
         SharedHelper.clearSharedPreferences(context);
         GlobalData.accessToken = "";
-        context.startActivity(new Intent(context, LoginActivity.class));
-        activity.finish();
+        context.startActivity(new Intent(context, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        activity.finishAffinity();
     }
 
 

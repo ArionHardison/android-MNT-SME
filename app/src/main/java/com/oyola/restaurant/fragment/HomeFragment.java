@@ -34,7 +34,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.activity.LoginActivity;
-import com.oyola.restaurant.adapter.RequestAdapter;
 import com.oyola.restaurant.adapter.RequestHeaderAdapter;
 import com.oyola.restaurant.controller.GetProfile;
 import com.oyola.restaurant.controller.ProfileListener;
@@ -42,7 +41,6 @@ import com.oyola.restaurant.helper.ConnectionHelper;
 import com.oyola.restaurant.helper.CustomDialog;
 import com.oyola.restaurant.helper.GlobalData;
 import com.oyola.restaurant.model.IncomingOrders;
-import com.oyola.restaurant.model.OngoingHistoryModel;
 import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.model.Profile;
 import com.oyola.restaurant.model.SectionHeaderItem;
@@ -107,6 +105,18 @@ public class HomeFragment extends Fragment implements ProfileListener {
                 // getIncomingOrders();
             } else {
                 Utils.displayMessage(activity, getString(R.string.oops_no_internet));
+            }
+        }
+    };
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (isInternet) {
+                if (isVisible && incomingRv != null) {
+                    getIncomingOrders();
+                    homeHandler.postDelayed(this, 3000);
+                }
             }
         }
     };
@@ -188,22 +198,16 @@ public class HomeFragment extends Fragment implements ProfileListener {
         super.onResume();
         isVisible = true;
         getIncomingOrders();
-        homeHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isInternet) {
-                    if (isVisible && incomingRv != null) {
-                        getIncomingOrders();
-                        homeHandler.postDelayed(this, 5000);
-                    }
-                }
-            }
-        }, 5000);
+        homeHandler.postDelayed(runnable, 5000);
         getProfile();
-
-
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
                 new IntentFilter(Constants.BROADCAST.UPDATE_ORDERS));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        homeHandler.removeCallbacks(runnable);
     }
 
     private void getProfile() {
