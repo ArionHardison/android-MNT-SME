@@ -243,6 +243,30 @@
     <string name="order_delivered_new">Arrived</string>
     <string name="order_cancelled_new">Order Cancelled</string>
 
+    <string name="pickup_flow_order_received">Order Received</string>
+    <string name="pickup_flow_order_accepted">Order Accepted</string>
+    <string name="pickup_flow_order_being_prepared">Being Prepared</string>
+    <string name="pickup_flow_order_ready_pickup">Ready for Pickup</string>
+    <string name="pickup_flow_order_completed">Completed</string>
+
+    <string name="pickup_flow_desc_order_received">Customer order has been received</string>
+    <string name="pickup_flow_desc_order_accepted">You accepted the Order</string>
+    <string name="pickup_flow_desc_order_being_prepared">Order is being prepared</string>
+    <string name="pickup_flow_desc_order_ready_pickup">Order is ready for pickup by Customer</string>
+    <string name="pickup_flow_desc_order_completed">Order has been successfully completed</string>
+
+    <string name="delivery_flow_order_received">Order Received</string>
+    <string name="delivery_flow_order_accepted">Order Accepted</string>
+    <string name="delivery_flow_order_being_prepared">Being Prepared</string>
+    <string name="delivery_flow_order_ready_delivery">Ready for Delivery</string>
+    <string name="delivery_flow_order_delivered">Delivered</string>
+
+    <string name="delivery_flow_desc_order_received">Customer order has been received</string>
+    <string name="delivery_flow_desc_order_accepted">You accepted the Order</string>
+    <string name="delivery_flow_desc_order_being_prepared">Order is being prepared</string>
+    <string name="delivery_flow_desc_order_ready_delivery">Customer order is ready for Delivery</string>
+    <string name="delivery_flow_desc_order_delivered">Order delivered successfully</string>
+
     <!--Order Flow Description-->
     <string name="description_1">We have received your order.</string>
     <string name="description_2">Your order has been confirmed.</string>
