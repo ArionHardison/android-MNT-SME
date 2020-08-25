@@ -85,5 +85,7 @@ public class FilterDialogFragmentMessage {
         selectePos = 0;
         formattedFromDate = "";
         formattedToDate = "";
+        orderStatus = "";
+        orderType = "";
     }
 }

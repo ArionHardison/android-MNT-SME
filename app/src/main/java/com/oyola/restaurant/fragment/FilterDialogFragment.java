@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -79,18 +80,20 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     CoordinatorLayout main_content;
     int selected_id = 0;
     int selected_pos = 0;
+    int selectedOrderPosition = 0;
     String strFromDate = "";
     String strToDate = "";
     DataMessage<FilterDialogFragmentMessage> dataMessage;
-    FilterDialogFragmentMessage message;
+    private FilterDialogFragmentMessage message;
     private int current_year;
     private int current_month;
     private int current_day;
     private Calendar ctDate;
     private MonthAdapter.CalendarDay minDay;
 
-    private String orderType;
+    private String orderType = "";
     private String orderStatus;
+    private String[] orderTypeArray = new String[]{"Select Order Type", "Delivery", "Takeaway"};
 
     public FilterDialogFragment() {
         // Required empty public constructor
@@ -128,7 +131,6 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
 
         final HashMap<String, Integer> orderMap = new HashMap<>();
         orderMap.put(getString(R.string.select_order_type), 0);
-        String[] orderTypeArray = new String[]{"Select Order Type", "Delivery", "Takeaway"};
         orderTypeSpinner.setItems(orderTypeArray);
 
         rbAll.setOnCheckedChangeListener(this);
@@ -138,6 +140,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         orderTypeSpinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) -> {
             if (position > 0)
                 orderType = orderTypeArray[position];
+            selectedOrderPosition = position;
         });
 
         if (listTransporter != null) {
@@ -179,6 +182,32 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
             strToDate = message.getToDate();
             selected_id = message.getDelieveryPersonId();
             selected_pos = message.getSelectePos();
+
+            if (!TextUtils.isEmpty(message.getOrderType())) {
+                int selectedOrderType = 0;
+                for (int i = 0, size = orderTypeArray.length; i < size; i++) {
+                    String item = orderTypeArray[i];
+                    if (message.getOrderType().equalsIgnoreCase(item)) {
+                        selectedOrderType = i;
+                        orderType = item;
+                        break;
+                    }
+                }
+                orderTypeSpinner.setSelectedIndex(selectedOrderType);
+            }
+
+            if (!TextUtils.isEmpty(message.getOrderStatus())) {
+                if (message.getOrderStatus().equalsIgnoreCase("ALL")) {
+                    rbAll.setChecked(true);
+                    orderStatus = rbAll.getText().toString();
+                } else if (message.getOrderStatus().equalsIgnoreCase("COMPLETED")) {
+                    rbCompleted.setChecked(true);
+                    orderStatus = rbCompleted.getText().toString();
+                } else if (message.getOrderStatus().equalsIgnoreCase("CANCELLED")) {
+                    rbCancelled.setChecked(true);
+                    orderStatus = rbCancelled.getText().toString();
+                }
+            }
         }
     }
 
@@ -187,10 +216,18 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         txtFromDate.setText("");
         toDateTxt.setText("");
         statusSpin.setSelectedIndex(0);
+        orderTypeSpinner.setSelectedIndex(0);
         selected_pos = 0;
         selected_id = 0;
         strFromDate = "";
         strToDate = "";
+        orderStatus = "";
+        orderType = "";
+
+        rbAll.setChecked(false);
+        rbCancelled.setChecked(false);
+        rbCompleted.setChecked(false);
+        message.clear();
     }
 
 
@@ -284,18 +321,14 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     private void sendMessageToScreen() {
         if (message == null)
             message = new FilterDialogFragmentMessage();
-        if (selected_pos == 0) {
-            message.clear();
-        } else {
-            message.setDelieveryPersonId(selected_id);
-            message.setFromDate(strFromDate);
-            message.setToDate(strToDate);
-            message.setSelectePos(selected_pos);
-            message.setFormattedFromDate(txtFromDate.getText().toString());
-            message.setFormattedToDate(toDateTxt.getText().toString());
-            message.setOrderStatus(!TextUtils.isEmpty(orderStatus) ? orderStatus.toUpperCase() : "");
-            message.setOrderType(!TextUtils.isEmpty(orderType) ? orderType.toUpperCase() : "");
-        }
+        message.setDelieveryPersonId(selected_id);
+        message.setFromDate(strFromDate);
+        message.setToDate(strToDate);
+        message.setSelectePos(selected_pos);
+        message.setFormattedFromDate(txtFromDate.getText().toString());
+        message.setFormattedToDate(toDateTxt.getText().toString());
+        message.setOrderStatus(orderStatus);
+        message.setOrderType(orderType);
         dataMessage.onReceiveData(message);
         dismiss();
     }
@@ -316,7 +349,6 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
     @Override
     public void onReceiveData(FilterDialogFragmentMessage message) {
         this.message = message;
-        Utils.displayMessage(getActivity(), "Received data" + message.getDelieveryPersonId());
     }
 
     @Override

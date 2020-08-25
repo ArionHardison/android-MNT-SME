@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Retrofit;
@@ -35,6 +36,10 @@ public class Utils {
     public static String address = "";
     Retrofit retrofit;
     ApiInterface apiInterface;
+
+    public static boolean isNullOrEmpty(List list) {
+        return list == null || list.isEmpty();
+    }
 
     public static void displayMessage(Activity activity, String toastString) {
         try {

@@ -1,16 +1,16 @@
 package com.oyola.restaurant.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -20,17 +20,19 @@ import com.oyola.restaurant.fragment.FilterDialogFragment;
 import com.oyola.restaurant.helper.CustomDialog;
 import com.oyola.restaurant.messages.FilterDialogFragmentMessage;
 import com.oyola.restaurant.messages.communicator.DataMessage;
-import com.oyola.restaurant.model.HistoryModel;
+import com.oyola.restaurant.model.HistoryOrder;
 import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.model.Transporter;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
+import com.oyola.restaurant.utils.TextUtils;
 import com.oyola.restaurant.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,15 +54,12 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
 
-    Context context = DeliveriesActivity.this;
-    DeliveriesAdapter deliveriesAdapter;
+    private DeliveriesAdapter deliveriesAdapter;
 
-    List<Order> orderList = new ArrayList<>();
-    List<Transporter> transporters = new ArrayList<>();
+    private List<Order> orderList = new ArrayList<>();
+    private List<Transporter> transporters = new ArrayList<>();
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-
     private CustomDialog customDialog;
-
     private FilterDialogFragmentMessage message;
 
     @Override
@@ -69,15 +68,14 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
         setContentView(R.layout.activity_deliveries);
         ButterKnife.bind(this);
         title.setText(getResources().getString(R.string.deliveries));
-        customDialog = new CustomDialog(context);
-        getTransporterList();
-    }
-
-    private void setupAdapter() {
-        deliveriesAdapter = new DeliveriesAdapter(orderList, context);
-        deliveriesRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        customDialog = new CustomDialog(this);
+        deliveriesAdapter = new DeliveriesAdapter();
+        deliveriesRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         deliveriesRv.setHasFixedSize(true);
         deliveriesRv.setAdapter(deliveriesAdapter);
+
+        getTransporterList();
+        getHistory();
     }
 
     @OnClick({R.id.back_img, R.id.filter_img})
@@ -97,41 +95,28 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getHistory();
-    }
-
     private void getHistory() {
+        Map<String, String> params = new HashMap<>();
+        params.put("list", "true");
+        params.put("status", "COMPLETED");
+
         showDialog();
-        Call<HistoryModel> call = apiInterface.getHistory();
-        call.enqueue(new Callback<HistoryModel>() {
+        Call<HistoryOrder> call = apiInterface.getHistoryOrders(params);
+        call.enqueue(new Callback<HistoryOrder>() {
             @Override
-            public void onResponse(@NonNull Call<HistoryModel> call, @NonNull Response<HistoryModel> response) {
+            public void onResponse(@NonNull Call<HistoryOrder> call, @NonNull Response<HistoryOrder> response) {
                 dismissDialog();
                 if (response.isSuccessful()) {
                     orderList.clear();
-                    HistoryModel historyModel = response.body();
-                    if (historyModel != null) {
-                        if (historyModel.getCOMPLETED() != null && historyModel.getCOMPLETED().size() > 0)
-                            orderList.addAll(historyModel.getCOMPLETED());
-                        if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0)
-                            orderList.addAll(historyModel.getCANCELLED());
-                        if (orderList != null && orderList.size() > 0) {
-                            llNoRecords.setVisibility(View.GONE);
-                            deliveriesRv.setVisibility(View.VISIBLE);
-                            if (deliveriesAdapter == null)
-                                setupAdapter();
-                            else {
-                                deliveriesAdapter.setList(orderList);
-                                deliveriesAdapter.notifyDataSetChanged();
-                            }
-
-                        } else {
-                            llNoRecords.setVisibility(View.VISIBLE);
-                            deliveriesRv.setVisibility(View.GONE);
-                        }
+                    HistoryOrder historyModel = response.body();
+                    if (historyModel != null && !Utils.isNullOrEmpty(historyModel.getOrders())) {
+                        orderList.addAll(historyModel.getOrders());
+                        llNoRecords.setVisibility(View.GONE);
+                        deliveriesRv.setVisibility(View.VISIBLE);
+                        deliveriesAdapter.setList(orderList);
+                    } else {
+                        llNoRecords.setVisibility(View.VISIBLE);
+                        deliveriesRv.setVisibility(View.GONE);
                     }
                 } else {
                     Gson gson = new Gson();
@@ -139,7 +124,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            startActivity(new Intent(DeliveriesActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             finish();
                         }
                     } catch (JsonSyntaxException e) {
@@ -149,7 +134,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
             }
 
             @Override
-            public void onFailure(Call<HistoryModel> call, Throwable t) {
+            public void onFailure(Call<HistoryOrder> call, Throwable t) {
                 dismissDialog();
                 Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));
             }
@@ -184,9 +169,10 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
-                        if (response.code() == 401)
-                        {context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            finish();}
+                        if (response.code() == 401) {
+                            startActivity(new Intent(DeliveriesActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            finish();
+                        }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));
                     }
@@ -205,7 +191,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
     public void onReceiveData(Object receivedData) {
         if (receivedData instanceof FilterDialogFragmentMessage) {
             message = (FilterDialogFragmentMessage) receivedData;
-            if (message.isEmpty()) {
+            if (message == null) {
                 getHistory();
             } else {
                 handleFilterMessage(message);
@@ -216,41 +202,39 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
 
     private void handleFilterMessage(FilterDialogFragmentMessage message) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("dp", "" + message.getDelieveryPersonId());
-        params.put("start_time", message.getFromDate());
-        params.put("end_time", message.getToDate());
+        params.put("list", "true");
+        params.put("status", (message != null && !TextUtils.isEmpty(message.getOrderStatus())) ? message.getOrderStatus().toUpperCase() : "COMPLETED");
+        if (message != null) {
+            if (message.getDelieveryPersonId() > 0)
+                params.put("dp", "" + message.getDelieveryPersonId());
+            if (!TextUtils.isEmpty(message.getFromDate()))
+                params.put("start_date", message.getFromDate());
+            if (!TextUtils.isEmpty(message.getToDate()))
+                params.put("end_date", message.getToDate());
+            if (!TextUtils.isEmpty(message.getOrderType()))
+                params.put("order_type", message.getOrderType());
+        }
         getFilterResults(params);
     }
 
     private void getFilterResults(HashMap<String, String> map) {
         showDialog();
-        Call<HistoryModel> call = apiInterface.getFilterHistory(map);
-        call.enqueue(new Callback<HistoryModel>() {
+        Call<HistoryOrder> call = apiInterface.getHistoryOrders(map);
+        call.enqueue(new Callback<HistoryOrder>() {
             @Override
-            public void onResponse(@NonNull Call<HistoryModel> call, @NonNull Response<HistoryModel> response) {
+            public void onResponse(@NonNull Call<HistoryOrder> call, @NonNull Response<HistoryOrder> response) {
                 dismissDialog();
                 if (response.isSuccessful()) {
                     orderList.clear();
-                    HistoryModel historyModel = response.body();
-                    if (historyModel != null) {
-                        if (historyModel.getCOMPLETED() != null && historyModel.getCOMPLETED().size() > 0)
-                            orderList.addAll(historyModel.getCOMPLETED());
-                        if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0)
-                            orderList.addAll(historyModel.getCANCELLED());
-                        if (orderList != null && orderList.size() > 0) {
-                            llNoRecords.setVisibility(View.GONE);
-                            deliveriesRv.setVisibility(View.VISIBLE);
-                            if (deliveriesAdapter == null)
-                                setupAdapter();
-                            else {
-                                deliveriesAdapter.setList(orderList);
-                                deliveriesAdapter.notifyDataSetChanged();
-                            }
-
-                        } else {
-                            llNoRecords.setVisibility(View.VISIBLE);
-                            deliveriesRv.setVisibility(View.GONE);
-                        }
+                    HistoryOrder historyModel = response.body();
+                    if (historyModel != null && !Utils.isNullOrEmpty(historyModel.getOrders())) {
+                        orderList.addAll(historyModel.getOrders());
+                        llNoRecords.setVisibility(View.GONE);
+                        deliveriesRv.setVisibility(View.VISIBLE);
+                        deliveriesAdapter.setList(orderList);
+                    } else {
+                        llNoRecords.setVisibility(View.VISIBLE);
+                        deliveriesRv.setVisibility(View.GONE);
                     }
                 } else {
                     Gson gson = new Gson();
@@ -258,7 +242,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(DeliveriesActivity.this, serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            startActivity(new Intent(DeliveriesActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             finish();
                         }
                     } catch (JsonSyntaxException e) {
@@ -268,7 +252,7 @@ public class DeliveriesActivity extends AppCompatActivity implements DataMessage
             }
 
             @Override
-            public void onFailure(Call<HistoryModel> call, Throwable t) {
+            public void onFailure(Call<HistoryOrder> call, Throwable t) {
                 dismissDialog();
                 Utils.displayMessage(DeliveriesActivity.this, getString(R.string.something_went_wrong));
             }

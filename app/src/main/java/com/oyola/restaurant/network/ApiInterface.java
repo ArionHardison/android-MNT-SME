@@ -8,6 +8,7 @@ import com.oyola.restaurant.model.ChangePassword;
 import com.oyola.restaurant.model.Cuisine;
 import com.oyola.restaurant.model.ForgotPasswordResponse;
 import com.oyola.restaurant.model.HistoryModel;
+import com.oyola.restaurant.model.HistoryOrder;
 import com.oyola.restaurant.model.IncomingOrders;
 import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.model.Profile;
@@ -19,6 +20,7 @@ import com.oyola.restaurant.model.product.ProductResponse;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -157,6 +159,9 @@ public interface ApiInterface {
     /*-------------ORDER--------------------*/
     @GET("api/shop/order")
     Call<IncomingOrders> getIncomingOrders(@Query("t") String type);
+
+    @GET("/api/shop/order")
+    Call<HistoryOrder> getHistoryOrders(@QueryMap Map<String, String> params);
 
     @GET("api/shop/history")
     Call<HistoryModel> getHistory();

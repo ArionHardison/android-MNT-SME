@@ -1,14 +1,13 @@
 package com.oyola.restaurant.adapter;
 
-import android.app.Activity;
-import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.helper.GlobalData;
@@ -19,21 +18,23 @@ import com.oyola.restaurant.model.Shop;
 import com.oyola.restaurant.model.Transporter;
 import com.oyola.restaurant.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.MyViewHolder> {
-    private List<Order> list;
-    private Context context;
-    private Activity activity;
+    private List<Order> orderList;
 
-    public DeliveriesAdapter(List<Order> list, Context con) {
-        this.list = list;
-        this.context = con;
-        this.activity = activity;
+    public DeliveriesAdapter() {
+        orderList = new ArrayList<>();
     }
 
-    public void setList(List<Order> list) {
-        this.list = list;
+    public void setList(List<Order> itemList) {
+        if (itemList == null) {
+            return;
+        }
+        orderList.clear();
+        orderList.addAll(itemList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -47,9 +48,8 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        Order order = list.get(position);
+        Order order = orderList.get(position);
         if (order != null) {
-
             Transporter transporter = order.getTransporter();
             if (transporter != null && transporter.getName() != null) {
                 holder.deliveryPersonName.setText(transporter.getName());
@@ -91,23 +91,10 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.My
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return orderList.size();
     }
 
-    public void add(Order item, int position) {
-        list.add(position, item);
-        notifyItemInserted(position);
-    }
-
-    public void remove(Order item) {
-        int position = list.indexOf(item);
-        list.remove(position);
-        notifyItemRemoved(position);
-        notifyDataSetChanged();
-    }
-
-
-    static class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView userName, address, deliveryPersonName, statusTxt, shopName, totalAmt;
         CardView itemLayout;
