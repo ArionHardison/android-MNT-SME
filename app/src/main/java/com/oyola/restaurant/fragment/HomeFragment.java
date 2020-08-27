@@ -1,7 +1,6 @@
 package com.oyola.restaurant.fragment;
 
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,31 +18,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRatingBar;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
 import com.oyola.restaurant.activity.LoginActivity;
-import com.oyola.restaurant.adapter.RequestHeaderAdapter;
+import com.oyola.restaurant.adapter.IncomingStickyAdapter;
 import com.oyola.restaurant.controller.GetProfile;
 import com.oyola.restaurant.controller.ProfileListener;
 import com.oyola.restaurant.helper.ConnectionHelper;
 import com.oyola.restaurant.helper.CustomDialog;
-import com.oyola.restaurant.helper.GlobalData;
+import com.oyola.restaurant.helper.stickyadapter.StickyHeaderLayoutManager;
 import com.oyola.restaurant.model.IncomingOrders;
+import com.oyola.restaurant.model.OngoingHistoryModel;
 import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.model.Profile;
-import com.oyola.restaurant.model.SectionHeaderItem;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.network.ApiClient;
 import com.oyola.restaurant.network.ApiInterface;
@@ -65,37 +61,28 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment implements ProfileListener {
 
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
     @BindView(R.id.incoming_rv)
     RecyclerView incomingRv;
-    @BindView(R.id.activity_main)
-    CoordinatorLayout activityMain;
-
-    private RequestHeaderAdapter adapter;
-    List<Order> orderList;
-    Context context;
-    Activity activity;
-    ConnectionHelper connectionHelper;
-    CustomDialog customDialog;
-    boolean isInternet;
-    ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    String TAG = "HomeFragment";
-    String email, password;
-    @BindView(R.id.shop_img)
+    @BindView(R.id.img_shop)
     ImageView shopImg;
-    @BindView(R.id.shop_name)
+    @BindView(R.id.tv_shop_name)
     TextView shopName;
-    @BindView(R.id.shop_address)
+    @BindView(R.id.tv_shop_address)
     TextView shopAddress;
-    @BindView(R.id.llNoRecords)
-    LinearLayout llNoRecords;
-    @BindView(R.id.resturant_rating)
-    AppCompatRatingBar resturant_rating;
+    @BindView(R.id.ratingBar)
+    AppCompatRatingBar ratingBar;
+    @BindView(R.id.group_no_data)
+    Group layoutNoRecords;
+
+    private IncomingStickyAdapter adapter;
+    private List<Order> orderList;
+    private ConnectionHelper connectionHelper;
+    private CustomDialog customDialog;
+    private boolean isInternet;
+    private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+    private String TAG = "HomeFragment";
+    private String email, password;
+
     private Handler homeHandler = new Handler();
     private boolean isVisible = true;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -104,7 +91,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
             if (isInternet) {
                 // getIncomingOrders();
             } else {
-                Utils.displayMessage(activity, getString(R.string.oops_no_internet));
+                Utils.displayMessage(getActivity(), getString(R.string.oops_no_internet));
             }
         }
     };
@@ -128,47 +115,31 @@ public class HomeFragment extends Fragment implements ProfileListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_home_updated, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        prepareAdapter();
+        adapter = new IncomingStickyAdapter(getContext());
+        incomingRv.setLayoutManager(new StickyHeaderLayoutManager());
+        incomingRv.setItemAnimator(new DefaultItemAnimator());
+        incomingRv.setAdapter(adapter);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         orderList = new ArrayList<>();
-        context = getContext();
-        activity = getActivity();
-        connectionHelper = new ConnectionHelper(context);
+        connectionHelper = new ConnectionHelper(getContext());
         isInternet = connectionHelper.isConnectingToInternet();
-        customDialog = new CustomDialog(context);
-
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) scrollRange = appBarLayout.getTotalScrollRange();
-                if (scrollRange + verticalOffset == 0) {
-                    isShow = true;
-                    collapsingToolbar.setTitle(GlobalData.profile.getName());
-                } else if (isShow) {
-                    isShow = false;
-                    collapsingToolbar.setTitle("");
-                }
-            }
-        });
+        customDialog = new CustomDialog(getContext());
     }
 
     private void updateUI(Profile profile) {
         if (profile != null && profile.getDefaultBanner() != null)
-            Glide.with(context)
+            Glide.with(getContext())
                     .load(profile.getDefaultBanner())
                     .apply(new RequestOptions()
                             .centerCrop()
@@ -180,17 +151,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
         if (profile != null && profile.getAddress() != null)
             shopAddress.setText(profile.getMapsAddress());
         if (profile != null && profile.getRating() != null)
-            resturant_rating.setRating(profile.getRating());
-    }
-
-
-    private void prepareAdapter() {
-        if (incomingRv != null) {
-            adapter = new RequestHeaderAdapter(getContext());
-            incomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-            incomingRv.setHasFixedSize(true);
-            incomingRv.setAdapter(adapter);
-        }
+            ratingBar.setRating(profile.getRating());
     }
 
     @Override
@@ -224,30 +185,24 @@ public class HomeFragment extends Fragment implements ProfileListener {
             public void onResponse(Call<IncomingOrders> call, Response<IncomingOrders> response) {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
-                    if (response.body().getOrders() != null &&
-                            !response.body().getOrders().isEmpty() && response.body().getOrders().size() > 0) {
-                        if (incomingRv != null && llNoRecords != null) {
-                            incomingRv.setVisibility(View.VISIBLE);
-                            llNoRecords.setVisibility(View.GONE);
-                        }
+                    if (!Utils.isNullOrEmpty(response.body().getOrders())) {
+                        incomingRv.setVisibility(View.VISIBLE);
+                        layoutNoRecords.setVisibility(View.GONE);
                         orderList.clear();
                         orderList.addAll(response.body().getOrders());
                         splitUpList(orderList);
                     } else {
-                        if (incomingRv != null && llNoRecords != null) {
-                            incomingRv.setVisibility(View.GONE);
-                            llNoRecords.setVisibility(View.VISIBLE);
-                        }
+                        incomingRv.setVisibility(View.GONE);
+                        layoutNoRecords.setVisibility(View.VISIBLE);
                     }
-
                 } else {
                     Gson gson = new Gson();
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
-                        Utils.displayMessage(activity, serverError.getError());
+                        Utils.displayMessage(getActivity(), serverError.getError());
                         if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            activity.finish();
+                            startActivity(new Intent(getContext(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            getActivity().finish();
                         }
                     } catch (JsonSyntaxException e) {
 //                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
@@ -264,7 +219,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
     }
 
     private void splitUpList(List<Order> orderList) {
-        List<SectionHeaderItem> sectionHeaderItemList = new ArrayList<>();
+        List<OngoingHistoryModel> onGoingHistoryList = new ArrayList<>();
 
         List<Order> scheduledOrders = new ArrayList<>();
         List<Order> onGoingOrders = new ArrayList<>();
@@ -281,12 +236,12 @@ public class HomeFragment extends Fragment implements ProfileListener {
         }
 
         if (scheduledOrders.size() > 0) {
-            sectionHeaderItemList.add(new SectionHeaderItem("SCHEDULED ORDERS", scheduledOrders));
+            onGoingHistoryList.add(new OngoingHistoryModel("SCHEDULED ORDERS", scheduledOrders));
         }
         if (onGoingOrders.size() > 0) {
-            sectionHeaderItemList.add(new SectionHeaderItem("ASAP ORDERS", onGoingOrders));
+            onGoingHistoryList.add(new OngoingHistoryModel("ASAP ORDERS", onGoingOrders));
         }
-        adapter.setRequestItemList(sectionHeaderItemList);
+        adapter.setStickyItemList(onGoingHistoryList);
     }
 
     @Override

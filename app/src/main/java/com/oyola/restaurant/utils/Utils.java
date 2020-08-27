@@ -216,6 +216,21 @@ public class Utils {
         }
     }
 
+    public static String getOrderScheduleDateAndTime(String dateString) {
+        if (TextUtils.isEmpty(dateString)) {
+            return null;
+        }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        DateFormat dateStringFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        try {
+            Date date = dateFormat.parse(dateString);
+            return dateStringFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static void print(String tag, String message) {
         if (showLog) {
             Log.v(tag, message);

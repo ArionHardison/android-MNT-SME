@@ -344,6 +344,8 @@
     <string name="lang_arabic">Arabic</string>
     <string name="enter_email_id">Enter Email ID</string>
     <string name="incoming">Incoming</string>
+    <string name="incoming_order_time">Order Time :</string>
+    <string name="incoming_schedule_time">Schedule Time :</string>
     <string name="scheduled">Scheduled</string>
     <string name="mins">Mins</string>
     <string name="status_ongoing">Ongoing</string>
@@ -398,6 +400,8 @@
     <string name="existing_featured_image">Existing Featured Image</string>
     <string name="order_type_delivery">Order Type : DELIVERY</string>
     <string name="order_type_takeaway">Order Type : PICKUP</string>
+    <string name="incoming_order_type_delivery">DELIVERY</string>
+    <string name="incoming_order_type_takeaway">PICKUP</string>
     <string name="pick_up_time">Pickup Time</string>
     <string name="scheduled_at">Schedule Time</string>
     <string name="halal">Halal</string>
