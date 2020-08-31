@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +39,7 @@ import com.oyola.restaurant.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +66,8 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
     TextView txtRegister;
     @BindView(R.id.bottom_lay)
     LinearLayout bottomLay;
+    @BindView(R.id.tv_terms_policy)
+    TextView tvTermsAndPolicy;
 
     Context context;
     Activity activity;
@@ -77,11 +80,22 @@ public class LoginActivity extends AppCompatActivity implements ProfileListener 
     private String deviceToken;
     private String deviceId;
 
+    private void addLink(TextView textView, String patternToMatch,
+                         final String link) {
+        Linkify.TransformFilter filter = (match, url) -> link;
+        Linkify.addLinks(textView, Pattern.compile(patternToMatch), null, null,
+                filter);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        tvTermsAndPolicy.setText(getString(R.string.login_terms_privacy_policy));
+        addLink(tvTermsAndPolicy, getString(R.string.login_terms_and_conditions_label), getString(R.string.login_terms_and_conditions_url));
+        addLink(tvTermsAndPolicy, getString(R.string.login_privacy_policy_label), getString(R.string.login_privacy_policy_url));
 
         MyApplication.getInstance().fetchDeviceToken();
         context = LoginActivity.this;

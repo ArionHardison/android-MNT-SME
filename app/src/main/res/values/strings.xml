@@ -23,6 +23,14 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+
+    <!--Terms & Condition and Privacy Policy-->
+    <string name="login_terms_privacy_policy">By continuing, you agree to the \n Terms of Service and Privacy Policy</string>
+    <string name="login_terms_and_conditions_label">Terms of Service</string>
+    <string name="login_privacy_policy_label">Privacy Policy</string>
+    <string name="login_terms_and_conditions_url">https://www.oyola.com.au/terms-of-service-kitchens</string>
+    <string name="login_privacy_policy_url">https://www.oyola.com.au/privacy-policy</string>
+
     <string name="no_account">Don\'t have an account</string>
     <string name="donot_have_an_account">Don\'t have an account?</string>
     <string name="do_have_an_account">Do have an account?</string>
