@@ -77,14 +77,15 @@ public class OrderProductAdapter extends SectionedRecyclerViewAdapter<OrderProdu
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int section, int relativePosition, int absolutePosition) {
-        if (!list.get(section).getCartAddons().isEmpty()) {
+        List<CartAddon> cartAddonList = list.get(section).getCartAddons();
+        if (!Utils.isNullOrEmpty(cartAddonList)) {
+            holder.itemLayout.setVisibility(View.VISIBLE);
             CartAddon cartAddon = list.get(section).getCartAddons().get(relativePosition);
             AddonProduct addonProduct = cartAddon.getAddonProduct();
             double price = (addonProduct != null && addonProduct.getPrice() != null) ? addonProduct.getPrice() : 0;
             String name = (addonProduct != null && addonProduct.getAddon() != null && !TextUtils.isEmpty(addonProduct.getAddon().getName())) ?
                     addonProduct.getAddon().getName() : "";
 
-            holder.itemLayout.setVisibility(View.VISIBLE);
             String value = context.getString(R.string.addon_, name,
                     list.get(section).getQuantity() * cartAddon.getQuantity(),
                     GlobalData.profile.getCurrency() + price);

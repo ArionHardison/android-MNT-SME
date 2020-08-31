@@ -2,33 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/_3sdp">
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/product_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:drawableStart="@drawable/ic_info"
+        android:drawablePadding="@dimen/_5sdp"
+        android:text="Spicy pizza (1x$50)"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/text_small_large" />
 
-        <TextView
-            android:id="@+id/product_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableStart="@drawable/ic_info"
-            android:drawablePadding="@dimen/_5sdp"
-            android:text="Spicy pizza (1x$50)"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/text_small_large" />
-
-        <TextView
-            android:id="@+id/product_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2.5"
-            android:gravity="end|top"
-            android:text="$50"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/text_small_large" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/product_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="end|top"
+        android:text="$50"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/text_small_large" />
 </LinearLayout>

@@ -9,14 +9,16 @@
     <ImageView
         android:layout_width="@dimen/_5sdp"
         android:layout_height="@dimen/_5sdp"
+        android:layout_gravity="center_vertical"
         android:src="@color/colorTheme" />
 
     <TextView
         android:id="@+id/addon_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:padding="@dimen/_4sdp"
+        android:padding="@dimen/_2sdp"
         android:text="Spicy pizza (1x$50)"
         android:textColor="@color/colorSecondaryText"
         android:textSize="@dimen/text_small" />
@@ -25,9 +27,10 @@
         android:id="@+id/addon_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="2.5"
         android:gravity="end"
-        android:padding="@dimen/_4sdp"
+        android:padding="@dimen/_2sdp"
         android:text="$50"
         android:textColor="@color/colorSecondaryText"
         android:textSize="@dimen/text_small" />
