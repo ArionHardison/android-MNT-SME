@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
+import com.oyola.restaurant.adapter.AppConstants;
+import com.oyola.restaurant.application.MyApplication;
 import com.oyola.restaurant.config.AppConfigure;
 import com.oyola.restaurant.controller.GetProfile;
 import com.oyola.restaurant.controller.ProfileListener;
@@ -145,12 +149,16 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
     String strFrom = "Register";
     ConnectionHelper connectionHelper;
+    private String deviceId;
+    private String deviceToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_timing);
         ButterKnife.bind(this);
+
+        MyApplication.getInstance().fetchDeviceToken();
         initViews();
     }
 
@@ -361,6 +369,10 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
 
     private void callLogin() {
+        deviceToken = SharedHelper.getKey(this, "device_token");
+        deviceId = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
         HashMap<String, String> map = new HashMap<>();
         map.put("username", GlobalData.email);
         map.put("password", GlobalData.password);
@@ -368,6 +380,11 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
         map.put("client_id", AppConfigure.CLIENT_ID);
         map.put("client_secret", AppConfigure.CLIENT_SECRET);
         map.put("guard", "shops");
+
+        map.put("device_id", deviceId);
+        map.put("device_token", deviceToken);
+        map.put("device_type", AppConstants.DEVICE_TYPE);
+
         login(map);
     }
 
