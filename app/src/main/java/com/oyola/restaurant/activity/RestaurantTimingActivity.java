@@ -332,7 +332,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
             filePart2 = MultipartBody.Part.createFormData("default_banner", GlobalData.REGISTER_SHOP_BANNER.getName(),
                     RequestBody.create(MediaType.parse("image/*"), GlobalData.REGISTER_SHOP_BANNER));
         }
-
+        SharedHelper.putKey(RestaurantTimingActivity.this, "access_token", "");
         Call<Profile> call = apiInterface.signUp(map, filePart1, filePart2);
         call.enqueue(new Callback<Profile>() {
             @Override
@@ -390,12 +390,13 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
 
     private void login(HashMap<String, String> map) {
         // customDialog.show();
+        SharedHelper.putKey(RestaurantTimingActivity.this, "access_token", "");
         Call<AuthToken> call = apiInterface.login(map);
         call.enqueue(new Callback<AuthToken>() {
             @Override
             public void onResponse(@NonNull Call<AuthToken> call, @NonNull Response<AuthToken> response) {
                 if (response.isSuccessful()) {
-                    SharedHelper.putKey(RestaurantTimingActivity.this, "access_token", response.body().getTokenType() + " " + response.body().getAccessToken());
+                    SharedHelper.putKey(RestaurantTimingActivity.this, "access_token", "" + response.body().getAccessToken());
                     GlobalData.accessToken = SharedHelper.getKey(RestaurantTimingActivity.this, "access_token");
                     new GetProfile(apiInterface, RestaurantTimingActivity.this);
                 } else {

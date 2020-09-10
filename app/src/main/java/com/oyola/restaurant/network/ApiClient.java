@@ -3,8 +3,11 @@ package com.oyola.restaurant.network;
 import android.util.Log;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.oyola.restaurant.activity.RestaurantTimingActivity;
+import com.oyola.restaurant.application.MyApplication;
 import com.oyola.restaurant.config.AppConfigure;
 import com.oyola.restaurant.helper.GlobalData;
+import com.oyola.restaurant.helper.SharedHelper;
 import com.oyola.restaurant.utils.TextUtils;
 
 import java.io.IOException;
@@ -59,9 +62,10 @@ public class ApiClient {
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             builder.addHeader("X-Requested-With", "XMLHttpRequest");
-            if (!TextUtils.isEmpty(GlobalData.accessToken)) {
-                builder.addHeader("Authorization", "Bearer " + GlobalData.accessToken);
-                Log.e("access_token", GlobalData.accessToken);
+            String accessToken = SharedHelper.getKey(MyApplication.getInstance(), "access_token");
+            if (!TextUtils.isEmpty(accessToken)) {
+                builder.addHeader("Authorization", "Bearer " + accessToken);
+                Log.e("access_token", accessToken);
             }
 
             return chain.proceed(builder.build());
