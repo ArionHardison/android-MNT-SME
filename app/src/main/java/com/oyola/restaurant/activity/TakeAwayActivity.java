@@ -507,6 +507,7 @@ public class TakeAwayActivity extends AppCompatActivity {
                             } else {
                                 map = new HashMap<>();
                                 map.put("status", status);
+                                map.put("otp", pinView.getText().toString());
                                 updateOrderStatus(map);
                             }
                         }
