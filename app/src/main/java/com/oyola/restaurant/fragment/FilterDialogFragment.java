@@ -328,7 +328,7 @@ public class FilterDialogFragment extends DialogFragment implements CalendarDate
         message.setFormattedFromDate(txtFromDate.getText().toString());
         message.setFormattedToDate(toDateTxt.getText().toString());
         message.setOrderStatus(orderStatus);
-        message.setOrderType(orderType);
+        message.setOrderType(orderType.toLowerCase());
         dataMessage.onReceiveData(message);
         dismiss();
     }
