@@ -99,6 +99,7 @@
     <string name="add_categories">Add Categories</string>
 
     <!--    Revenue-->
+    <string name="revenue_order_completed">Order Completed</string>
     <string name="revenue">Revenue</string>
     <string name="total_revenue">Total Revenue</string>
     <string name="yesterday">Yesterday</string>
@@ -311,6 +312,7 @@
     <string name="ordered_delievered">Ordered Delivered</string>
     <string name="order_received_today">Order Received Today</string>
     <string name="ordered_delievered_today">Ordered Delivered Today</string>
+    <string name="order_completed_today">Order Completed Today</string>
     <string name="today_earnings">Today Earnings</string>
     <string name="monthly_earnings">Monthly Earnings</string>
     <string name="discount_type">Discount Type</string>

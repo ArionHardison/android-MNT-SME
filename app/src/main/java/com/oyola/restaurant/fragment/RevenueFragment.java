@@ -21,7 +21,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.oyola.restaurant.R;
@@ -29,6 +28,8 @@ import com.oyola.restaurant.helper.ConnectionHelper;
 import com.oyola.restaurant.helper.CustomDialog;
 import com.oyola.restaurant.helper.SharedHelper;
 import com.oyola.restaurant.model.CompleteCancel;
+import com.oyola.restaurant.model.RevenueCountModel;
+import com.oyola.restaurant.model.RevenueGraphModel;
 import com.oyola.restaurant.model.RevenueResponse;
 import com.oyola.restaurant.model.ServerError;
 import com.oyola.restaurant.network.ApiClient;
@@ -103,19 +104,16 @@ public class RevenueFragment extends Fragment {
         customDialog = new CustomDialog(context);
     }
 
-    private void prepareBarChart(List<CompleteCancel> completeCancelList) {
-        ArrayList<String> monthsList = new ArrayList<>();
-        for (int i = 0; i < completeCancelList.size(); i++) {
-            monthsList.add(completeCancelList.get(i).getMonth());
-        }
+    private void prepareBarChart(List<String> monthList, List<RevenueGraphModel> graphModelList) {
 
         ArrayList<BarEntry> entriesGroup1 = new ArrayList<>();
         ArrayList<BarEntry> entriesGroup2 = new ArrayList<>();
 
         // fill the lists
-        for (int i = 0; i < monthsList.size(); i++) {
-            entriesGroup1.add(new BarEntry(i, Float.parseFloat(completeCancelList.get(i).getDelivered())));
-            entriesGroup2.add(new BarEntry(i, Float.parseFloat(completeCancelList.get(i).getCancelled())));
+        for (int i = 0; i < graphModelList.size(); i++) {
+            RevenueGraphModel graphModel = graphModelList.get(i);
+            entriesGroup1.add(new BarEntry(i, graphModel.getDeliveredCount()));
+            entriesGroup2.add(new BarEntry(i, graphModel.getCancelledCount()));
             //entriesGroup1.add(new BarEntry(i, 10));
             //entriesGroup2.add(new BarEntry(i, 5));
         }
@@ -131,7 +129,7 @@ public class RevenueFragment extends Fragment {
         mChart.setDrawGridBackground(false);
 
         BarDataSet set1, set2;
-        set1 = new BarDataSet(entriesGroup1, getResources().getString(R.string.order_delivered));
+        set1 = new BarDataSet(entriesGroup1, getResources().getString(R.string.revenue_order_completed));
         set1.setColor(context.getResources().getColor(R.color.color_green));
         set1.setDrawValues(false);
 
@@ -144,7 +142,7 @@ public class RevenueFragment extends Fragment {
         mChart.setData(data);
         mChart.getBarData().setBarWidth(barWidth);
         mChart.getXAxis().setAxisMinimum(0);
-        mChart.getXAxis().setAxisMaximum(0 + mChart.getBarData().getGroupWidth(groupSpace, barSpace) * monthsList.size());
+        mChart.getXAxis().setAxisMaximum(0 + mChart.getBarData().getGroupWidth(groupSpace, barSpace) * monthList.size());
         mChart.groupBars(0, groupSpace, barSpace);
         mChart.getData().setHighlightEnabled(false);
         mChart.invalidate();
@@ -165,10 +163,10 @@ public class RevenueFragment extends Fragment {
         xAxis.setGranularityEnabled(true);
         xAxis.setCenterAxisLabels(true);
         xAxis.setDrawGridLines(false);
-        xAxis.setAxisMaximum(monthsList.size());
+        xAxis.setAxisMaximum(monthList.size());
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(monthsList));
-        xAxis.setLabelCount(monthsList.size());
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(monthList));
+        xAxis.setLabelCount(monthList.size());
 //Y-axis
         mChart.getAxisRight().setEnabled(false);
         YAxis leftAxis = mChart.getAxisLeft();
@@ -221,9 +219,38 @@ public class RevenueFragment extends Fragment {
             tvOrderDelievered.setText(order_delivered);
             tvTodayEarnings.setText(today_earnings);
             tvMonthlyEarnings.setText(monthly_earnings);
-            prepareBarChart(response.getCompleteCancel());
+            if (!Utils.isNullOrEmpty(response.getDeliveredCountList()) &&
+                    !Utils.isNullOrEmpty(response.getCancelledCountList())) {
+                List<String> monthList = getMonthList(response.getDeliveredCountList());
+                List<RevenueGraphModel> graphModelList = getCountList(response.getDeliveredCountList(), response.getCancelledCountList());
+                prepareBarChart(monthList, graphModelList);
+            }
         }
-        //prepareBarChart(response.getCompleteCancel());
+    }
+
+    private List<String> getMonthList(List<RevenueCountModel> countModelList) {
+        List<String> monthList = new ArrayList<>(countModelList.size());
+        for (int i = 0, size = countModelList.size(); i < size; i++) {
+            String month = countModelList.get(i).getMonthName();
+            monthList.add(month);
+        }
+        return monthList;
+    }
+
+    private List<RevenueGraphModel> getCountList(List<RevenueCountModel> deliveredCounts, List<RevenueCountModel> cancelledCounts) {
+        List<RevenueGraphModel> graphModelList = new ArrayList<>(deliveredCounts.size());
+
+        for (int i = 0, size = deliveredCounts.size(); i < size; i++) {
+
+            RevenueCountModel deliveredCount = deliveredCounts.get(i);
+            RevenueCountModel cancelledCount = cancelledCounts.get(i);
+
+            RevenueGraphModel graphModel = new RevenueGraphModel();
+            graphModel.setDeliveredCount(deliveredCount.getCount());
+            graphModel.setCancelledCount(cancelledCount.getCount());
+            graphModelList.add(graphModel);
+        }
+        return graphModelList;
     }
 
     @Override

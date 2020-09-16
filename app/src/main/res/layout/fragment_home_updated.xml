@@ -48,6 +48,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_bold"
         android:gravity="center"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_medium"
         app:layout_constraintEnd_toEndOf="@+id/tv_shop_name"

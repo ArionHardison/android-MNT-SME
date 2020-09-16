@@ -25,6 +25,12 @@ public class RevenueResponse {
     @SerializedName("complete_cancel")
     @Expose
     private List<CompleteCancel> completeCancel = null;
+    @SerializedName("deliveredOrders")
+    @Expose
+    private List<RevenueCountModel> deliveredCountList;
+    @SerializedName("cancelledOrders")
+    @Expose
+    private List<RevenueCountModel> cancelledCountList;
 
     public double getTotalRevenue() {
         return totalRevenue;
@@ -72,5 +78,21 @@ public class RevenueResponse {
 
     public void setCompleteCancel(List<CompleteCancel> completeCancel) {
         this.completeCancel = completeCancel;
+    }
+
+    public List<RevenueCountModel> getDeliveredCountList() {
+        return deliveredCountList;
+    }
+
+    public void setDeliveredCountList(List<RevenueCountModel> deliveredCountList) {
+        this.deliveredCountList = deliveredCountList;
+    }
+
+    public List<RevenueCountModel> getCancelledCountList() {
+        return cancelledCountList;
+    }
+
+    public void setCancelledCountList(List<RevenueCountModel> cancelledCountList) {
+        this.cancelledCountList = cancelledCountList;
     }
 }

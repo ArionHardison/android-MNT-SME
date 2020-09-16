@@ -91,7 +91,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/ordered_delievered_today"
+                            android:text="@string/order_completed_today"
                             android:textColor="@color/colorPrimaryText"
                             android:textSize="@dimen/text_small" />
 
