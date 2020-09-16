@@ -112,8 +112,8 @@ public class RevenueFragment extends Fragment {
         // fill the lists
         for (int i = 0; i < graphModelList.size(); i++) {
             RevenueGraphModel graphModel = graphModelList.get(i);
-            entriesGroup1.add(new BarEntry(i, graphModel.getDeliveredCount()));
-            entriesGroup2.add(new BarEntry(i, graphModel.getCancelledCount()));
+            entriesGroup1.add(new BarEntry(i, (float) graphModel.getDeliveredCount()));
+            entriesGroup2.add(new BarEntry(i, (float) graphModel.getCancelledCount()));
             //entriesGroup1.add(new BarEntry(i, 10));
             //entriesGroup2.add(new BarEntry(i, 5));
         }
