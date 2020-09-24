@@ -14,6 +14,7 @@ import com.oyola.restaurant.model.Order;
 import com.oyola.restaurant.model.Profile;
 import com.oyola.restaurant.model.ResetPasswordResponse;
 import com.oyola.restaurant.model.RevenueResponse;
+import com.oyola.restaurant.model.StripeResponse;
 import com.oyola.restaurant.model.Transporter;
 import com.oyola.restaurant.model.ordernew.OrderResponse;
 import com.oyola.restaurant.model.product.ProductResponse;
@@ -235,4 +236,8 @@ public interface ApiInterface {
 //
 //    @DELETE("api/user/card/{id}")
 //    Call<ChangePassword> deleteCard(@Path("id") int id);
+
+    @FormUrlEncoded
+    @POST("api/shop/stripe/connect")
+    Call<StripeResponse> updateBankDetails(@Field("code") String stripeToken);
 }
