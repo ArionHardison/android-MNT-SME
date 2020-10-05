@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Oyola Kitchen</string>
+    <string name="app_name" translatable="false">DietManager - Manager</string>
 
     <!-- SignUp -->
     <string name="first_name">First name</string>

@@ -5,7 +5,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.oyola.restaurant"
+        applicationId "com.dietmanager.restaurant"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

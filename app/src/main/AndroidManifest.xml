@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.oyola.restaurant">
+    package="com.dietmanager.restaurant">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -13,7 +13,7 @@
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
-        android:name="com.oyola.restaurant.application.MyApplication"
+        android:name="com.dietmanager.restaurant.application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -35,10 +35,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.oyola.restaurant.activity.HomeActivity"
+            android:name="com.dietmanager.restaurant.activity.HomeActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name="com.oyola.restaurant.activity.SplashActivity">
+        <activity android:name="com.dietmanager.restaurant.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,117 +46,117 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.oyola.restaurant.activity.LoginActivity"
+            android:name="com.dietmanager.restaurant.activity.LoginActivity"
             android:configChanges="screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.RegisterActivity"
+            android:name="com.dietmanager.restaurant.activity.RegisterActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
 
         <activity
-            android:name="com.oyola.restaurant.activity.ImageGalleryActivity"
+            android:name="com.dietmanager.restaurant.activity.ImageGalleryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name="com.oyola.restaurant.activity.BankDetailsActivity"
+            android:name="com.dietmanager.restaurant.activity.BankDetailsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"
              />
         <activity
-            android:name="com.oyola.restaurant.activity.EditProfileActivity"
+            android:name="com.dietmanager.restaurant.activity.EditProfileActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.HistoryActivity"
+            android:name="com.dietmanager.restaurant.activity.HistoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.AddOnsActivity"
+            android:name="com.dietmanager.restaurant.activity.AddOnsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.AddAddOnsActivity"
+            android:name="com.dietmanager.restaurant.activity.AddAddOnsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.ProductsActivity"
+            android:name="com.dietmanager.restaurant.activity.ProductsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"
             android:taskAffinity=".products" />
         <activity
-            android:name="com.oyola.restaurant.activity.CategoryActivity"
+            android:name="com.dietmanager.restaurant.activity.CategoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.AddCategoryActivity"
+            android:name="com.dietmanager.restaurant.activity.AddCategoryActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.AddProductActivity"
+            android:name="com.dietmanager.restaurant.activity.AddProductActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.RestaurantTimingActivity"
+            android:name="com.dietmanager.restaurant.activity.RestaurantTimingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.ChangePasswordActivity"
+            android:name="com.dietmanager.restaurant.activity.ChangePasswordActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.EditRestaurantActivity"
+            android:name="com.dietmanager.restaurant.activity.EditRestaurantActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.RequestAcceptActivity"
+            android:name="com.dietmanager.restaurant.activity.RequestAcceptActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.TakeAwayActivity"
+            android:name="com.dietmanager.restaurant.activity.TakeAwayActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.OrderDetailActivity"
+            android:name="com.dietmanager.restaurant.activity.OrderDetailActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.DeliveriesActivity"
+            android:name="com.dietmanager.restaurant.activity.DeliveriesActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.FoodSafetyActivity"
+            android:name="com.dietmanager.restaurant.activity.FoodSafetyActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.DocumentViewActivity"
+            android:name="com.dietmanager.restaurant.activity.DocumentViewActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.ForgotPassword"
+            android:name="com.dietmanager.restaurant.activity.ForgotPassword"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.OtpActivity"
+            android:name="com.dietmanager.restaurant.activity.OtpActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.ResetPasswordActivity"
+            android:name="com.dietmanager.restaurant.activity.ResetPasswordActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.ProductAddOnActivity"
+            android:name="com.dietmanager.restaurant.activity.ProductAddOnActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.oyola.restaurant.activity.ProductAddOnListActivity"
+            android:name="com.dietmanager.restaurant.activity.ProductAddOnListActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
 
-        <service android:name="com.oyola.restaurant.notification.MyFirebaseMessagingService">
+        <service android:name="com.dietmanager.restaurant.notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
