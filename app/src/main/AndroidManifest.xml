@@ -155,6 +155,10 @@
             android:name="com.dietmanager.restaurant.activity.ProductAddOnListActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.dietmanager.restaurant.activity.BankDetailActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
 
         <service android:name="com.dietmanager.restaurant.notification.MyFirebaseMessagingService">
             <intent-filter>
