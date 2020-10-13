@@ -156,7 +156,7 @@
     <string name="sgst">SGST</string>
     <string name="delivery_charges">Delivery Charges</string>
     <string name="total">Total</string>
-    <string name="wallet_detection">Oyola Credit applied</string>
+    <string name="wallet_detection">DietManager Credit applied</string>
 
     <!--    Filter Dialog Activity-->
     <string name="filter_by">Filter By</string>
@@ -430,5 +430,5 @@
     <string name="password_validation_text">Password must contain number, symbol,capital and small letters</string>
     <string name="calories_symbol">kJ</string>
     <string name="credit_card">Card</string>
-    <string name="oyola_credit">Oyola Credit</string>
+    <string name="oyola_credit">DietManager Credit</string>
 </resources>

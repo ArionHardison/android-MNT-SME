@@ -2,6 +2,7 @@ package com.dietmanager.restaurant.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +30,18 @@ import java.util.List;
 
 public class IncomingStickyAdapter extends SectioningAdapter {
 
+    public static MediaPlayer mPlayer;
     private Context context;
     private LayoutInflater inflater;
     private List<OngoingHistoryModel> ongoingHistoryList;
+
 
     public IncomingStickyAdapter(Context context) {
         this.context = context;
         ongoingHistoryList = new ArrayList<>();
         inflater = LayoutInflater.from(context);
+        mPlayer = MediaPlayer.create(context, R.raw.alert_tone);
+        mPlayer.isLooping();
     }
 
     public void setStickyItemList(List<OngoingHistoryModel> itemList) {
@@ -198,6 +203,7 @@ public class IncomingStickyAdapter extends SectioningAdapter {
             tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
             if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
                 status = context.getResources().getString(R.string.incoming);
+                mPlayer.start();
             } else if (order.getStatus().equals("RECEIVED")) {
                 status = "Processing";
             } else {
@@ -218,6 +224,7 @@ public class IncomingStickyAdapter extends SectioningAdapter {
 
             itemLayout.setOnClickListener(v -> {
                 GlobalData.selectedOrder = order;
+                mPlayer.stop();
                 context.startActivity(new Intent(context, RequestAcceptActivity.class));
             });
             Glide.with(context).load(order.getUser().getAvatar())

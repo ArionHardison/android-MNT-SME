@@ -1,12 +1,16 @@
 package com.dietmanager.restaurant.notification;
 
 
+import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -14,14 +18,18 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.dietmanager.restaurant.R;
+import com.dietmanager.restaurant.activity.HomeActivity;
 import com.dietmanager.restaurant.activity.SplashActivity;
 import com.dietmanager.restaurant.application.MyApplication;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.List;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -29,6 +37,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     public static Ringtone mRingtone;
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -42,11 +51,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     private void sendNotification(String messageBody) {
 
-        if (messageBody != null && messageBody.equalsIgnoreCase("New Order Received")) {
+    /*    if (messageBody != null && messageBody.equalsIgnoreCase("New Order Received")) {
             playNotificationSound();
-        }
+        }*/
+
+        if ((messageBody.equalsIgnoreCase("New Order Received") || messageBody.contains("Received"))
+                && isBackground(getApplicationContext())
+                && !isLocked(getApplicationContext())
+                && !isCallActive(getApplicationContext())) restartApp();
 
         Log.d(TAG, "messageBody " + messageBody);
         Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
@@ -121,5 +136,42 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             return R.drawable.ic_push;
         }
     }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private boolean isBackground(Context context) {
+        boolean isInBackground = true;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
+            for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses)
+                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
+                    for (String activeProcess : processInfo.pkgList)
+                        if (activeProcess.equals(context.getPackageName())) isInBackground = false;
+        } else {
+            List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+            ComponentName componentInfo = taskInfo.get(0).topActivity;
+            if (componentInfo.getPackageName().equals(context.getPackageName()))
+                isInBackground = false;
+        }
+
+        return isInBackground;
+    }
+
+    public boolean isCallActive(Context context) {
+        AudioManager manager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        return manager.getMode() == AudioManager.MODE_IN_CALL;
+    }
+
+    public boolean isLocked(Context context) {
+        KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        return myKM.isKeyguardLocked();
+    }
+
+    private void restartApp() {
+        startActivity(new Intent(this,HomeActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
 
 }

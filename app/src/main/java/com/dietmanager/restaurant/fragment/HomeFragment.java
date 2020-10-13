@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.dietmanager.restaurant.helper.GlobalData;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.dietmanager.restaurant.R;
@@ -246,6 +247,7 @@ public class HomeFragment extends Fragment implements ProfileListener {
     @Override
     public void onSuccess(Profile profile) {
         try {
+            GlobalData.profile = profile;
             updateUI(profile);
         } catch (Exception e) {
             e.printStackTrace();
