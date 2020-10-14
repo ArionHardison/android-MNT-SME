@@ -203,13 +203,16 @@ public class IncomingStickyAdapter extends SectioningAdapter {
             tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
             if (order.getStatus().equals("ORDERED") && order.getDispute().equals("NODISPUTE")) {
                 status = context.getResources().getString(R.string.incoming);
-                mPlayer.start();
             } else if (order.getStatus().equals("RECEIVED")) {
                 status = "Processing";
             } else {
                 tvStatus.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
                 status = context.getResources().getString(R.string.dispute_created);
             }
+
+            if(status.equalsIgnoreCase(context.getResources().getString(R.string.incoming)))
+                mPlayer.start();
+
             tvStatus.setText(status);
 
             String name = Utils.toFirstCharUpperAll(order.getUser().getName());
