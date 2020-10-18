@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">DietManager - Manager</string>
+    <string name="facebook_app_id" translatable="false">609822126337013</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb609822126337013</string>
+    <string name="google_client_id" translatable="false">925783581218-fj27e85rq3ehv23t1bij0fs01ngtupd5.apps.googleusercontent.com</string>
 
     <!-- SignUp -->
     <string name="first_name">First name</string>
@@ -12,6 +15,23 @@
     <string name="forgot_password">Forgot password?</string>
 
     <string name="sign_up_here">SIGN UP here</string>
+
+    <string name="mobile_number" translatable="false">Mobile Number</string>
+    <string name="signin">Sign in</string>
+    <string name="signup">Sign up</string>
+    <string name="register_this_account">"Don't have an account?"</string>
+    <string name="connect_with_social">Connect with social</string>
+    <string name="already_you_have_account">Already you have an account?</string>
+    <string name="register_using">Register using</string>
+    <string name="select_contry">Select Country</string>
+    <string name="check_your_internet">Check your Internet</string>
+    <string name="settings">Setting</string>
+    <string name="please_enter_valid_number">Please enter valid mobile number</string>
+
+    <string name="oops_connect_your_internet">Oops ! Connect your Internet.</string>
+    <string name="retry">Retry</string>
+    <string name="server_down">Server down</string>
+    <string name="no_internet_found_check_your_internet_connection">No internet found.\nCheck your internet connection or try again</string>
 
     <!-- REGISTER -->
     <string name="enter_the_details_to_register">Enter the details to register</string>
@@ -99,6 +119,10 @@
     <string name="create_category">Create Category</string>
     <string name="add_categories">Add Categories</string>
 
+    <string name="subscribed_members">Subscribed members</string>
+    <string name="subscription_plans">Subscription plans</string>
+    <string name="portfolio">Portfolio</string>
+
     <!--    Revenue-->
     <string name="revenue_order_completed">Order Completed</string>
     <string name="revenue">Revenue</string>
@@ -176,6 +200,12 @@
     <string name="please_enter_mail_id">Please enter mail id</string>
     <string name="please_enter_valid_mail_id">Please enter valid mail id</string>
     <string name="please_enter_password">Please enter password</string>
+    <string name="please_enter_username">Please enter your username</string>
+    <string name="please_enter_your_email">Please enter your email</string>
+    <string name="please_enter_valid_email">Please enter valid email</string>
+    <string name="please_enter_your_mobile_number">Please enter your mobile number</string>
+    <string name="please_enter_your_confirm_password">Please enter your confirm password</string>
+    <string name="please_enter_mobile_number">Please enter valid mobile number</string>
     <string name="please_enter_new_password">Please enter new password</string>
     <string name="please_enter_minimum_length_password">Please enter atleast 6 characters in password</string>
     <string name="please_enter_name">Please enter name</string>
@@ -336,6 +366,8 @@
     <string name="no_addons_added">No addons added</string>
     <string name="no_upcoming_orders_found">No upcoming orders found.</string>
     <string name="no_past_orders_found">No past orders found</string>
+    <string name="no_subscribed_members_found">No new subscribed members</string>
+    <string name="no_subscribed_plans_found">No new subscribe plans yet</string>
     <string name="no_cancelled_orders_found">No cancelled orders found</string>
     <string name="please_enter_description">Please enter description</string>
     <string name="no_incoming_orders_received">No incoming orders received</string>

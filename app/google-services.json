@@ -82,7 +82,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:236334629405:android:49fb6dc25a293b88033cf4",
         "android_client_info": {
-          "package_name": "com.dietmanager.restaurant"
+          "package_name": "com.dietmanager.dietician"
         }
       },
       "oauth_client": [
@@ -90,7 +90,7 @@
           "client_id": "236334629405-3hmt94aqpuhp5la2geda1tdle89mk3q8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.dietmanager.restaurant",
+            "package_name": "com.dietmanager.dietician",
             "certificate_hash": "01c2b12398a6522a9f1d90392ce0560c7a1b5e03"
           }
         }

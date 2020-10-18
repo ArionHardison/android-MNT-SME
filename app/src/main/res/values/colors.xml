@@ -13,6 +13,7 @@
     <!-- Toolbar Color-->
     <color name="toolbar_bg">#F57620</color>
     <color name="toolbar_title">#FFF</color>
+    <color name="theme">#5DBA47</color>
 
     <!-- Text-->
     <color name="colorPrimaryText">#212121</color>

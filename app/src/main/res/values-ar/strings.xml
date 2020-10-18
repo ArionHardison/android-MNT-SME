@@ -10,6 +10,35 @@
     <string name="forgot_password">هل نسيت كلمة المرور؟</string>
 
     <string name="sign_up_here">سجل هنا</string>
+    <string name="signin">Sign in</string>
+    <string name="signup">Sign up</string>
+    <string name="register_this_account">"Don't have an account?"</string>
+    <string name="connect_with_social">Connect with social</string>
+    <string name="already_you_have_account">Already you have an account?</string>
+    <string name="register_using">Register using</string>
+    <string name="select_contry">Select Country</string>
+    <string name="check_your_internet">Check your Internet</string>
+    <string name="settings">Setting</string>
+    <string name="please_enter_valid_number">Please enter valid mobile number</string>
+
+    <string name="oops_connect_your_internet">Oops ! Connect your Internet.</string>
+    <string name="retry">Retry</string>
+    <string name="server_down">Server down</string>
+    <string name="no_internet_found_check_your_internet_connection">No internet found.\nCheck your internet connection or try again</string>
+
+    <string name="please_enter_username">Please enter your username</string>
+    <string name="please_enter_your_email">Please enter your email</string>
+    <string name="please_enter_valid_email">Please enter valid email</string>
+    <string name="please_enter_your_mobile_number">Please enter your mobile number</string>
+    <string name="please_enter_your_confirm_password">Please enter your confirm password</string>
+    <string name="please_enter_mobile_number">Please enter valid mobile number</string>
+
+    <string name="subscribed_members">Subscribed members</string>
+    <string name="subscription_plans">Subscription plans</string>
+    <string name="portfolio">Portfolio</string>
+
+    <string name="no_subscribed_members_found">No new subscribed members</string>
+    <string name="no_subscribed_plans_found">No new subscribe plans yet</string>
 
     <!-- REGISTER -->
     <string name="enter_the_details_to_register">أدخل التفاصيل للتسجيل</string>

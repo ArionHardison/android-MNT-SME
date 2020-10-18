@@ -15,6 +15,14 @@
         <item name="android:fontFamily" tools:ignore="NewApi">@font/nunito_regular</item>
     </style>
 
+    <style name="MyEditTextTheme">
+        <!-- Used for the bottom line when not selected / focused -->
+        <item name="colorControlNormal">#fff</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
+    </style>
+
     <style name="TextAppearance.Text.SemiBold" parent="android:TextAppearance">
         <item name="android:fontFamily">fonts/nunito_semi_bold</item>
         <item name="android:textSize">12sp</item>
