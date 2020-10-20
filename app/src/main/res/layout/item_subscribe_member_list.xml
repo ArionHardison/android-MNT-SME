@@ -4,18 +4,15 @@
     android:id="@+id/item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/activity_vertical_margin"
+    android:background="#fafafa"
     android:layout_marginTop="@dimen/activity_vertical_margin_half"
-    android:layout_marginEnd="@dimen/activity_vertical_margin"
-    android:layout_marginBottom="@dimen/activity_vertical_margin_half"
-    android:elevation="@dimen/_4sdp"
-    app:cardCornerRadius="@dimen/_4sdp">
+    android:layout_marginBottom="@dimen/activity_vertical_margin_half">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/very_light_grey"
-        android:padding="@dimen/activity_vertical_margin_half">
+        android:background="#fafafa"
+        android:padding="@dimen/_8sdp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_img"
@@ -98,17 +95,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/item_order_price"
+                    android:text="Started"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/text_tiny" />
 
                 <TextView
-                    android:id="@+id/price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:textColor="@color/colorTheme"
                     android:textSize="@dimen/text_tiny" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="Ending"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_tiny" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorRed"
+                    android:textSize="@dimen/text_tiny" />
+
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

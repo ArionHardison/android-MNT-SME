@@ -1,35 +1,31 @@
 package com.dietmanager.dietician.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.LinearLayout;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.dietmanager.dietician.R;
-import com.dietmanager.dietician.adapter.SubscribedMemberAdapter;
-import com.dietmanager.dietician.model.SubscribedMembers;
+import com.dietmanager.dietician.adapter.SubscribedPlanAdapter;
+import com.dietmanager.dietician.model.SubscribedPlans;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SubscribePlansActivity extends AppCompatActivity {
 
-    @BindView(R.id.subscribed_members_rv)
-    RecyclerView subscribedMembersRv;
+    @BindView(R.id.subscribed_plans_rv)
+    RecyclerView subscribedPlansRv;
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
 
-    private List<SubscribedMembers> SubscribedMembersList = new ArrayList<>();
-    private SubscribedMemberAdapter subscribedMemberAdapter;
+    private List<SubscribedPlans> SubscribedPlansList = new ArrayList<>();
+    private SubscribedPlanAdapter subscribedPlanAdapter;
     private Context context;
     private Activity activity;
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
@@ -41,17 +37,17 @@ public class SubscribePlansActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         setupAdapter();
-        getSubscribedMembersList();
+        getSubscribedPlansList();
     }
 
     private void setupAdapter() {
-        subscribedMemberAdapter = new SubscribedMemberAdapter(SubscribedMembersList, context);
-        subscribedMembersRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        subscribedMembersRv.setHasFixedSize(true);
-        subscribedMembersRv.setAdapter(subscribedMemberAdapter);
+        subscribedPlanAdapter = new SubscribedPlanAdapter(SubscribedPlansList, context);
+        subscribedPlansRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        subscribedPlansRv.setHasFixedSize(true);
+        subscribedPlansRv.setAdapter(subscribedPlanAdapter);
     }
 
-    private void getSubscribedMembersList() {
+    private void getSubscribedPlansList() {
        /* HistoryActivity.showDialog();
         Call<HistoryModel> call = apiInterface.getHistory();
         call.enqueue(new Callback<HistoryModel>() {
@@ -59,7 +55,7 @@ public class SubscribePlansActivity extends AppCompatActivity {
             public void onResponse(Call<HistoryModel> call, Response<HistoryModel> response) {
                 HistoryActivity.dismissDialog();
                 if (response.isSuccessful()) {
-                    SubscribedMembersList.clear();
+                    SubscribedPlansList.clear();
                     HistoryModel historyModel = response.body();
                     if (historyModel != null) {
                         if (historyModel.getCOMPLETED() != null && historyModel.getCOMPLETED().size() > 0) {
