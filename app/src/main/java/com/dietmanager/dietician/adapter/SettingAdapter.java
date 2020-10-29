@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dietmanager.dietician.activity.DietitianMainActivity;
 import com.dietmanager.dietician.activity.SubscribePlansActivity;
 import com.dietmanager.dietician.activity.SubscribedMembersActivity;
 import com.google.gson.Gson;
@@ -180,7 +181,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MyViewHo
                 LocaleUtils.setLocale(context, "en");
                 break;
         }
-        context.startActivity(new Intent(context, HomeActivity.class)
+        context.startActivity(new Intent(context, DietitianMainActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 .putExtra("change_language", true));
     }

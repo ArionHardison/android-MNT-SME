@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.adapter.AppConstants;
 import com.dietmanager.dietician.countrypicker.Country;
 import com.dietmanager.dietician.countrypicker.CountryPicker;
 import com.dietmanager.dietician.countrypicker.CountryPickerListener;
@@ -35,7 +36,12 @@ import com.dietmanager.dietician.helper.ConnectionHelper;
 import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.helper.SharedHelper;
+import com.dietmanager.dietician.model.AuthToken;
 import com.dietmanager.dietician.model.LoginModel;
+import com.dietmanager.dietician.model.Otp;
+import com.dietmanager.dietician.model.Profile;
+import com.dietmanager.dietician.model.RegisterResponse;
+import com.dietmanager.dietician.model.User;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.TextUtils;
@@ -48,11 +54,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.unsplash.pickerandroid.photopicker.data.UnsplashPhoto;
+import com.unsplash.pickerandroid.photopicker.presentation.UnsplashPickerActivity;
 
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -62,6 +71,9 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -133,13 +145,13 @@ public class SignUpActivity extends AppCompatActivity {
         if (!GlobalData.loginBy.equals("manual")) {
             confirmPasswordLayout.setVisibility(View.GONE);
             passwordLayout.setVisibility(View.GONE);
-            mobileNumberLayout.setVisibility(View.VISIBLE);
+            //mobileNumberLayout.setVisibility(View.VISIBLE);
             nameEdit.setText(GlobalData.name);
             emailEdit.setText(GlobalData.email);
         } else {
             confirmPasswordLayout.setVisibility(View.VISIBLE);
             passwordLayout.setVisibility(View.VISIBLE);
-            mobileNumberLayout.setVisibility(View.GONE);
+            //mobileNumberLayout.setVisibility(View.GONE);
         }
 /*// OTP REtriver
         List<String> list = new AppSignatureHelper(this).getAppSignatures();
@@ -174,7 +186,7 @@ public class SignUpActivity extends AppCompatActivity {
         setListener();
         //Social login logout
         signOut();
-        LoginManager.getInstance().logOut();
+        //LoginManager.getInstance().logOut();
 
 
         /*----------------Face Integration---------------*/
@@ -294,19 +306,23 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     public void signup(HashMap<String, String> map) {
-        /*customDialog.show();
-        Call<RegisterModel> call = apiInterface.postRegister(map);
-        call.enqueue(new Callback<RegisterModel>() {
+        customDialog.show();
+        Call<RegisterResponse> call = apiInterface.postRegister(map);
+        call.enqueue(new Callback<RegisterResponse>() {
             @Override
-            public void onResponse(@NonNull Call<RegisterModel> call, @NonNull Response<RegisterModel> response) {
+            public void onResponse(@NonNull Call<RegisterResponse> call, @NonNull Response<RegisterResponse> response) {
                 if (response.body() != null) {
-                    HashMap<String, String> map = new HashMap<>()
-                            ;
-                    map.put("username", GlobalData.mobile);
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("mobile",etMobileNumber.getText().toString());
+                    map.put("dial_code",country_code);
                     map.put("password", password);
-                    map.put("grant_type", GRANT_TYPE);
-                    map.put("client_id", BuildConfigure.CLIENT_ID);
-                    map.put("client_secret", BuildConfigure.CLIENT_SECRET);
+                    //map.put("grant_type", "password");
+                    //map.put("client_id", AppConfigure.CLIENT_ID);
+                    //map.put("client_secret", AppConfigure.CLIENT_SECRET);
+                    //map.put("guard", "shops");
+                    map.put("device_id", device_UDID);
+                    map.put("device_token", device_token);
+                    map.put("device_type", AppConstants.DEVICE_TYPE);
                     login(map);
                 } else if (response.errorBody() != null) {
                     customDialog.dismiss();
@@ -327,10 +343,10 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<RegisterModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RegisterResponse> call, @NonNull Throwable t) {
 
             }
-        });*/
+        });
 
     }
 
@@ -371,14 +387,14 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    /*private void login(HashMap<String, String> map) {
-        Call<LoginModel> call = apiInterface.postLogin(map);
-        call.enqueue(new Callback<LoginModel>() {
+    private void login(HashMap<String, String> map) {
+        Call<AuthToken> call = apiInterface.login(map);
+        call.enqueue(new Callback<AuthToken>() {
             @Override
-            public void onResponse(@NonNull Call<LoginModel> call, @NonNull Response<LoginModel> response) {
+            public void onResponse(@NonNull Call<AuthToken> call, @NonNull Response<AuthToken> response) {
                 if (response.body() != null) {
-                    SharedHelper.putKey(context, "access_token", response.body().getTokenType() + " " + response.body().getAccessToken());
-                    GlobalData.accessToken = response.body().getTokenType() + " " + response.body().getAccessToken();
+                    SharedHelper.putKey(context, "access_token", response.body().getAccessToken());
+                    GlobalData.accessToken = response.body().getAccessToken();
                     //Get Profile data
                     getProfile();
 
@@ -387,18 +403,17 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<LoginModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<AuthToken> call, @NonNull Throwable t) {
 
             }
         });
-    }*/
+    }
 
     public void initValues() {
         name = nameEdit.getText().toString();
         email = emailEdit.getText().toString();
         strConfirmPassword = confirmPassword.getText().toString();
-        if (!GlobalData.loginBy.equals("manual"))
-            GlobalData.mobile = country_code + etMobileNumber.getText().toString();
+        GlobalData.mobile = country_code + etMobileNumber.getText().toString();
         password = passwordEdit.getText().toString();
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, getResources().getString(R.string.please_enter_username), Toast.LENGTH_SHORT).show();
@@ -415,33 +430,33 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (!strConfirmPassword.equalsIgnoreCase(password) && GlobalData.loginBy.equals("manual")) {
             Toast.makeText(this, getResources().getString(R.string.password_and_confirm_password_doesnot_match), Toast.LENGTH_SHORT).show();
         } else {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("name", name);
-            map.put("email", email);
-            map.put("phone", GlobalData.mobile);
-            map.put("password", password);
-            map.put("password_confirmation", strConfirmPassword);
 
-            if (connectionHelper.isConnectingToInternet()) {
-                if (GlobalData.loginBy.equals("manual")) {
-                    signup(map);
-                } else {
                     HashMap<String, String> map1 = new HashMap<>();
-                    map1.put("phone", GlobalData.mobile);
-                    map.put("hashcode", hashcode);
-                    map1.put("login_by", GlobalData.loginBy);
-                    map1.put("accessToken", GlobalData.access_token);
+                    map1.put("dial_code",country_code );
+            map1.put("mobile", etMobileNumber.getText().toString());
+                    //map1.put("login_by", GlobalData.loginBy);
+                    //map1.put("accessToken", GlobalData.access_token);
                     getOtpVerification(map1);
-                }
-
-            } else {
-                Utils.displayMessage(activity, getString(R.string.oops_connect_your_internet));
-            }
         }
     }
 
+
+    private void signUp(){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("email", email);
+        map.put("mobile", etMobileNumber.getText().toString());
+        map.put("password", password);
+        map.put("password_confirmation", strConfirmPassword);
+        map.put("dial_code",country_code);
+        map.put("device_id", device_UDID);
+        map.put("device_token", device_token);
+        map.put("device_type", AppConstants.DEVICE_TYPE);
+        signup(map);
+    }
+
     public void getOtpVerification(HashMap<String, String> map) {
-        /*customDialog.show();
+        customDialog.show();
         Call<Otp> call = apiInterface.postOtp(map);
         call.enqueue(new Callback<Otp>() {
             @Override
@@ -450,8 +465,9 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(context, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     GlobalData.otpValue = response.body().getOtp();
-                    startActivity(new Intent(context, OtpActivity.class));
-                    finish();
+                    Intent intent = new Intent(SignUpActivity.this, OtpActivity.class);
+                    intent.putExtra("signup", true);
+                    startActivityForResult(intent, 111);
                 } else {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
@@ -473,27 +489,23 @@ public class SignUpActivity extends AppCompatActivity {
                 customDialog.dismiss();
                 Toast.makeText(SignUpActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
 
     }
 
-    /*private void getProfile() {
+    private void getProfile() {
         HashMap<String, String> map = new HashMap<>();
         map.put("device_type", "android");
         map.put("device_id", device_UDID);
         map.put("device_token", device_token);
-        Call<User> getprofile = apiInterface.getProfile(map);
-        getprofile.enqueue(new Callback<User>() {
+        Call<Profile> getprofile = apiInterface.getProfile(map);
+        getprofile.enqueue(new Callback<Profile>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
                 if (response.isSuccessful()) {
                     SharedHelper.putKey(context, "logged", "true");
-                    GlobalData.profileModel = response.body();
-                    GlobalData.addCart = new AddCart();
-                    GlobalData.addCart.setProductList(response.body().getCart());
-                    GlobalData.addressList = new AddressList();
-                    GlobalData.addressList.setAddresses(response.body().getAddresses());
-                    startActivity(new Intent(context, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    GlobalData.profile = response.body();
+                    startActivity(new Intent(context, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     finish();
                 } else {
                     if (response.code() == 401) {
@@ -514,11 +526,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Profile> call, @NonNull Throwable t) {
 
             }
         });
-    }*/
+    }
 
    /* @Override
     protected void attachBaseContext(Context newBase) {
@@ -530,6 +542,15 @@ public class SignUpActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.anim_nothing, R.anim.slide_out_right);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == 111) {
+            signUp();
+        }
     }
 
     private boolean isValidMobile(String phone) {

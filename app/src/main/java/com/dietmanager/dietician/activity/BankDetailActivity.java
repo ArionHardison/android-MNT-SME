@@ -136,7 +136,7 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
                         @Override
                         public void run() {
 //                            onBackPressed();
-                            startActivity(new Intent(BankDetailActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            startActivity(new Intent(BankDetailActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             finish();
                         }
                     }, 1000);

@@ -287,7 +287,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         .putExtra("signup", false));
                 break;
             case R.id.donnot_have_account:
-                startActivity(new Intent(LoginActivity.this, MobileNumberActivity.class));
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
                 break;
             case R.id.back_img:
                 onBackPressed();
@@ -382,11 +382,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, getResources().getString(R.string.please_enter_password), Toast.LENGTH_SHORT).show();
         } else {
             HashMap<String, String> map = new HashMap<>();
-            map.put("username", country_code + mobile);
+            map.put("mobile",mobile);
+            map.put("dial_code",country_code);
             map.put("password", password);
-            map.put("grant_type", GRANT_TYPE);
-//            map.put("client_id", BuildConfigure.CLIENT_ID);
-//            map.put("client_secret", BuildConfigure.CLIENT_SECRET);
+            //map.put("grant_type", "password");
+            //map.put("client_id", AppConfigure.CLIENT_ID);
+            //map.put("client_secret", AppConfigure.CLIENT_SECRET);
+            //map.put("guard", "shops");
+            map.put("device_id", device_UDID);
+            map.put("device_token", device_token);
+            map.put("device_type", AppConstants.DEVICE_TYPE);
             if (helper.isConnectingToInternet()) {
                 login(map);
             } else {
@@ -401,21 +406,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void login(HashMap<String, String> map) {
-        /*if (!customDialog.isShowing()) {
+        if (!customDialog.isShowing()) {
             customDialog = new CustomDialog(context);
             customDialog.setCancelable(false);
             customDialog.show();
         }
-        Call<LoginModel> call;
+        Call<AuthToken> call;
         if (GlobalData.loginBy.equals("manual"))
-            call = apiInterface.postLogin(map);
+            call = apiInterface.login(map);
         else
-            call = apiInterface.postSocialLogin(map);
-        call.enqueue(new Callback<LoginModel>() {
+            call = apiInterface.login(map);
+        call.enqueue(new Callback<AuthToken>() {
             @Override
-            public void onResponse(@NonNull Call<LoginModel> call, @NonNull Response<LoginModel> response) {
+            public void onResponse(@NonNull Call<AuthToken> call, @NonNull Response<AuthToken> response) {
                 if (response.isSuccessful()) {
-                    SharedHelper.putKey(context, "access_token", response.body().getTokenType() + " " + response.body().getAccessToken());
+                    SharedHelper.putKey(context, "logged", "true");
+                    SharedHelper.putKey(context, "access_token",  response.body().getAccessToken());
                     GlobalData.accessToken = response.body().getTokenType() + " " + response.body().getAccessToken();
                     getProfile();
                 } else {
@@ -431,39 +437,39 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
 
             @Override
-            public void onFailure(@NonNull Call<LoginModel> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<AuthToken> call, @NonNull Throwable t) {
                 customDialog.dismiss();
             }
-        });*/
+        });
 
     }
 
-   /* private void getProfile() {
+    private void getProfile() {
         HashMap<String, String> map = new HashMap<>();
         map.put("device_type", "android");
         map.put("device_id", device_UDID);
         map.put("device_token", device_token);
         Call<Profile> getprofile = apiInterface.getProfile(map);
-        getprofile.enqueue(new Callback<User>() {
+        getprofile.enqueue(new Callback<Profile>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
                 customDialog.dismiss();
                 SharedHelper.putKey(context, "logged", "true");
-                GlobalData.profileModel = response.body();
-                GlobalData.addCart = new AddCart();
+                GlobalData.profile = response.body();
+                /*GlobalData.addCart = new AddCart();
                 GlobalData.addCart.setProductList(response.body().getCart());
                 GlobalData.addressList = new AddressList();
-                GlobalData.addressList.setAddresses(response.body().getAddresses());
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                GlobalData.addressList.setAddresses(response.body().getAddresses());*/
+                startActivity(new Intent(LoginActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 finish();
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Profile> call, @NonNull Throwable t) {
                 customDialog.dismiss();
             }
         });
-    }*/
+    }
 
     public void fbLogin() {
 

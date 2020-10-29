@@ -456,7 +456,7 @@ public class EditRestaurantActivity extends AppCompatActivity implements Profile
                     Utils.displayMessage(EditRestaurantActivity.this, getString(R.string.restaurant_updated_successfully));
                     new Handler().postDelayed(() -> {
 //                            onBackPressed();
-                        startActivity(new Intent(EditRestaurantActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        startActivity(new Intent(EditRestaurantActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         finish();
                     }, 1000);
 

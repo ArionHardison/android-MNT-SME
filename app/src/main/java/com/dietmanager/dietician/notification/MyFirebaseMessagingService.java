@@ -23,6 +23,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.activity.DietitianMainActivity;
 import com.dietmanager.dietician.activity.HomeActivity;
 import com.dietmanager.dietician.activity.SplashActivity;
 import com.dietmanager.dietician.application.MyApplication;
@@ -169,7 +170,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void restartApp() {
-        startActivity(new Intent(this,HomeActivity.class)
+        startActivity(new Intent(this, DietitianMainActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 

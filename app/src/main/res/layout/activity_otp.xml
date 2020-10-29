@@ -77,7 +77,7 @@
         app:digitTextSize="@dimen/_6sdp"
         app:digitWidth="@dimen/_35sdp"
         app:mask=""
-        app:numDigits="6"
+        app:numDigits="4"
         app:pinInputType="number" />
 
     <Button

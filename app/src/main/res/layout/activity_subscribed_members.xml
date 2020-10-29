@@ -4,10 +4,17 @@
     android:layout_height="match_parent"
     tools:context="com.dietmanager.dietician.activity.SubscribedMembersActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_dietitian" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subscribed_members_rv"
         android:layout_width="match_parent"
-        android:visibility="gone"
+        android:layout_below="@+id/toolbar"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
@@ -33,6 +40,19 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:text="@string/no_subscribed_members_found"/>
 
+    </LinearLayout>        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btnInvite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="@dimen/_12sdp"
+            android:background="@color/colorAccent"
+            android:text="@string/invite"/>
     </LinearLayout>
-
+    </RelativeLayout>
 </FrameLayout>

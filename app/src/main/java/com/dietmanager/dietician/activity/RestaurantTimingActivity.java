@@ -610,7 +610,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
             SharedHelper.putKey(RestaurantTimingActivity.this, "logged", "true");
             GlobalData.profile = profile;
             if (profile.getBank()!=null) {
-                startActivity(new Intent(RestaurantTimingActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                startActivity(new Intent(RestaurantTimingActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }else {
                 startActivity(new Intent(RestaurantTimingActivity.this, BankDetailActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }

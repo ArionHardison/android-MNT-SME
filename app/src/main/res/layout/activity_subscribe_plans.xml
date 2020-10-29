@@ -3,11 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.dietmanager.dietician.activity.SubscribedMembersActivity">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_dietitian" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subscribed_plans_rv"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
@@ -34,5 +39,5 @@
             android:text="@string/no_subscribed_plans_found"/>
 
     </LinearLayout>
-
+    </LinearLayout>
 </FrameLayout>

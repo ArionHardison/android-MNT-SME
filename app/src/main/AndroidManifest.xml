@@ -62,6 +62,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activity.DietitianMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.SignUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -97,6 +101,14 @@
             android:taskAffinity=".products" />
         <activity
             android:name=".activity.CategoryActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GuideLinesActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PortfolioActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity

@@ -2,20 +2,45 @@ package com.dietmanager.dietician.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.SubscribedPlanAdapter;
+import com.dietmanager.dietician.model.ForgotPasswordResponse;
+import com.dietmanager.dietician.model.MessageResponse;
+import com.dietmanager.dietician.model.ServerError;
 import com.dietmanager.dietician.model.SubscribedPlans;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
+import com.dietmanager.dietician.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SubscribePlansActivity extends AppCompatActivity {
 
@@ -38,7 +63,16 @@ public class SubscribePlansActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setupAdapter();
         getSubscribedPlansList();
+        ((TextView)findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.subscription_plans);
+        findViewById(R.id.toolbar).findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
+
 
     private void setupAdapter() {
         subscribedPlanAdapter = new SubscribedPlanAdapter(SubscribedPlansList, context);
@@ -46,6 +80,7 @@ public class SubscribePlansActivity extends AppCompatActivity {
         subscribedPlansRv.setHasFixedSize(true);
         subscribedPlansRv.setAdapter(subscribedPlanAdapter);
     }
+
 
     private void getSubscribedPlansList() {
        /* HistoryActivity.showDialog();

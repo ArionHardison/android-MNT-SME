@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/title_home" />
+        <item
+            android:id="@+id/nav_user_request"
+            android:title="@string/user_request" />
+        <item
+            android:id="@+id/nav_history"
+            android:title="@string/history" />
+        <item
+            android:id="@+id/nav_chef_list"
+            android:title="@string/chef_list" />
+        <item
+            android:id="@+id/nav_subscribe_members"
+            android:title="@string/subscribed_members" />
+        <item
+            android:id="@+id/nav_subscription_plans"
+            android:title="@string/subscription_plans" />
+        <item
+            android:id="@+id/nav_guide_lines"
+            android:title="@string/guide_lines" />
+        <item
+            android:id="@+id/nav_portfolio"
+            android:title="@string/portfolio" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="@string/logout" />
+    </group>
+
+</menu>

@@ -125,11 +125,11 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
     @Override
     public void onSuccess(Profile profile) {
         GlobalData.profile = profile;
-        if (profile.getBank()!=null) {
-            startActivity(new Intent(context, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-        }else {
-            startActivity(new Intent(context, BankDetailActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-        }
+        //if (profile.getBank()!=null) {
+            startActivity(new Intent(context, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        //}else {
+            //startActivity(new Intent(context, BankDetailActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        //}
         finish();
     }
 
@@ -142,7 +142,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
             Utils.displayMessage(activity, getString(R.string.something_went_wrong));
 
         SharedHelper.putKey(context, "logged", "false");
-        startActivity(new Intent(SplashActivity.this, RegisterActivity.class)
+        startActivity(new Intent(SplashActivity.this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         finish();
     }

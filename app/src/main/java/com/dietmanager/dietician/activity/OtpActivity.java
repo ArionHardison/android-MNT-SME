@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.dietmanager.dietician.helper.GlobalData;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.dietmanager.dietician.R;
@@ -39,6 +40,7 @@ public class OtpActivity extends AppCompatActivity {
     @BindView(R.id.otp_continue)
     Button btnOtpContinue;
 
+    boolean isSignUp = false;
     @BindView(R.id.tvEmail)
     TextView tvEmail;
 
@@ -64,8 +66,14 @@ public class OtpActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            strEmail = bundle.getString("email");
-            tvEmail.setText(strEmail);
+            isSignUp = bundle.getBoolean("signup", false);
+            if (isSignUp){
+                otpValue.setText(String.valueOf(GlobalData.otpValue));
+                tvEmail.setText(String.valueOf(GlobalData.mobile));
+            }else {
+                strEmail = bundle.getString("email");
+                tvEmail.setText(strEmail);
+            }
         }
     }
 
@@ -76,10 +84,21 @@ public class OtpActivity extends AppCompatActivity {
             case R.id.otp_continue:
                 if (validateInput()) {
                     if (connectionHelper.isConnectingToInternet()) {
-                        HashMap<String, String> params = new HashMap<>();
-                        params.put("email", strEmail);
-                        params.put("otp", strOtpValue);
-                        verifyOTP(params);
+                        if (isSignUp){
+                            if (String.valueOf(GlobalData.otpValue).equalsIgnoreCase(strOtpValue)){
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                            else {
+                                Utils.displayMessage(this, getString(R.string.wrong_otp));
+                            }
+                        }else {
+                            HashMap<String, String> params = new HashMap<>();
+                            params.put("email", strEmail);
+                            params.put("otp", strOtpValue);
+                            verifyOTP(params);
+                        }
                     } else {
                         Utils.displayMessage(this, getString(R.string.oops_no_internet));
                     }

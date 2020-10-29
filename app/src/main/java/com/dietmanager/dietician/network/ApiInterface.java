@@ -11,8 +11,11 @@ import com.dietmanager.dietician.model.ForgotPasswordResponse;
 import com.dietmanager.dietician.model.HistoryModel;
 import com.dietmanager.dietician.model.HistoryOrder;
 import com.dietmanager.dietician.model.IncomingOrders;
+import com.dietmanager.dietician.model.MessageResponse;
 import com.dietmanager.dietician.model.Order;
+import com.dietmanager.dietician.model.Otp;
 import com.dietmanager.dietician.model.Profile;
+import com.dietmanager.dietician.model.RegisterResponse;
 import com.dietmanager.dietician.model.ResetPasswordResponse;
 import com.dietmanager.dietician.model.RevenueResponse;
 import com.dietmanager.dietician.model.StripeResponse;
@@ -45,86 +48,94 @@ import retrofit2.http.QueryMap;
 public interface ApiInterface {
 
     /*-------------USER--------------------*/
-    @GET("api/shop/profile")
+    @GET("api/dietitian/profile")
     Call<Profile> getProfile(@QueryMap HashMap<String, String> params);
 
     @Multipart
-    @POST("api/shop/profile/{id}")
+    @POST("api/dietitian/profile/{id}")
     Call<Profile> updateProfileWithFile(@Path("id") int id, @PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename1, @Part MultipartBody.Part filename2);
 
     @Multipart
-    @POST("api/shop/profile/{id}")
+    @POST("api/dietitian/profile/{id}")
     Call<Profile> updateProfile(@Path("id") int id, @PartMap HashMap<String, RequestBody> params);
+
+    @FormUrlEncoded
+    @POST("api/dietitian/follower/create")
+    Call<MessageResponse> inviteUser( @FieldMap HashMap<String, String> params);
 //
 //    @Multipart
 //    @POST("api/user/profile")
 //    Call<User> updateProfileWithImage(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
 //
-//    @FormUrlEncoded
-//    @POST("api/user/otp")
-//    Call<Otp> postOtp(@FieldMap HashMap<String, String> params);
+    @FormUrlEncoded
+    @POST("api/dietitian/register/otp")
+    Call<Otp> postOtp(@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
-    @POST("api/shop/oauth/token")
+    @POST("api/dietitian/oauth/token")
     Call<AuthToken> login(@FieldMap HashMap<String, String> params);
 
+    @FormUrlEncoded
+    @POST("api/dietitian/register")
+    Call<RegisterResponse> postRegister(@FieldMap HashMap<String, String> params);
+
     @Multipart
-    @POST("api/shop/register")
+    @POST("api/dietitian/register")
     Call<Profile> signUp(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename1, @Part MultipartBody.Part filename2);
 
-    @GET("api/shop/cuisines")
+    @GET("api/dietitian/cuisines")
     Call<List<Cuisine>> getCuisines();
 
     @FormUrlEncoded
-    @PATCH("api/shop/order/{id}")
+    @PATCH("api/dietitian/order/{id}")
     Call<Order> updateOrderStatus(@Path("id") int id, @FieldMap HashMap<String, String> params);
 
-    @GET("api/shop/order/{id}")
+    @GET("api/dietitian/order/{id}")
     Call<OrderResponse> getParticularOrders(@Path("id") int id);
 
-    @GET("api/shop/products")
+    @GET("api/dietitian/products")
     Call<List<ProductResponse>> getProductList();
 
-    @GET("api/shop/reasons")
+    @GET("api/dietitian/reasons")
     Call<CancelReasons> getCancelReasonList();
 
     /*-------------ADD-ONS--------------------*/
-    @GET("api/shop/addons")
+    @GET("api/dietitian/addons")
     Call<List<Addon>> getAddons();
 
     @FormUrlEncoded
-    @POST("api/shop/addons")
+    @POST("api/dietitian/addons")
     Call<Addon> addAddon(@Field("name") String name, @Field("calories") String mCalories, @Field("shop_id") String shop_id);
 
     @FormUrlEncoded
-    @PATCH("api/shop/addons/{id}")
+    @PATCH("api/dietitian/addons/{id}")
     Call<Addon> updateAddon(@Path("id") int id, @Field("name") String name, @Field("calories") String mCalories, @Field("shop_id") String shop_id);
 
-    @DELETE("api/shop/addons/{id}")
+    @DELETE("api/dietitian/addons/{id}")
     Call<List<Addon>> deleteAddon(@Path("id") int id);
 
     /*------------- CATEGORY --------------------*/
-    @GET("api/shop/categories")
+    @GET("api/dietitian/categories")
     Call<List<Category>> getCategory();
 
     @Multipart
-    @POST("api/shop/categories")
+    @POST("api/dietitian/categories")
     Call<Category> addCategory(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
 
     @Multipart
-    @POST("api/shop/categories/{id}")
+    @POST("api/dietitian/categories/{id}")
     Call<Category> updateCategory(@Path("id") int id, @PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename);
 
-    @DELETE("api/shop/categories/{id}")
+    @DELETE("api/dietitian/categories/{id}")
     Call<List<Category>> deleteCategory(@Path("id") int id);
 
     /*---------------Change Password---------------*/
     @FormUrlEncoded
-    @POST("api/shop/password")
+    @POST("api/dietitian/password")
     Call<ChangePassword> changePassword(@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
-    @POST("api/shop/forgot/password")
+    @POST("api/dietitian/forgot/password")
     Call<ForgotPasswordResponse> forgotPassword(@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
@@ -133,53 +144,53 @@ public interface ApiInterface {
                                         @Field("hashcode") String hashcode);
 
     @FormUrlEncoded
-    @POST("api/shop/verifyotp")
+    @POST("api/dietitian/verifyotp")
     Call<ForgotPasswordResponse> verifyOTP(@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
-    @POST("api/shop/reset/password")
+    @POST("api/dietitian/reset/password")
     Call<ResetPasswordResponse> resetPassword(@FieldMap HashMap<String, String> params);
 
     /*........Revenue Fragment......*/
-    @GET("api/shop/revenue")
+    @GET("api/dietitian/revenue")
     Call<RevenueResponse> getRevenueDetails();
 
     //    @Headers("Content-Type: application/json")
     @Multipart
-    @POST("api/shop/products")
+    @POST("api/dietitian/products")
     Call<ProductResponse> addProduct(@PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1, @Part MultipartBody.Part filepart2);
 
     @Multipart
-    @POST("api/shop/products/{id}")
+    @POST("api/dietitian/products/{id}")
     Call<ProductResponse> updateProduct(@Path("id") int id, @PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filepart1, @Part MultipartBody.Part filepart2);
 
-    @DELETE("api/shop/products/{id}")
+    @DELETE("api/dietitian/products/{id}")
     Call<ResponseBody> deleteProduct(@Path("id") int id);
 
     /*....Account....*/
-    @DELETE("api/shop/remove/{id}")
+    @DELETE("api/dietitian/remove/{id}")
     Call<ResponseBody> deleteAccount(@Path("id") String id);
 
-    @GET("api/shop/logout")
+    @GET("api/dietitian/logout")
     Call<ResponseBody> logOut();
 
     /*-------------ORDER--------------------*/
-    @GET("api/shop/order")
+    @GET("api/dietitian/order")
     Call<IncomingOrders> getIncomingOrders(@Query("t") String type);
 
-    @GET("/api/shop/order")
+    @GET("/api/dietitian/order")
     Call<HistoryOrder> getHistoryOrders(@QueryMap Map<String, String> params);
 
-    @GET("api/shop/history")
+    @GET("api/dietitian/history")
     Call<HistoryModel> getHistory();
 
-    @GET("api/shop/history")
+    @GET("api/dietitian/history")
     Call<HistoryModel> getFilterHistory(@QueryMap HashMap<String, String> params);
 
-    @GET("api/shop/transporterlist")
+    @GET("api/dietitian/transporterlist")
     Call<List<Transporter>> getTransporter();
 
-    @GET("api/shop/cuisines")
+    @GET("api/dietitian/cuisines")
     Call<List<Cuisine>> getImages();
 
 //    @GET("api/user/ongoing/order")
@@ -244,6 +255,6 @@ public interface ApiInterface {
 //    Call<ChangePassword> deleteCard(@Path("id") int id);
 
     @FormUrlEncoded
-    @POST("api/shop/stripe/connect")
+    @POST("api/dietitian/stripe/connect")
     Call<StripeResponse> updateBankDetails(@Field("code") String stripeToken);
 }

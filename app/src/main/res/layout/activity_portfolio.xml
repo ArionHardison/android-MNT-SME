@@ -16,7 +16,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+            layout="@layout/toolbar_dietitian" />
 
         <LinearLayout
             android:id="@+id/item_view"
