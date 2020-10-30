@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
         android:padding="8dp"
-        android:src="@drawable/user" />
+        android:src="@drawable/man" />
 
     <TextView
         android:id="@+id/name"

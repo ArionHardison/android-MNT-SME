@@ -202,6 +202,7 @@
     <string name="please_enter_password">Please enter password</string>
     <string name="please_enter_username">Please enter your username</string>
     <string name="please_enter_your_email">Please enter your email</string>
+    <string name="please_enter_user_email">Please enter user email</string>
     <string name="please_enter_valid_email">Please enter valid email</string>
     <string name="please_enter_your_mobile_number">Please enter your mobile number</string>
     <string name="please_enter_your_confirm_password">Please enter your confirm password</string>
@@ -467,6 +468,9 @@
     <string name="login_using">Login using</string>
     <string name="user_request">User Request</string>
     <string name="chef_list">Chef List</string>
+    <string name="success_profile">Profile Updated Successfully</string>
+    <string name="dont_pick_image">You haven\'t picked Image</string>
+    <string name="upload_photo">Upload Photo</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -474,4 +478,8 @@
     <string name="invite_user">Invite User</string>
     <string name="ok">Ok</string>
     <string name="wrong_otp">Wrong OTP</string>
+    <string name="user_id">User Id</string>
+    <string name="add_new">Add New</string>
+    <string name="enter_user_email">Enter user email</string>
+    <string name="add_new_user">Add New User</string>
 </resources>

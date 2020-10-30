@@ -1,7 +1,6 @@
 package com.dietmanager.dietician.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,26 +8,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
-import com.dietmanager.dietician.activity.OrderDetailActivity;
 import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.model.Order;
-import com.dietmanager.dietician.model.SubscribedMembers;
-import com.dietmanager.dietician.utils.Utils;
+import com.dietmanager.dietician.model.subscribe.SubscribeItem;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class SubscribedMemberAdapter extends RecyclerView.Adapter<SubscribedMemberAdapter.MyViewHolder> {
 
     private Context context;
-    private List<SubscribedMembers> list;
+    private List<SubscribeItem> list;
 
-    public SubscribedMemberAdapter(List<SubscribedMembers> list, Context con) {
+    public SubscribedMemberAdapter(List<SubscribeItem> list, Context con) {
         this.list = list;
         this.context = con;
     }
@@ -42,65 +43,30 @@ public class SubscribedMemberAdapter extends RecyclerView.Adapter<SubscribedMemb
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        SubscribedMembers order = list.get(position);
-        /*if (order.getAddress() != null) {
-            if (order.getAddress().getMapAddress() != null) {
-                holder.address.setText((order.getAddress().getBuilding() != null ? order.getAddress().getBuilding() + ", " : "") +
-                        order.getAddress().getMapAddress());
-            }
-        } else {
-            if (order.getShop().getMapsAddress() != null) {
-                holder.address.setText(order.getShop().getMapsAddress());
-            }
+        SubscribeItem item = list.get(position);
+        holder.userName.setText(item.getUser().getName());
+        if(item.getUser().getAvatar()!=null){
+            Glide.with(context)
+                    .load(GlobalData.profile.getAvatar())
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.man)
+                            .error(R.drawable.man))
+                    .into(holder.userImg);
         }
-        holder.price.setText(*//*context.getString(R.string.currency_value)*//*GlobalData.profile.getCurrency() + "" + order.getInvoice().getPayable());
-
-        //Default Status and color
-        String status = context.getResources().getString(R.string.dispute_created);
-        holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
-
-        if (order.getDispute().equalsIgnoreCase("CREATED")) {
-            holder.status.setText(status);
-        } else if (order.getStatus().equals("CANCELLED") || order.getStatus().equals("COMPLETED")) {
-            status = "";
-            holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
-            holder.status.setText(status);
-
-        } else {
-            status = context.getResources().getString(R.string.status_ongoing);
-            holder.status.setTextColor(ContextCompat.getColor(context, R.color.colorGreen));
-            holder.status.setText(status);
+        holder.address.setText(item.getUser().getMapAddress());
+        //Instantiating the SimpleDateFormat class
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        DateFormat dateStringFormat = new SimpleDateFormat("dd/MM/yyyy");
+        //Parsing the given String to Date object
+        try {
+            Date dateStart = formatter.parse(item.getStartDate());
+            holder.tvStartDate.setText(dateStringFormat.format(dateStart));
+            Date dateExpiry = formatter.parse(item.getExpiryDate());
+            holder.tvEndDate.setText(dateStringFormat.format(dateExpiry));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        if (!order.getStatus().equals("CANCELLED") && !order.getStatus().equals("COMPLETED")) {
-            if (order.getScheduleStatus() != null) {
-                if (order.getScheduleStatus() == 1) {
-                    holder.tvScheduleStatus.setVisibility(View.VISIBLE);
-                } else {
-                    holder.tvScheduleStatus.setVisibility(View.GONE);
-                }
-            } else {
-                holder.tvScheduleStatus.setVisibility(View.GONE);
-            }
-        } else {
-            holder.tvScheduleStatus.setVisibility(View.GONE);
-        }
-        if (order.getUser() != null) {
-            String name = Utils.toFirstCharUpperAll(order.getUser().getName());
-            holder.userName.setText(name);
-            Glide.with(context).load(order.getUser().getAvatar())
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image).error(R.drawable.ic_place_holder_image).dontAnimate()).into(holder.userImg);
-        }
-        String payment_mode;
-        if (order.getInvoice().getPaymentMode().equalsIgnoreCase("stripe")) {
-            payment_mode = context.getString(R.string.credit_card);
-        } else {
-            payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
-        }
-        holder.paymentMode.setText(payment_mode);
-        holder.itemLayout.setOnClickListener(v -> {
-            GlobalData.selectedOrder = list.get(position);
-            context.startActivity(new Intent(context, OrderDetailActivity.class));
-        });*/
     }
 
     @Override
@@ -108,10 +74,6 @@ public class SubscribedMemberAdapter extends RecyclerView.Adapter<SubscribedMemb
         return list.size();
     }
 
-    /*public void add(Order item, int position) {
-        list.add(position, item);
-        notifyItemInserted(position);
-    }*/
 
     public void remove(Order item) {
         int position = list.indexOf(item);
@@ -120,24 +82,22 @@ public class SubscribedMemberAdapter extends RecyclerView.Adapter<SubscribedMemb
         notifyDataSetChanged();
     }
 
-    public void setList(List<SubscribedMembers> list) {
+    public void setList(List<SubscribeItem> list) {
         this.list = list;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, price, status, tvScheduleStatus;
+        TextView userName, address,tvStartDate, tvEndDate;
         CardView itemLayout;
         ImageView userImg;
 
         public MyViewHolder(View view) {
             super(view);
             userName = view.findViewById(R.id.user_name);
-            price = view.findViewById(R.id.price);
             address = view.findViewById(R.id.address);
-            paymentMode = view.findViewById(R.id.payment_mode);
-            status = view.findViewById(R.id.status);
-            tvScheduleStatus = view.findViewById(R.id.tvScheduleStatus);
+            tvStartDate = view.findViewById(R.id.tvStartDate);
+            tvEndDate = view.findViewById(R.id.tvEndDate);
             itemLayout = view.findViewById(R.id.item_layout);
             userImg = view.findViewById(R.id.user_img);
         }

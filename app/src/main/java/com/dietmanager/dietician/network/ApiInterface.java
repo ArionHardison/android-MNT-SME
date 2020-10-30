@@ -22,6 +22,7 @@ import com.dietmanager.dietician.model.StripeResponse;
 import com.dietmanager.dietician.model.Transporter;
 import com.dietmanager.dietician.model.ordernew.OrderResponse;
 import com.dietmanager.dietician.model.product.ProductResponse;
+import com.dietmanager.dietician.model.subscribe.SubscribeItem;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -50,6 +52,10 @@ public interface ApiInterface {
     /*-------------USER--------------------*/
     @GET("api/dietitian/profile")
     Call<Profile> getProfile(@QueryMap HashMap<String, String> params);
+
+    @Multipart
+    @POST("api/dietitian/profile")
+    Call<Profile> updateProfileWithImage(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
 
     @Multipart
     @POST("api/dietitian/profile/{id}")
@@ -183,6 +189,9 @@ public interface ApiInterface {
 
     @GET("api/dietitian/history")
     Call<HistoryModel> getHistory();
+
+    @GET("api/dietitian/subscribers/list")
+    Call<List<SubscribeItem>> getSubscribedList();
 
     @GET("api/dietitian/history")
     Call<HistoryModel> getFilterHistory(@QueryMap HashMap<String, String> params);

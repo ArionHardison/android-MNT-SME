@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,13 +17,18 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.controller.GetProfile;
+import com.dietmanager.dietician.controller.ProfileListener;
 import com.dietmanager.dietician.helper.ConnectionHelper;
 import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.helper.SharedHelper;
+import com.dietmanager.dietician.model.Profile;
 import com.dietmanager.dietician.model.ServerError;
-import com.dietmanager.dietician.model.SubscribedMembers;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.TextUtils;
@@ -30,19 +36,22 @@ import com.dietmanager.dietician.utils.Utils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DietitianMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener, ProfileListener {
     DrawerLayout drawer;
+    private ConnectionHelper connectionHelper;
 
+    CircleImageView userAvatar;
+    TextView name;
+    TextView userId;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
     @Override
@@ -53,9 +62,17 @@ public class DietitianMainActivity extends AppCompatActivity
         initViews();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initProfileView();
+        getProfile();
+    }
+
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         customDialog = new CustomDialog(this);
+        connectionHelper = new ConnectionHelper(this);
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -75,7 +92,51 @@ public class DietitianMainActivity extends AppCompatActivity
             }
         });
         toggle.syncState();
+        userAvatar = navigationView.getHeaderView(0).findViewById(R.id.user_avatar);
+        LinearLayout nav_header = navigationView.getHeaderView(0).findViewById(R.id.nav_header);
+        nav_header.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(DietitianMainActivity.this, EditProfileActivity.class));
+            }
+        });
+        name = navigationView.getHeaderView(0).findViewById(R.id.name);
+        userId = navigationView.getHeaderView(0).findViewById(R.id.user_id);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+    private void getProfile() {
+        if (connectionHelper.isConnectingToInternet()) {
+            new GetProfile(apiInterface, this);
+        }
+    }
+
+    private void initProfileView() {
+        if (GlobalData.profile != null) {
+            name.setText(GlobalData.profile.getName());
+            userId.setText(String.valueOf(GlobalData.profile.getId()));
+            Glide.with(this)
+                    .load(GlobalData.profile.getAvatar())
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.man)
+                            .error(R.drawable.man))
+                    .into(userAvatar);
+        }
+    }
+
+    @Override
+    public void onSuccess(Profile profile) {
+        try {
+            GlobalData.profile = profile;
+            initProfileView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onFailure(String error) {
+        Log.e("Main", error);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

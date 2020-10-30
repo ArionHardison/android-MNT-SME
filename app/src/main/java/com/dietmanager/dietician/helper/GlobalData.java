@@ -3,7 +3,7 @@ package com.dietmanager.dietician.helper;
 import com.dietmanager.dietician.model.Addon;
 import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.Profile;
-import com.dietmanager.dietician.model.User;
+import com.dietmanager.dietician.model.subscribe.SubscribedUser;
 
 import java.io.File;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class GlobalData {
     public static String mobile = "";
     public static String hashcode = "";
     public static int otpValue = 0;
-    public static User profileModel = null;
+    public static SubscribedUser profileModel = null;
     public static Addon selectedAddon;
     public static HashMap<String, RequestBody> registerMap = new HashMap<>();
     public static File REGISTER_AVATAR = null;

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.model.Order;
-import com.dietmanager.dietician.model.SubscribedMembers;
 import com.dietmanager.dietician.model.SubscribedPlans;
 
 import java.util.List;

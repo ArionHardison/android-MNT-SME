@@ -1,5 +1,6 @@
 package com.dietmanager.dietician.model;
 
+import com.dietmanager.dietician.model.subscribe.SubscribedUser;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.dietmanager.dietician.model.ordernew.Reviewrating;
@@ -73,7 +74,7 @@ public class Order {
     private Integer scheduleStatus;
     @SerializedName("user")
     @Expose
-    private User user;
+    private SubscribedUser user;
     @SerializedName("transporter")
     @Expose
     private Transporter transporter;
@@ -266,11 +267,11 @@ public class Order {
         this.scheduleStatus = scheduleStatus;
     }
 
-    public User getUser() {
+    public SubscribedUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(SubscribedUser user) {
         this.user = user;
     }
 

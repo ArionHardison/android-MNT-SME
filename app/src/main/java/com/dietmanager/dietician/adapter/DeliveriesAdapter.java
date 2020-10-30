@@ -16,7 +16,7 @@ import com.dietmanager.dietician.model.Invoice;
 import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.Shop;
 import com.dietmanager.dietician.model.Transporter;
-import com.dietmanager.dietician.model.User;
+import com.dietmanager.dietician.model.subscribe.SubscribedUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.My
                 holder.shopName.setText(shop.getName());
             }
 
-            User user = order.getUser();
+            SubscribedUser user = order.getUser();
             if (user != null && user.getName() != null) {
                 holder.userName.setText(user.getName());
             }

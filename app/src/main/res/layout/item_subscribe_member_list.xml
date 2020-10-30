@@ -4,7 +4,7 @@
     android:id="@+id/item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fafafa"
+    android:background="#FFFFFF"
     android:layout_marginTop="@dimen/activity_vertical_margin_half"
     android:layout_marginBottom="@dimen/activity_vertical_margin_half">
 
@@ -19,7 +19,7 @@
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_place_holder_image" />
+            android:src="@drawable/man" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,39 +55,12 @@
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/text_tiny" />
 
-                <TextView
-                    android:id="@+id/payment_mode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="@dimen/text_small" />
 
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="@dimen/text_small" />
-
-                <TextView
-                    android:id="@+id/tvScheduleStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:text="@string/scheduled"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="@dimen/text_small"
-                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:orientation="vertical">
 
@@ -100,6 +73,7 @@
                     android:textSize="@dimen/text_tiny" />
 
                 <TextView
+                    android:id="@+id/tvStartDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
@@ -114,6 +88,7 @@
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/text_tiny" />
                 <TextView
+                    android:id="@+id/tvEndDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"

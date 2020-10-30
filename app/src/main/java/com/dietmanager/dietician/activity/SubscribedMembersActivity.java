@@ -2,11 +2,9 @@ package com.dietmanager.dietician.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,16 +12,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.SubscribedMemberAdapter;
 import com.dietmanager.dietician.model.MessageResponse;
-import com.dietmanager.dietician.model.SubscribedMembers;
+import com.dietmanager.dietician.model.subscribe.SubscribeItem;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
+import com.dietmanager.dietician.utils.TextUtils;
 import com.dietmanager.dietician.utils.Utils;
 
 import org.json.JSONObject;
@@ -45,7 +43,7 @@ public class SubscribedMembersActivity extends AppCompatActivity {
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
 
-    private List<SubscribedMembers> SubscribedMembersList = new ArrayList<>();
+    private List<SubscribeItem> subscribedMembersList = new ArrayList<>();
     private SubscribedMemberAdapter subscribedMemberAdapter;
     private Context context;
     private Activity activity;
@@ -57,7 +55,7 @@ public class SubscribedMembersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_subscribed_members);
 
         ButterKnife.bind(this);
-        ((TextView)findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.subscribed_members);
+        ((TextView) findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.subscribed_members);
         findViewById(R.id.toolbar).findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +73,7 @@ public class SubscribedMembersActivity extends AppCompatActivity {
     }
 
     private void setupAdapter() {
-        subscribedMemberAdapter = new SubscribedMemberAdapter(SubscribedMembersList, context);
+        subscribedMemberAdapter = new SubscribedMemberAdapter(subscribedMembersList, context);
         subscribedMembersRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         subscribedMembersRv.setHasFixedSize(true);
         subscribedMembersRv.setAdapter(subscribedMemberAdapter);
@@ -87,8 +85,8 @@ public class SubscribedMembersActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 if (response.isSuccessful()) {
-                    Utils.displayMessage(SubscribedMembersActivity.this,response.body().getMessage());
-                }else if (response.errorBody() != null) {
+                    Utils.displayMessage(SubscribedMembersActivity.this, response.body().getMessage());
+                } else if (response.errorBody() != null) {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         if (jObjError.has("email"))
@@ -110,93 +108,70 @@ public class SubscribedMembersActivity extends AppCompatActivity {
         });
     }
 
-    public void showDialog() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(getResources().getString(R.string.invite_user));
-        alert.setIcon(R.mipmap.ic_launcher);
+    private void showDialog() {
+        AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.custom_edit, null);
+        EditText input = dialogView.findViewById(R.id.etEmail);
+        TextView yes = dialogView.findViewById(R.id.tvYes);
+        TextView no = dialogView.findViewById(R.id.tvNo);
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.cancel();
+            }
+        });
 
-        View custom = LayoutInflater.from(this).inflate(R.layout.custom_edit, null);
-        final EditText input = custom.findViewById(R.id.etEmail);
-
-        alert.setView(custom);
-        alert.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                if (!input.getText().toString().isEmpty()) {
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (input.getText().toString().isEmpty()) {
+                    Toast.makeText(SubscribedMembersActivity.this, getString(R.string.please_enter_user_email), Toast.LENGTH_LONG).show();
+                } else if (!TextUtils.isValidEmail(input.getText().toString())) {
+                    Toast.makeText(SubscribedMembersActivity.this, getString(R.string.please_enter_valid_email), Toast.LENGTH_LONG).show();
+                } else {
                     HashMap<String, String> map = new HashMap<>();
-                    map.put("email",  input.getText().toString());
+                    map.put("email", input.getText().toString());
                     inviteUser(map);
+                    dialogBuilder.cancel();
+
                 }
-                dialog.cancel();
-
             }
         });
-        alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.cancel();
-            }
-        });
+        dialogBuilder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
 
-        AlertDialog alertDialog = alert.create();
-        alertDialog.show();
-
-        Button buttonbackground = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        buttonbackground.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-
-        Button buttonbackground1 = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        buttonbackground1.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
     }
 
-
     private void getSubscribedMembersList() {
-       /* HistoryActivity.showDialog();
-        Call<HistoryModel> call = apiInterface.getHistory();
-        call.enqueue(new Callback<HistoryModel>() {
+        Call<List<SubscribeItem>> call = apiInterface.getSubscribedList();
+        call.enqueue(new Callback<List<SubscribeItem>>() {
             @Override
-            public void onResponse(Call<HistoryModel> call, Response<HistoryModel> response) {
-                HistoryActivity.dismissDialog();
+            public void onResponse(Call<List<SubscribeItem>> call, Response<List<SubscribeItem>> response) {
                 if (response.isSuccessful()) {
-                    SubscribedMembersList.clear();
-                    HistoryModel historyModel = response.body();
-                    if (historyModel != null) {
-                        if (historyModel.getCOMPLETED() != null && historyModel.getCOMPLETED().size() > 0) {
+                    subscribedMembersList.clear();
+                    List<SubscribeItem> subscribedModel = response.body();
+                    if (subscribedModel != null) {
+                        if (subscribedModel.size() > 0) {
                             llNoRecords.setVisibility(View.GONE);
-                            pastRv.setVisibility(View.VISIBLE);
-                            orderList = historyModel.getCOMPLETED();
-                            sortOrdersToDescending(orderList);
-                            historyAdapter.setList(orderList);
-                            historyAdapter.notifyDataSetChanged();
+                            subscribedMembersRv.setVisibility(View.VISIBLE);
+                            subscribedMembersList.addAll(subscribedModel);
+                            subscribedMemberAdapter.setList(subscribedMembersList);
+                            subscribedMemberAdapter.notifyDataSetChanged();
                         } else {
                             llNoRecords.setVisibility(View.VISIBLE);
-                            pastRv.setVisibility(View.GONE);
+                            subscribedMembersRv.setVisibility(View.GONE);
                         }
-                        if (cancelledListListener != null)
-                            if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0) {
-                                cancelledListListener.setCancelledListener(historyModel.getCANCELLED());
-                            } else {
-                                cancelledListListener.setCancelledListener(new ArrayList<Order>());
-                            }
-                    }
-                } else {
-                    Gson gson = new Gson();
-                    try {
-                        ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
-                        Utils.displayMessage(activity, serverError.getError());
-                        if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            activity.finish();
-                        }
-                    } catch (JsonSyntaxException e) {
-                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<HistoryModel> call, Throwable t) {
-                HistoryActivity.dismissDialog();
+            public void onFailure(Call<List<SubscribeItem>> call, Throwable t) {
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
-        });*/
+        });
     }
 
 }
