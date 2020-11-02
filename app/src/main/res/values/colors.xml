@@ -3,6 +3,7 @@
     <color name="colorPrimary">#007b04</color>
     <color name="colorPrimaryDark">#007b04</color>
     <color name="colorAccent">#007b04</color>
+    <color name="ultramarine">#6148e2</color>
 
     <!-- App Theme Color-->
     <color name="colorTheme">#007b04</color>
@@ -25,6 +26,7 @@
     <color name="colorTextWhite">#FFF</color>
     <color name="colorTextBlack">#212121</color>
     <color name="black">#000000</color>
+    <color name="biscay">#2F3752</color>
 
     <!-- Color-->
     <color name="colorTransparent">#00ff6d00</color>

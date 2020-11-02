@@ -482,4 +482,6 @@
     <string name="add_new">Add New</string>
     <string name="enter_user_email">Enter user email</string>
     <string name="add_new_user">Add New User</string>
+    <string name="day">Day</string>
+    <string name="add_food">Add Food</string>
 </resources>

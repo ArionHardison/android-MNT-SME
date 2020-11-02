@@ -44,12 +44,10 @@
                         android:maxLines="1"
                         android:padding="8dp"
                         android:drawablePadding="@dimen/_6sdp"
-                        android:text="Today"
+                        android:text="Home"
                         android:textAllCaps="true"
-                        android:drawableEnd="@drawable/ic_keyboard_arrow_down_24px"
                         android:textColor="@color/colorPrimaryText"
-                        android:textSize="16sp"
-                        tools:ignore="MissingPrefix" />
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
             </androidx.appcompat.widget.Toolbar>
@@ -64,43 +62,40 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="vertical">
-                <TextView
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/days_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_12sdp"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:textSize="@dimen/_13sdp"
-                    android:background="@drawable/edit_text_rounded_corner_bg"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:text="Daily Diet"/>
-                <TextView
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/time_category_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_12sdp"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:textSize="@dimen/_13sdp"
-                    android:background="@drawable/edit_text_rounded_corner_bg"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:text="Paleo Diet"/>
-                <TextView
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/food_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_12sdp"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:textSize="@dimen/_13sdp"
-                    android:background="@drawable/edit_text_rounded_corner_bg"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:text="Vegan Diet"/>
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
 
         </LinearLayout>
-
+        <Button
+            android:id="@+id/btnAddFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            style="@style/ButtonStyle"
+            android:text="@string/add_food"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="@dimen/text_medium" />
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -110,6 +105,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_home"
-        app:menu="@menu/activity_home_drawer" />
+        app:menu="@menu/activity_home_drawer"
+        tools:visibility="gone"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -20,9 +20,11 @@ import com.dietmanager.dietician.model.ResetPasswordResponse;
 import com.dietmanager.dietician.model.RevenueResponse;
 import com.dietmanager.dietician.model.StripeResponse;
 import com.dietmanager.dietician.model.Transporter;
+import com.dietmanager.dietician.model.food.FoodResponse;
 import com.dietmanager.dietician.model.ordernew.OrderResponse;
 import com.dietmanager.dietician.model.product.ProductResponse;
 import com.dietmanager.dietician.model.subscribe.SubscribeItem;
+import com.dietmanager.dietician.model.timecategory.TimeCategoryItem;
 
 import java.util.HashMap;
 import java.util.List;
@@ -186,6 +188,12 @@ public interface ApiInterface {
 
     @GET("/api/dietitian/order")
     Call<HistoryOrder> getHistoryOrders(@QueryMap Map<String, String> params);
+
+    @GET("/api/dietitian/time/category")
+    Call<List<TimeCategoryItem>> getTimeCategory();
+
+    @GET("/api/dietitian/admin/foods")
+    Call<FoodResponse> getFood();
 
     @GET("api/dietitian/history")
     Call<HistoryModel> getHistory();
