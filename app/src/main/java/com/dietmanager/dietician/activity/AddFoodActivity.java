@@ -79,6 +79,8 @@ public class AddFoodActivity extends AppCompatActivity {
     EditText etProductName;
     @BindView(R.id.et_description)
     EditText etDescription;
+    @BindView(R.id.et_price)
+    EditText etPrice;
     @BindView(R.id.choose_food_time_spin)
     MaterialSpinner foodTimeSpin;
     @BindView(R.id.ingredients_spin)
@@ -96,7 +98,7 @@ public class AddFoodActivity extends AppCompatActivity {
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     String TAG = "AddFoodActivity";
-    String strProductName, strProductDescription;
+    String strProductName, strProductDescription,strProductPrice;
     List<IngredientsItem> ingredientsItemList=new ArrayList<>();
     ArrayList<String> lstTimeCategory = new ArrayList<String>();
     private List<TimeCategoryItem> timeCategoryList = new ArrayList<>();
@@ -204,7 +206,7 @@ public class AddFoodActivity extends AppCompatActivity {
                         if (ingredientsItemList.size() > 0) {
                             for (int i = 0; i < ingredientsItemList.size(); i++) {
                                 IngredientsItem item = ingredientsItemList.get(i);
-                                itemSpinnerList.add(new SpinnerItem(item.getName(),false,item.getId()));
+                                itemSpinnerList.add(new SpinnerItem(item.getName(),false,item.getId(),item.getPrice()));
                             }
                         }
                         setIngredientSpinner();
@@ -242,6 +244,20 @@ public class AddFoodActivity extends AppCompatActivity {
                 strProductName));
         map.put("description[0]", RequestBody.create(MediaType.parse("text/plain"),
                 strProductDescription));
+        map.put("price[0]", RequestBody.create(MediaType.parse("text/plain"),
+                strProductPrice));
+        map.put("category_id[0]", RequestBody.create(MediaType.parse("text/plain"),
+                String.valueOf(selectedTimeCategory)));
+        map.put("day", RequestBody.create(MediaType.parse("text/plain"),
+                String.valueOf(selectedDay)));
+        for (int i=0;i<ingredientsSpin.getSelectedItems().size();i++)
+        {
+            SpinnerItem item=ingredientsSpin.getSelectedItems().get(i);
+            map.put("ingredient[0]["+i+"]", RequestBody.create(MediaType.parse("text/plain"),
+                    String.valueOf(item.getId())));
+            map.put("i_price[0]["+i+"]", RequestBody.create(MediaType.parse("text/plain"),
+                    String.valueOf(item.getPrice())));
+        }
         MultipartBody.Part filePart = null;
 
         if (featuredImageFile != null)
@@ -260,26 +276,6 @@ public class AddFoodActivity extends AppCompatActivity {
                     Toast.makeText(AddFoodActivity.this,response.body().getMessage(),
                             Toast.LENGTH_SHORT).show();
                     finish();
-                } else {
-                    Gson gson = new GsonBuilder().create();
-                    try {
-                        ProfileError error = gson.fromJson(response.errorBody().string(),
-                                ProfileError.class);
-                        System.out.println("error " + error.toString());
-                        if (error.getName() != null) {
-                            Toast.makeText(AddFoodActivity.this, error.getName().get(0),
-                                    Toast.LENGTH_SHORT).show();
-                        } else if (error.getEmail() != null) {
-                            Toast.makeText(AddFoodActivity.this, error.getEmail().get(0),
-                                    Toast.LENGTH_SHORT).show();
-                        } else if (error.getAvatar() != null) {
-                            Toast.makeText(AddFoodActivity.this, error.getAvatar().get(0),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (IOException e) {
-                        // handle failure to read error
-                        Toast.makeText(AddFoodActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
 
@@ -306,12 +302,16 @@ public class AddFoodActivity extends AppCompatActivity {
     private boolean validateProductDetails() {
         strProductName = etProductName.getText().toString().trim();
         strProductDescription = etDescription.getText().toString().trim();
+        strProductPrice = etPrice.getText().toString().trim();
 
         if (strProductName == null || strProductName.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_name));
             return false;
         } else if (strProductDescription == null || strProductDescription.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_description));
+            return false;
+        }else if (strProductPrice == null || strProductPrice.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_price));
             return false;
         } else if (ingredientsSpin.getSelectedItems().isEmpty()) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_select__ingredients));
