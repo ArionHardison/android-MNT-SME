@@ -120,6 +120,10 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.AddFoodActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.RestaurantTimingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />

@@ -332,6 +332,7 @@
     <string name="error_msg_product_description">Please enter product description</string>
     <string name="error_msg_product_order">Please enter product order</string>
     <string name="error_msg_product_category">Please select category</string>
+    <string name="error_msg_select__ingredients">Please select ingredients</string>
     <string name="error_msg_selected_food_type">Please select food type</string>
     <string name="product_select_catefory">Select Category</string>
     <string name="error_msg_product_select_featured_image">Please select featured image</string>
@@ -453,6 +454,7 @@
     <string name="offer_free_delivery">Offer\'s Free Delivery</string>
     <string name="ingredients">Ingredients</string>
     <string name="error_msg_ingredients">Please enter ingredient details</string>
+    <string name="please_select_meal_time">Please select meal time</string>
     <string name="please_enter_calories">Please enter calorie details</string>
     <string name="load_more">Load more...</string>
     <string name="calories">Calories (kJ)</string>
@@ -484,4 +486,12 @@
     <string name="add_new_user">Add New User</string>
     <string name="day">Day</string>
     <string name="add_food">Add Food</string>
+    <string name="menu_name">Menu Name</string>
+    <string name="choose">Choose</string>
+    <string name="quantity">Quantity</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="select_ingredients">Select Ingredients</string>
+    <string name="veggie_friend_rice">Veggie Friend Rice</string>
+    <string name="add">Add</string>
+    <string name="please_upload_image">please_upload_image</string>
 </resources>

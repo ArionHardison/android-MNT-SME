@@ -21,6 +21,7 @@ import com.dietmanager.dietician.model.RevenueResponse;
 import com.dietmanager.dietician.model.StripeResponse;
 import com.dietmanager.dietician.model.Transporter;
 import com.dietmanager.dietician.model.food.FoodResponse;
+import com.dietmanager.dietician.model.ingredients.IngredientsItem;
 import com.dietmanager.dietician.model.ordernew.OrderResponse;
 import com.dietmanager.dietician.model.product.ProductResponse;
 import com.dietmanager.dietician.model.subscribe.SubscribeItem;
@@ -58,6 +59,11 @@ public interface ApiInterface {
     @Multipart
     @POST("api/dietitian/profile")
     Call<Profile> updateProfileWithImage(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
+
+
+    @Multipart
+    @POST("api/dietitian/add/food")
+    Call<MessageResponse> addFood(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
 
     @Multipart
     @POST("api/dietitian/profile/{id}")
@@ -125,6 +131,9 @@ public interface ApiInterface {
     /*------------- CATEGORY --------------------*/
     @GET("api/dietitian/categories")
     Call<List<Category>> getCategory();
+
+    @GET("api/dietitian/get/ingredients")
+    Call<List<IngredientsItem>> getIngredients();
 
     @Multipart
     @POST("api/dietitian/categories")

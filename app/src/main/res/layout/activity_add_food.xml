@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.dietmanager.dietician.activity.AddFoodActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_58sdp"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/choose"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/choose_food_time_spin"
+                android:layout_width="wrap_content"
+
+                android:layout_height="@dimen/material_spinner_height"
+                android:background="@drawable/edit_text_rounded_corner_bg"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_medium" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/menu_name"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+
+            <EditText
+                android:id="@+id/et_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_size"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/edit_text_rounded_corner_bg"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress|textCapWords"
+                android:maxLength="100"
+                android:hint="@string/veggie_friend_rice"
+                android:padding="@dimen/_4sdp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_medium" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/description"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/edit_text_rounded_corner_bg"
+                android:gravity="start"
+                android:hint="@string/write_description"
+                android:imeOptions="actionNext"
+                android:inputType="textMultiLine"
+                android:maxLength="255"
+                android:minLines="3"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="@dimen/text_medium" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/upload_image"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+
+            <RelativeLayout
+                android:id="@+id/rlFeaturedImage"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/edit_text_rounded_corner_bg">
+
+                <ImageView
+                    android:id="@+id/featured_img"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_placeholder_image_upload" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/ingredients"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+
+
+            <com.dietmanager.dietician.helper.MultiSelectionSpinner
+                android:id="@+id/ingredients_spin"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_drop_down"
+                android:hint="@string/select_ingredients"
+                android:padding="@dimen/_4sdp"
+                android:spinnerMode="dropdown"
+                android:tooltipText="@string/select_ingredients" />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/next_btn"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:text="@string/add"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="@dimen/text_medium" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

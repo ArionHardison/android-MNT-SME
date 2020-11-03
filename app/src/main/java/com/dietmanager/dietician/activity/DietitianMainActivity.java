@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,10 +81,12 @@ public class DietitianMainActivity extends AppCompatActivity
     RecyclerView timeCategoryRv;
     @BindView(R.id.food_rv)
     RecyclerView foodRv;
+    @BindView(R.id.btnAddFood)
+    Button btnAddFood;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-    private int selectedDay = 0;
-    private int selectedTimeCategory = 0;
+    private int selectedDay = 1;
+    private int selectedTimeCategory=-1;
     private String selectedTimeCategoryName = "breakfast";
     private List<TimeCategoryItem> timeCategoryList = new ArrayList<>();
     private List<FoodItem> foodItems = new ArrayList<>();
@@ -137,7 +141,7 @@ public class DietitianMainActivity extends AppCompatActivity
         userId = navigationView.getHeaderView(0).findViewById(R.id.user_id);
         navigationView.setNavigationItemSelectedListener(this);
 
-        daysAdapter = new DaysAdapter(this, selectedDay, this);
+        daysAdapter = new DaysAdapter(this, 0, this);
         daysRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         daysRv.setHasFixedSize(true);
         daysRv.setAdapter(daysAdapter);
@@ -157,6 +161,18 @@ public class DietitianMainActivity extends AppCompatActivity
 
         getTimeCategory();
         getFood();
+        btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!timeCategoryList.isEmpty()) {
+                    Intent intent = new Intent(DietitianMainActivity.this, AddFoodActivity.class);
+                    intent.putExtra("timeCategoryList",(Serializable) timeCategoryList);
+                    intent.putExtra("selectedTimeCategory",selectedTimeCategory);
+                    intent.putExtra("selectedDay",selectedDay);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -295,6 +311,8 @@ public class DietitianMainActivity extends AppCompatActivity
                     timeCategoryList.clear();
                     List<TimeCategoryItem> timeCategoryItemList = response.body();
                     if (timeCategoryItemList != null && !Utils.isNullOrEmpty(timeCategoryItemList)) {
+                        selectedTimeCategory=timeCategoryItemList.get(0).getId();
+                        selectedTimeCategoryName=timeCategoryItemList.get(0).getName();
                         timeCategoryList.addAll(timeCategoryItemList);
                         timeCategoryAdapter.setList(timeCategoryList);
                     }

@@ -1,16 +1,14 @@
-package com.dietmanager.dietician.model.timecategory;
+package com.dietmanager.dietician.model.ingredients;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class TimeCategoryItem implements Serializable {
+public class UnitType{
 
 	@SerializedName("name")
 	private String name;
 
 	@SerializedName("created_at")
-	private Object createdAt;
+	private String createdAt;
 
 	@SerializedName("id")
 	private int id;
@@ -22,7 +20,7 @@ public class TimeCategoryItem implements Serializable {
 		return name;
 	}
 
-	public Object getCreatedAt(){
+	public String getCreatedAt(){
 		return createdAt;
 	}
 

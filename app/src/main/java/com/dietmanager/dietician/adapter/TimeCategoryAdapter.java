@@ -56,7 +56,7 @@ public class TimeCategoryAdapter extends RecyclerView.Adapter<TimeCategoryAdapte
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onCategoryClicked(position,timeCategoryItem.getName());
+                listener.onCategoryClicked(timeCategoryItem.getId(),timeCategoryItem.getName());
                 selectedIndex=position;
                 notifyDataSetChanged();
             }
