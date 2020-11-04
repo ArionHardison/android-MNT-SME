@@ -24,27 +24,20 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
-import com.dietmanager.dietician.adapter.ImageGalleryAdapter;
 import com.dietmanager.dietician.helper.ConnectionHelper;
 import com.dietmanager.dietician.helper.CustomDialog;
-import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.helper.MultiSelectionSpinner;
 import com.dietmanager.dietician.helper.SharedHelper;
-import com.dietmanager.dietician.messages.ProductMessage;
 import com.dietmanager.dietician.model.MessageResponse;
-import com.dietmanager.dietician.model.Product;
-import com.dietmanager.dietician.model.Profile;
-import com.dietmanager.dietician.model.ProfileError;
 import com.dietmanager.dietician.model.ServerError;
 import com.dietmanager.dietician.model.SpinnerItem;
+import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.ingredients.IngredientsItem;
-import com.dietmanager.dietician.model.product.ProductResponse;
 import com.dietmanager.dietician.model.timecategory.TimeCategoryItem;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -87,8 +80,8 @@ public class AddFoodActivity extends AppCompatActivity {
     MultiSelectionSpinner ingredientsSpin;
     @BindView(R.id.featured_img)
     ImageView featuredImg;
-    @BindView(R.id.next_btn)
-    Button nextBtn;
+    @BindView(R.id.add_btn)
+    Button addBtn;
     @BindView(R.id.rlFeaturedImage)
     RelativeLayout rlFeaturedImage;
     public static final int PICK_IMAGE_REQUEST = 100;
@@ -98,15 +91,17 @@ public class AddFoodActivity extends AppCompatActivity {
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     String TAG = "AddFoodActivity";
-    String strProductName, strProductDescription,strProductPrice;
-    List<IngredientsItem> ingredientsItemList=new ArrayList<>();
+    String strProductName, strProductDescription, strProductPrice;
+    List<IngredientsItem> ingredientsItemList = new ArrayList<>();
     ArrayList<String> lstTimeCategory = new ArrayList<String>();
     private List<TimeCategoryItem> timeCategoryList = new ArrayList<>();
     private int selectedDay = 1;
     File featuredImageFile;
     String mSelectedFeaturedImageId, mSelectedFeaturedImageUrl = "";
     private int selectedTimeCategory = 0;
-    ArrayList<SpinnerItem>  itemSpinnerList =  new ArrayList<>();
+    private boolean isAdminFood = false;
+    ArrayList<SpinnerItem> itemSpinnerList = new ArrayList<>();
+    private FoodItem foodItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +123,29 @@ public class AddFoodActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            isAdminFood = bundle.getBoolean("isAdminFood", false);
+            if (isAdminFood) {
+                foodItem = (FoodItem) bundle.getSerializable("foodItem");
+                etProductName.setText(foodItem.getName());
+                etDescription.setText(foodItem.getDescription());
+                etPrice.setText(String.valueOf(foodItem.getPrice()));
+                if (foodItem.getAvatar()!=null)
+                    Glide.with(context).load(foodItem.getAvatar())
+                            .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_placeholder_image_upload).error(R.drawable.ic_placeholder_image_upload).dontAnimate()).into(featuredImg);
+                etProductName.setClickable(false);
+                etDescription.setClickable(false);
+                etPrice.setClickable(false);
+                foodTimeSpin.setClickable(false);
+                ingredientsSpin.setClickable(false);
+
+                etProductName.setEnabled(false);
+                etDescription.setEnabled(false);
+                etPrice.setEnabled(false);
+                foodTimeSpin.setEnabled(false);
+                ingredientsSpin.setEnabled(false);
+
+                addBtn.setText(getString(R.string.confirm));
+            }
             selectedTimeCategory = bundle.getInt("selectedTimeCategory");
             selectedDay = bundle.getInt("selectedDay");
             timeCategoryList = (List<TimeCategoryItem>) bundle.getSerializable("timeCategoryList");
@@ -174,7 +192,7 @@ public class AddFoodActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.back_img, R.id.rlFeaturedImage, R.id.next_btn})
+    @OnClick({R.id.back_img, R.id.rlFeaturedImage, R.id.add_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -182,12 +200,18 @@ public class AddFoodActivity extends AppCompatActivity {
                 break;
 
             case R.id.rlFeaturedImage:
-                galleryIntent(1);
+                if(!isAdminFood)
+                    galleryIntent(1);
                 break;
 
-            case R.id.next_btn:
-                if (validateProductDetails()) {
-                    addFood();
+            case R.id.add_btn:
+                if(!isAdminFood) {
+                    if (validateProductDetails()) {
+                        addFood();
+                    }
+                }
+                else {
+                    addAdminFood();
                 }
                 break;
         }
@@ -206,7 +230,7 @@ public class AddFoodActivity extends AppCompatActivity {
                         if (ingredientsItemList.size() > 0) {
                             for (int i = 0; i < ingredientsItemList.size(); i++) {
                                 IngredientsItem item = ingredientsItemList.get(i);
-                                itemSpinnerList.add(new SpinnerItem(item.getName(),false,item.getId(),item.getPrice()));
+                                itemSpinnerList.add(new SpinnerItem(item.getName(), false, item.getId(), item.getPrice()));
                             }
                         }
                         setIngredientSpinner();
@@ -250,12 +274,11 @@ public class AddFoodActivity extends AppCompatActivity {
                 String.valueOf(selectedTimeCategory)));
         map.put("day", RequestBody.create(MediaType.parse("text/plain"),
                 String.valueOf(selectedDay)));
-        for (int i=0;i<ingredientsSpin.getSelectedItems().size();i++)
-        {
-            SpinnerItem item=ingredientsSpin.getSelectedItems().get(i);
-            map.put("ingredient[0]["+i+"]", RequestBody.create(MediaType.parse("text/plain"),
+        for (int i = 0; i < ingredientsSpin.getSelectedItems().size(); i++) {
+            SpinnerItem item = ingredientsSpin.getSelectedItems().get(i);
+            map.put("ingredient[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
                     String.valueOf(item.getId())));
-            map.put("i_price[0]["+i+"]", RequestBody.create(MediaType.parse("text/plain"),
+            map.put("i_price[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
                     String.valueOf(item.getPrice())));
         }
         MultipartBody.Part filePart = null;
@@ -273,7 +296,37 @@ public class AddFoodActivity extends AppCompatActivity {
                                    @NonNull Response<MessageResponse> response) {
                 customDialog.cancel();
                 if (response.isSuccessful()) {
-                    Toast.makeText(AddFoodActivity.this,response.body().getMessage(),
+                    Toast.makeText(AddFoodActivity.this, response.body().getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
+                customDialog.cancel();
+                Toast.makeText(AddFoodActivity.this, R.string.something_went_wrong,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    private void addAdminFood() {
+        if (customDialog != null)
+            customDialog.show();
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("day", String.valueOf(selectedDay));
+        map.put("food_id", String.valueOf(foodItem.getId()));
+
+        Call<MessageResponse> call = apiInterface.addAdminFood(map);
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MessageResponse> call,
+                                   @NonNull Response<MessageResponse> response) {
+                customDialog.cancel();
+                if (response.isSuccessful()) {
+                    Toast.makeText(AddFoodActivity.this, response.body().getMessage(),
                             Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -310,7 +363,7 @@ public class AddFoodActivity extends AppCompatActivity {
         } else if (strProductDescription == null || strProductDescription.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_description));
             return false;
-        }else if (strProductPrice == null || strProductPrice.isEmpty()) {
+        } else if (strProductPrice == null || strProductPrice.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_price));
             return false;
         } else if (ingredientsSpin.getSelectedItems().isEmpty()) {

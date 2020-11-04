@@ -61,9 +61,15 @@ public interface ApiInterface {
     Call<Profile> updateProfileWithImage(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
 
 
+
     @Multipart
     @POST("api/dietitian/add/food")
     Call<MessageResponse> addFood(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
+
+
+    @FormUrlEncoded
+    @POST("api/dietitian/add/food")
+    Call<MessageResponse> addAdminFood(@FieldMap HashMap<String, String> params);
 
     @Multipart
     @POST("api/dietitian/profile/{id}")

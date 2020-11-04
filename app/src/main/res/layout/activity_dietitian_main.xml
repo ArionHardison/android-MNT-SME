@@ -72,6 +72,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/time_category_rv"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:orientation="horizontal"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_height="wrap_content" />
@@ -80,8 +81,29 @@
                     android:id="@+id/food_rv"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_height="wrap_content" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/colorWhite">
+
+                    <ExpandableListView
+                        android:id="@+id/expendableList"
+                        android:layout_width="match_parent"
+                        android:overScrollMode="never"
+                        android:isScrollContainer="false"
+                        android:scrollbars="none"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:groupIndicator="@null"
+                        android:divider="@null"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -93,6 +115,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/activity_vertical_margin"
             style="@style/ButtonStyle"
+            android:visibility="gone"
             android:text="@string/add_food"
             android:textColor="@color/colorTextWhite"
             android:textSize="@dimen/text_medium" />

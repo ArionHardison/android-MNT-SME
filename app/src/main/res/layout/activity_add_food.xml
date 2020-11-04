@@ -172,7 +172,7 @@
         android:layout_alignParentBottom="true">
 
         <Button
-            android:id="@+id/next_btn"
+            android:id="@+id/add_btn"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

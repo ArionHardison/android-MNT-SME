@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +27,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.DaysAdapter;
-import com.dietmanager.dietician.adapter.DeliveriesAdapter;
 import com.dietmanager.dietician.adapter.FoodAdapter;
 import com.dietmanager.dietician.adapter.TimeCategoryAdapter;
 import com.dietmanager.dietician.controller.GetProfile;
@@ -35,8 +35,6 @@ import com.dietmanager.dietician.helper.ConnectionHelper;
 import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.helper.SharedHelper;
-import com.dietmanager.dietician.model.HistoryOrder;
-import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.Profile;
 import com.dietmanager.dietician.model.ServerError;
 import com.dietmanager.dietician.model.food.FoodItem;
@@ -54,7 +52,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +62,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DietitianMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ProfileListener, DaysAdapter.IDayListener, TimeCategoryAdapter.ITimeCategoryListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ProfileListener, DaysAdapter.IDayListener, TimeCategoryAdapter.ITimeCategoryListener, ExpandableFoodAdapter.IExpandableClickListener {
     DrawerLayout drawer;
     private ConnectionHelper connectionHelper;
     private DaysAdapter daysAdapter;
@@ -85,12 +82,17 @@ public class DietitianMainActivity extends AppCompatActivity
     Button btnAddFood;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.expendableList)
+    ExpandableListView expandableListView;
     private int selectedDay = 1;
-    private int selectedTimeCategory=-1;
-    private String selectedTimeCategoryName = "breakfast";
+    private int selectedTimeCategory = -1;
     private List<TimeCategoryItem> timeCategoryList = new ArrayList<>();
     private List<FoodItem> foodItems = new ArrayList<>();
     List<Integer> daysList = new ArrayList<>();
+    HashMap<String, List<FoodItem>> expandableFoodList = new HashMap<>();
+
+    private ExpandableFoodAdapter expandableAdapter = null;
+    private List<String> titleList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,20 +161,61 @@ public class DietitianMainActivity extends AppCompatActivity
         foodRv.setHasFixedSize(true);
         foodRv.setAdapter(foodAdapter);
 
-        getTimeCategory();
-        getFood();
         btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!timeCategoryList.isEmpty()) {
+                if (!timeCategoryList.isEmpty()) {
                     Intent intent = new Intent(DietitianMainActivity.this, AddFoodActivity.class);
-                    intent.putExtra("timeCategoryList",(Serializable) timeCategoryList);
-                    intent.putExtra("selectedTimeCategory",selectedTimeCategory);
-                    intent.putExtra("selectedDay",selectedDay);
+                    intent.putExtra("timeCategoryList", (Serializable) timeCategoryList);
+                    intent.putExtra("selectedTimeCategory", selectedTimeCategory);
+                    intent.putExtra("selectedDay", selectedDay);
                     startActivity(intent);
                 }
             }
         });
+        getTimeCategory();
+        getFood();
+    }
+
+
+    private void initFoodAdapter() {
+        titleList = new ArrayList(expandableFoodList.keySet());
+        expandableAdapter = new ExpandableFoodAdapter(this, titleList, expandableFoodList, this);
+        expandableListView.setAdapter(expandableAdapter);
+    }
+
+    @Override
+    public void onCreateNewClicked(String title) {
+        if (!timeCategoryList.isEmpty()) {
+            for (TimeCategoryItem item : timeCategoryList) {
+                if (title.equalsIgnoreCase(item.getName()))
+                    selectedTimeCategory = item.getId();
+            }
+            Intent intent = new Intent(DietitianMainActivity.this, AddFoodActivity.class);
+
+            intent.putExtra("timeCategoryList", (Serializable) timeCategoryList);
+            intent.putExtra("selectedTimeCategory", selectedTimeCategory);
+            intent.putExtra("isAdminFood", false);
+            intent.putExtra("selectedDay", selectedDay);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onItemClicked(FoodItem foodItem) {
+        if (!timeCategoryList.isEmpty()) {
+            for (TimeCategoryItem item : timeCategoryList) {
+                if (foodItem.getTimeCategoryId().equalsIgnoreCase(item.getName()))
+                    selectedTimeCategory = item.getId();
+            }
+            Intent intent = new Intent(DietitianMainActivity.this, AddFoodActivity.class);
+            intent.putExtra("foodItem", (Serializable) foodItem);
+            intent.putExtra("timeCategoryList", (Serializable) timeCategoryList);
+            intent.putExtra("selectedTimeCategory", selectedTimeCategory);
+            intent.putExtra("selectedDay", selectedDay);
+            intent.putExtra("isAdminFood", true);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -212,9 +255,8 @@ public class DietitianMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCategoryClicked(int category,String categoryName) {
+    public void onCategoryClicked(int category, String categoryName) {
         selectedTimeCategory = category;
-        selectedTimeCategoryName = categoryName;
         getFood();
     }
 
@@ -311,8 +353,7 @@ public class DietitianMainActivity extends AppCompatActivity
                     timeCategoryList.clear();
                     List<TimeCategoryItem> timeCategoryItemList = response.body();
                     if (timeCategoryItemList != null && !Utils.isNullOrEmpty(timeCategoryItemList)) {
-                        selectedTimeCategory=timeCategoryItemList.get(0).getId();
-                        selectedTimeCategoryName=timeCategoryItemList.get(0).getName();
+                        selectedTimeCategory = timeCategoryItemList.get(0).getId();
                         timeCategoryList.addAll(timeCategoryItemList);
                         timeCategoryAdapter.setList(timeCategoryList);
                     }
@@ -339,39 +380,29 @@ public class DietitianMainActivity extends AppCompatActivity
     }
 
     private void getFood() {
-
         Call<FoodResponse> call = apiInterface.getFood();
         call.enqueue(new Callback<FoodResponse>() {
             @Override
             public void onResponse(@NonNull Call<FoodResponse> call, @NonNull Response<FoodResponse> response) {
                 if (response.isSuccessful()) {
-                    foodItems.clear();
+                    expandableFoodList.clear();
                     FoodResponse timeCategoryItemList = response.body();
                     if (timeCategoryItemList != null) {
-                        switch (selectedTimeCategoryName) {
-                            case "breakfast":
-                                if (!Utils.isNullOrEmpty(timeCategoryItemList.getBreakfast())) {
-                                    foodItems.addAll(timeCategoryItemList.getBreakfast());
-                                }
-                                break;
-                            case "lunch":
-                                if (!Utils.isNullOrEmpty(timeCategoryItemList.getLunch())) {
-                                    foodItems.addAll(timeCategoryItemList.getLunch());
-                                }
-                                break;
-                            case "snacks":
-                                if (!Utils.isNullOrEmpty(timeCategoryItemList.geSnacks())) {
-                                    foodItems.addAll(timeCategoryItemList.geSnacks());
-                                }
-                                break;
-                            case "dinner":
-                                if (!Utils.isNullOrEmpty(timeCategoryItemList.getDinner())) {
-                                    foodItems.addAll(timeCategoryItemList.getDinner());
-                                }
-                                break;
+                        if (!Utils.isNullOrEmpty(timeCategoryItemList.getBreakfast())) {
+                            expandableFoodList.put("Breakfast", timeCategoryItemList.getBreakfast());
                         }
-                        foodAdapter.setList(foodItems);
+                        if (!Utils.isNullOrEmpty(timeCategoryItemList.getLunch())) {
+                            foodItems.addAll(timeCategoryItemList.getLunch());
+                            expandableFoodList.put("Lunch", timeCategoryItemList.getLunch());
+                        }
+                        if (!Utils.isNullOrEmpty(timeCategoryItemList.geSnacks())) {
+                            expandableFoodList.put("Snacks", timeCategoryItemList.geSnacks());
+                        }
+                        if (!Utils.isNullOrEmpty(timeCategoryItemList.getDinner())) {
+                            expandableFoodList.put("Dinner", timeCategoryItemList.getDinner());
+                        }
                     }
+                    initFoodAdapter();
                 } else {
                     Gson gson = new Gson();
                     try {

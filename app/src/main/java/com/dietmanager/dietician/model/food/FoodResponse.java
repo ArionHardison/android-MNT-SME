@@ -1,9 +1,10 @@
 package com.dietmanager.dietician.model.food;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class FoodResponse{
+public class FoodResponse implements Serializable {
 
 	@SerializedName("lunch")
 	private List<FoodItem> lunch;
