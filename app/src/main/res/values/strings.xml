@@ -508,4 +508,6 @@
     <string name="plan_description">Plan Description</string>
     <string name="no_of_days">No of days</string>
     <string name="add_subscription_plan">Add Subscription Plan</string>
+    <string name="edit_subscription_plan">Edit Subscription Plan</string>
+    <string name="edit">Edit</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +18,13 @@ import java.util.List;
 public class SubscribedPlanAdapter extends RecyclerView.Adapter<SubscribedPlanAdapter.MyViewHolder> {
 
     private Context context;
+    private ISubscriptionPlanListener listener;
     private List<SubscriptionPlanItem> list;
 
-    public SubscribedPlanAdapter(List<SubscriptionPlanItem> list, Context con) {
+    public SubscribedPlanAdapter(List<SubscriptionPlanItem> list, Context con,ISubscriptionPlanListener listener) {
         this.list = list;
         this.context = con;
+        this.listener = listener;
     }
 
     @Override
@@ -35,6 +38,12 @@ public class SubscribedPlanAdapter extends RecyclerView.Adapter<SubscribedPlanAd
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         SubscriptionPlanItem item = list.get(position);
         holder.tvPlanName.setText(item.getTitle());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onSubscriptionPlanClicked(item);
+            }
+        });
     }
 
     @Override
@@ -56,10 +65,16 @@ public class SubscribedPlanAdapter extends RecyclerView.Adapter<SubscribedPlanAd
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvPlanName;
+        LinearLayout itemView;
 
         public MyViewHolder(View view) {
             super(view);
             tvPlanName = view.findViewById(R.id.tvPlanName);
+            itemView = view.findViewById(R.id.item_view);
         }
+    }
+
+    public interface ISubscriptionPlanListener{
+        void onSubscriptionPlanClicked(SubscriptionPlanItem subscriptionPlanItem);
     }
 }

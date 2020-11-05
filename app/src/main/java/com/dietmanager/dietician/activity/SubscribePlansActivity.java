@@ -19,6 +19,7 @@ import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SubscribePlansActivity extends AppCompatActivity {
+public class SubscribePlansActivity extends AppCompatActivity implements SubscribedPlanAdapter.ISubscriptionPlanListener {
 
     @BindView(R.id.subscription_plans_rv)
     RecyclerView subscriptionPlansRv;
@@ -58,6 +59,7 @@ public class SubscribePlansActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SubscribePlansActivity.this, AddSubscriptionPlanActivity.class);
+                intent.putExtra("isEdit", false);
                 startActivity(intent);
             }
         });
@@ -65,10 +67,18 @@ public class SubscribePlansActivity extends AppCompatActivity {
     }
 
     private void setupAdapter() {
-        subscriptionPlanAdapter = new SubscribedPlanAdapter(subscriptionPlanList, context);
+        subscriptionPlanAdapter = new SubscribedPlanAdapter(subscriptionPlanList, context,this);
         subscriptionPlansRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         subscriptionPlansRv.setHasFixedSize(true);
         subscriptionPlansRv.setAdapter(subscriptionPlanAdapter);
+    }
+
+    @Override
+    public void onSubscriptionPlanClicked(SubscriptionPlanItem subscriptionPlanItem) {
+        Intent intent = new Intent(SubscribePlansActivity.this, AddSubscriptionPlanActivity.class);
+        intent.putExtra("isEdit", true);
+        intent.putExtra("subscriptionPlan", (Serializable)subscriptionPlanItem);
+        startActivity(intent);
     }
 
     private void getSubscriptionPlansList() {

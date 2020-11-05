@@ -76,6 +76,10 @@ public interface ApiInterface {
     @POST("api/dietitian/subscription")
     Call<MessageResponse> addSubscriptionPlan(@FieldMap HashMap<String, String> params);
 
+    @FormUrlEncoded
+    @POST("api/dietitian/subscription/{id}")
+    Call<MessageResponse> editSubscriptionPlan(@FieldMap HashMap<String, String> params,@Path("id")int id);
+
     @Multipart
     @POST("api/dietitian/profile/{id}")
     Call<Profile> updateProfileWithFile(@Path("id") int id, @PartMap HashMap<String, RequestBody> params, @Part MultipartBody.Part filename1, @Part MultipartBody.Part filename2);

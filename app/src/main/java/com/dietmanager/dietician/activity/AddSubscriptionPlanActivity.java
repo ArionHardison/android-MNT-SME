@@ -19,6 +19,8 @@ import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.helper.ConnectionHelper;
 import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.model.MessageResponse;
+import com.dietmanager.dietician.model.food.FoodItem;
+import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
@@ -51,6 +53,9 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
     Button addBtn;
     Context context;
     Activity activity;
+    private boolean isEdit = false;
+    private SubscriptionPlanItem subscriptionPlan = null;
+
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     String TAG = "AddSubscriptionPlanActivity";
@@ -65,7 +70,21 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void setUp() {
-        title.setText(getString(R.string.add_subscription_plan));
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            isEdit = bundle.getBoolean("isEdit", false);
+        }
+        if(isEdit){
+            subscriptionPlan = (SubscriptionPlanItem) bundle.getSerializable("subscriptionPlan");
+            title.setText(getString(R.string.edit_subscription_plan));
+            addBtn.setText(getString(R.string.edit));
+            etPlanName.setText(subscriptionPlan.getTitle());
+            etDescription.setText(subscriptionPlan.getDescription());
+            etPrice.setText(subscriptionPlan.getPrice());
+            etNoOfDays.setText(String.valueOf(subscriptionPlan.getNoOfDays()));
+        }else {
+            title.setText(getString(R.string.add_subscription_plan));
+        }
         backImg.setVisibility(View.VISIBLE);
         context = AddSubscriptionPlanActivity.this;
         activity = AddSubscriptionPlanActivity.this;
@@ -108,27 +127,50 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
         map.put("description", String.valueOf(strPlanDescription));
         map.put("no_of_days", String.valueOf(strPlanNoOfDays));
         map.put("price", String.valueOf(strPlanPrice));
-
-        Call<MessageResponse> call = apiInterface.addSubscriptionPlan(map);
-        call.enqueue(new Callback<MessageResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MessageResponse> call,
-                                   @NonNull Response<MessageResponse> response) {
-                customDialog.cancel();
-                if (response.isSuccessful()) {
-                    Toast.makeText(AddSubscriptionPlanActivity.this, response.body().getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                    finish();
+        if(isEdit){
+            map.put("_method","PATCH");
+            Call<MessageResponse> call = apiInterface.editSubscriptionPlan(map,subscriptionPlan.getId());
+            call.enqueue(new Callback<MessageResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<MessageResponse> call,
+                                       @NonNull Response<MessageResponse> response) {
+                    customDialog.cancel();
+                    if (response.isSuccessful()) {
+                        Toast.makeText(AddSubscriptionPlanActivity.this, response.body().getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
-                customDialog.cancel();
-                Toast.makeText(AddSubscriptionPlanActivity.this, R.string.something_went_wrong,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
+                    customDialog.cancel();
+                    Toast.makeText(AddSubscriptionPlanActivity.this, R.string.something_went_wrong,
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            Call<MessageResponse> call = apiInterface.addSubscriptionPlan(map);
+            call.enqueue(new Callback<MessageResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<MessageResponse> call,
+                                       @NonNull Response<MessageResponse> response) {
+                    customDialog.cancel();
+                    if (response.isSuccessful()) {
+                        Toast.makeText(AddSubscriptionPlanActivity.this, response.body().getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
+                    customDialog.cancel();
+                    Toast.makeText(AddSubscriptionPlanActivity.this, R.string.something_went_wrong,
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
 
