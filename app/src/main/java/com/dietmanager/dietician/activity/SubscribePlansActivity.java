@@ -2,55 +2,41 @@ package com.dietmanager.dietician.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.SubscribedPlanAdapter;
-import com.dietmanager.dietician.model.ForgotPasswordResponse;
-import com.dietmanager.dietician.model.MessageResponse;
-import com.dietmanager.dietician.model.ServerError;
-import com.dietmanager.dietician.model.SubscribedPlans;
+import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SubscribePlansActivity extends AppCompatActivity {
 
-    @BindView(R.id.subscribed_plans_rv)
-    RecyclerView subscribedPlansRv;
+    @BindView(R.id.subscription_plans_rv)
+    RecyclerView subscriptionPlansRv;
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
 
-    private List<SubscribedPlans> SubscribedPlansList = new ArrayList<>();
-    private SubscribedPlanAdapter subscribedPlanAdapter;
+    private List<SubscriptionPlanItem> subscriptionPlanList = new ArrayList<>();
+    private SubscribedPlanAdapter subscriptionPlanAdapter;
     private Context context;
     private Activity activity;
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
@@ -61,77 +47,63 @@ public class SubscribePlansActivity extends AppCompatActivity {
         setContentView(R.layout.activity_subscribe_plans);
 
         ButterKnife.bind(this);
-        setupAdapter();
-        getSubscribedPlansList();
-        ((TextView)findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.subscription_plans);
+        ((TextView) findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.subscription_plans);
         findViewById(R.id.toolbar).findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
+        findViewById(R.id.btnAdd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SubscribePlansActivity.this, AddSubscriptionPlanActivity.class);
+                startActivity(intent);
+            }
+        });
+        setupAdapter();
     }
-
 
     private void setupAdapter() {
-        subscribedPlanAdapter = new SubscribedPlanAdapter(SubscribedPlansList, context);
-        subscribedPlansRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        subscribedPlansRv.setHasFixedSize(true);
-        subscribedPlansRv.setAdapter(subscribedPlanAdapter);
+        subscriptionPlanAdapter = new SubscribedPlanAdapter(subscriptionPlanList, context);
+        subscriptionPlansRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        subscriptionPlansRv.setHasFixedSize(true);
+        subscriptionPlansRv.setAdapter(subscriptionPlanAdapter);
     }
 
-
-    private void getSubscribedPlansList() {
-       /* HistoryActivity.showDialog();
-        Call<HistoryModel> call = apiInterface.getHistory();
-        call.enqueue(new Callback<HistoryModel>() {
+    private void getSubscriptionPlansList() {
+        Call<List<SubscriptionPlanItem>> call = apiInterface.getSubscribePlanList();
+        call.enqueue(new Callback<List<SubscriptionPlanItem>>() {
             @Override
-            public void onResponse(Call<HistoryModel> call, Response<HistoryModel> response) {
-                HistoryActivity.dismissDialog();
+            public void onResponse(Call<List<SubscriptionPlanItem>> call, Response<List<SubscriptionPlanItem>> response) {
                 if (response.isSuccessful()) {
-                    SubscribedPlansList.clear();
-                    HistoryModel historyModel = response.body();
-                    if (historyModel != null) {
-                        if (historyModel.getCOMPLETED() != null && historyModel.getCOMPLETED().size() > 0) {
+                    subscriptionPlanList.clear();
+                    List<SubscriptionPlanItem> subscribedModel = response.body();
+                    if (subscribedModel != null) {
+                        if (subscribedModel.size() > 0) {
                             llNoRecords.setVisibility(View.GONE);
-                            pastRv.setVisibility(View.VISIBLE);
-                            orderList = historyModel.getCOMPLETED();
-                            sortOrdersToDescending(orderList);
-                            historyAdapter.setList(orderList);
-                            historyAdapter.notifyDataSetChanged();
+                            subscriptionPlansRv.setVisibility(View.VISIBLE);
+                            subscriptionPlanList.addAll(subscribedModel);
+                            subscriptionPlanAdapter.setList(subscriptionPlanList);
+                            subscriptionPlanAdapter.notifyDataSetChanged();
                         } else {
                             llNoRecords.setVisibility(View.VISIBLE);
-                            pastRv.setVisibility(View.GONE);
+                            subscriptionPlansRv.setVisibility(View.GONE);
                         }
-                        if (cancelledListListener != null)
-                            if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0) {
-                                cancelledListListener.setCancelledListener(historyModel.getCANCELLED());
-                            } else {
-                                cancelledListListener.setCancelledListener(new ArrayList<Order>());
-                            }
-                    }
-                } else {
-                    Gson gson = new Gson();
-                    try {
-                        ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
-                        Utils.displayMessage(activity, serverError.getError());
-                        if (response.code() == 401) {
-                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            activity.finish();
-                        }
-                    } catch (JsonSyntaxException e) {
-                        Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<HistoryModel> call, Throwable t) {
-                HistoryActivity.dismissDialog();
+            public void onFailure(Call<List<SubscriptionPlanItem>> call, Throwable t) {
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
-        });*/
+        });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSubscriptionPlansList();
+    }
 }

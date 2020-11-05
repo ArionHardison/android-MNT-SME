@@ -53,6 +53,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.AddSubscriptionPlanActivity"
+            android:configChanges="screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.RegisterActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"

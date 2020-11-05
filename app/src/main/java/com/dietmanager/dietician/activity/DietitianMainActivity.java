@@ -388,19 +388,10 @@ public class DietitianMainActivity extends AppCompatActivity
                     expandableFoodList.clear();
                     FoodResponse timeCategoryItemList = response.body();
                     if (timeCategoryItemList != null) {
-                        if (!Utils.isNullOrEmpty(timeCategoryItemList.getBreakfast())) {
-                            expandableFoodList.put("Breakfast", timeCategoryItemList.getBreakfast());
-                        }
-                        if (!Utils.isNullOrEmpty(timeCategoryItemList.getLunch())) {
-                            foodItems.addAll(timeCategoryItemList.getLunch());
-                            expandableFoodList.put("Lunch", timeCategoryItemList.getLunch());
-                        }
-                        if (!Utils.isNullOrEmpty(timeCategoryItemList.geSnacks())) {
-                            expandableFoodList.put("Snacks", timeCategoryItemList.geSnacks());
-                        }
-                        if (!Utils.isNullOrEmpty(timeCategoryItemList.getDinner())) {
-                            expandableFoodList.put("Dinner", timeCategoryItemList.getDinner());
-                        }
+                        expandableFoodList.put("Breakfast", timeCategoryItemList.getBreakfast());
+                        expandableFoodList.put("Lunch", timeCategoryItemList.getLunch());
+                        expandableFoodList.put("Snacks", timeCategoryItemList.geSnacks());
+                        expandableFoodList.put("Dinner", timeCategoryItemList.getDinner());
                     }
                     initFoodAdapter();
                 } else {

@@ -203,6 +203,7 @@
     <string name="please_enter_username">Please enter your username</string>
     <string name="please_enter_your_email">Please enter your email</string>
     <string name="please_enter_user_email">Please enter user email</string>
+    <string name="please_enter_user_name">Please enter user name</string>
     <string name="please_enter_valid_email">Please enter valid email</string>
     <string name="please_enter_your_mobile_number">Please enter your mobile number</string>
     <string name="please_enter_your_confirm_password">Please enter your confirm password</string>
@@ -327,6 +328,12 @@
     <string name="description_4_new">Your order is ready for pickup.</string>
     <string name="description_5_new">Your order has arrived successfully.</string>
 
+
+    <string name="error_msg_plan_name">Please enter plan name</string>
+    <string name="error_msg_plan_description">Please enter plan description</string>
+    <string name="error_msg_plan_price">Please enter price</string>
+    <string name="error_msg_plan_no_of_days">Please enter no of days</string>
+
     <!--Product-->
     <string name="error_msg_product_name">Please enter product name</string>
     <string name="error_msg_product_description">Please enter product description</string>
@@ -370,6 +377,7 @@
     <string name="no_upcoming_orders_found">No upcoming orders found.</string>
     <string name="no_past_orders_found">No past orders found</string>
     <string name="no_subscribed_members_found">No new subscribed members</string>
+    <string name="no_subscription_plan_found">Subscription plan not found</string>
     <string name="no_subscribed_plans_found">No new subscribe plans yet</string>
     <string name="no_cancelled_orders_found">No cancelled orders found</string>
     <string name="please_enter_description">Please enter description</string>
@@ -484,6 +492,7 @@
     <string name="user_id">User Id</string>
     <string name="add_new">Add New</string>
     <string name="enter_user_email">Enter user email</string>
+    <string name="enter_user_name">Enter user name</string>
     <string name="add_new_user">Add New User</string>
     <string name="day">Day</string>
     <string name="add_food">Add Food</string>
@@ -495,4 +504,8 @@
     <string name="veggie_friend_rice">Veggie Friend Rice</string>
     <string name="add">Add</string>
     <string name="please_upload_image">please_upload_image</string>
+    <string name="plan_name">Plan Name</string>
+    <string name="plan_description">Plan Description</string>
+    <string name="no_of_days">No of days</string>
+    <string name="add_subscription_plan">Add Subscription Plan</string>
 </resources>

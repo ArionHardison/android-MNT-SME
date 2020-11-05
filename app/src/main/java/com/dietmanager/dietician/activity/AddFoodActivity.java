@@ -129,7 +129,7 @@ public class AddFoodActivity extends AppCompatActivity {
                 etProductName.setText(foodItem.getName());
                 etDescription.setText(foodItem.getDescription());
                 etPrice.setText(String.valueOf(foodItem.getPrice()));
-                if (foodItem.getAvatar()!=null)
+                if (foodItem.getAvatar() != null)
                     Glide.with(context).load(foodItem.getAvatar())
                             .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_placeholder_image_upload).error(R.drawable.ic_placeholder_image_upload).dontAnimate()).into(featuredImg);
                 etProductName.setClickable(false);
@@ -200,17 +200,16 @@ public class AddFoodActivity extends AppCompatActivity {
                 break;
 
             case R.id.rlFeaturedImage:
-                if(!isAdminFood)
+                if (!isAdminFood)
                     galleryIntent(1);
                 break;
 
             case R.id.add_btn:
-                if(!isAdminFood) {
+                if (!isAdminFood) {
                     if (validateProductDetails()) {
                         addFood();
                     }
-                }
-                else {
+                } else {
                     addAdminFood();
                 }
                 break;
@@ -311,6 +310,7 @@ public class AddFoodActivity extends AppCompatActivity {
         });
 
     }
+
     private void addAdminFood() {
         if (customDialog != null)
             customDialog.show();

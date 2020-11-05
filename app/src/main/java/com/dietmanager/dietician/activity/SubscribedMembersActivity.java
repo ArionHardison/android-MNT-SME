@@ -113,6 +113,7 @@ public class SubscribedMembersActivity extends AppCompatActivity {
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.custom_edit, null);
         EditText input = dialogView.findViewById(R.id.etEmail);
+        EditText name = dialogView.findViewById(R.id.etName);
         TextView yes = dialogView.findViewById(R.id.tvYes);
         TextView no = dialogView.findViewById(R.id.tvNo);
         no.setOnClickListener(new View.OnClickListener() {
@@ -122,19 +123,22 @@ public class SubscribedMembersActivity extends AppCompatActivity {
             }
         });
 
+
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (input.getText().toString().isEmpty()) {
                     Toast.makeText(SubscribedMembersActivity.this, getString(R.string.please_enter_user_email), Toast.LENGTH_LONG).show();
+                } else if (name.getText().toString().isEmpty()) {
+                    Toast.makeText(SubscribedMembersActivity.this, getString(R.string.please_enter_user_name), Toast.LENGTH_LONG).show();
                 } else if (!TextUtils.isValidEmail(input.getText().toString())) {
                     Toast.makeText(SubscribedMembersActivity.this, getString(R.string.please_enter_valid_email), Toast.LENGTH_LONG).show();
                 } else {
                     HashMap<String, String> map = new HashMap<>();
                     map.put("email", input.getText().toString());
+                    map.put("name", name.getText().toString());
                     inviteUser(map);
                     dialogBuilder.cancel();
-
                 }
             }
         });

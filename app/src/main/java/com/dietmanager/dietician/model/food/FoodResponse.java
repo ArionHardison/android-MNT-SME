@@ -1,22 +1,23 @@
 package com.dietmanager.dietician.model.food;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class FoodResponse implements Serializable {
 
 	@SerializedName("lunch")
-	private List<FoodItem> lunch;
+	private List<FoodItem> lunch=new ArrayList<>();
 
 	@SerializedName("breakfast")
-	private List<FoodItem> breakfast;
+	private List<FoodItem> breakfast=new ArrayList<>();
 
 	@SerializedName("dinner")
-	private List<FoodItem> dinner;
+	private List<FoodItem> dinner=new ArrayList<>();
 
 	@SerializedName("snacks")
-	private List<FoodItem> snacks;
+	private List<FoodItem> snacks=new ArrayList<>();
 
 	public List<FoodItem> getLunch(){
 		return lunch;

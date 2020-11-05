@@ -4,20 +4,17 @@
     android:id="@+id/item_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
-    android:background="#fafafa"
+    android:layout_margin="@dimen/_8sdp"
+    android:background="@drawable/edit_text_rounded_corner_bg"
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical">
     <TextView
+        android:id="@+id/tvPlanName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_8sdp"
-        android:layout_margin="@dimen/_4sdp"
         android:textSize="@dimen/_13sdp"
-        android:background="@drawable/edit_text_rounded_corner_bg"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:text="Monthly Plan"/>
+        android:textAllCaps="false"/>
 </LinearLayout>
