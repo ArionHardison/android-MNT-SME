@@ -22,7 +22,7 @@ public class FoodResponse implements Serializable {
 	public List<FoodItem> getLunch(){
 		return lunch;
 	}
-	public List<FoodItem> geSnacks(){
+	public List<FoodItem> getSnacks(){
 		return snacks;
 	}
 

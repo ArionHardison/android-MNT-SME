@@ -44,6 +44,7 @@ import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.TextUtils;
 import com.dietmanager.dietician.utils.Utils;
+import com.google.android.gms.common.util.CollectionUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -274,7 +275,7 @@ public class DietitianMainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_user_request) {
-
+            startActivity(new Intent(DietitianMainActivity.this, UserRequestActivity.class));
         } else if (id == R.id.nav_history) {
             startActivity(new Intent(DietitianMainActivity.this, HistoryActivity.class));
         } else if (id == R.id.nav_chef_list) {
@@ -388,10 +389,24 @@ public class DietitianMainActivity extends AppCompatActivity
                     expandableFoodList.clear();
                     FoodResponse timeCategoryItemList = response.body();
                     if (timeCategoryItemList != null) {
-                        expandableFoodList.put("Breakfast", timeCategoryItemList.getBreakfast());
-                        expandableFoodList.put("Lunch", timeCategoryItemList.getLunch());
-                        expandableFoodList.put("Snacks", timeCategoryItemList.geSnacks());
-                        expandableFoodList.put("Dinner", timeCategoryItemList.getDinner());
+                        List<FoodItem> dummyItem=new ArrayList<>();
+                        dummyItem.add(new FoodItem());
+                        if(!CollectionUtils.isEmpty(timeCategoryItemList.getBreakfast()))
+                            expandableFoodList.put("Breakfast", timeCategoryItemList.getBreakfast());
+                        else
+                            expandableFoodList.put("Breakfast", dummyItem);
+                        if(!CollectionUtils.isEmpty(timeCategoryItemList.getLunch()))
+                            expandableFoodList.put("Lunch", timeCategoryItemList.getBreakfast());
+                        else
+                            expandableFoodList.put("Lunch", dummyItem);
+                        if(!CollectionUtils.isEmpty(timeCategoryItemList.getSnacks()))
+                            expandableFoodList.put("Snacks", timeCategoryItemList.getSnacks());
+                        else
+                            expandableFoodList.put("Snacks", dummyItem);
+                        if(!CollectionUtils.isEmpty(timeCategoryItemList.getDinner()))
+                            expandableFoodList.put("Dinner", timeCategoryItemList.getDinner());
+                        else
+                            expandableFoodList.put("Dinner", dummyItem);
                     }
                     initFoodAdapter();
                 } else {

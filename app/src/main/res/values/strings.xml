@@ -377,6 +377,7 @@
     <string name="no_upcoming_orders_found">No upcoming orders found.</string>
     <string name="no_past_orders_found">No past orders found</string>
     <string name="no_subscribed_members_found">No new subscribed members</string>
+    <string name="no_request_found">No request found</string>
     <string name="no_subscription_plan_found">Subscription plan not found</string>
     <string name="no_subscribed_plans_found">No new subscribe plans yet</string>
     <string name="no_cancelled_orders_found">No cancelled orders found</string>
@@ -478,6 +479,7 @@
     <string name="guide_lines">Guidelines</string>
     <string name="login_using">Login using</string>
     <string name="user_request">User Request</string>
+    <string name="user_requests">User Requests</string>
     <string name="chef_list">Chef List</string>
     <string name="success_profile">Profile Updated Successfully</string>
     <string name="dont_pick_image">You haven\'t picked Image</string>
@@ -510,4 +512,10 @@
     <string name="add_subscription_plan">Add Subscription Plan</string>
     <string name="edit_subscription_plan">Edit Subscription Plan</string>
     <string name="edit">Edit</string>
+    <string name="new_order_request">New Order Request</string>
+    <string name="live_task">Live Task</string>
+    <string name="assign_chef">Assign Chef</string>
+    <string name="time_left">Time Left</string>
+    <string name="item_total">Item Total</string>
+    <string name="no_data_found">No Data Found</string>
 </resources>

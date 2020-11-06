@@ -27,6 +27,7 @@ import com.dietmanager.dietician.model.product.ProductResponse;
 import com.dietmanager.dietician.model.subscribe.SubscribeItem;
 import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.model.timecategory.TimeCategoryItem;
+import com.dietmanager.dietician.model.userrequest.UserRequestItem;
 
 import java.util.HashMap;
 import java.util.List;
@@ -224,6 +225,9 @@ public interface ApiInterface {
 
     @GET("api/dietitian/subscribers/list")
     Call<List<SubscribeItem>> getSubscribedList();
+
+    @GET("api/dietitian/new/orders")
+    Call<List<UserRequestItem>> getUserRequests();
 
     @GET("api/dietitian/subscription")
     Call<List<SubscriptionPlanItem>> getSubscribePlanList();

@@ -68,7 +68,7 @@ public class ExpandableFoodAdapter extends BaseExpandableListAdapter {
         }
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.food_list_item, null);
-            TextView tvFoodTitle,tvFoodDescription,tvFoodPrice;
+            TextView tvFoodTitle,tvFoodDescription,tvFoodPrice,notFound;
             CardView cardItem;
             ImageView imgFood;
 
@@ -77,20 +77,29 @@ public class ExpandableFoodAdapter extends BaseExpandableListAdapter {
             tvFoodPrice = convertView.findViewById(R.id.tv_food_price);
             tvFoodDescription = convertView.findViewById(R.id.tv_food_description);
             cardItem = convertView.findViewById(R.id.card_item);
+            notFound = convertView.findViewById(R.id.tvNotFound);
 
-            tvFoodTitle.setText(String.valueOf(foodItem.getName()));
-            tvFoodDescription.setText(String.valueOf(foodItem.getDescription()));
-            tvFoodPrice.setText(String.valueOf(foodItem.getPrice()));
-            if (foodItem.getAvatar()!=null)
-                Glide.with(context).load(foodItem.getAvatar())
-                        .apply(new RequestOptions().centerCrop().placeholder(R.drawable.shimmer_bg).error(R.drawable.shimmer_bg).dontAnimate()).into(imgFood);
+            if(foodItem.getId()!=0) {
+                notFound.setVisibility(View.GONE);
+                cardItem.setVisibility(View.VISIBLE);
+                tvFoodTitle.setText(String.valueOf(foodItem.getName()));
+                tvFoodDescription.setText(String.valueOf(foodItem.getDescription()));
+                tvFoodPrice.setText(String.valueOf(foodItem.getPrice()));
+                if (foodItem.getAvatar() != null)
+                    Glide.with(context).load(foodItem.getAvatar())
+                            .apply(new RequestOptions().centerCrop().placeholder(R.drawable.shimmer_bg).error(R.drawable.shimmer_bg).dontAnimate()).into(imgFood);
 
-        cardItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClicked(foodItem);
+                cardItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onItemClicked(foodItem);
+                    }
+                });
             }
-        });
+            else {
+                cardItem.setVisibility(View.GONE);
+                notFound.setVisibility(View.VISIBLE);
+            }
         return convertView;
     }
 

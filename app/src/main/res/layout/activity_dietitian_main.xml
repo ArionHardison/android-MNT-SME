@@ -57,7 +57,8 @@
                 android:id="@+id/item_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
                 android:background="#fafafa"
                 android:clickable="true"
                 android:focusable="true"
@@ -65,6 +66,8 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/days_rv"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:layout_height="wrap_content" />
@@ -90,6 +93,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:background="@color/colorWhite">
 

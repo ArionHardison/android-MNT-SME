@@ -73,7 +73,7 @@ public class SubscribedMembersActivity extends AppCompatActivity {
     }
 
     private void setupAdapter() {
-        subscribedMemberAdapter = new SubscribedMemberAdapter(subscribedMembersList, context);
+        subscribedMemberAdapter = new SubscribedMemberAdapter(subscribedMembersList, this);
         subscribedMembersRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         subscribedMembersRv.setHasFixedSize(true);
         subscribedMembersRv.setAdapter(subscribedMemberAdapter);
