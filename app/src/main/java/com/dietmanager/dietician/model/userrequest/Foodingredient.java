@@ -1,5 +1,6 @@
 package com.dietmanager.dietician.model.userrequest;
 
+import com.dietmanager.dietician.model.ingredients.IngredientsItem;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -7,7 +8,7 @@ import java.io.Serializable;
 public class Foodingredient implements Serializable {
 
 	@SerializedName("ingredient")
-	private Ingredient ingredient;
+	private IngredientsItem ingredient;
 
 	@SerializedName("ingredient_id")
 	private int ingredientId;
@@ -27,7 +28,7 @@ public class Foodingredient implements Serializable {
 	@SerializedName("status")
 	private String status;
 
-	public Ingredient getIngredient(){
+	public IngredientsItem getIngredient(){
 		return ingredient;
 	}
 

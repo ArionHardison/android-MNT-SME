@@ -1,8 +1,10 @@
 package com.dietmanager.dietician.model.food;
 
+import com.dietmanager.dietician.model.userrequest.Foodingredient;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class FoodItem  implements Serializable {
 
@@ -29,6 +31,8 @@ public class FoodItem  implements Serializable {
 
 	@SerializedName("id")
 	private int id;
+	@SerializedName("checked")
+	private int checked;
 
 	@SerializedName("avatar")
 	private Object avatar;
@@ -39,8 +43,19 @@ public class FoodItem  implements Serializable {
 	@SerializedName("who")
 	private String who;
 
+	@SerializedName("food_ingredients")
+	private List<Foodingredient> food_ingredients;
+
 	public Object getDietitianId(){
 		return dietitianId;
+	}
+
+	public int getChecked() {
+		return checked;
+	}
+
+	public List<Foodingredient> getFood_ingredients() {
+		return food_ingredients;
 	}
 
 	public String getPrice(){

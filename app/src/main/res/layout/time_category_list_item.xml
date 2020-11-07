@@ -17,6 +17,6 @@
         android:paddingEnd="@dimen/_10sdp"
         android:paddingBottom="@dimen/_6sdp"
         android:text="Break fast"
-        android:textColor="@color/ultramarine"
+        android:textColor="@color/colorAccent"
         android:textSize="@dimen/_13sdp" />
 </LinearLayout>

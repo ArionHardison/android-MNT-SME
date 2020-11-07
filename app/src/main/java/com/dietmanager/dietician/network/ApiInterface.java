@@ -218,7 +218,7 @@ public interface ApiInterface {
     Call<List<TimeCategoryItem>> getTimeCategory();
 
     @GET("/api/dietitian/admin/foods")
-    Call<FoodResponse> getFood();
+    Call<FoodResponse> getFood(@Query("day") int day);
 
     @GET("api/dietitian/history")
     Call<HistoryModel> getHistory();

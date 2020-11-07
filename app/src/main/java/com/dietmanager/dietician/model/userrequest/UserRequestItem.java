@@ -9,6 +9,9 @@ public class UserRequestItem implements Serializable {
 	@SerializedName("schedule_at")
 	private Object scheduleAt;
 
+	@SerializedName("created_at")
+	private String createdAt;
+
 	@SerializedName("discount")
 	private String discount;
 
@@ -55,6 +58,10 @@ public class UserRequestItem implements Serializable {
 
 	@SerializedName("status")
 	private String status;
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
 
 	public Object getScheduleAt(){
 		return scheduleAt;

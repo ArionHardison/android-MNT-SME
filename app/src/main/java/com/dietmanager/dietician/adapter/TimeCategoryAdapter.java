@@ -67,7 +67,7 @@ public class TimeCategoryAdapter extends RecyclerView.Adapter<TimeCategoryAdapte
         }
         else{
             holder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.white_bg_curved));
-            holder.tvTimeCategory.setTextColor(ContextCompat.getColor(context, R.color.ultramarine));
+            holder.tvTimeCategory.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         }
     }
 

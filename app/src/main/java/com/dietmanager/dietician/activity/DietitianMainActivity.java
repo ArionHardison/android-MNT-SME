@@ -108,6 +108,7 @@ public class DietitianMainActivity extends AppCompatActivity
         super.onResume();
         initProfileView();
         getProfile();
+        getFood(selectedDay);
     }
 
     private void initViews() {
@@ -175,7 +176,6 @@ public class DietitianMainActivity extends AppCompatActivity
             }
         });
         getTimeCategory();
-        getFood();
     }
 
 
@@ -222,6 +222,7 @@ public class DietitianMainActivity extends AppCompatActivity
     @Override
     public void onDayClicked(int day) {
         selectedDay = day;
+        getFood(selectedDay);
     }
 
     private void getProfile() {
@@ -255,10 +256,12 @@ public class DietitianMainActivity extends AppCompatActivity
 
     }
 
+
+
     @Override
     public void onCategoryClicked(int category, String categoryName) {
         selectedTimeCategory = category;
-        getFood();
+        getFood(selectedDay);
     }
 
     @Override
@@ -380,11 +383,13 @@ public class DietitianMainActivity extends AppCompatActivity
         });
     }
 
-    private void getFood() {
-        Call<FoodResponse> call = apiInterface.getFood();
+    private void getFood(int day) {
+        customDialog.show();
+        Call<FoodResponse> call = apiInterface.getFood(day);
         call.enqueue(new Callback<FoodResponse>() {
             @Override
             public void onResponse(@NonNull Call<FoodResponse> call, @NonNull Response<FoodResponse> response) {
+                customDialog.cancel();
                 if (response.isSuccessful()) {
                     expandableFoodList.clear();
                     FoodResponse timeCategoryItemList = response.body();
@@ -396,7 +401,7 @@ public class DietitianMainActivity extends AppCompatActivity
                         else
                             expandableFoodList.put("Breakfast", dummyItem);
                         if(!CollectionUtils.isEmpty(timeCategoryItemList.getLunch()))
-                            expandableFoodList.put("Lunch", timeCategoryItemList.getBreakfast());
+                            expandableFoodList.put("Lunch", timeCategoryItemList.getLunch());
                         else
                             expandableFoodList.put("Lunch", dummyItem);
                         if(!CollectionUtils.isEmpty(timeCategoryItemList.getSnacks()))
@@ -426,6 +431,7 @@ public class DietitianMainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<FoodResponse> call, Throwable t) {
+                customDialog.cancel();
                 Utils.displayMessage(DietitianMainActivity.this, getString(R.string.something_went_wrong));
             }
         });

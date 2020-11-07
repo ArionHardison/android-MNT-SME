@@ -84,7 +84,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
         if(userRequestItem!=null){
             tvOrderId.setText("#"+userRequestItem.getId());
             try {
-                tvOrderTime.setText(Utils.getTime(userRequestItem.getFood().getCreatedAt()));
+                tvOrderTime.setText(Utils.getTime(userRequestItem.getCreatedAt()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

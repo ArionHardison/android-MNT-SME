@@ -62,8 +62,8 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.MyViewHolder> 
         });
         if(position==selectedIndex){
             holder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_color_primary_border));
-            holder.tvDay.setTextColor(ContextCompat.getColor(context, R.color.ultramarine));
-            holder.tvDayDummy.setTextColor(ContextCompat.getColor(context, R.color.ultramarine));
+            holder.tvDay.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            holder.tvDayDummy.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         }
         else{
             holder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_color_grey_border));

@@ -34,6 +34,7 @@ import com.dietmanager.dietician.model.SpinnerItem;
 import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.ingredients.IngredientsItem;
 import com.dietmanager.dietician.model.timecategory.TimeCategoryItem;
+import com.dietmanager.dietician.model.userrequest.Foodingredient;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
@@ -119,7 +120,6 @@ public class AddFoodActivity extends AppCompatActivity {
         activity = AddFoodActivity.this;
         connectionHelper = new ConnectionHelper(context);
         customDialog = new CustomDialog(context);
-        customDialog.show();
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -135,28 +135,42 @@ public class AddFoodActivity extends AppCompatActivity {
                 etProductName.setClickable(false);
                 etDescription.setClickable(false);
                 etPrice.setClickable(false);
-                foodTimeSpin.setClickable(false);
                 ingredientsSpin.setClickable(false);
 
                 etProductName.setEnabled(false);
                 etDescription.setEnabled(false);
                 etPrice.setEnabled(false);
-                foodTimeSpin.setEnabled(false);
                 ingredientsSpin.setEnabled(false);
 
+                if (foodItem.getFood_ingredients().size() > 0) {
+                    ingredientsItemList.clear();
+                    itemSpinnerList.clear();
+                    for (Foodingredient foodingredient : foodItem.getFood_ingredients()) {
+                        ingredientsItemList.add(foodingredient.getIngredient());
+                        itemSpinnerList.add(new SpinnerItem(foodingredient.getIngredient().getName(), true, foodingredient.getIngredient().getId(), foodingredient.getIngredient().getPrice()));
+                    }
+                    ingredientsSpin.setSelectedItems(itemSpinnerList);
+                    ingredientsSpin.setLabel(ingredientsSpin.getSelectedString());
+                }
+                else
+                    ingredientsSpin.setLabel("No Ingredients found");
                 addBtn.setText(getString(R.string.confirm));
             }
+
+            foodTimeSpin.setEnabled(false);
+            foodTimeSpin.setClickable(false);
             selectedTimeCategory = bundle.getInt("selectedTimeCategory");
             selectedDay = bundle.getInt("selectedDay");
             timeCategoryList = (List<TimeCategoryItem>) bundle.getSerializable("timeCategoryList");
         }
         setTimeCategorySpinner();
 
-        if (connectionHelper.isConnectingToInternet())
-            getIngredients();
-        else
-            Utils.displayMessage(this, getString(R.string.oops_no_internet));
-
+        if(!isAdminFood) {
+            if (connectionHelper.isConnectingToInternet())
+                getIngredients();
+            else
+                Utils.displayMessage(this, getString(R.string.oops_no_internet));
+        }
 
         etDescription.setOnTouchListener((v, event) -> {
             if (v.getId() == R.id.et_description) {
@@ -277,8 +291,8 @@ public class AddFoodActivity extends AppCompatActivity {
             SpinnerItem item = ingredientsSpin.getSelectedItems().get(i);
             map.put("ingredient[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
                     String.valueOf(item.getId())));
-            map.put("i_price[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
-                    String.valueOf(item.getPrice())));
+       /*     map.put("i_price[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
+                    String.valueOf(item.getPrice())));*/
         }
         MultipartBody.Part filePart = null;
 

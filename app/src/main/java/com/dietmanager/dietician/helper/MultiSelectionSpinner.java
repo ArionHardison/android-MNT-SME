@@ -89,6 +89,14 @@ public class MultiSelectionSpinner extends AppCompatSpinner implements
         Arrays.fill(selection, false);
     }
 
+    public void setSelectedItems(ArrayList<SpinnerItem> items) {
+        this.items = items;
+        selection = new boolean[this.items.size()];
+        adapter.clear();
+        adapter.add("");
+        Arrays.fill(selection, true);
+    }
+
     public void setLabel(String hint) {
         adapter.clear();
         adapter.add(hint);

@@ -71,6 +71,7 @@ public class ExpandableFoodAdapter extends BaseExpandableListAdapter {
             TextView tvFoodTitle,tvFoodDescription,tvFoodPrice,notFound;
             CardView cardItem;
             ImageView imgFood;
+            ImageView imgSelected;
 
             imgFood = convertView.findViewById(R.id.img_food);
             tvFoodTitle = convertView.findViewById(R.id.tv_food_title);
@@ -78,10 +79,15 @@ public class ExpandableFoodAdapter extends BaseExpandableListAdapter {
             tvFoodDescription = convertView.findViewById(R.id.tv_food_description);
             cardItem = convertView.findViewById(R.id.card_item);
             notFound = convertView.findViewById(R.id.tvNotFound);
+            imgSelected = convertView.findViewById(R.id.imgSelected);
 
             if(foodItem.getId()!=0) {
                 notFound.setVisibility(View.GONE);
                 cardItem.setVisibility(View.VISIBLE);
+                if(foodItem.getChecked()==1)
+                    imgSelected.setVisibility(View.VISIBLE);
+                else
+                    imgSelected.setVisibility(View.GONE);
                 tvFoodTitle.setText(String.valueOf(foodItem.getName()));
                 tvFoodDescription.setText(String.valueOf(foodItem.getDescription()));
                 tvFoodPrice.setText(String.valueOf(foodItem.getPrice()));
@@ -92,7 +98,8 @@ public class ExpandableFoodAdapter extends BaseExpandableListAdapter {
                 cardItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onItemClicked(foodItem);
+                        if(foodItem.getChecked()==0)
+                            listener.onItemClicked(foodItem);
                     }
                 });
             }
@@ -139,8 +146,8 @@ public class ExpandableFoodAdapter extends BaseExpandableListAdapter {
             convertView.findViewById(R.id.llFoodHeader).setBackground(ContextCompat.getDrawable(context, R.drawable.ultramarine_bg_curved));
         } else {
             convertView.findViewById(R.id.llFoodHeader).setBackground(ContextCompat.getDrawable(context, R.drawable.bg_color_primary_border));
-            ((TextView) convertView.findViewById(R.id.txt_header_name)).setTextColor(ContextCompat.getColor(context, R.color.ultramarine));
-            ((ImageView) convertView.findViewById(R.id.img_up_down)).setColorFilter(ContextCompat.getColor(context, R.color.ultramarine), android.graphics.PorterDuff.Mode.SRC_IN);
+            ((TextView) convertView.findViewById(R.id.txt_header_name)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            ((ImageView) convertView.findViewById(R.id.img_up_down)).setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), android.graphics.PorterDuff.Mode.SRC_IN);
         }
         convertView.findViewById(R.id.img_up_down).setOnClickListener(new View.OnClickListener() {
             @Override
