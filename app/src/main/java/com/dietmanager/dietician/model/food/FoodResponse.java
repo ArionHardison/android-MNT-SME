@@ -7,16 +7,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class FoodResponse implements Serializable {
 
-	@SerializedName("lunch")
+	@SerializedName("2")
 	private List<FoodItem> lunch=new ArrayList<>();
 
-	@SerializedName("breakfast")
+	@SerializedName("1")
 	private List<FoodItem> breakfast=new ArrayList<>();
 
-	@SerializedName("dinner")
+	@SerializedName("4")
 	private List<FoodItem> dinner=new ArrayList<>();
 
-	@SerializedName("snacks")
+	@SerializedName("3")
 	private List<FoodItem> snacks=new ArrayList<>();
 
 	public List<FoodItem> getLunch(){

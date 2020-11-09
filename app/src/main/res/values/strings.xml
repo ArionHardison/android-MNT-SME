@@ -518,4 +518,6 @@
     <string name="time_left">Time Left</string>
     <string name="item_total">Item Total</string>
     <string name="no_data_found">No Data Found</string>
+    <string name="no_food_item_found">No food item found</string>
+
 </resources>
