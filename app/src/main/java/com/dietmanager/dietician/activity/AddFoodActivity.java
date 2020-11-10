@@ -75,14 +75,14 @@ public class AddFoodActivity extends AppCompatActivity {
     EditText etDescription;
     @BindView(R.id.et_price)
     EditText etPrice;
-    @BindView(R.id.choose_food_time_spin)
-    MaterialSpinner foodTimeSpin;
     @BindView(R.id.ingredients_spin)
     MultiSelectionSpinner ingredientsSpin;
     @BindView(R.id.featured_img)
     ImageView featuredImg;
     @BindView(R.id.add_btn)
     Button addBtn;
+    @BindView(R.id.tvTimeCategory)
+    TextView tvTimeCategory;
     @BindView(R.id.rlFeaturedImage)
     RelativeLayout rlFeaturedImage;
     public static final int PICK_IMAGE_REQUEST = 100;
@@ -94,10 +94,10 @@ public class AddFoodActivity extends AppCompatActivity {
     String TAG = "AddFoodActivity";
     String strProductName, strProductDescription, strProductPrice;
     List<IngredientsItem> ingredientsItemList = new ArrayList<>();
-    ArrayList<String> lstTimeCategory = new ArrayList<String>();
-    private List<TimeCategoryItem> timeCategoryList = new ArrayList<>();
     private int selectedDay = 1;
     File featuredImageFile;
+    private String selectedTimeCategoryName = "Breakfast";
+
     String mSelectedFeaturedImageId, mSelectedFeaturedImageUrl = "";
     private int selectedTimeCategory = 0;
     private boolean isAdminFood = false;
@@ -129,6 +129,7 @@ public class AddFoodActivity extends AppCompatActivity {
                 etProductName.setText(foodItem.getName());
                 etDescription.setText(foodItem.getDescription());
                 etPrice.setText(String.valueOf(foodItem.getPrice()));
+
                 if (foodItem.getAvatar() != null)
                     Glide.with(context).load(foodItem.getAvatar())
                             .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_placeholder_image_upload).error(R.drawable.ic_placeholder_image_upload).dontAnimate()).into(featuredImg);
@@ -147,7 +148,7 @@ public class AddFoodActivity extends AppCompatActivity {
                     itemSpinnerList.clear();
                     for (Foodingredient foodingredient : foodItem.getFood_ingredients()) {
                         ingredientsItemList.add(foodingredient.getIngredient());
-                        itemSpinnerList.add(new SpinnerItem(foodingredient.getIngredient().getName(), true, foodingredient.getIngredient().getId(), foodingredient.getIngredient().getPrice()));
+                        itemSpinnerList.add(new SpinnerItem(foodingredient.getIngredient().getName(), true, foodingredient.getIngredient().getId(), foodingredient.getQuantity(),foodingredient.getIngredient().getUnitType().getName()));
                     }
                     ingredientsSpin.setSelectedItems(itemSpinnerList);
                     ingredientsSpin.setLabel(ingredientsSpin.getSelectedString());
@@ -156,14 +157,11 @@ public class AddFoodActivity extends AppCompatActivity {
                     ingredientsSpin.setLabel("No Ingredients found");
                 addBtn.setText(getString(R.string.confirm));
             }
-
-            foodTimeSpin.setEnabled(false);
-            foodTimeSpin.setClickable(false);
+            selectedTimeCategoryName = bundle.getString("selectedTimeCategoryName");
             selectedTimeCategory = bundle.getInt("selectedTimeCategory");
             selectedDay = bundle.getInt("selectedDay");
-            timeCategoryList = (List<TimeCategoryItem>) bundle.getSerializable("timeCategoryList");
+            tvTimeCategory.setText(selectedTimeCategoryName);
         }
-        setTimeCategorySpinner();
 
         if(!isAdminFood) {
             if (connectionHelper.isConnectingToInternet())
@@ -186,18 +184,6 @@ public class AddFoodActivity extends AppCompatActivity {
     }
 
 
-    private void setTimeCategorySpinner() {
-        int selectedIndex = 0;
-        for (int i = 0; i < timeCategoryList.size(); i++) {
-            TimeCategoryItem timeCategoryItem = timeCategoryList.get(i);
-            lstTimeCategory.add(timeCategoryItem.getName());
-            if (selectedTimeCategory == timeCategoryItem.getId())
-                selectedIndex = i;
-        }
-        foodTimeSpin.setItems(lstTimeCategory);
-        foodTimeSpin.setSelectedIndex(selectedIndex);
-        foodTimeSpin.setOnItemSelectedListener(new AddFoodActivity.CommonOnItemSelectListener());
-    }
 
     private void setIngredientSpinner() {
         customDialog.dismiss();
@@ -243,7 +229,7 @@ public class AddFoodActivity extends AppCompatActivity {
                         if (ingredientsItemList.size() > 0) {
                             for (int i = 0; i < ingredientsItemList.size(); i++) {
                                 IngredientsItem item = ingredientsItemList.get(i);
-                                itemSpinnerList.add(new SpinnerItem(item.getName(), false, item.getId(), item.getPrice()));
+                                itemSpinnerList.add(new SpinnerItem(item.getName(), false, item.getId(), "1",item.getUnitType().getName()));
                             }
                         }
                         setIngredientSpinner();
@@ -291,8 +277,8 @@ public class AddFoodActivity extends AppCompatActivity {
             SpinnerItem item = ingredientsSpin.getSelectedItems().get(i);
             map.put("ingredient[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
                     String.valueOf(item.getId())));
-       /*     map.put("i_price[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
-                    String.valueOf(item.getPrice())));*/
+            map.put("quantity[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
+                    String.valueOf(item.getQuantity())));
         }
         MultipartBody.Part filePart = null;
 
@@ -311,7 +297,8 @@ public class AddFoodActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(AddFoodActivity.this, response.body().getMessage(),
                             Toast.LENGTH_SHORT).show();
-                    finish();
+                    startActivity(new Intent(AddFoodActivity.this,DietitianMainActivity.class));
+                    finishAffinity();
                 }
             }
 
@@ -342,7 +329,8 @@ public class AddFoodActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(AddFoodActivity.this, response.body().getMessage(),
                             Toast.LENGTH_SHORT).show();
-                    finish();
+                    startActivity(new Intent(AddFoodActivity.this,DietitianMainActivity.class));
+                    finishAffinity();
                 }
             }
 
@@ -435,17 +423,6 @@ public class AddFoodActivity extends AppCompatActivity {
                     .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
                             .error(R.drawable.ic_place_holder_image).dontAnimate())
                     .into(featuredImg);
-        }
-    }
-
-    class CommonOnItemSelectListener implements MaterialSpinner.OnItemSelectedListener {
-        @Override
-        public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-            switch (view.getId()) {
-                case R.id.choose_food_time_spin:
-                    selectedTimeCategory = timeCategoryList.get(position).getId();
-                    break;
-            }
         }
     }
 }

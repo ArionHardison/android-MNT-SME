@@ -338,6 +338,7 @@
     <string name="error_msg_product_name">Please enter product name</string>
     <string name="error_msg_product_description">Please enter product description</string>
     <string name="error_msg_product_price">Please enter price</string>
+    <string name="error_msg_product_quantity">Please enter quantity</string>
     <string name="error_msg_product_order">Please enter product order</string>
     <string name="error_msg_product_category">Please select category</string>
     <string name="error_msg_select__ingredients">Please select ingredients</string>
@@ -519,5 +520,11 @@
     <string name="item_total">Item Total</string>
     <string name="no_data_found">No Data Found</string>
     <string name="no_food_item_found">No food item found</string>
+    <string name="meal_plans">Meal Plans</string>
+    <string name="auto_search">Auto Search</string>
+    <string name="customized">Customized</string>
+    <string name="food_name">Food Name</string>
+    <string name="food_description">Food Description</string>
+    <string name="food_image">Food Image</string>
 
 </resources>

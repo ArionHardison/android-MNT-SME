@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:padding="@dimen/activity_vertical_margin_half"
-        android:src="@drawable/ic_left_arrow"
+        android:tint="@color/colorWhite"
+        android:src="@drawable/ic_back"
         android:visibility="gone" />
 
     <TextView

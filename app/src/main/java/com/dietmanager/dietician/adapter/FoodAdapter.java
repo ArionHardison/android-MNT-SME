@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,18 +16,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.model.food.FoodItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> {
-    private List<FoodItem> foodItems;
+public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> implements Filterable {
+    private List<FoodItem> foodItems =new ArrayList<>();
+    private List<FoodItem> filterItems =new ArrayList<>();
     private Context context;
+    private IFoodListener listener;
 
-    public FoodAdapter(Context context) {
-        foodItems = new ArrayList<>();
+    public FoodAdapter(Context context,IFoodListener listener) {
         this.context=context;
+        this.listener = listener;
     }
 
     public void setList(List<FoodItem> itemList) {
@@ -34,6 +39,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> 
         }
         foodItems.clear();
         foodItems.addAll(itemList);
+        filterItems.clear();
+        filterItems.addAll(itemList);
         notifyDataSetChanged();
     }
 
@@ -52,11 +59,52 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> 
         holder.tvFoodTitle.setText(String.valueOf(foodItem.getName()));
         holder.tvFoodDescription.setText(String.valueOf(foodItem.getDescription()));
         holder.tvFoodPrice.setText(String.valueOf(foodItem.getPrice()));
-        if (foodItem.getAvatar()!=null)
-            Glide.with(context).load(foodItem.getAvatar())
-                .apply(new RequestOptions().centerCrop().placeholder(R.drawable.shimmer_bg).error(R.drawable.shimmer_bg).dontAnimate()).into(holder.imgFood);
+        holder.cardItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onFoodItemClicked(foodItem);
+            }
+        });
+        String imgUrl="";
+        if(foodItem.getAvatar()!=null)
+            imgUrl=foodItem.getAvatar();
+        Glide.with(context).load(AppConfigure.BASE_URL+imgUrl).apply(new RequestOptions().centerCrop().placeholder(R.drawable.shimmer_bg).error(R.drawable.shimmer_bg).dontAnimate()).into(holder.imgFood);
 
     }
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            String charString = constraint.toString();
+            if (charString.isEmpty()) {
+                foodItems=filterItems;
+                FilterResults filterResults = new Filter.FilterResults();
+                filterResults.values = foodItems;
+                return filterResults;
+            } else {
+                List<FoodItem> filteredList = new ArrayList<FoodItem>();
+                for (FoodItem row : filterItems) {
+                    if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                        filteredList.add(row);
+                    }
+                }
+                foodItems = filteredList;
+            }
+
+            FilterResults filterResults = new Filter.FilterResults();
+            filterResults.values = foodItems;
+            return filterResults;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            foodItems = (ArrayList<FoodItem>)results.values;
+            notifyDataSetChanged();
+        }
+    };
+
 
     @Override
     public int getItemCount() {
@@ -77,5 +125,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> 
             tvFoodDescription = view.findViewById(R.id.tv_food_description);
             cardItem = view.findViewById(R.id.card_item);
         }
+    }
+
+    public interface IFoodListener{
+        void onFoodItemClicked(FoodItem foodItem);
     }
 }

@@ -13,22 +13,22 @@
         android:id="@+id/tvDayDummy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/_6sdp"
-        android:paddingTop="@dimen/_4sdp"
-        android:paddingEnd="@dimen/_6sdp"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingEnd="@dimen/_4sdp"
         android:paddingBottom="@dimen/_1sdp"
         android:text="@string/day"
         android:textColor="@color/black"
-        android:textSize="@dimen/_10sdp" />
+        android:textSize="@dimen/_9sdp" />
 
     <TextView
         android:id="@+id/tvDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/_6sdp"
+        android:paddingStart="@dimen/_4sdp"
         android:paddingTop="@dimen/_1sdp"
-        android:paddingEnd="@dimen/_6sdp"
-        android:paddingBottom="@dimen/_4sdp"
+        android:paddingEnd="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_2sdp"
         android:textColor="@color/black"
         android:textSize="@dimen/_13sdp" />
 </LinearLayout>

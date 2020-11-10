@@ -1,15 +1,16 @@
-package com.dietmanager.dietician.model.food;
+package com.dietmanager.dietician.model.currentfood;
 
-import com.dietmanager.dietician.model.userrequest.Foodingredient;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
-public class FoodItem  implements Serializable {
+public class Food implements Serializable {
 
 	@SerializedName("dietitian_id")
-	private Object dietitianId;
+	private int dietitianId;
+
+	@SerializedName("code")
+	private Object code;
 
 	@SerializedName("price")
 	private String price;
@@ -31,11 +32,9 @@ public class FoodItem  implements Serializable {
 
 	@SerializedName("id")
 	private int id;
-	@SerializedName("checked")
-	private int checked;
 
 	@SerializedName("avatar")
-	private String avatar="";
+	private String avatar;
 
 	@SerializedName("status")
 	private String status;
@@ -43,25 +42,17 @@ public class FoodItem  implements Serializable {
 	@SerializedName("who")
 	private String who;
 
-	@SerializedName("food_ingredients")
-	private List<Foodingredient> food_ingredients;
-
-	public Object getDietitianId(){
+	public int getDietitianId(){
 		return dietitianId;
 	}
 
-	public int getChecked() {
-		return checked;
-	}
-
-	public List<Foodingredient> getFood_ingredients() {
-		return food_ingredients;
+	public Object getCode(){
+		return code;
 	}
 
 	public String getPrice(){
 		return price;
 	}
-
 
 	public String getTimeCategoryId(){
 		return timeCategoryId;

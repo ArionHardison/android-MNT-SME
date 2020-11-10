@@ -66,7 +66,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.MyViewHolder> 
             holder.tvDayDummy.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         }
         else{
-            holder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_color_grey_border));
+            holder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.white_bg_curved));
             holder.tvDay.setTextColor(ContextCompat.getColor(context, R.color.black));
             holder.tvDayDummy.setTextColor(ContextCompat.getColor(context, R.color.black));
         }

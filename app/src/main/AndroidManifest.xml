@@ -137,6 +137,14 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.ChooseAddFoodOptionActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AutoSearchFoodActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.RestaurantTimingActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />

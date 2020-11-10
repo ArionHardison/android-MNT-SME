@@ -22,18 +22,30 @@ public class TimeCategoryAdapter extends RecyclerView.Adapter<TimeCategoryAdapte
     private int selectedIndex=0;
     private Context context;
     private ITimeCategoryListener listener;
+    private boolean needBackgroundBorder;
 
-    public TimeCategoryAdapter(Context context, int selectedIndex, ITimeCategoryListener listener) {
+    public TimeCategoryAdapter(Context context, int selectedIndex, ITimeCategoryListener listener,boolean needBackgroundBorder) {
         this.listener = listener;
         timeCategoryList = new ArrayList<>();
         this.context=context;
         this.selectedIndex=selectedIndex;
+        this.needBackgroundBorder=needBackgroundBorder;
     }
 
     public void setList(List<TimeCategoryItem> itemList) {
         if (itemList == null) {
             return;
         }
+        timeCategoryList.clear();
+        timeCategoryList.addAll(itemList);
+        notifyDataSetChanged();
+    }
+
+    public void setListWithSelected(List<TimeCategoryItem> itemList,int selectedIndex) {
+        if (itemList == null) {
+            return;
+        }
+        this.selectedIndex=selectedIndex;
         timeCategoryList.clear();
         timeCategoryList.addAll(itemList);
         notifyDataSetChanged();
@@ -66,7 +78,10 @@ public class TimeCategoryAdapter extends RecyclerView.Adapter<TimeCategoryAdapte
             holder.tvTimeCategory.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
         }
         else{
-            holder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.white_bg_curved));
+            if(needBackgroundBorder)
+                holder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_color_primary_border));
+            else
+                holder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.white_bg_curved));
             holder.tvTimeCategory.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         }
     }

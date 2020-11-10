@@ -4,7 +4,7 @@
     <solid android:color="@color/colorWhite" />
     <!-- Border Color -->
     <stroke
-        android:width="0.5dp"
+        android:width="1dp"
         android:color="@color/colorAccent" />
     <!-- Round Corners -->
     <corners android:radius="5dp" />

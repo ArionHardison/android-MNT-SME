@@ -20,6 +20,8 @@ import com.dietmanager.dietician.model.ResetPasswordResponse;
 import com.dietmanager.dietician.model.RevenueResponse;
 import com.dietmanager.dietician.model.StripeResponse;
 import com.dietmanager.dietician.model.Transporter;
+import com.dietmanager.dietician.model.currentfood.CurrentFoodItem;
+import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.food.FoodResponse;
 import com.dietmanager.dietician.model.ingredients.IngredientsItem;
 import com.dietmanager.dietician.model.ordernew.OrderResponse;
@@ -218,7 +220,10 @@ public interface ApiInterface {
     Call<List<TimeCategoryItem>> getTimeCategory();
 
     @GET("/api/dietitian/admin/foods")
-    Call<FoodResponse> getFood(@Query("day") int day);
+    Call<List<FoodItem>> getFood(@Query("category_id") int categoryId);
+
+    @GET("/api/dietitian/current/food")
+    Call<List<CurrentFoodItem>> getCurrentFood(@Query("category_id") int categoryId, @Query("day") int dayId);
 
     @GET("api/dietitian/history")
     Call<HistoryModel> getHistory();

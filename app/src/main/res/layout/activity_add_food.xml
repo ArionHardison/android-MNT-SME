@@ -3,18 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:fitsSystemWindows="true"
     tools:context="com.dietmanager.dietician.activity.AddFoodActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+
+    <ImageView
+        android:id="@+id/back_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
+        android:padding="@dimen/_12sdp"
+        android:src="@drawable/ic_back"
+        android:tint="@color/black" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/_58sdp"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/back_img"
+        android:layout_marginBottom="@dimen/_58sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,93 +32,103 @@
             android:layout_marginStart="@dimen/activity_vertical_margin"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/nunito_semibold"
-                android:text="@string/choose"
-                android:gravity="center_vertical"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/choose_food_time_spin"
-                android:layout_width="wrap_content"
 
-                android:layout_height="@dimen/material_spinner_height"
-                android:background="@drawable/edit_text_rounded_corner_bg"
-                android:textColor="@color/colorSecondaryText"
-                android:textSize="@dimen/text_medium" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@string/meal_plans"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/_18sdp" />
+
+            <TextView
+                android:id="@+id/tvTimeCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="Breakfast"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/_6sdp"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="@string/menu_name"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
+                android:text="@string/food_name"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12sdp" />
 
             <EditText
                 android:id="@+id/et_product_name"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/edit_text_rounded_corner_bg"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress|textCapWords"
-                android:maxLength="100"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/bg_color_grey_border"
                 android:hint="@string/veggie_friend_rice"
-                android:padding="@dimen/_4sdp"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:padding="@dimen/_8sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="@string/description"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
+                android:text="@string/food_description"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12sdp" />
 
             <EditText
                 android:id="@+id/et_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/edit_text_rounded_corner_bg"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/bg_color_grey_border"
                 android:gravity="start"
                 android:hint="@string/write_description"
                 android:imeOptions="actionNext"
                 android:inputType="textMultiLine"
                 android:maxLength="255"
                 android:minLines="3"
-                android:padding="@dimen/_5sdp"
+                android:padding="@dimen/_8sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="@string/upload_image"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
+                android:text="@string/food_image"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12sdp" />
 
             <RelativeLayout
                 android:id="@+id/rlFeaturedImage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
+                android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/edit_text_rounded_corner_bg">
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/bg_color_grey_border">
 
                 <ImageView
                     android:id="@+id/featured_img"
@@ -122,40 +142,47 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
                 android:fontFamily="@font/nunito_semibold"
                 android:text="@string/price"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12sdp" />
 
             <EditText
                 android:id="@+id/et_price"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/edit_text_rounded_corner_bg"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/bg_color_grey_border"
                 android:imeOptions="actionNext"
                 android:inputType="number"
-                android:padding="@dimen/_4sdp"
+                android:padding="@dimen/_8sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
                 android:fontFamily="@font/nunito_semibold"
                 android:text="@string/ingredients"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/text_tiny" />
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12sdp" />
 
 
             <com.dietmanager.dietician.helper.MultiSelectionSpinner
                 android:id="@+id/ingredients_spin"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_4sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_22sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
                 android:drawableEnd="@drawable/ic_drop_down"
                 android:hint="@string/select_ingredients"
                 android:padding="@dimen/_4sdp"
@@ -167,22 +194,20 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/add_btn"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_14sdp"
             android:text="@string/add"
+            android:layout_alignParentBottom="true"
             android:textColor="@color/colorTextWhite"
             android:textSize="@dimen/text_medium" />
 
-
-    </LinearLayout>
 
 </RelativeLayout>

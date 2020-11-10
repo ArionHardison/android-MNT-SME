@@ -19,6 +19,10 @@ public class Foodingredient implements Serializable {
 	@SerializedName("created_at")
 	private String createdAt;
 
+
+	@SerializedName("quantity")
+	private String quantity;
+
 	@SerializedName("id")
 	private int id;
 
@@ -27,6 +31,10 @@ public class Foodingredient implements Serializable {
 
 	@SerializedName("status")
 	private String status;
+
+	public String getQuantity() {
+		return quantity;
+	}
 
 	public IngredientsItem getIngredient(){
 		return ingredient;

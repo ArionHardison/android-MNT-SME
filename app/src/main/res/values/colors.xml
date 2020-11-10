@@ -30,6 +30,7 @@
 
     <!-- Color-->
     <color name="colorTransparent">#00ff6d00</color>
+    <color name="bgGrey">#f3f2f6</color>
     <color name="grey">#888888</color>
     <color name="colorGreen">#00a551</color>
     <color name="colorOrange">#F48034</color>
