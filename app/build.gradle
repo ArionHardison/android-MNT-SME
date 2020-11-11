@@ -126,6 +126,7 @@ dependencies {
 
     implementation 'com.chaos.view:pinview:1.4.2'
 
+    implementation 'com.airbnb.android:lottie:2.7.0'
     //Unsplash image api
     implementation 'com.unsplash.pickerandroid:photopicker:1.0.0'
 

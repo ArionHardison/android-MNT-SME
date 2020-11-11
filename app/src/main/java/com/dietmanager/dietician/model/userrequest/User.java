@@ -23,6 +23,12 @@ public class User implements Serializable {
 
 	@SerializedName("device_type")
 	private String deviceType;
+	@SerializedName("map_address")
+	private String mapAddress;
+
+	public String getMapAddress() {
+		return mapAddress;
+	}
 
 	@SerializedName("otp")
 	private String otp;

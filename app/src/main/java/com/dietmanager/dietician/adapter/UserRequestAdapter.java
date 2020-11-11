@@ -49,7 +49,8 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
             holder.tvHeader.setVisibility(View.GONE);
 
         holder.tvFoodName.setText(item.getFood().getName());
-        holder.tvFoodDescription.setText(item.getFood().getDescription());
+        if(item.getUser().getMapAddress()!=null)
+            holder.tvFoodDescription.setText(item.getUser().getMapAddress());
         if(item.getFood().getAvatar()!=null){
             Glide.with(context)
                     .load(item.getFood().getAvatar())

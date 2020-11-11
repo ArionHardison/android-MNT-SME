@@ -53,34 +53,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/_12sdp"
-                android:paddingEnd="@dimen/_12sdp"
-                android:paddingTop="@dimen/_6sdp"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:paddingTop="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_2sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_food">
 
-            <TextView
-                android:id="@+id/tv_food_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_14sdp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_food_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_food_price"
-                android:layout_width="wrap_content"
-                android:layout_marginStart="@dimen/_4sdp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp"/>
+                <TextView
+                    android:id="@+id/tv_food_price"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp"/>
 
             </LinearLayout>
 
@@ -88,10 +89,11 @@
                 android:id="@+id/tv_food_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_12sdp"
-                android:paddingEnd="@dimen/_12sdp"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
                 android:paddingBottom="@dimen/_6sdp"
                 android:paddingTop="@dimen/_2sdp"
+                android:visibility="gone"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textStyle="bold"
@@ -101,6 +103,116 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llTitle" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingTop="@dimen/_2sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_food_description"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:textSize="@dimen/_10sdp"
+                        android:drawableStart="@drawable/ic_fill_circle"
+                        android:drawableTint="#6c55e5"
+                        android:drawablePadding="@dimen/_4sdp"
+                        android:text="@string/proteins"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/tv_proteins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="34"
+                        android:textStyle="normal"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:textSize="@dimen/_10sdp"
+                        android:drawableStart="@drawable/ic_fill_circle"
+                        android:drawableTint="#fd7791"
+                        android:drawablePadding="@dimen/_4sdp"
+                        android:text="@string/fat"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/tv_fat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="134"
+                        android:textStyle="normal"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:textSize="@dimen/_12sdp"
+                        android:drawableStart="@drawable/ic_fill_circle"
+                        android:drawableTint="#feb761"
+                        android:drawablePadding="@dimen/_4sdp"
+                        android:text="@string/carb"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/tv_carb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="34"
+                        android:textStyle="normal"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"/>
+                </LinearLayout>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

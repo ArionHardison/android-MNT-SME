@@ -15,6 +15,20 @@ public class IngredientsItem implements Serializable {
 	@SerializedName("name")
 	private String name;
 
+	@SerializedName("isChecked")
+	private boolean isChecked=false;
+
+	public boolean isChecked() {
+		return isChecked;
+	}
+
+	public void setChecked(boolean checked) {
+		isChecked = checked;
+	}
+
+	@SerializedName("quantity")
+	private String quantity;
+
 	@SerializedName("unit_type_id")
 	private int unitTypeId;
 
@@ -35,6 +49,50 @@ public class IngredientsItem implements Serializable {
 
 	public Object getDietitianId(){
 		return dietitianId;
+	}
+
+	public void setDietitianId(Object dietitianId) {
+		this.dietitianId = dietitianId;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
+	}
+
+	public void setUnitTypeId(int unitTypeId) {
+		this.unitTypeId = unitTypeId;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setAvatar(Object avatar) {
+		this.avatar = avatar;
+	}
+
+	public void setUnitType(UnitType unitType) {
+		this.unitType = unitType;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getPrice(){

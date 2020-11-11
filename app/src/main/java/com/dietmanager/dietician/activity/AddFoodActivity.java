@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -18,14 +20,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.countrypicker.Country;
+import com.dietmanager.dietician.countrypicker.CountryPicker;
+import com.dietmanager.dietician.fragment.IngredientSelectFragment;
 import com.dietmanager.dietician.helper.ConnectionHelper;
 import com.dietmanager.dietician.helper.CustomDialog;
+import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.helper.MultiSelectionSpinner;
 import com.dietmanager.dietician.helper.SharedHelper;
 import com.dietmanager.dietician.model.MessageResponse;
@@ -37,6 +44,7 @@ import com.dietmanager.dietician.model.timecategory.TimeCategoryItem;
 import com.dietmanager.dietician.model.userrequest.Foodingredient;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
+import com.dietmanager.dietician.utils.TextUtils;
 import com.dietmanager.dietician.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -45,6 +53,8 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,7 +73,7 @@ import retrofit2.Response;
 
 import static com.dietmanager.dietician.application.MyApplication.ASK_MULTIPLE_PERMISSION_REQUEST_CODE;
 
-public class AddFoodActivity extends AppCompatActivity {
+public class AddFoodActivity extends AppCompatActivity implements IngredientSelectFragment.IngredientSelectFragmentListener {
 
     @BindView(R.id.title)
     TextView title;
@@ -73,10 +83,12 @@ public class AddFoodActivity extends AppCompatActivity {
     EditText etProductName;
     @BindView(R.id.et_description)
     EditText etDescription;
+    @BindView(R.id.ingredients_tv)
+    TextView ingredientsTv;
     @BindView(R.id.et_price)
-    EditText etPrice;
+    EditText etPrice;/*
     @BindView(R.id.ingredients_spin)
-    MultiSelectionSpinner ingredientsSpin;
+    MultiSelectionSpinner ingredientsSpin;*/
     @BindView(R.id.featured_img)
     ImageView featuredImg;
     @BindView(R.id.add_btn)
@@ -93,7 +105,6 @@ public class AddFoodActivity extends AppCompatActivity {
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     String TAG = "AddFoodActivity";
     String strProductName, strProductDescription, strProductPrice;
-    List<IngredientsItem> ingredientsItemList = new ArrayList<>();
     private int selectedDay = 1;
     File featuredImageFile;
     private String selectedTimeCategoryName = "Breakfast";
@@ -101,8 +112,11 @@ public class AddFoodActivity extends AppCompatActivity {
     String mSelectedFeaturedImageId, mSelectedFeaturedImageUrl = "";
     private int selectedTimeCategory = 0;
     private boolean isAdminFood = false;
-    ArrayList<SpinnerItem> itemSpinnerList = new ArrayList<>();
+   /* ArrayList<SpinnerItem> itemSpinnerList = new ArrayList<>();*/
     private FoodItem foodItem = null;
+
+    private Handler mDelayHandler = null;
+    private long SPLASH_DELAY = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +124,7 @@ public class AddFoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_food);
         ButterKnife.bind(this);
         setUp();
+        mDelayHandler = new Handler();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -136,25 +151,33 @@ public class AddFoodActivity extends AppCompatActivity {
                 etProductName.setClickable(false);
                 etDescription.setClickable(false);
                 etPrice.setClickable(false);
-                ingredientsSpin.setClickable(false);
+                //ingredientsSpin.setClickable(false);
 
                 etProductName.setEnabled(false);
                 etDescription.setEnabled(false);
                 etPrice.setEnabled(false);
-                ingredientsSpin.setEnabled(false);
+                //ingredientsSpin.setEnabled(false);
 
                 if (foodItem.getFood_ingredients().size() > 0) {
-                    ingredientsItemList.clear();
-                    itemSpinnerList.clear();
+                    GlobalData.ingredientsItemList.clear();
+                    //itemSpinnerList.clear();
                     for (Foodingredient foodingredient : foodItem.getFood_ingredients()) {
-                        ingredientsItemList.add(foodingredient.getIngredient());
-                        itemSpinnerList.add(new SpinnerItem(foodingredient.getIngredient().getName(), true, foodingredient.getIngredient().getId(), foodingredient.getQuantity(),foodingredient.getIngredient().getUnitType().getName()));
+                        GlobalData.ingredientsItemList.add(foodingredient.getIngredient());
+                        //itemSpinnerList.add(new SpinnerItem(foodingredient.getIngredient().getName(), true, foodingredient.getIngredient().getId(), foodingredient.getQuantity(), (foodingredient.getIngredient().getUnitType()) != null ? foodingredient.getIngredient().getUnitType().getName() : ""));
                     }
-                    ingredientsSpin.setSelectedItems(itemSpinnerList);
-                    ingredientsSpin.setLabel(ingredientsSpin.getSelectedString());
-                }
-                else
-                    ingredientsSpin.setLabel("No Ingredients found");
+                    //ingredientsSpin.setSelectedItems(itemSpinnerList);
+                    StringBuilder sb = new StringBuilder();
+                    boolean foundOne = false;
+                    for (int i = 0; i < GlobalData.selectedIngredientsList.size(); ++i) {
+                        if (foundOne) {
+                            sb.append(", ");
+                        }
+                        foundOne = true;
+                        sb.append(GlobalData.selectedIngredientsList.get(i).getName());
+                    }
+                    ingredientsTv.setText(sb.toString());
+                } else
+                    ingredientsTv.setText("No Ingredients found");
                 addBtn.setText(getString(R.string.confirm));
             }
             selectedTimeCategoryName = bundle.getString("selectedTimeCategoryName");
@@ -163,7 +186,7 @@ public class AddFoodActivity extends AppCompatActivity {
             tvTimeCategory.setText(selectedTimeCategoryName);
         }
 
-        if(!isAdminFood) {
+        if (!isAdminFood) {
             if (connectionHelper.isConnectingToInternet())
                 getIngredients();
             else
@@ -183,16 +206,30 @@ public class AddFoodActivity extends AppCompatActivity {
         });
     }
 
-
-
-    private void setIngredientSpinner() {
-        customDialog.dismiss();
-        ingredientsSpin.setItems(itemSpinnerList);
-        ingredientsSpin.setLabel(getString(R.string.select_ingredients));
+    @Override
+    public void onIngredientSubmit() {
+        if (GlobalData.selectedIngredientsList.size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            boolean foundOne = false;
+            for (int i = 0; i < GlobalData.selectedIngredientsList.size(); ++i) {
+                if (foundOne) {
+                    sb.append(", ");
+                }
+                foundOne = true;
+                sb.append(GlobalData.selectedIngredientsList.get(i).getName());
+            }
+            ingredientsTv.setText(sb.toString());
+        } else {
+            ingredientsTv.setText(getString(R.string.select_ingredients));
+        }
     }
 
 
-    @OnClick({R.id.back_img, R.id.rlFeaturedImage, R.id.add_btn})
+    private IngredientSelectFragment ingredientSelectFragment;
+
+
+
+    @OnClick({R.id.back_img, R.id.rlFeaturedImage, R.id.add_btn, R.id.ingredients_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -202,6 +239,13 @@ public class AddFoodActivity extends AppCompatActivity {
             case R.id.rlFeaturedImage:
                 if (!isAdminFood)
                     galleryIntent(1);
+                break;
+
+            case R.id.ingredients_tv:
+                if (!isAdminFood) {
+                    ingredientSelectFragment = IngredientSelectFragment.newInstance(this);
+                    ingredientSelectFragment.show(getSupportFragmentManager(), "SELECT_INGREDIENT");
+                }
                 break;
 
             case R.id.add_btn:
@@ -222,17 +266,17 @@ public class AddFoodActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<IngredientsItem>>() {
             @Override
             public void onResponse(@NonNull Call<List<IngredientsItem>> call, @NonNull Response<List<IngredientsItem>> response) {
+                customDialog.dismiss();
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        ingredientsItemList = response.body();
-                        itemSpinnerList.clear();
-                        if (ingredientsItemList.size() > 0) {
-                            for (int i = 0; i < ingredientsItemList.size(); i++) {
-                                IngredientsItem item = ingredientsItemList.get(i);
-                                itemSpinnerList.add(new SpinnerItem(item.getName(), false, item.getId(), "1",item.getUnitType().getName()));
+                        GlobalData.ingredientsItemList = response.body();
+                        //itemSpinnerList.clear();
+                       /* if (GlobalData.ingredientsItemList.size() > 0) {
+                            for (int i = 0; i < GlobalData.ingredientsItemList.size(); i++) {
+                                IngredientsItem item = GlobalData.ingredientsItemList.get(i);
+                                itemSpinnerList.add(new SpinnerItem(item.getName(), false, item.getId(), "1", item.getUnitType().getName()));
                             }
-                        }
-                        setIngredientSpinner();
+                        }*/
                     }
                 } else {
                     customDialog.dismiss();
@@ -273,8 +317,8 @@ public class AddFoodActivity extends AppCompatActivity {
                 String.valueOf(selectedTimeCategory)));
         map.put("day", RequestBody.create(MediaType.parse("text/plain"),
                 String.valueOf(selectedDay)));
-        for (int i = 0; i < ingredientsSpin.getSelectedItems().size(); i++) {
-            SpinnerItem item = ingredientsSpin.getSelectedItems().get(i);
+        for (int i = 0; i < GlobalData.selectedIngredientsList.size(); i++) {
+            IngredientsItem item = GlobalData.selectedIngredientsList.get(i);
             map.put("ingredient[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
                     String.valueOf(item.getId())));
             map.put("quantity[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
@@ -295,10 +339,7 @@ public class AddFoodActivity extends AppCompatActivity {
                                    @NonNull Response<MessageResponse> response) {
                 customDialog.cancel();
                 if (response.isSuccessful()) {
-                    Toast.makeText(AddFoodActivity.this, response.body().getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(AddFoodActivity.this,DietitianMainActivity.class));
-                    finishAffinity();
+                    showDialog();
                 }
             }
 
@@ -312,117 +353,142 @@ public class AddFoodActivity extends AppCompatActivity {
 
     }
 
-    private void addAdminFood() {
-        if (customDialog != null)
-            customDialog.show();
+    private void showDialog() {
+        AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.layout_success, null);
+        dialogBuilder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("day", String.valueOf(selectedDay));
-        map.put("food_id", String.valueOf(foodItem.getId()));
-
-        Call<MessageResponse> call = apiInterface.addAdminFood(map);
-        call.enqueue(new Callback<MessageResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MessageResponse> call,
-                                   @NonNull Response<MessageResponse> response) {
-                customDialog.cancel();
-                if (response.isSuccessful()) {
-                    Toast.makeText(AddFoodActivity.this, response.body().getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(AddFoodActivity.this,DietitianMainActivity.class));
-                    finishAffinity();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
-                customDialog.cancel();
-                Toast.makeText(AddFoodActivity.this, R.string.something_went_wrong,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        //Navigate with delay
+        mDelayHandler.postDelayed(mRunnable, SPLASH_DELAY);
     }
 
-    private void galleryIntent(int type) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-                EasyImage.openChooserWithDocuments(AddFoodActivity.this, "Select", type);
-            else
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
-        } else EasyImage.openChooserWithDocuments(AddFoodActivity.this, "Select", type);
-    }
+    Runnable mRunnable = new Runnable() {
 
-    private boolean validateProductDetails() {
-        strProductName = etProductName.getText().toString().trim();
-        strProductDescription = etDescription.getText().toString().trim();
-        strProductPrice = etPrice.getText().toString().trim();
-
-        if (strProductName == null || strProductName.isEmpty()) {
-            Utils.displayMessage(this, getString(R.string.error_msg_product_name));
-            return false;
-        } else if (strProductDescription == null || strProductDescription.isEmpty()) {
-            Utils.displayMessage(this, getString(R.string.error_msg_product_description));
-            return false;
-        } else if (strProductPrice == null || strProductPrice.isEmpty()) {
-            Utils.displayMessage(this, getString(R.string.error_msg_product_price));
-            return false;
-        } else if (ingredientsSpin.getSelectedItems().isEmpty()) {
-            Utils.displayMessage(activity, getResources().getString(R.string.error_msg_select__ingredients));
-            return false;
-        } else if (featuredImageFile == null) {
-            Utils.displayMessage(activity, getResources().getString(R.string.please_upload_image));
-            return false;
+        @Override
+        public void run() {
+            startActivity(new Intent(AddFoodActivity.this, DietitianMainActivity.class));
+            finishAffinity();
         }
-        return true;
-    }
+    };
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        private void addAdminFood() {
+            if (customDialog != null)
+                customDialog.show();
 
-        super.onActivityResult(requestCode, resultCode, data);
-        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
-            @Override
-            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                e.printStackTrace();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("day", String.valueOf(selectedDay));
+            map.put("food_id", String.valueOf(foodItem.getId()));
+
+            Call<MessageResponse> call = apiInterface.addAdminFood(map);
+            call.enqueue(new Callback<MessageResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<MessageResponse> call,
+                                       @NonNull Response<MessageResponse> response) {
+                    customDialog.cancel();
+                    if (response.isSuccessful()) {
+                        showDialog();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
+                    customDialog.cancel();
+                    Toast.makeText(AddFoodActivity.this, R.string.something_went_wrong,
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+        private void galleryIntent(int type) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                        && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+                    EasyImage.openChooserWithDocuments(AddFoodActivity.this, "Select", type);
+                else
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
+            } else EasyImage.openChooserWithDocuments(AddFoodActivity.this, "Select", type);
+        }
+
+        private boolean validateProductDetails() {
+            strProductName = etProductName.getText().toString().trim();
+            strProductDescription = etDescription.getText().toString().trim();
+            strProductPrice = etPrice.getText().toString().trim();
+
+            if (strProductName == null || strProductName.isEmpty()) {
+                Utils.displayMessage(this, getString(R.string.error_msg_product_name));
+                return false;
+            } else if (strProductDescription == null || strProductDescription.isEmpty()) {
+                Utils.displayMessage(this, getString(R.string.error_msg_product_description));
+                return false;
+            } else if (strProductPrice == null || strProductPrice.isEmpty()) {
+                Utils.displayMessage(this, getString(R.string.error_msg_product_price));
+                return false;
+            } else if (GlobalData.selectedIngredientsList.isEmpty()) {
+                Utils.displayMessage(activity, getResources().getString(R.string.error_msg_select__ingredients));
+                return false;
+            } else if (featuredImageFile == null) {
+                Utils.displayMessage(activity, getResources().getString(R.string.please_upload_image));
+                return false;
             }
+            return true;
+        }
 
-            @Override
-            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                if (type == 1) {
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            super.onActivityResult(requestCode, resultCode, data);
+            EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+                @Override
+                public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                    if (type == 1) {
 //                    featuredImageFile = imageFiles.get(0);
-                    try {
-                        featuredImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        try {
+                            featuredImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        Glide.with(AddFoodActivity.this)
+                                .load(imageFiles.get(0))
+                                .apply(new RequestOptions()
+                                        .placeholder(R.mipmap.ic_launcher)
+                                        .error(R.mipmap.ic_launcher).dontAnimate())
+                                .into(featuredImg);
                     }
 
-                    Glide.with(AddFoodActivity.this)
-                            .load(imageFiles.get(0))
-                            .apply(new RequestOptions()
-                                    .placeholder(R.mipmap.ic_launcher)
-                                    .error(R.mipmap.ic_launcher).dontAnimate())
-                            .into(featuredImg);
                 }
 
+                @Override
+                public void onCanceled(EasyImage.ImageSource source, int type) {
+
+                }
+            });
+
+
+            if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+                mSelectedFeaturedImageId = data.getExtras().getString("image_id");
+                mSelectedFeaturedImageUrl = data.getExtras().getString("image_url");
+                Glide.with(this)
+                        .load(mSelectedFeaturedImageUrl)
+                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                                .error(R.drawable.ic_place_holder_image).dontAnimate())
+                        .into(featuredImg);
             }
+        }
 
-            @Override
-            public void onCanceled(EasyImage.ImageSource source, int type) {
-
-            }
-        });
-
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            mSelectedFeaturedImageId = data.getExtras().getString("image_id");
-            mSelectedFeaturedImageUrl = data.getExtras().getString("image_url");
-            Glide.with(this)
-                    .load(mSelectedFeaturedImageUrl)
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
-                            .error(R.drawable.ic_place_holder_image).dontAnimate())
-                    .into(featuredImg);
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
+            GlobalData.selectedIngredientsList = new ArrayList<>();
+            GlobalData.ingredientsItemList = new ArrayList<>();
         }
     }
-}

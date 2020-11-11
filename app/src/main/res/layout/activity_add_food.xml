@@ -175,7 +175,7 @@
                 android:textSize="@dimen/_12sdp" />
 
 
-            <com.dietmanager.dietician.helper.MultiSelectionSpinner
+<!--            <com.dietmanager.dietician.helper.MultiSelectionSpinner
                 android:id="@+id/ingredients_spin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -187,7 +187,22 @@
                 android:hint="@string/select_ingredients"
                 android:padding="@dimen/_4sdp"
                 android:spinnerMode="dropdown"
-                android:tooltipText="@string/select_ingredients" />
+                android:tooltipText="@string/select_ingredients" />-->
+
+            <TextView
+                android:id="@+id/ingredients_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_22sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/_13sdp"
+                android:drawableEnd="@drawable/ic_drop_down"
+                android:hint="@string/select_ingredients"
+                android:padding="@dimen/_4sdp" />
 
         </LinearLayout>
 

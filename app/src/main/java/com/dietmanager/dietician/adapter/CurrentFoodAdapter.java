@@ -54,6 +54,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
         holder.tvFoodTitle.setText(String.valueOf(foodItem.getFood().getName()));
         holder.tvFoodDescription.setText(String.valueOf(foodItem.getFood().getDescription()));
         holder.tvFoodPrice.setText(String.valueOf(foodItem.getFood().getPrice()));
+
         String imgUrl="";
         if(foodItem.getFood().getAvatar()!=null)
             imgUrl=foodItem.getFood().getAvatar();
