@@ -168,12 +168,12 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
                     //ingredientsSpin.setSelectedItems(itemSpinnerList);
                     StringBuilder sb = new StringBuilder();
                     boolean foundOne = false;
-                    for (int i = 0; i < GlobalData.selectedIngredientsList.size(); ++i) {
+                    for (int i = 0; i < GlobalData.ingredientsItemList.size(); ++i) {
                         if (foundOne) {
                             sb.append(", ");
                         }
                         foundOne = true;
-                        sb.append(GlobalData.selectedIngredientsList.get(i).getName());
+                        sb.append(GlobalData.ingredientsItemList.get(i).getName());
                     }
                     ingredientsTv.setText(sb.toString());
                 } else
