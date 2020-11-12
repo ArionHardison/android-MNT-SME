@@ -94,7 +94,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             }
             tvUserName.setText(userRequestItem.getUser().getName());
             if (userRequestItem.getFood().getAvatar() != null)
-                Glide.with(context).load(AppConfigure.BASE_URL+userRequestItem.getFood().getAvatar())
+                Glide.with(this).load(AppConfigure.BASE_URL+userRequestItem.getFood().getAvatar())
                         .apply(new RequestOptions().centerCrop().placeholder(R.drawable.man).error(R.drawable.man).dontAnimate()).into(userImg);
 
             food_item_name.setText(userRequestItem.getFood().getName());

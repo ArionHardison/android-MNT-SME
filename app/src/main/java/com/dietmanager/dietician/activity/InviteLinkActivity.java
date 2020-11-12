@@ -43,6 +43,13 @@ public class InviteLinkActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         ((TextView) findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.invite_link);
+        findViewById(R.id.toolbar).findViewById(R.id.back_img).setVisibility(View.VISIBLE);
+        findViewById(R.id.toolbar).findViewById(R.id.back_img).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
