@@ -21,11 +21,14 @@
             android:id="@+id/nav_subscription_plans"
             android:title="@string/subscription_plans" />
         <item
+            android:id="@+id/nav_invite_link"
+            android:title="@string/invite_link" />
+        <item
             android:id="@+id/nav_guide_lines"
-            android:title="@string/guide_lines" />
+            android:title="@string/guide_lines" /><!--
         <item
             android:id="@+id/nav_portfolio"
-            android:title="@string/portfolio" />
+            android:title="@string/portfolio" />-->
         <item
             android:id="@+id/nav_logout"
             android:title="@string/logout" />

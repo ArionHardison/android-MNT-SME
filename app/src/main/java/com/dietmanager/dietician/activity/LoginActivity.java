@@ -402,19 +402,25 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         call.enqueue(new Callback<AuthToken>() {
             @Override
             public void onResponse(@NonNull Call<AuthToken> call, @NonNull Response<AuthToken> response) {
+                customDialog.dismiss();
                 if (response.isSuccessful()) {
                     SharedHelper.putKey(context, "logged", "true");
                     SharedHelper.putKey(context, "access_token",  response.body().getAccessToken());
                     GlobalData.accessToken = response.body().getTokenType() + " " + response.body().getAccessToken();
                     getProfile();
-                } else {
-                    customDialog.dismiss();
+                } else if (response.errorBody() != null) {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        Toast.makeText(context, jObjError.optString("error"), Toast.LENGTH_LONG).show();
-                        signOut();
+                        if (jObjError.has("email"))
+                            Toast.makeText(LoginActivity.this, jObjError.optString("email"), Toast.LENGTH_LONG).show();
+                        else if (jObjError.has("error"))
+                            Toast.makeText(LoginActivity.this, jObjError.optString("error"), Toast.LENGTH_LONG).show();
+                        else if (jObjError.has("password"))
+                            Toast.makeText(LoginActivity.this, jObjError.optString("password"), Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(LoginActivity.this, "Invalid", Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
                 }
             }

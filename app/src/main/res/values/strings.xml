@@ -533,5 +533,11 @@
     <string name="enter_the_quantity">Enter the quantity</string>
     <string name="please_enter_quantity">Please enter quantity</string>
     <string name="enter_quantity">Enter Quantity</string>
-
+    <string name="edit_underline"><u>Edit</u></string>
+    <string name="plan_cost">Plan Cost</string>
+    <string name="invite_link">Invite Link</string>
+    <string name="send_invite_link_with_code">Send invite link with code</string>
+    <string name="username">Username</string>
+    <string name="mail_id">Mail id</string>
+    <string name="food_item">Food item</string>
 </resources>

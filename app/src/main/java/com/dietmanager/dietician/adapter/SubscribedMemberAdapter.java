@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.subscribe.SubscribeItem;
@@ -47,7 +48,7 @@ public class SubscribedMemberAdapter extends RecyclerView.Adapter<SubscribedMemb
         holder.userName.setText(item.getUser().getName());
         if(item.getUser().getAvatar()!=null){
             Glide.with(context)
-                    .load(item.getUser().getAvatar())
+                    .load(AppConfigure.BASE_URL+item.getUser().getAvatar())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.man)

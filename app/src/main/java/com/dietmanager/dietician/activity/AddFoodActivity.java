@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.countrypicker.Country;
 import com.dietmanager.dietician.countrypicker.CountryPicker;
 import com.dietmanager.dietician.fragment.IngredientSelectFragment;
@@ -146,7 +147,7 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
                 etPrice.setText(String.valueOf(foodItem.getPrice()));
 
                 if (foodItem.getAvatar() != null)
-                    Glide.with(context).load(foodItem.getAvatar())
+                    Glide.with(context).load(AppConfigure.BASE_URL+foodItem.getAvatar())
                             .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_placeholder_image_upload).error(R.drawable.ic_placeholder_image_upload).dontAnimate()).into(featuredImg);
                 etProductName.setClickable(false);
                 etDescription.setClickable(false);

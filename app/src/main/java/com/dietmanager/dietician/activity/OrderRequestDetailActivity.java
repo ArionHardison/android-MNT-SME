@@ -3,6 +3,8 @@ package com.dietmanager.dietician.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.IngredientsInvoiceAdapter;
 import com.dietmanager.dietician.adapter.SubscribedPlanAdapter;
+import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.model.userrequest.OrderingredientItem;
@@ -28,6 +31,7 @@ import com.dietmanager.dietician.utils.Utils;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,8 +93,8 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             tvUserName.setText(userRequestItem.getUser().getName());
-            if (userRequestItem.getUser().getAvatar() != null)
-                Glide.with(context).load(userRequestItem.getUser().getAvatar())
+            if (userRequestItem.getFood().getAvatar() != null)
+                Glide.with(context).load(AppConfigure.BASE_URL+userRequestItem.getFood().getAvatar())
                         .apply(new RequestOptions().centerCrop().placeholder(R.drawable.man).error(R.drawable.man).dontAnimate()).into(userImg);
 
             food_item_name.setText(userRequestItem.getFood().getName());
@@ -111,11 +115,27 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
         ingredientsAdapter.notifyDataSetChanged();
     }
 
-    @OnClick({R.id.back_img})
+    @OnClick({R.id.back_img,R.id.call_img,R.id.navigation_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
                 onBackPressed();
+                break;
+            case R.id.call_img:
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userRequestItem.getUser().getPhone()));
+                if (dialIntent.resolveActivity(getPackageManager()) != null)
+                    startActivity(dialIntent);
+                else
+                    Utils.displayMessage(this, "Call feature not supported");
+                break;
+            case R.id.navigation_img:
+                if(userRequestItem.getUser().getLatitude()!=null&&userRequestItem.getUser().getLongitude()!=null) {
+                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", userRequestItem.getUser().getLatitude(), userRequestItem.getUser().getLatitude());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    startActivity(intent);
+                }
+                else
+                    Utils.displayMessage(this, "User location not found");
                 break;
         }
     }

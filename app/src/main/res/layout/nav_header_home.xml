@@ -29,11 +29,12 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/user_id"
+        android:id="@+id/tvEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
+        android:text="@string/edit_underline"
         android:fontFamily="@font/nunito_regular"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"

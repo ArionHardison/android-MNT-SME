@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.userrequest.UserRequestItem;
@@ -53,7 +54,7 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
             holder.tvFoodDescription.setText(item.getUser().getMapAddress());
         if(item.getFood().getAvatar()!=null){
             Glide.with(context)
-                    .load(item.getFood().getAvatar())
+                    .load(AppConfigure.BASE_URL+item.getFood().getAvatar())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.shimmer_bg)

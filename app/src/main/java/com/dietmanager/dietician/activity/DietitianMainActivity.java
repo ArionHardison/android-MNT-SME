@@ -62,7 +62,7 @@ public class DietitianMainActivity extends AppCompatActivity
     private CurrentFoodAdapter foodAdapter;
     CircleImageView userAvatar;
     TextView name;
-    TextView userId;
+    TextView tvEdit;
     @BindView(R.id.days_rv)
     RecyclerView daysRv;
     @BindView(R.id.time_category_rv)
@@ -121,15 +121,19 @@ public class DietitianMainActivity extends AppCompatActivity
         });
         userAvatar = navigationView.getHeaderView(0).findViewById(R.id.user_avatar);
         LinearLayout nav_header = navigationView.getHeaderView(0).findViewById(R.id.nav_header);
-        nav_header.setOnClickListener(new View.OnClickListener() {
+        /*nav_header.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(DietitianMainActivity.this, EditProfileActivity.class));
+            }
+        });*/
+        name = navigationView.getHeaderView(0).findViewById(R.id.name);
+        tvEdit = navigationView.getHeaderView(0).findViewById(R.id.tvEdit);
+        navigationView.setNavigationItemSelectedListener(this);
+        tvEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(DietitianMainActivity.this, EditProfileActivity.class));
             }
         });
-        name = navigationView.getHeaderView(0).findViewById(R.id.name);
-        userId = navigationView.getHeaderView(0).findViewById(R.id.user_id);
-        navigationView.setNavigationItemSelectedListener(this);
-
         daysAdapter = new DaysAdapter(this, 0, this);
         daysRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         daysRv.setHasFixedSize(true);
@@ -224,7 +228,7 @@ public class DietitianMainActivity extends AppCompatActivity
     private void initProfileView() {
         if (GlobalData.profile != null) {
             name.setText(GlobalData.profile.getName());
-            userId.setText(String.valueOf(GlobalData.profile.getId()));
+            //userId.setText(String.valueOf(GlobalData.profile.getId()));
             Glide.with(this)
                     .load(GlobalData.profile.getAvatar())
                     .apply(new RequestOptions()
@@ -274,11 +278,13 @@ public class DietitianMainActivity extends AppCompatActivity
             startActivity(new Intent(DietitianMainActivity.this, SubscribedMembersActivity.class));
         } else if (id == R.id.nav_subscription_plans) {
             startActivity(new Intent(DietitianMainActivity.this, SubscribePlansActivity.class));
+        }else if (id == R.id.nav_invite_link) {
+            startActivity(new Intent(DietitianMainActivity.this, InviteLinkActivity.class));
         } else if (id == R.id.nav_guide_lines) {
             startActivity(new Intent(DietitianMainActivity.this, GuideLinesActivity.class));
-        } else if (id == R.id.nav_portfolio) {
+        } /*else if (id == R.id.nav_portfolio) {
             startActivity(new Intent(DietitianMainActivity.this, PortfolioActivity.class));
-        } else if (id == R.id.nav_logout) {
+        }*/ else if (id == R.id.nav_logout) {
             showLogoutAlertDialog();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

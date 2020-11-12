@@ -57,6 +57,10 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait"  />
         <activity
+            android:name=".activity.InviteLinkActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait"  />
+        <activity
             android:name=".activity.OrderRequestDetailActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"  />
