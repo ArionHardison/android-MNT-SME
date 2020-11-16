@@ -79,7 +79,7 @@ public class Profile {
     private String deletedAt;
     @SerializedName("currency")
     @Expose
-    private String currency;
+    private String currency="$";
     @SerializedName("cuisines")
     @Expose
     private List<Cuisine> cuisines = null;

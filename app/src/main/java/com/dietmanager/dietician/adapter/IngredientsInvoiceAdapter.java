@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.model.userrequest.OrderingredientItem;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class IngredientsInvoiceAdapter extends RecyclerView.Adapter<IngredientsI
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         OrderingredientItem item = list.get(position);
         holder.ingredientName.setText(item.getFoodingredient().getIngredient().getName());
-        holder.tvIngredientPrice.setText(item.getFoodingredient().getIngredient().getPrice());
+        holder.tvIngredientPrice.setText(GlobalData.profile.getCurrency()+item.getFoodingredient().getIngredient().getPrice());
 
     }
 

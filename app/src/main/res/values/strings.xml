@@ -540,4 +540,6 @@
     <string name="username">Username</string>
     <string name="mail_id">Mail id</string>
     <string name="food_item">Food item</string>
+    <string name="chef_not_found">Chef not found</string>
+    <string name="assign">Assign</string>
 </resources>

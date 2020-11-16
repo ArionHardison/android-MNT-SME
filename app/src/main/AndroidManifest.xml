@@ -24,6 +24,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.SubscribePlansActivity"></activity>
         <activity android:name=".activity.SubscribedMembersActivity" />
+        <activity android:name=".activity.AssignChefListActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

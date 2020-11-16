@@ -21,6 +21,7 @@ import com.dietmanager.dietician.adapter.IngredientsInvoiceAdapter;
 import com.dietmanager.dietician.adapter.SubscribedPlanAdapter;
 import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.helper.CustomDialog;
+import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.model.userrequest.OrderingredientItem;
 import com.dietmanager.dietician.model.userrequest.UserRequestItem;
@@ -98,9 +99,9 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
                         .apply(new RequestOptions().centerCrop().placeholder(R.drawable.man).error(R.drawable.man).dontAnimate()).into(userImg);
 
             food_item_name.setText(userRequestItem.getFood().getName());
-            food_item_price.setText(userRequestItem.getFood().getPrice());
-            item_total.setText(userRequestItem.getPayable());
-            total.setText(userRequestItem.getPayable());
+            food_item_price.setText(GlobalData.profile.getCurrency()+userRequestItem.getFood().getPrice());
+            item_total.setText(GlobalData.profile.getCurrency()+userRequestItem.getPayable());
+            total.setText(GlobalData.profile.getCurrency()+userRequestItem.getPayable());
         }
         context = OrderRequestDetailActivity.this;
         activity = OrderRequestDetailActivity.this;
@@ -115,11 +116,14 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
         ingredientsAdapter.notifyDataSetChanged();
     }
 
-    @OnClick({R.id.back_img,R.id.call_img,R.id.navigation_img})
+    @OnClick({R.id.back_img,R.id.call_img,R.id.navigation_img,R.id.assign_chef_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
                 onBackPressed();
+                break;
+            case R.id.assign_chef_btn:
+                startActivity(new Intent(OrderRequestDetailActivity.this,AssignChefListActivity.class));
                 break;
             case R.id.call_img:
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userRequestItem.getUser().getPhone()));

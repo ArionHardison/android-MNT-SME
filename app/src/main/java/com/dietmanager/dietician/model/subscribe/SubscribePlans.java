@@ -2,8 +2,7 @@ package com.dietmanager.dietician.model.subscribe;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SubscribeItem{
-
+public class SubscribePlans{
 
 	@SerializedName("dietitian_id")
 	private int dietitianId;
@@ -11,17 +10,17 @@ public class SubscribeItem{
 	@SerializedName("user_id")
 	private int userId;
 
+	@SerializedName("expiry_date")
+	private String expiryDate;
+
 	@SerializedName("created_at")
 	private String createdAt;
 
 	@SerializedName("id")
 	private int id;
 
-	@SerializedName("user")
-	private User user;
-
-	@SerializedName("status")
-	private String status;
+	@SerializedName("plan_id")
+	private int planId;
 
 	public int getDietitianId(){
 		return dietitianId;
@@ -29,6 +28,10 @@ public class SubscribeItem{
 
 	public int getUserId(){
 		return userId;
+	}
+
+	public String getExpiryDate(){
+		return expiryDate;
 	}
 
 	public String getCreatedAt(){
@@ -39,11 +42,7 @@ public class SubscribeItem{
 		return id;
 	}
 
-	public User getUser(){
-		return user;
-	}
-
-	public String getStatus(){
-		return status;
+	public int getPlanId(){
+		return planId;
 	}
 }
