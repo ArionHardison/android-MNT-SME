@@ -158,6 +158,10 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.InvitedUserActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.EditRestaurantActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />

@@ -2,19 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dietmanager.dietician.activity.AssignChefListActivity">
+    tools:context="com.dietmanager.dietician.activity.InvitedUserActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
         android:orientation="vertical">
+
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chef_list_rv"
+            android:id="@+id/invited_list_rv"
             android:layout_width="match_parent"
             android:layout_below="@+id/toolbar"
             android:paddingStart="@dimen/_16sdp"

@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="#FFFFFF"
+    android:layout_marginTop="@dimen/activity_vertical_margin_half"
+    android:layout_marginBottom="@dimen/activity_vertical_margin_half">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        android:layout_marginTop="@dimen/activity_vertical_margin_half"
-        android:layout_marginBottom="@dimen/activity_vertical_margin_half"
         android:padding="@dimen/_8sdp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -70,30 +68,21 @@
                     android:layout_marginTop="@dimen/_4sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_tiny" />
-
-
             </LinearLayout>
 
-
-                <Button
-                    android:id="@+id/btnAssign"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_30sdp"
-                    android:textColor="@color/colorWhite"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_7sdp"
-                    android:textAllCaps="false"
-                    style="@style/Widget.AppCompat.Button.Small"
-                    android:textSize="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:background="@color/colorAccent"
-                    android:text="@string/assign" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:textColor="@color/colorAccent"
+                android:layout_gravity="center"
+                android:padding="@dimen/_7sdp"
+                android:textAllCaps="false"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:textSize="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/border_primary"
+                android:text="@string/invited" />
 
         </LinearLayout>
-
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#eaeaea"/>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

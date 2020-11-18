@@ -20,10 +20,12 @@ import com.dietmanager.dietician.model.ResetPasswordResponse;
 import com.dietmanager.dietician.model.RevenueResponse;
 import com.dietmanager.dietician.model.StripeResponse;
 import com.dietmanager.dietician.model.Transporter;
+import com.dietmanager.dietician.model.assignchef.AssignChefItem;
 import com.dietmanager.dietician.model.currentfood.CurrentFoodItem;
 import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.food.FoodResponse;
 import com.dietmanager.dietician.model.ingredients.IngredientsItem;
+import com.dietmanager.dietician.model.initeduser.InvitedUserItem;
 import com.dietmanager.dietician.model.ordernew.OrderResponse;
 import com.dietmanager.dietician.model.product.ProductResponse;
 import com.dietmanager.dietician.model.subscribe.SubscribeItem;
@@ -183,6 +185,10 @@ public interface ApiInterface {
     Call<ForgotPasswordResponse> verifyOTP(@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
+    @POST("api/dietitian/assign/chef")
+    Call<MessageResponse> assignChefPost(@FieldMap HashMap<String, String> params);
+
+    @FormUrlEncoded
     @POST("api/dietitian/reset/password")
     Call<ResetPasswordResponse> resetPassword(@FieldMap HashMap<String, String> params);
 
@@ -230,6 +236,12 @@ public interface ApiInterface {
 
     @GET("api/dietitian/subscribers/list")
     Call<List<SubscribeItem>> getSubscribedList();
+
+    @GET("api/dietitian/diet/get/chef")
+    Call<List<AssignChefItem>> getAssignChefList();
+
+    @GET("api/dietitian/invited/users/lists")
+    Call<List<InvitedUserItem>> getInvitedUser();
 
     @GET("api/dietitian/new/orders")
     Call<List<UserRequestItem>> getUserRequests();

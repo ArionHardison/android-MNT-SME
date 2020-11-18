@@ -26,6 +26,7 @@ public class UserRequestItem implements Serializable {
 
 	@SerializedName("food")
 	private Food food;
+
 	@SerializedName("user")
 	private User user;
 

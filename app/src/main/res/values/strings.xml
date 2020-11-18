@@ -542,4 +542,10 @@
     <string name="food_item">Food item</string>
     <string name="chef_not_found">Chef not found</string>
     <string name="assign">Assign</string>
+    <string name="select_subscription_plan">Select Subscription Plan</string>
+    <string name="please_add_subscription">Please add subscription</string>
+    <string name="select_auto_assign_or_manual_assign">Select Auto assign or Manual assign</string>
+    <string name="auto_assign">Auto Assign</string>
+    <string name="manual_assign">Manual Assign</string>
+    <string name="invited">Invited</string>
 </resources>

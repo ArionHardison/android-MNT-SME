@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,10 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
     EditText etNoOfDays;
     @BindView(R.id.add_btn)
     Button addBtn;
+
+    @BindView(R.id.rbAutoAssign)
+    RadioButton rbAutoAssign;
+
     Context context;
     Activity activity;
     private boolean isEdit = false;
@@ -127,6 +132,9 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
         map.put("description", String.valueOf(strPlanDescription));
         map.put("no_of_days", String.valueOf(strPlanNoOfDays));
         map.put("price", String.valueOf(strPlanPrice));
+        if (rbAutoAssign.isChecked()) {
+            map.put("auto_assign", "1");
+        }
         if(isEdit){
             map.put("_method","PATCH");
             Call<MessageResponse> call = apiInterface.editSubscriptionPlan(map,subscriptionPlan.getId());

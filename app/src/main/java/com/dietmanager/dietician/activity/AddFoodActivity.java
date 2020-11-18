@@ -41,12 +41,14 @@ import com.dietmanager.dietician.model.ServerError;
 import com.dietmanager.dietician.model.SpinnerItem;
 import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.ingredients.IngredientsItem;
+import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.model.timecategory.TimeCategoryItem;
 import com.dietmanager.dietician.model.userrequest.Foodingredient;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.TextUtils;
 import com.dietmanager.dietician.utils.Utils;
+import com.google.android.gms.common.util.CollectionUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -86,6 +88,8 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
     EditText etDescription;
     @BindView(R.id.ingredients_tv)
     TextView ingredientsTv;
+    @BindView(R.id.subbscription_spin)
+    MaterialSpinner subscriptionSpin;
     @BindView(R.id.et_price)
     EditText etPrice;/*
     @BindView(R.id.ingredients_spin)
@@ -113,7 +117,7 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
     String mSelectedFeaturedImageId, mSelectedFeaturedImageUrl = "";
     private int selectedTimeCategory = 0;
     private boolean isAdminFood = false;
-   /* ArrayList<SpinnerItem> itemSpinnerList = new ArrayList<>();*/
+    /* ArrayList<SpinnerItem> itemSpinnerList = new ArrayList<>();*/
     private FoodItem foodItem = null;
 
     private Handler mDelayHandler = null;
@@ -147,7 +151,7 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
                 etPrice.setText(String.valueOf(foodItem.getPrice()));
 
                 if (foodItem.getAvatar() != null)
-                    Glide.with(context).load(AppConfigure.BASE_URL+foodItem.getAvatar())
+                    Glide.with(context).load(AppConfigure.BASE_URL + foodItem.getAvatar())
                             .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_placeholder_image_upload).error(R.drawable.ic_placeholder_image_upload).dontAnimate()).into(featuredImg);
                 etProductName.setClickable(false);
                 etDescription.setClickable(false);
@@ -205,6 +209,7 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
             }
             return false;
         });
+        getSubscriptionPlansList();
     }
 
     @Override
@@ -227,7 +232,6 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
 
 
     private IngredientSelectFragment ingredientSelectFragment;
-
 
 
     @OnClick({R.id.back_img, R.id.rlFeaturedImage, R.id.add_btn, R.id.ingredients_tv})
@@ -325,6 +329,8 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
             map.put("quantity[0][" + i + "]", RequestBody.create(MediaType.parse("text/plain"),
                     String.valueOf(item.getQuantity())));
         }
+        map.put("plan_id", RequestBody.create(MediaType.parse("text/plain"),String.valueOf(subscriptionPlanList.get(selected_pos).getId())));
+
         MultipartBody.Part filePart = null;
 
         if (featuredImageFile != null)
@@ -354,6 +360,57 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
 
     }
 
+    private List<SubscriptionPlanItem> subscriptionPlanList = new ArrayList<>();
+
+    private void getSubscriptionPlansList() {
+
+        customDialog.show();
+        Call<List<SubscriptionPlanItem>> call = apiInterface.getSubscribePlanList();
+        call.enqueue(new Callback<List<SubscriptionPlanItem>>() {
+            @Override
+            public void onResponse(Call<List<SubscriptionPlanItem>> call, Response<List<SubscriptionPlanItem>> response) {
+                customDialog.cancel();
+
+                if (response.isSuccessful()) {
+                    subscriptionPlanList.clear();
+                    List<SubscriptionPlanItem> subscribedModel = response.body();
+                    if (subscribedModel != null) {
+                        if (subscribedModel.size() > 0) {
+                            subscriptionPlanList.addAll(subscribedModel);
+                        }
+                        setSubscriptionSpinner();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SubscriptionPlanItem>> call, Throwable t) {
+                customDialog.cancel();
+                Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+            }
+        });
+    }
+
+    int selected_pos = 0;
+    ArrayList<String> lstSubscriptionNames = new ArrayList<String>();
+
+    private void setSubscriptionSpinner() {
+        if (subscriptionPlanList != null && subscriptionPlanList.size() > 0) {
+            selected_pos = subscriptionPlanList.indexOf(subscriptionPlanList.get(0).getTitle());
+        }
+        for (int i = 0; i < subscriptionPlanList.size(); i++) {
+            lstSubscriptionNames.add(subscriptionPlanList.get(i).getTitle());
+        }
+        subscriptionSpin.setItems(lstSubscriptionNames);
+        subscriptionSpin.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                selected_pos = position;
+            }
+        });
+    }
+
+
     private void showDialog() {
         AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = this.getLayoutInflater();
@@ -375,121 +432,129 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
         }
     };
 
-        private void addAdminFood() {
-            if (customDialog != null)
-                customDialog.show();
-
-            HashMap<String, String> map = new HashMap<>();
-            map.put("day", String.valueOf(selectedDay));
-            map.put("food_id", String.valueOf(foodItem.getId()));
-
-            Call<MessageResponse> call = apiInterface.addAdminFood(map);
-            call.enqueue(new Callback<MessageResponse>() {
-                @Override
-                public void onResponse(@NonNull Call<MessageResponse> call,
-                                       @NonNull Response<MessageResponse> response) {
-                    customDialog.cancel();
-                    if (response.isSuccessful()) {
-                        showDialog();
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
-                    customDialog.cancel();
-                    Toast.makeText(AddFoodActivity.this, R.string.something_went_wrong,
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-
+    private void addAdminFood() {
+        if (CollectionUtils.isEmpty(subscriptionPlanList)) {
+            Toast.makeText(this, getString(R.string.please_add_subscription), Toast.LENGTH_LONG).show();
+            return;
         }
+        if (customDialog != null)
+            customDialog.show();
 
-        private void galleryIntent(int type) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                        && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-                    EasyImage.openChooserWithDocuments(AddFoodActivity.this, "Select", type);
-                else
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
-            } else EasyImage.openChooserWithDocuments(AddFoodActivity.this, "Select", type);
-        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("day", String.valueOf(selectedDay));
+        map.put("food_id", String.valueOf(foodItem.getId()));
+        map.put("plan_id", String.valueOf(subscriptionPlanList.get(selected_pos).getId()));
 
-        private boolean validateProductDetails() {
-            strProductName = etProductName.getText().toString().trim();
-            strProductDescription = etDescription.getText().toString().trim();
-            strProductPrice = etPrice.getText().toString().trim();
-
-            if (strProductName == null || strProductName.isEmpty()) {
-                Utils.displayMessage(this, getString(R.string.error_msg_product_name));
-                return false;
-            } else if (strProductDescription == null || strProductDescription.isEmpty()) {
-                Utils.displayMessage(this, getString(R.string.error_msg_product_description));
-                return false;
-            } else if (strProductPrice == null || strProductPrice.isEmpty()) {
-                Utils.displayMessage(this, getString(R.string.error_msg_product_price));
-                return false;
-            } else if (GlobalData.selectedIngredientsList.isEmpty()) {
-                Utils.displayMessage(activity, getResources().getString(R.string.error_msg_select__ingredients));
-                return false;
-            } else if (featuredImageFile == null) {
-                Utils.displayMessage(activity, getResources().getString(R.string.please_upload_image));
-                return false;
+        Call<MessageResponse> call = apiInterface.addAdminFood(map);
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MessageResponse> call,
+                                   @NonNull Response<MessageResponse> response) {
+                customDialog.cancel();
+                if (response.isSuccessful()) {
+                    showDialog();
+                }
             }
-            return true;
+
+            @Override
+            public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
+                customDialog.cancel();
+                Toast.makeText(AddFoodActivity.this, R.string.something_went_wrong,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void galleryIntent(int type) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+                EasyImage.openChooserWithDocuments(AddFoodActivity.this, "Select", type);
+            else
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
+        } else EasyImage.openChooserWithDocuments(AddFoodActivity.this, "Select", type);
+    }
+
+    private boolean validateProductDetails() {
+        strProductName = etProductName.getText().toString().trim();
+        strProductDescription = etDescription.getText().toString().trim();
+        strProductPrice = etPrice.getText().toString().trim();
+
+        if (strProductName == null || strProductName.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_name));
+            return false;
+        } else if (strProductDescription == null || strProductDescription.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_description));
+            return false;
+        } else if (strProductPrice == null || strProductPrice.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_price));
+            return false;
+        } else if (GlobalData.selectedIngredientsList.isEmpty()) {
+            Utils.displayMessage(activity, getResources().getString(R.string.error_msg_select__ingredients));
+            return false;
+        } else if (featuredImageFile == null) {
+            Utils.displayMessage(activity, getResources().getString(R.string.please_upload_image));
+            return false;
+        }else if (CollectionUtils.isEmpty(subscriptionPlanList)) {
+            Utils.displayMessage(activity, getResources().getString(R.string.please_add_subscription));
+            return false;
         }
+        return true;
+    }
 
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            super.onActivityResult(requestCode, resultCode, data);
-            EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
-                @Override
-                public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                    e.printStackTrace();
-                }
+        super.onActivityResult(requestCode, resultCode, data);
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                e.printStackTrace();
+            }
 
-                @Override
-                public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                    if (type == 1) {
+            @Override
+            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                if (type == 1) {
 //                    featuredImageFile = imageFiles.get(0);
-                        try {
-                            featuredImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        Glide.with(AddFoodActivity.this)
-                                .load(imageFiles.get(0))
-                                .apply(new RequestOptions()
-                                        .placeholder(R.mipmap.ic_launcher)
-                                        .error(R.mipmap.ic_launcher).dontAnimate())
-                                .into(featuredImg);
+                    try {
+                        featuredImageFile = new Compressor(context).compressToFile(imageFiles.get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
+                    Glide.with(AddFoodActivity.this)
+                            .load(imageFiles.get(0))
+                            .apply(new RequestOptions()
+                                    .placeholder(R.mipmap.ic_launcher)
+                                    .error(R.mipmap.ic_launcher).dontAnimate())
+                            .into(featuredImg);
                 }
 
-                @Override
-                public void onCanceled(EasyImage.ImageSource source, int type) {
-
-                }
-            });
-
-
-            if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-                mSelectedFeaturedImageId = data.getExtras().getString("image_id");
-                mSelectedFeaturedImageUrl = data.getExtras().getString("image_url");
-                Glide.with(this)
-                        .load(mSelectedFeaturedImageUrl)
-                        .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
-                                .error(R.drawable.ic_place_holder_image).dontAnimate())
-                        .into(featuredImg);
             }
-        }
 
-        @Override
-        protected void onDestroy() {
-            super.onDestroy();
-            GlobalData.selectedIngredientsList = new ArrayList<>();
-            GlobalData.ingredientsItemList = new ArrayList<>();
+            @Override
+            public void onCanceled(EasyImage.ImageSource source, int type) {
+
+            }
+        });
+
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            mSelectedFeaturedImageId = data.getExtras().getString("image_id");
+            mSelectedFeaturedImageUrl = data.getExtras().getString("image_url");
+            Glide.with(this)
+                    .load(mSelectedFeaturedImageUrl)
+                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                            .error(R.drawable.ic_place_holder_image).dontAnimate())
+                    .into(featuredImg);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GlobalData.selectedIngredientsList = new ArrayList<>();
+        GlobalData.ingredientsItemList = new ArrayList<>();
+    }
+}

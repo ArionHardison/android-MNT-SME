@@ -36,9 +36,15 @@ public class Food implements Serializable {
 	@SerializedName("status")
 	private String status;
 
+	@SerializedName("dietitian_food")
+	private DietitianFood dietitianFood;
 	@SerializedName("who")
 	private String who;
 
+
+	public DietitianFood getDietitianFood() {
+		return dietitianFood;
+	}
 	public int getDietitianId(){
 		return dietitianId;
 	}

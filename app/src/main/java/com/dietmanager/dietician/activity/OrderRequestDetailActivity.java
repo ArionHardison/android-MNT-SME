@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,6 +57,8 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
     TextView food_item_price;
     @BindView(R.id.item_total)
     TextView item_total;
+    @BindView(R.id.llAssignChef)
+    LinearLayout llAssignChef;
     @BindView(R.id.total)
     TextView total;
     @BindView(R.id.back_img)
@@ -71,6 +74,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     String TAG = "OrderRequestDetailActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +90,8 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             userRequestItem = (UserRequestItem) bundle.getSerializable("userRequestItem");
             title.setText(getString(R.string.live_task));
         }
-        if(userRequestItem!=null){
-            tvOrderId.setText("#"+userRequestItem.getId());
+        if (userRequestItem != null) {
+            tvOrderId.setText("#" + userRequestItem.getId());
             try {
                 tvOrderTime.setText(Utils.getTime(userRequestItem.getCreatedAt()));
             } catch (ParseException e) {
@@ -95,19 +99,23 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             }
             tvUserName.setText(userRequestItem.getUser().getName());
             if (userRequestItem.getFood().getAvatar() != null)
-                Glide.with(this).load(AppConfigure.BASE_URL+userRequestItem.getFood().getAvatar())
+                Glide.with(this).load(AppConfigure.BASE_URL + userRequestItem.getFood().getAvatar())
                         .apply(new RequestOptions().centerCrop().placeholder(R.drawable.man).error(R.drawable.man).dontAnimate()).into(userImg);
 
             food_item_name.setText(userRequestItem.getFood().getName());
-            food_item_price.setText(GlobalData.profile.getCurrency()+userRequestItem.getFood().getPrice());
-            item_total.setText(GlobalData.profile.getCurrency()+userRequestItem.getPayable());
-            total.setText(GlobalData.profile.getCurrency()+userRequestItem.getPayable());
+            food_item_price.setText(GlobalData.profile.getCurrency() + userRequestItem.getFood().getPrice());
+            item_total.setText(GlobalData.profile.getCurrency() + userRequestItem.getPayable());
+            total.setText(GlobalData.profile.getCurrency() + userRequestItem.getPayable());
+
+            /*if(userRequestItem.getFood()!=null&&userRequestItem.getFood().getDietitianFood()!=null&&userRequestItem.getFood().getDietitianFood().getPlan()!=null&&userRequestItem.getFood().getDietitianFood().getPlan().getAutoAssign()==1)
+                llAssignChef.setVisibility(View.GONE);*/
         }
         context = OrderRequestDetailActivity.this;
         activity = OrderRequestDetailActivity.this;
         customDialog = new CustomDialog(context);
         setupAdapter();
     }
+
     private void setupAdapter() {
         ingredientsAdapter = new IngredientsInvoiceAdapter(userRequestItem.getOrderingredient(), context);
         ingredients_rv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -116,14 +124,16 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
         ingredientsAdapter.notifyDataSetChanged();
     }
 
-    @OnClick({R.id.back_img,R.id.call_img,R.id.navigation_img,R.id.assign_chef_btn})
+    @OnClick({R.id.back_img, R.id.call_img, R.id.navigation_img, R.id.assign_chef_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
                 onBackPressed();
                 break;
             case R.id.assign_chef_btn:
-                startActivity(new Intent(OrderRequestDetailActivity.this,AssignChefListActivity.class));
+                Intent intentAssignChef = new Intent(OrderRequestDetailActivity.this, AssignChefListActivity.class);
+                intentAssignChef.putExtra("order_id",userRequestItem.getId());
+                startActivity(intentAssignChef);
                 break;
             case R.id.call_img:
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userRequestItem.getUser().getPhone()));
@@ -133,12 +143,11 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
                     Utils.displayMessage(this, "Call feature not supported");
                 break;
             case R.id.navigation_img:
-                if(userRequestItem.getUser().getLatitude()!=null&&userRequestItem.getUser().getLongitude()!=null) {
+                if (userRequestItem.getUser().getLatitude() != null && userRequestItem.getUser().getLongitude() != null) {
                     String uri = String.format(Locale.ENGLISH, "geo:%f,%f", userRequestItem.getUser().getLatitude(), userRequestItem.getUser().getLatitude());
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                     startActivity(intent);
-                }
-                else
+                } else
                     Utils.displayMessage(this, "User location not found");
                 break;
         }

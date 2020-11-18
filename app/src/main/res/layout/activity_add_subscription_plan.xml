@@ -112,6 +112,38 @@
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="@font/nunito_semibold"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:text="@string/select_auto_assign_or_manual_assign"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_tiny" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbAutoAssign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auto_assign"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_small" />
+
+                <RadioButton
+                    android:id="@+id/rbManualAssign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/manual_assign"
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_small" />
+            </RadioGroup>
 
         </LinearLayout>
 

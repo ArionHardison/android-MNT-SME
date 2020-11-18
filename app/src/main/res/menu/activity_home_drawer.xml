@@ -24,6 +24,9 @@
             android:id="@+id/nav_invite_link"
             android:title="@string/invite_link" />
         <item
+            android:id="@+id/nav_invited_user"
+            android:title="@string/invite_user" />
+        <item
             android:id="@+id/nav_guide_lines"
             android:title="@string/guide_lines" /><!--
         <item
