@@ -8,6 +8,12 @@ public class SubscriptionPlanItem implements Serializable {
 
 	@SerializedName("dietitian_id")
 	private int dietitianId;
+	@SerializedName("auto_assign")
+	private int autoAssign;
+
+	public int getAutoAssign() {
+		return autoAssign;
+	}
 
 	@SerializedName("price")
 	private String price;

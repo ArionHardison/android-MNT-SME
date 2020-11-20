@@ -107,8 +107,8 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             item_total.setText(GlobalData.profile.getCurrency() + userRequestItem.getPayable());
             total.setText(GlobalData.profile.getCurrency() + userRequestItem.getPayable());
 
-            /*if(userRequestItem.getFood()!=null&&userRequestItem.getFood().getDietitianFood()!=null&&userRequestItem.getFood().getDietitianFood().getPlan()!=null&&userRequestItem.getFood().getDietitianFood().getPlan().getAutoAssign()==1)
-                llAssignChef.setVisibility(View.GONE);*/
+            if(userRequestItem.getFood()!=null&&userRequestItem.getFood().getDietitianFood()!=null&&userRequestItem.getFood().getDietitianFood().getPlan()!=null&&userRequestItem.getFood().getDietitianFood().getPlan().getAutoAssign()==1)
+                llAssignChef.setVisibility(View.GONE);
         }
         context = OrderRequestDetailActivity.this;
         activity = OrderRequestDetailActivity.this;

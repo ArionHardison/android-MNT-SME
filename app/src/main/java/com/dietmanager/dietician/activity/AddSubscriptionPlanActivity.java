@@ -87,6 +87,8 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
             etDescription.setText(subscriptionPlan.getDescription());
             etPrice.setText(subscriptionPlan.getPrice());
             etNoOfDays.setText(String.valueOf(subscriptionPlan.getNoOfDays()));
+            if(subscriptionPlan.getAutoAssign()==1)
+                rbAutoAssign.setChecked(true);
         }else {
             title.setText(getString(R.string.add_subscription_plan));
         }

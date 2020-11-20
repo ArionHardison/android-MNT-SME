@@ -395,9 +395,7 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
     ArrayList<String> lstSubscriptionNames = new ArrayList<String>();
 
     private void setSubscriptionSpinner() {
-        if (subscriptionPlanList != null && subscriptionPlanList.size() > 0) {
-            selected_pos = subscriptionPlanList.indexOf(subscriptionPlanList.get(0).getTitle());
-        }
+
         for (int i = 0; i < subscriptionPlanList.size(); i++) {
             lstSubscriptionNames.add(subscriptionPlanList.get(i).getTitle());
         }
