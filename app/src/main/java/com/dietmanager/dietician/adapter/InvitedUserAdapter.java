@@ -53,7 +53,8 @@ public class InvitedUserAdapter extends RecyclerView.Adapter<InvitedUserAdapter.
                             .error(R.drawable.man))
                     .into(holder.userImg);
         }
-        holder.address.setText(item.getUser().getMapAddress());
+        if(item.getUser().getMapAddress()!=null)
+            holder.address.setText(item.getUser().getMapAddress());
         holder.rating.setText(item.getUser().getRating());
 
     }

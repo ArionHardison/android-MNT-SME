@@ -39,15 +39,14 @@
                     android:id="@+id/user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_semibold"
+                    android:fontFamily="@font/nunito_bold"
                     android:textColor="@color/colorTextBlack"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/_12sdp" />
 
                 <TextView
                     android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_location"
                     android:drawablePadding="@dimen/_4sdp"
                     android:maxLines="1"
                     android:paddingTop="@dimen/_4sdp"

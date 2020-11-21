@@ -91,7 +91,13 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
     @BindView(R.id.subbscription_spin)
     MaterialSpinner subscriptionSpin;
     @BindView(R.id.et_price)
-    EditText etPrice;/*
+    EditText etPrice;
+    @BindView(R.id.et_fat)
+    EditText etFat;
+    @BindView(R.id.et_carb)
+    EditText etCarb;
+    @BindView(R.id.et_protein)
+    EditText etProtein;/*
     @BindView(R.id.ingredients_spin)
     MultiSelectionSpinner ingredientsSpin;*/
     @BindView(R.id.featured_img)
@@ -100,8 +106,6 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
     Button addBtn;
     @BindView(R.id.tvTimeCategory)
     TextView tvTimeCategory;
-    @BindView(R.id.rlFeaturedImage)
-    RelativeLayout rlFeaturedImage;
     public static final int PICK_IMAGE_REQUEST = 100;
     Context context;
     Activity activity;
@@ -109,7 +113,7 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
     CustomDialog customDialog;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     String TAG = "AddFoodActivity";
-    String strProductName, strProductDescription, strProductPrice;
+    String strProductName, strProductDescription, strProductPrice, strProtein, strFat, strCarb;
     private int selectedDay = 1;
     File featuredImageFile;
     private String selectedTimeCategoryName = "Breakfast";
@@ -152,7 +156,7 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
 
                 if (foodItem.getAvatar() != null)
                     Glide.with(context).load(AppConfigure.BASE_URL + foodItem.getAvatar())
-                            .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_placeholder_image_upload).error(R.drawable.ic_placeholder_image_upload).dontAnimate()).into(featuredImg);
+                            .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_document_placeholder).error(R.drawable.ic_document_placeholder).dontAnimate()).into(featuredImg);
                 etProductName.setClickable(false);
                 etDescription.setClickable(false);
                 etPrice.setClickable(false);
@@ -234,14 +238,14 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
     private IngredientSelectFragment ingredientSelectFragment;
 
 
-    @OnClick({R.id.back_img, R.id.rlFeaturedImage, R.id.add_btn, R.id.ingredients_tv})
+    @OnClick({R.id.back_img, R.id.featured_img, R.id.add_btn, R.id.ingredients_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
                 onBackPressed();
                 break;
 
-            case R.id.rlFeaturedImage:
+            case R.id.featured_img:
                 if (!isAdminFood)
                     galleryIntent(1);
                 break;
@@ -318,6 +322,12 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
                 strProductDescription));
         map.put("price[0]", RequestBody.create(MediaType.parse("text/plain"),
                 strProductPrice));
+        map.put("protein[0]", RequestBody.create(MediaType.parse("text/plain"),
+                strProtein));
+        map.put("fat[0]", RequestBody.create(MediaType.parse("text/plain"),
+                strFat));
+        map.put("carbohydrates[0]", RequestBody.create(MediaType.parse("text/plain"),
+                strCarb));
         map.put("category_id[0]", RequestBody.create(MediaType.parse("text/plain"),
                 String.valueOf(selectedTimeCategory)));
         map.put("day", RequestBody.create(MediaType.parse("text/plain"),
@@ -478,6 +488,9 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
         strProductName = etProductName.getText().toString().trim();
         strProductDescription = etDescription.getText().toString().trim();
         strProductPrice = etPrice.getText().toString().trim();
+        strProtein = etProtein.getText().toString().trim();
+        strFat = etFat.getText().toString().trim();
+        strCarb = etCarb.getText().toString().trim();
 
         if (strProductName == null || strProductName.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_name));
@@ -487,6 +500,15 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
             return false;
         } else if (strProductPrice == null || strProductPrice.isEmpty()) {
             Utils.displayMessage(this, getString(R.string.error_msg_product_price));
+            return false;
+        }  else if (strCarb == null || strCarb.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_carb));
+            return false;
+        }  else if (strFat == null || strFat.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_fat));
+            return false;
+        }  else if (strProtein == null || strProtein.isEmpty()) {
+            Utils.displayMessage(this, getString(R.string.error_msg_product_protein));
             return false;
         } else if (GlobalData.selectedIngredientsList.isEmpty()) {
             Utils.displayMessage(activity, getResources().getString(R.string.error_msg_select__ingredients));
@@ -523,9 +545,9 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
 
                     Glide.with(AddFoodActivity.this)
                             .load(imageFiles.get(0))
-                            .apply(new RequestOptions()
-                                    .placeholder(R.mipmap.ic_launcher)
-                                    .error(R.mipmap.ic_launcher).dontAnimate())
+                            .apply(new RequestOptions().centerCrop()
+                                    .placeholder(R.drawable.ic_document_placeholder)
+                                    .error(R.drawable.ic_document_placeholder).dontAnimate())
                             .into(featuredImg);
                 }
 
@@ -543,7 +565,7 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
             mSelectedFeaturedImageUrl = data.getExtras().getString("image_url");
             Glide.with(this)
                     .load(mSelectedFeaturedImageUrl)
-                    .apply(new RequestOptions().placeholder(R.drawable.ic_place_holder_image)
+                    .apply(new RequestOptions().centerCrop().placeholder(R.drawable.ic_place_holder_image)
                             .error(R.drawable.ic_place_holder_image).dontAnimate())
                     .into(featuredImg);
         }

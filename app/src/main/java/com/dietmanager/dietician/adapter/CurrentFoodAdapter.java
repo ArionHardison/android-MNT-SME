@@ -54,6 +54,9 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
         holder.tvFoodTitle.setText(String.valueOf(foodItem.getFood().getName()));
         holder.tvFoodDescription.setText(String.valueOf(foodItem.getFood().getDescription()));
         holder.tvFoodPrice.setText(String.valueOf(foodItem.getFood().getPrice()));
+        holder.tvCarb.setText(foodItem.getFood().getCarbohydrates());
+        holder.tvProtein.setText(foodItem.getFood().getProtein());
+        holder.tvFat.setText(foodItem.getFood().getFat());
 
         String imgUrl="";
         if(foodItem.getFood().getAvatar()!=null)
@@ -68,7 +71,7 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvFoodTitle,tvFoodDescription,tvFoodPrice;
+        TextView tvFoodTitle,tvFoodDescription,tvFoodPrice,tvProtein,tvFat,tvCarb;
         CardView cardItem;
         ImageView imgFood;
 
@@ -78,6 +81,9 @@ public class CurrentFoodAdapter extends RecyclerView.Adapter<CurrentFoodAdapter.
             tvFoodTitle = view.findViewById(R.id.tv_food_title);
             tvFoodPrice = view.findViewById(R.id.tv_food_price);
             tvFoodDescription = view.findViewById(R.id.tv_food_description);
+            tvProtein = view.findViewById(R.id.tv_proteins);
+            tvFat = view.findViewById(R.id.tv_fat);
+            tvCarb = view.findViewById(R.id.tv_carb);
             cardItem = view.findViewById(R.id.card_item);
         }
     }

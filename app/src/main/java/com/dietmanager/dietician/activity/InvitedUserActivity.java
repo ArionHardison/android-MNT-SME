@@ -45,7 +45,7 @@ public class InvitedUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_invited_user);
         customDialog = new CustomDialog(this);
         ButterKnife.bind(this);
-        ((TextView) findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.invite_user);
+        ((TextView) findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.invited_user);
         findViewById(R.id.toolbar).findViewById(R.id.back_img).setVisibility(View.VISIBLE);
         findViewById(R.id.toolbar).findViewById(R.id.back_img).setOnClickListener(new View.OnClickListener() {
             @Override

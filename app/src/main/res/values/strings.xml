@@ -338,6 +338,9 @@
     <string name="error_msg_product_name">Please enter product name</string>
     <string name="error_msg_product_description">Please enter product description</string>
     <string name="error_msg_product_price">Please enter price</string>
+    <string name="error_msg_product_carb">Please enter carb</string>
+    <string name="error_msg_product_protein">Please enter protein</string>
+    <string name="error_msg_product_fat">Please enter fat</string>
     <string name="error_msg_product_quantity">Please enter quantity</string>
     <string name="error_msg_product_order">Please enter product order</string>
     <string name="error_msg_product_category">Please select category</string>
@@ -489,7 +492,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="invite">Invite</string>
-    <string name="invite_user">Invite User</string>
+    <string name="invited_user">Invited User</string>
     <string name="ok">Ok</string>
     <string name="wrong_otp">Wrong OTP</string>
     <string name="user_id">User Id</string>
@@ -548,4 +551,5 @@
     <string name="auto_assign">Auto Assign</string>
     <string name="manual_assign">Manual Assign</string>
     <string name="invited">Invited</string>
+    <string name="protein">Protein</string>
 </resources>

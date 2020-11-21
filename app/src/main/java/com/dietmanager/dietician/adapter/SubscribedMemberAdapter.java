@@ -45,30 +45,33 @@ public class SubscribedMemberAdapter extends RecyclerView.Adapter<SubscribedMemb
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         SubscribeItem item = list.get(position);
-        holder.userName.setText(item.getUser().getName());
-        if(item.getUser().getAvatar()!=null){
-            Glide.with(context)
-                    .load(AppConfigure.BASE_URL+item.getUser().getAvatar())
-                    .apply(new RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .placeholder(R.drawable.man)
-                            .error(R.drawable.man))
-                    .into(holder.userImg);
-        }
-        holder.address.setText(item.getUser().getMapAddress());
-        //Instantiating the SimpleDateFormat class
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        DateFormat dateStringFormat = new SimpleDateFormat("dd/MM/yyyy");
-        //Parsing the given String to Date object
-        try {
-            if(item.getUser().getSubscribePlans()!=null && item.getUser().getSubscribePlans().getCreatedAt()!=null && item.getUser().getSubscribePlans().getExpiryDate()!=null) {
-                Date dateStart = formatter.parse(item.getUser().getSubscribePlans().getCreatedAt());
-                holder.tvStartDate.setText(dateStringFormat.format(dateStart));
-                Date dateExpiry = formatter.parse(item.getUser().getSubscribePlans().getExpiryDate());
-                holder.tvEndDate.setText(dateStringFormat.format(dateExpiry));
+        if(item.getUser()!=null) {
+            holder.userName.setText(item.getUser().getName());
+            if (item.getUser().getAvatar() != null) {
+                Glide.with(context)
+                        .load(AppConfigure.BASE_URL + item.getUser().getAvatar())
+                        .apply(new RequestOptions()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .placeholder(R.drawable.man)
+                                .error(R.drawable.man))
+                        .into(holder.userImg);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+            if(item.getUser().getMapAddress()!=null)
+                holder.address.setText(item.getUser().getMapAddress());
+            //Instantiating the SimpleDateFormat class
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            DateFormat dateStringFormat = new SimpleDateFormat("dd/MM/yyyy");
+            //Parsing the given String to Date object
+            try {
+                if (item.getUser().getSubscribePlans() != null && item.getUser().getSubscribePlans().getCreatedAt() != null && item.getUser().getSubscribePlans().getExpiryDate() != null) {
+                    Date dateStart = formatter.parse(item.getUser().getSubscribePlans().getCreatedAt());
+                    holder.tvStartDate.setText(dateStringFormat.format(dateStart));
+                    Date dateExpiry = formatter.parse(item.getUser().getSubscribePlans().getExpiryDate());
+                    holder.tvEndDate.setText(dateStringFormat.format(dateExpiry));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -6,96 +6,116 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class FoodItem  implements Serializable {
+public class FoodItem implements Serializable {
 
-	@SerializedName("dietitian_id")
-	private Object dietitianId;
+    @SerializedName("dietitian_id")
+    private Object dietitianId;
 
-	@SerializedName("price")
-	private String price;
+    @SerializedName("price")
+    private String price;
 
-	@SerializedName("time_category_id")
-	private String timeCategoryId;
+    @SerializedName("time_category_id")
+    private String timeCategoryId;
 
-	@SerializedName("name")
-	private String name;
+    @SerializedName("name")
+    private String name;
 
-	@SerializedName("description")
-	private String description;
+    @SerializedName("description")
+    private String description;
 
-	@SerializedName("created_at")
-	private String createdAt;
+    @SerializedName("created_at")
+    private String createdAt;
 
-	@SerializedName("days")
-	private int days;
+    @SerializedName("carbohydrates")
+    private String carbohydrates;
 
-	@SerializedName("id")
-	private int id;
-	@SerializedName("checked")
-	private int checked;
+    @SerializedName("fat")
+    private String fat;
 
-	@SerializedName("avatar")
-	private String avatar="";
+    @SerializedName("protein")
+    private String protein;
 
-	@SerializedName("status")
-	private String status;
+    @SerializedName("days")
+    private int days;
 
-	@SerializedName("who")
-	private String who;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("checked")
+    private int checked;
 
-	@SerializedName("food_ingredients")
-	private List<Foodingredient> food_ingredients;
+    @SerializedName("avatar")
+    private String avatar = "";
 
-	public Object getDietitianId(){
-		return dietitianId;
-	}
+    @SerializedName("status")
+    private String status;
 
-	public int getChecked() {
-		return checked;
-	}
+    @SerializedName("who")
+    private String who;
 
-	public List<Foodingredient> getFood_ingredients() {
-		return food_ingredients;
-	}
+    @SerializedName("food_ingredients")
+    private List<Foodingredient> food_ingredients;
 
-	public String getPrice(){
-		return price;
-	}
+    public Object getDietitianId() {
+        return dietitianId;
+    }
 
+    public int getChecked() {
+        return checked;
+    }
 
-	public String getTimeCategoryId(){
-		return timeCategoryId;
-	}
+    public List<Foodingredient> getFood_ingredients() {
+        return food_ingredients;
+    }
 
-	public String getName(){
-		return name;
-	}
+    public String getPrice() {
+        return price;
+    }
 
-	public String getDescription(){
-		return description;
-	}
+    public String getCarbohydrates() {
+        return carbohydrates;
+    }
 
-	public String getCreatedAt(){
-		return createdAt;
-	}
+    public String getFat() {
+        return fat;
+    }
 
-	public int getDays(){
-		return days;
-	}
+    public String getProtein() {
+        return protein;
+    }
 
-	public int getId(){
-		return id;
-	}
+    public String getTimeCategoryId() {
+        return timeCategoryId;
+    }
 
-	public String getAvatar(){
-		return avatar;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getStatus(){
-		return status;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getWho(){
-		return who;
-	}
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getWho() {
+        return who;
+    }
 }
