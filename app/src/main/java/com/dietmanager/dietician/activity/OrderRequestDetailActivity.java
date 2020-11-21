@@ -107,7 +107,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             item_total.setText(GlobalData.profile.getCurrency() + userRequestItem.getPayable());
             total.setText(GlobalData.profile.getCurrency() + userRequestItem.getPayable());
 
-            if(userRequestItem.getFood()!=null&&userRequestItem.getFood().getDietitianFood()!=null&&userRequestItem.getFood().getDietitianFood().getPlan()!=null&&userRequestItem.getFood().getDietitianFood().getPlan().getAutoAssign()==1)
+            if(userRequestItem.getUser()!=null&&userRequestItem.getUser().getSubscribePlans()!=null&&userRequestItem.getUser().getSubscribePlans().getSubscription().getAutoAssign()==1)
                 llAssignChef.setVisibility(View.GONE);
         }
         context = OrderRequestDetailActivity.this;

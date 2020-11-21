@@ -27,11 +27,6 @@ public class DietitianFood implements Serializable {
 	@SerializedName("day")
 	private Integer day;
 
-	@SerializedName("plan")
-	private Plan plan;
-
-	@SerializedName("plan_id")
-	private Integer planId;
 
 	public void setDietitianId(Integer dietitianId){
 		this.dietitianId = dietitianId;
@@ -87,21 +82,5 @@ public class DietitianFood implements Serializable {
 
 	public Integer getDay(){
 		return day;
-	}
-
-	public void setPlan(Plan plan){
-		this.plan = plan;
-	}
-
-	public Plan getPlan(){
-		return plan;
-	}
-
-	public void setPlanId(Integer planId){
-		this.planId = planId;
-	}
-
-	public Integer getPlanId(){
-		return planId;
 	}
 }

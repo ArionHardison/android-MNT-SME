@@ -21,6 +21,13 @@ public class User implements Serializable {
 	@SerializedName("wallet_balance")
 	private int walletBalance;
 
+	@SerializedName("subscribe_plans")
+	private SubscribePlans subscribePlans;
+
+	public SubscribePlans getSubscribePlans() {
+		return subscribePlans;
+	}
+
 	@SerializedName("device_type")
 	private String deviceType;
 	@SerializedName("map_address")
