@@ -153,6 +153,9 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
                 etProductName.setText(foodItem.getName());
                 etDescription.setText(foodItem.getDescription());
                 etPrice.setText(String.valueOf(foodItem.getPrice()));
+                etCarb.setText(String.valueOf(foodItem.getCarbohydrates()));
+                etProtein.setText(String.valueOf(foodItem.getProtein()));
+                etFat.setText(String.valueOf(foodItem.getFat()));
 
                 if (foodItem.getAvatar() != null)
                     Glide.with(context).load(AppConfigure.BASE_URL + foodItem.getAvatar())
