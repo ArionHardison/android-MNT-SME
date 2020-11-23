@@ -80,12 +80,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dietmanager.dietician.utils.TextUtils.isValidEmail;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     @BindView(R.id.app_logo)
     ImageView appLogo;
     @BindView(R.id.ed_mobile_number)
     EditText edMobileNumber;
+    @BindView(R.id.et_email)
+    EditText etEmail;
     @BindView(R.id.ed_password)
     EditText edPassword;
     @BindView(R.id.login_btn)
@@ -98,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     ImageButton facebookLogin;
     @BindView(R.id.google_login)
     ImageButton googleLogin;
-    String mobile, password;
+    String mobile, password,email;
     String GRANT_TYPE = "password";
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     Context context;
@@ -329,7 +333,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void getUserCountryInfo() {
-        Country country = Country.getCountryByName("IN");
+        Country country = Country.getCountryByName("US");
         if (country != null) {
             countryImage.setImageResource(country.getFlag());
             countryNumber.setText(country.getDialCode());
@@ -358,15 +362,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void initValues() {
         GlobalData.loginBy = "manual";
         mobile = edMobileNumber.getText().toString();
+        email = etEmail.getText().toString();
         password = edPassword.getText().toString();
-        if (!isValidMobile(country_code + mobile)) {
+        /*if (!isValidMobile(country_code + mobile)) {
             Toast.makeText(this, getResources().getString(R.string.please_enter_mobile_number), Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(password)) {
+        } */
+         if (email.isEmpty())
+            Utils.displayMessage(LoginActivity.this, getResources().getString(R.string.please_enter_mail_id));
+        else if (!isValidEmail(email))
+            Utils.displayMessage(LoginActivity.this, getResources().getString(R.string.please_enter_valid_mail_id));
+        else if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, getResources().getString(R.string.please_enter_password), Toast.LENGTH_SHORT).show();
         } else {
             HashMap<String, String> map = new HashMap<>();
-            map.put("mobile",mobile);
-            map.put("dial_code",country_code);
+            //map.put("mobile",mobile);
+             // map.put("dial_code",country_code);
+            map.put("username",email);
             map.put("password", password);
             //map.put("grant_type", "password");
             //map.put("client_id", AppConfigure.CLIENT_ID);

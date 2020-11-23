@@ -14,7 +14,7 @@
     <!-- Toolbar Color-->
     <color name="toolbar_bg">#007b04</color>
     <color name="toolbar_title">#FFF</color>
-    <color name="theme">#37F13D</color>
+    <color name="theme">#007b04</color>
 
     <!-- Text-->
     <color name="colorPrimaryText">#212121</color>

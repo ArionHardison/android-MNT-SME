@@ -163,11 +163,17 @@ public class AddFoodActivity extends AppCompatActivity implements IngredientSele
                 etProductName.setClickable(false);
                 etDescription.setClickable(false);
                 etPrice.setClickable(false);
+                etFat.setClickable(false);
+                etCarb.setClickable(false);
+                etProtein.setClickable(false);
                 //ingredientsSpin.setClickable(false);
 
                 etProductName.setEnabled(false);
                 etDescription.setEnabled(false);
                 etPrice.setEnabled(false);
+                etProtein.setEnabled(false);
+                etCarb.setEnabled(false);
+                etFat.setEnabled(false);
                 //ingredientsSpin.setEnabled(false);
 
                 if (foodItem.getFood_ingredients().size() > 0) {

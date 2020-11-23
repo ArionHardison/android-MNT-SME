@@ -1,14 +1,19 @@
 package com.dietmanager.dietician.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +21,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -24,6 +30,7 @@ import com.dietmanager.dietician.adapter.CurrentFoodAdapter;
 import com.dietmanager.dietician.adapter.DaysAdapter;
 import com.dietmanager.dietician.adapter.FoodAdapter;
 import com.dietmanager.dietician.adapter.TimeCategoryAdapter;
+import com.dietmanager.dietician.application.MyApplication;
 import com.dietmanager.dietician.controller.GetProfile;
 import com.dietmanager.dietician.controller.ProfileListener;
 import com.dietmanager.dietician.helper.ConnectionHelper;
@@ -37,14 +44,21 @@ import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.timecategory.TimeCategoryItem;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
+import com.dietmanager.dietician.utils.Constants;
 import com.dietmanager.dietician.utils.TextUtils;
 import com.dietmanager.dietician.utils.Utils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -84,9 +98,10 @@ public class DietitianMainActivity extends AppCompatActivity
     private List<TimeCategoryItem> timeCategoryList = new ArrayList<>();
     private List<CurrentFoodItem> foodItems = new ArrayList<>();
     List<Integer> daysList = new ArrayList<>();
-/*  HashMap<String, List<FoodItem>> expandableFoodList = new HashMap<>();
-    private ExpandableFoodAdapter expandableAdapter = null;
-    private List<String> titleList = null;*/
+    /*  HashMap<String, List<FoodItem>> expandableFoodList = new HashMap<>();
+        private ExpandableFoodAdapter expandableAdapter = null;
+        private List<String> titleList = null;*/
+    ScheduledExecutorService scheduler;
 
     private String selectedTimeCategoryName = "Breakfast";
 
@@ -119,6 +134,13 @@ public class DietitianMainActivity extends AppCompatActivity
                 }
             }
         });
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                getProfileAPI();
+            }
+        }, 0, 5, TimeUnit.SECONDS);
         userAvatar = navigationView.getHeaderView(0).findViewById(R.id.user_avatar);
         LinearLayout nav_header = navigationView.getHeaderView(0).findViewById(R.id.nav_header);
         /*nav_header.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +164,7 @@ public class DietitianMainActivity extends AppCompatActivity
             daysList.add(i);
         daysAdapter.setList(daysList);
 
-        timeCategoryAdapter = new TimeCategoryAdapter(this, 0, this,false);
+        timeCategoryAdapter = new TimeCategoryAdapter(this, 0, this, false);
         timeCategoryRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         timeCategoryRv.setHasFixedSize(true);
         timeCategoryRv.setAdapter(timeCategoryAdapter);
@@ -213,6 +235,12 @@ public class DietitianMainActivity extends AppCompatActivity
         }
     }*/
 
+
+    public void onDestroy() {
+        super.onDestroy();
+        scheduler.shutdown();
+    }
+
     @Override
     public void onDayClicked(int day) {
         selectedDay = day;
@@ -238,6 +266,60 @@ public class DietitianMainActivity extends AppCompatActivity
                     .into(userAvatar);
         }
     }
+
+    public void getProfileAPI() {
+        String device_id = Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID);
+        String device_type = "Android";
+        String device_token = SharedHelper.getKey(MyApplication.getInstance(), "device_token");
+        HashMap<String, String> params = new HashMap<>();
+        params.put("device_id", device_id);
+        params.put("device_type", device_type);
+        params.put("device_token", device_token);
+        Call<Profile> call = apiInterface.getProfile(params);
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
+                if (response.isSuccessful()) {
+                    if(response.body().getStatus().equalsIgnoreCase("ACTIVE")){
+                        if (isWaitingForAdminShowing) {
+                            startActivity(new Intent(DietitianMainActivity.this,DietitianMainActivity.class));
+                            finishAffinity();
+                        }
+                    }
+                    else {
+                        if (!isWaitingForAdminShowing) {
+                            waitingForAdminPopup();
+                        }
+                    }
+                } else try {
+                    ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
+                } catch (JsonSyntaxException e) {
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Profile> call, @NonNull Throwable t) {
+            }
+        });
+    }
+    private boolean isWaitingForAdminShowing=false;
+
+    public void waitingForAdminPopup() {
+        try {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DietitianMainActivity.this);
+            final FrameLayout frameView = new FrameLayout(DietitianMainActivity.this);
+            builder.setView(frameView);
+            final android.app.AlertDialog purchasedDialog = builder.create();
+            purchasedDialog.setCancelable(false);
+            LayoutInflater inflater = purchasedDialog.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.waiting_for_admin_approval_popup, frameView);
+            purchasedDialog.show();
+            isWaitingForAdminShowing=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void onSuccess(Profile profile) {
@@ -278,9 +360,9 @@ public class DietitianMainActivity extends AppCompatActivity
             startActivity(new Intent(DietitianMainActivity.this, SubscribedMembersActivity.class));
         } else if (id == R.id.nav_subscription_plans) {
             startActivity(new Intent(DietitianMainActivity.this, SubscribePlansActivity.class));
-        }else if (id == R.id.nav_invite_link) {
+        } else if (id == R.id.nav_invite_link) {
             startActivity(new Intent(DietitianMainActivity.this, InviteLinkActivity.class));
-        }else if (id == R.id.nav_invited_user) {
+        } else if (id == R.id.nav_invited_user) {
             startActivity(new Intent(DietitianMainActivity.this, InvitedUserActivity.class));
         } else if (id == R.id.nav_guide_lines) {
             startActivity(new Intent(DietitianMainActivity.this, GuideLinesActivity.class));
@@ -383,7 +465,7 @@ public class DietitianMainActivity extends AppCompatActivity
 
     private void getFood() {
         customDialog.show();
-        Call<List<CurrentFoodItem>> call = apiInterface.getCurrentFood(selectedTimeCategory,selectedDay);
+        Call<List<CurrentFoodItem>> call = apiInterface.getCurrentFood(selectedTimeCategory, selectedDay);
         call.enqueue(new Callback<List<CurrentFoodItem>>() {
             @Override
             public void onResponse(@NonNull Call<List<CurrentFoodItem>> call, @NonNull Response<List<CurrentFoodItem>> response) {
@@ -391,11 +473,10 @@ public class DietitianMainActivity extends AppCompatActivity
                 if (response.isSuccessful()) {
                     foodItems.clear();
                     List<CurrentFoodItem> timeCategoryItemList = response.body();
-                    if (timeCategoryItemList.size()>0) {
+                    if (timeCategoryItemList.size() > 0) {
                         foodItems.addAll(timeCategoryItemList);
                         showOrHideView(true);
-                    }
-                    else {
+                    } else {
                         showOrHideView(false);
                     }
                     foodAdapter.setList(foodItems);

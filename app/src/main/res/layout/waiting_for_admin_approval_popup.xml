@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_white_dialog_curved"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/_22sdp"
+
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_waiting"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            fontPath="fonts/Nunito-Bold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="22dp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="@string/admin_verify"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_18sdp"
+            tools:ignore="MissingPrefix" />
+        <TextView
+            android:id="@+id/tvDescription"
+            fontPath="fonts/Nunito-Bold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="12dp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="@string/pending_contact_admin"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_18sdp"
+            tools:ignore="MissingPrefix" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

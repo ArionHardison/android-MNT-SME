@@ -552,4 +552,7 @@
     <string name="manual_assign">Manual Assign</string>
     <string name="invited">Invited</string>
     <string name="protein">Protein</string>
+
+    <string name="admin_verify">Your account is not yet verified by admin.</string>
+    <string name="pending_contact_admin">Please contact the admin.</string>
 </resources>

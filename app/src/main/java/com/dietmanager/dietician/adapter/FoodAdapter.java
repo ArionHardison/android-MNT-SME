@@ -58,6 +58,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> 
         FoodItem foodItem = foodItems.get(position);
         holder.tvFoodTitle.setText(String.valueOf(foodItem.getName()));
         holder.tvFoodDescription.setText(String.valueOf(foodItem.getDescription()));
+        holder.tvFat.setText(String.valueOf(foodItem.getFat()));
+        holder.tvProteins.setText(String.valueOf(foodItem.getProtein()));
+        holder.tvCarb.setText(String.valueOf(foodItem.getCarbohydrates()));
         holder.tvFoodPrice.setText(String.valueOf(foodItem.getPrice()));
         holder.cardItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +116,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvFoodTitle,tvFoodDescription,tvFoodPrice;
+        TextView tvFoodTitle,tvFoodDescription,tvFoodPrice,tvCarb,tvFat,tvProteins;
         CardView cardItem;
         ImageView imgFood;
 
@@ -123,6 +126,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.MyViewHolder> 
             tvFoodTitle = view.findViewById(R.id.tv_food_title);
             tvFoodPrice = view.findViewById(R.id.tv_food_price);
             tvFoodDescription = view.findViewById(R.id.tv_food_description);
+            tvProteins = view.findViewById(R.id.tv_proteins);
+            tvFat = view.findViewById(R.id.tv_fat);
+            tvCarb = view.findViewById(R.id.tv_carb);
             cardItem = view.findViewById(R.id.card_item);
         }
     }

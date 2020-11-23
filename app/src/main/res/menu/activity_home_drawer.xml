@@ -13,7 +13,8 @@
             android:title="@string/history" />
         <item
             android:id="@+id/nav_chef_list"
-            android:title="@string/chef_list" />
+            android:title="@string/chef_list"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_subscribe_members"
             android:title="@string/subscribed_members" />
@@ -28,7 +29,8 @@
             android:title="@string/invited_user" />
         <item
             android:id="@+id/nav_guide_lines"
-            android:title="@string/guide_lines" /><!--
+            android:title="@string/guide_lines"
+            /><!--
         <item
             android:id="@+id/nav_portfolio"
             android:title="@string/portfolio" />-->
