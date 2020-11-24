@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.dietmanager.dietician.model.Order;
+import com.dietmanager.dietician.model.userrequest.UserRequestItem;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,12 +18,12 @@ public abstract class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    protected void sortOrdersToDescending(List<Order> orderList) {
+    protected void sortOrdersToDescending(List<UserRequestItem> orderList) {
         Collections.sort(orderList, (lhs, rhs) -> {
-            if (rhs.getCreatedAtDate() == null || lhs.getCreatedAtDate() == null) {
+            if (rhs.getCreatedAt() == null || lhs.getCreatedAt() == null) {
                 return 0;
             }
-            return rhs.getCreatedAtDate().compareTo(lhs.getCreatedAtDate());
+            return rhs.getCreatedAt().compareTo(lhs.getCreatedAt());
         });
     }
 }

@@ -55,6 +55,8 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
     TextView food_item_name;
     @BindView(R.id.food_item_price)
     TextView food_item_price;
+    @BindView(R.id.service_tax)
+    TextView service_tax;
     @BindView(R.id.item_total)
     TextView item_total;
     @BindView(R.id.llAssignChef)
@@ -105,10 +107,15 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             food_item_name.setText(userRequestItem.getFood().getName());
             food_item_price.setText(GlobalData.profile.getCurrency() + userRequestItem.getFood().getPrice());
             item_total.setText(GlobalData.profile.getCurrency() + userRequestItem.getPayable());
-            total.setText(GlobalData.profile.getCurrency() + userRequestItem.getPayable());
+            service_tax.setText(GlobalData.profile.getCurrency() + userRequestItem.getTax());
+            total.setText(GlobalData.profile.getCurrency() + userRequestItem.getTotal());
 
             if(userRequestItem.getUser()!=null&&userRequestItem.getUser().getSubscribePlans()!=null&&userRequestItem.getUser().getSubscribePlans().getSubscription().getAutoAssign()==1)
                 llAssignChef.setVisibility(View.GONE);
+
+            if(bundle.getBoolean("hideAssignChef",false))
+                llAssignChef.setVisibility(View.GONE);
+
         }
         context = OrderRequestDetailActivity.this;
         activity = OrderRequestDetailActivity.this;

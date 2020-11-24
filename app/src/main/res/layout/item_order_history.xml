@@ -5,24 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/activity_vertical_margin"
-    android:layout_marginTop="@dimen/activity_vertical_margin_half"
+    android:layout_marginTop="@dimen/_14sdp"
     android:layout_marginEnd="@dimen/activity_vertical_margin"
-    android:layout_marginBottom="@dimen/activity_vertical_margin_half"
+    android:layout_marginBottom="@dimen/_14sdp"
     android:elevation="@dimen/_4sdp"
     app:cardCornerRadius="@dimen/_4sdp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/very_light_grey"
-        android:padding="@dimen/activity_vertical_margin_half">
+        android:background="@color/colorWhite"
+        android:padding="@dimen/_14sdp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_img"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="@dimen/_55sdp"
+            android:layout_height="@dimen/_55sdp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_place_holder_image" />
+            android:src="@drawable/man" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/user_img"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/activity_vertical_margin_half">
+            android:paddingStart="@dimen/_14sdp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_semibold"
-                    android:textColor="@color/colorTextBlack"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_small" />
 
                 <TextView
@@ -67,25 +67,6 @@
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_small" />
 
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="@dimen/text_small" />
-
-                <TextView
-                    android:id="@+id/tvScheduleStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:text="@string/scheduled"
-                    android:textColor="@color/colorGreen"
-                    android:textSize="@dimen/text_small"
-                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -98,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="@string/item_order_price"
+                    android:text="@string/price"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/text_tiny" />
 
@@ -107,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:textColor="@color/colorTheme"
+                    android:textColor="@color/colorAccent"
                     android:textSize="@dimen/text_tiny" />
             </LinearLayout>
         </LinearLayout>

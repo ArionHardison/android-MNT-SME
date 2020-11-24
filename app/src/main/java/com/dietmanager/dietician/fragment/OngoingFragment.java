@@ -14,21 +14,18 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dietmanager.dietician.activity.OrderRequestDetailActivity;
-import com.dietmanager.dietician.activity.UserRequestActivity;
-import com.dietmanager.dietician.model.userrequest.UserRequestItem;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.activity.HistoryActivity;
 import com.dietmanager.dietician.activity.LoginActivity;
+import com.dietmanager.dietician.activity.OrderRequestDetailActivity;
 import com.dietmanager.dietician.adapter.HistoryAdapter;
-import com.dietmanager.dietician.model.HistoryModel;
-import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.ServerError;
+import com.dietmanager.dietician.model.userrequest.UserRequestItem;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,11 +37,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PastVisitFragment extends BaseFragment implements HistoryAdapter.IUserRequestListener {
+public class OngoingFragment extends BaseFragment implements HistoryAdapter.IUserRequestListener {
 
-    public static CancelledListListener cancelledListListener;
-    @BindView(R.id.past_rv)
-    RecyclerView pastRv;
+    public static PastVisitFragment.CancelledListListener cancelledListListener;
+    @BindView(R.id.ongoing_rv)
+    RecyclerView ongoingRv;
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
 
@@ -54,7 +51,7 @@ public class PastVisitFragment extends BaseFragment implements HistoryAdapter.IU
     private Activity activity;
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
-    public PastVisitFragment() {
+    public OngoingFragment() {
         // Required empty public constructor
     }
 
@@ -77,7 +74,7 @@ public class PastVisitFragment extends BaseFragment implements HistoryAdapter.IU
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_past_visit, container, false);
+        return inflater.inflate(R.layout.fragment_ongoing, container, false);
     }
 
     @Override
@@ -90,22 +87,21 @@ public class PastVisitFragment extends BaseFragment implements HistoryAdapter.IU
 
     private void setupAdapter() {
         historyAdapter = new HistoryAdapter(orderList, context,this);
-        pastRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        pastRv.setHasFixedSize(true);
-        pastRv.setAdapter(historyAdapter);
+        ongoingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        ongoingRv.setHasFixedSize(true);
+        ongoingRv.setAdapter(historyAdapter);
     }
 
     @Override
     public void onUserRequestItemClicked(UserRequestItem userRequestItem) {
         Intent intent = new Intent(activity, OrderRequestDetailActivity.class);
         intent.putExtra("userRequestItem", (Serializable)userRequestItem);
-        intent.putExtra("hideAssignChef", true);
         startActivity(intent);
     }
 
     private void getHistory() {
         HistoryActivity.showDialog();
-        Call<List<UserRequestItem>> call = apiInterface.getHistory("COMPLETED");
+        Call<List<UserRequestItem>> call = apiInterface.getHistory("ONGOING");
         call.enqueue(new Callback<List<UserRequestItem>>() {
             @Override
             public void onResponse(Call<List<UserRequestItem>> call, Response<List<UserRequestItem>> response) {
@@ -116,14 +112,14 @@ public class PastVisitFragment extends BaseFragment implements HistoryAdapter.IU
                     if (historyModel != null) {
                         if (historyModel.size() > 0) {
                             llNoRecords.setVisibility(View.GONE);
-                            pastRv.setVisibility(View.VISIBLE);
+                            ongoingRv.setVisibility(View.VISIBLE);
                             orderList = historyModel;
                             sortOrdersToDescending(orderList);
                             historyAdapter.setList(orderList);
                             historyAdapter.notifyDataSetChanged();
                         } else {
                             llNoRecords.setVisibility(View.VISIBLE);
-                            pastRv.setVisibility(View.GONE);
+                            ongoingRv.setVisibility(View.GONE);
                         }
                         if (cancelledListListener != null)
                             if (historyModel != null && historyModel.size() > 0) {

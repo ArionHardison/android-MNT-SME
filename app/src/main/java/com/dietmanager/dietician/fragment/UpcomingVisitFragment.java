@@ -111,14 +111,14 @@ public class UpcomingVisitFragment extends BaseFragment {
             }
         }
 
-        if (scheduledOrders.size() > 0) {
+ /*       if (scheduledOrders.size() > 0) {
             sortOrdersToDescending(scheduledOrders);
             onGoingHistoryList.add(new OngoingHistoryModel("SCHEDULED ORDERS", scheduledOrders));
         }
         if (onGoingOrders.size() > 0) {
             sortOrdersToDescending(onGoingOrders);
             onGoingHistoryList.add(new OngoingHistoryModel("ASAP ORDERS", onGoingOrders));
-        }
+        }*/
         adapter.setStickyItemList(onGoingHistoryList);
     }
 

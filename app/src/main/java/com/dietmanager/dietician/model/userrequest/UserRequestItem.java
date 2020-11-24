@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 public class UserRequestItem implements Serializable {
 
 	@SerializedName("schedule_at")
-	private Object scheduleAt;
+	private String  scheduleAt;
 
 	@SerializedName("created_at")
 	private String createdAt;
@@ -47,6 +47,12 @@ public class UserRequestItem implements Serializable {
 
 	@SerializedName("payable")
 	private String payable;
+	@SerializedName("tax")
+	private String tax;
+
+	public String getTax() {
+		return tax;
+	}
 
 	@SerializedName("user_id")
 	private int userId;
@@ -64,7 +70,7 @@ public class UserRequestItem implements Serializable {
 		return createdAt;
 	}
 
-	public Object getScheduleAt(){
+	public String getScheduleAt(){
 		return scheduleAt;
 	}
 

@@ -14,6 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dietmanager.dietician.activity.OrderRequestDetailActivity;
+import com.dietmanager.dietician.model.userrequest.OrderingredientItem;
+import com.dietmanager.dietician.model.userrequest.UserRequestItem;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.dietmanager.dietician.R;
@@ -27,6 +30,7 @@ import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +44,14 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CancelOrderFragment extends BaseFragment {
+public class CancelOrderFragment extends BaseFragment implements HistoryAdapter.IUserRequestListener {
 
     public static PastVisitFragment.CancelledListListener cancelledListListener;
     @BindView(R.id.cancel_rv)
     RecyclerView cancelRv;
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
-    List<Order> orderList = new ArrayList<>();
+    List<UserRequestItem> orderList = new ArrayList<>();
     HistoryAdapter historyAdapter;
     private Unbinder unbinder;
     private Context context;
@@ -92,10 +96,19 @@ public class CancelOrderFragment extends BaseFragment {
     }
 
     private void setupAdapter() {
-        historyAdapter = new HistoryAdapter(orderList, context);
+        historyAdapter = new HistoryAdapter(orderList, context,this);
         cancelRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         cancelRv.setHasFixedSize(true);
         cancelRv.setAdapter(historyAdapter);
+    }
+
+
+    @Override
+    public void onUserRequestItemClicked(UserRequestItem userRequestItem) {
+        Intent intent = new Intent(activity, OrderRequestDetailActivity.class);
+        intent.putExtra("userRequestItem", (Serializable)userRequestItem);
+        intent.putExtra("hideAssignChef", true);
+        startActivity(intent);
     }
 
     /*@Override
@@ -112,21 +125,21 @@ public class CancelOrderFragment extends BaseFragment {
 
     private void getHistory() {
         HistoryActivity.showDialog();
-        Call<HistoryModel> call = apiInterface.getHistory();
-        call.enqueue(new Callback<HistoryModel>() {
+        Call<List<UserRequestItem>> call = apiInterface.getHistory("CANCELLED");
+        call.enqueue(new Callback<List<UserRequestItem>>() {
             @Override
-            public void onResponse(Call<HistoryModel> call, Response<HistoryModel> response) {
+            public void onResponse(Call<List<UserRequestItem>> call, Response<List<UserRequestItem>> response) {
                 HistoryActivity.dismissDialog();
                 if (response.isSuccessful()) {
                     orderList.clear();
-                    HistoryModel historyModel = response.body();
+                    List<UserRequestItem> historyModel = response.body();
                     if (historyModel != null) {
-                        if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0) {
+                        if (historyModel.size() > 0) {
                             if (llNoRecords != null)
                                 llNoRecords.setVisibility(View.GONE);
                             if (cancelRv != null)
                                 cancelRv.setVisibility(View.VISIBLE);
-                            orderList = historyModel.getCANCELLED();
+                            orderList = historyModel;
                             sortOrdersToDescending(orderList);
                             historyAdapter.setList(orderList);
                             historyAdapter.notifyDataSetChanged();
@@ -137,10 +150,10 @@ public class CancelOrderFragment extends BaseFragment {
                                 cancelRv.setVisibility(View.GONE);
                         }
                         if (cancelledListListener != null)
-                            if (historyModel.getCANCELLED() != null && historyModel.getCANCELLED().size() > 0) {
-                                cancelledListListener.setCancelledListener(historyModel.getCANCELLED());
+                            if (historyModel != null && historyModel.size() > 0) {
+                                cancelledListListener.setCancelledListener(historyModel);
                             } else {
-                                cancelledListListener.setCancelledListener(new ArrayList<Order>());
+                                cancelledListListener.setCancelledListener(new ArrayList<UserRequestItem>());
                             }
                     }
                 } else {
@@ -159,7 +172,7 @@ public class CancelOrderFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<HistoryModel> call, Throwable t) {
+            public void onFailure(Call<List<UserRequestItem>> call, Throwable t) {
                 HistoryActivity.dismissDialog();
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
@@ -167,6 +180,6 @@ public class CancelOrderFragment extends BaseFragment {
     }
 
     public interface CancelledListListener {
-        void setCancelledListener(List<Order> cancelledOrder);
+        void setCancelledListener(List<UserRequestItem> cancelledOrder);
     }
 }

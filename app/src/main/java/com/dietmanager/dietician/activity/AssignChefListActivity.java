@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,6 +49,8 @@ public class AssignChefListActivity extends AppCompatActivity implements AssignC
     LinearLayout llNoRecords;
     CustomDialog customDialog;
 
+    @BindView(R.id.search_et)
+    EditText etSearch;
     private List<AssignChefItem> assignChefItems = new ArrayList<>();
     private AssignChefListAdapter chefListAdapter;
     private Context context;
@@ -74,6 +79,22 @@ public class AssignChefListActivity extends AppCompatActivity implements AssignC
         });
         setupAdapter();
         getAssignChefList();
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                chefListAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override

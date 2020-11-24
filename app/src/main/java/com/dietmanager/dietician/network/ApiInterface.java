@@ -231,8 +231,8 @@ public interface ApiInterface {
     @GET("/api/dietitian/current/food")
     Call<List<CurrentFoodItem>> getCurrentFood(@Query("category_id") int categoryId, @Query("day") int dayId);
 
-    @GET("api/dietitian/history")
-    Call<HistoryModel> getHistory();
+    @GET("api/dietitian/diet/orders/history")
+    Call<List<UserRequestItem>> getHistory(@Query("list") String status);
 
     @GET("api/dietitian/subscribers/list")
     Call<List<SubscribeItem>> getSubscribedList();

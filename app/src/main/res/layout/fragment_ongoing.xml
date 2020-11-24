@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/past_rv"
+        android:id="@+id/ongoing_rv"
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="wrap_content"/>
@@ -30,7 +30,7 @@
             android:textSize="@dimen/_13sdp"
             android:fontFamily="@font/nunito_semibold"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="@string/no_past_orders_found"/>
+            android:text="@string/no_ongoing_orders_found"/>
 
     </LinearLayout>
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">DietManager - Manager</string>
+    <string name="app_name" translatable="false">Dietitian - DietManager</string>
     <string name="facebook_app_id" translatable="false">609822126337013</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb609822126337013</string>
     <string name="google_client_id" translatable="false">925783581218-fj27e85rq3ehv23t1bij0fs01ngtupd5.apps.googleusercontent.com</string>
@@ -380,6 +380,7 @@
     <string name="no_addons_added">No addons added</string>
     <string name="no_upcoming_orders_found">No upcoming orders found.</string>
     <string name="no_past_orders_found">No past orders found</string>
+    <string name="no_ongoing_orders_found">No Ongoing orders found</string>
     <string name="no_subscribed_members_found">No new subscribed members</string>
     <string name="no_request_found">No request found</string>
     <string name="no_subscription_plan_found">Subscription plan not found</string>

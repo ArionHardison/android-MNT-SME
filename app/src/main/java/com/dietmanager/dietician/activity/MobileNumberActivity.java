@@ -413,7 +413,7 @@ public class MobileNumberActivity extends AppCompatActivity implements GoogleApi
     }
 
     private void getUserCountryInfo() {
-        Country country = Country.getCountryByName("US");
+        Country country = Country.getCountryByName("United States");
         if (country != null) {
             mCountryFlagImageView.setImageResource(country.getFlag());
             mCountryDialCodeTextView.setText(country.getDialCode());

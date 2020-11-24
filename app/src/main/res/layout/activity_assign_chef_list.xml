@@ -13,10 +13,31 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
+        <LinearLayout
+            android:id="@+id/llSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:orientation="horizontal"
+            android:padding="@dimen/_8sdp">
+
+            <EditText
+                android:id="@+id/search_et"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_weight="1"
+                android:background="@drawable/border_primary"
+                android:drawableEnd="@drawable/places_ic_search"
+                android:hint="@string/search_here"
+                android:textColor="@color/black"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10sdp" />
+
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chef_list_rv"
             android:layout_width="match_parent"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/llSearch"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:layout_height="wrap_content"/>

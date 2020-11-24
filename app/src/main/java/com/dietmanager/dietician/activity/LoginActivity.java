@@ -270,8 +270,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 initValues();
                 break;
             case R.id.forgot_password:
-                startActivity(new Intent(LoginActivity.this, MobileNumberActivity.class)
-                        .putExtra("signup", false));
+                startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
                 break;
             case R.id.donnot_have_account:
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
@@ -333,7 +332,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void getUserCountryInfo() {
-        Country country = Country.getCountryByName("US");
+        Country country = Country.getCountryByName("United States");
         if (country != null) {
             countryImage.setImageResource(country.getFlag());
             countryNumber.setText(country.getDialCode());

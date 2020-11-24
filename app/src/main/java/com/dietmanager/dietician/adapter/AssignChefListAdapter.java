@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,18 +21,22 @@ import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.assignchef.AssignChefItem;
+import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.subscribe.SubscribeItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAdapter.MyViewHolder> {
+public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAdapter.MyViewHolder> implements Filterable {
 
     private Context context;
     private IAssignChefListener listener;
     private List<AssignChefItem> list;
-
+    private List<AssignChefItem> filterItems =new ArrayList<>();
     public AssignChefListAdapter(List<AssignChefItem> list, Context con,IAssignChefListener listener) {
         this.list = list;
+        filterItems.clear();
+        filterItems.addAll(list);
         this.context = con;
         this.listener = listener;
     }
@@ -48,7 +54,7 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
         holder.userName.setText(item.getName());
         if(item.getAvatar()!=null){
             Glide.with(context)
-                    .load(AppConfigure.BASE_URL+item.getAvatar())
+                    .load(item.getAvatar())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.man)
@@ -71,6 +77,39 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
         return list.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            String charString = constraint.toString();
+            if (charString.isEmpty()) {
+                list=filterItems;
+                FilterResults filterResults = new Filter.FilterResults();
+                filterResults.values = list;
+                return filterResults;
+            } else {
+                List<AssignChefItem> filteredList = new ArrayList<AssignChefItem>();
+                for (AssignChefItem row : filterItems) {
+                    if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                        filteredList.add(row);
+                    }
+                }
+                list = filteredList;
+            }
+
+            FilterResults filterResults = new Filter.FilterResults();
+            filterResults.values = list;
+            return filterResults;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list = (ArrayList<AssignChefItem>)results.values;
+            notifyDataSetChanged();
+        }
+    };
 
     public void remove(Order item) {
         int position = list.indexOf(item);
@@ -81,6 +120,8 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
 
     public void setList(List<AssignChefItem> list) {
         this.list = list;
+        filterItems.clear();
+        filterItems.addAll(list);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
