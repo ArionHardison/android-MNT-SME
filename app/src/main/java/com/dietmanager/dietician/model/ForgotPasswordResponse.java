@@ -9,12 +9,23 @@ public class ForgotPasswordResponse {
     @SerializedName("message")
     @Expose
     private String message;
+    @SerializedName("error")
+    @Expose
+    private String error;
     @SerializedName("user")
     @Expose
     private SubscribedUser user;
 
     public String getMessage() {
         return message;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     public void setMessage(String message) {

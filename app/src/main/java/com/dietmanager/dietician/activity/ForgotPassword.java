@@ -1,10 +1,15 @@
 package com.dietmanager.dietician.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,13 +97,10 @@ public class ForgotPassword extends AppCompatActivity {
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
-                    Utils.displayMessage(ForgotPassword.this, response.body().getMessage());
-                    new Handler(getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            redirectToOtpScreen();
-                        }
-                    }, 1000);
+                    if (response.body().getMessage() != null) {
+                        redirectToOtpScreen(response.body().getMessage());
+                    } else if (response.body().getError() != null)
+                        Utils.displayMessage(ForgotPassword.this, response.body().getError());
                 } else {
                     try {
                         if (response.code() == 422) {
@@ -123,11 +125,20 @@ public class ForgotPassword extends AppCompatActivity {
         });
     }
 
-    private void redirectToOtpScreen() {
-        Intent intent = new Intent(this, OtpActivity.class);
-        intent.putExtra("email", strEmail);
-        startActivity(intent);
-        //finish();
+    private void redirectToOtpScreen(String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(title).setCancelable(false);
+        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(ForgotPassword.this, LoginActivity.class);
+                //intent.putExtra("email", strEmail);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+        builder.show();
     }
 
     private boolean validateInput() {

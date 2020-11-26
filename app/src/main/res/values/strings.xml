@@ -394,6 +394,7 @@
     <string name="shop_image">Shop Image</string>
     <string name="shop_banner">Shop Banner Image</string>
     <string name="invalid_email">Invalid Email</string>
+    <string name="invalid_mobile">The selected mobile is invalid</string>
     <string name="no_deliveries_found">No deliveries found</string>
     <string name="submit">Submit</string>
     <string name="give_your_feedback">Please select the reason for canceling</string>
@@ -497,6 +498,10 @@
     <string name="ok">Ok</string>
     <string name="wrong_otp">Wrong OTP</string>
     <string name="user_id">User Id</string>
+    <string name="wallet_amount">DietManager Credit Amount</string>
+    <string name="walletHistory">DietManager Credit</string>
+    <string name="wallet">Wallet</string>
+
     <string name="add_new">Add New</string>
     <string name="enter_user_email">Enter user email</string>
     <string name="enter_user_name">Enter user name</string>
@@ -544,6 +549,7 @@
     <string name="username">Username</string>
     <string name="mail_id">Mail id</string>
     <string name="food_item">Food item</string>
+    <string name="invited_user_not_found">Invited_user not found</string>
     <string name="chef_not_found">Chef not found</string>
     <string name="assign">Assign</string>
     <string name="select_subscription_plan">Select Subscription Plan</string>

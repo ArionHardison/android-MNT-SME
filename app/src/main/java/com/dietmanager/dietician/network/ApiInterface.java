@@ -20,6 +20,7 @@ import com.dietmanager.dietician.model.ResetPasswordResponse;
 import com.dietmanager.dietician.model.RevenueResponse;
 import com.dietmanager.dietician.model.StripeResponse;
 import com.dietmanager.dietician.model.Transporter;
+import com.dietmanager.dietician.model.WalletHistory;
 import com.dietmanager.dietician.model.assignchef.AssignChefItem;
 import com.dietmanager.dietician.model.currentfood.CurrentFoodItem;
 import com.dietmanager.dietician.model.food.FoodItem;
@@ -171,12 +172,15 @@ public interface ApiInterface {
     @POST("api/dietitian/password")
     Call<ChangePassword> changePassword(@FieldMap HashMap<String, String> params);
 
+    @GET("api/dietitian/wallet/transaction")
+    Call<List<WalletHistory>> getWalletHistory();
+
     @FormUrlEncoded
     @POST("api/dietitian/forgot/password")
     Call<ForgotPasswordResponse> forgotPassword(@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
-    @POST("api/user/forgot/password")
+    @POST("api/dietitian/forgot/password")
     Call<ForgotPassword> forgotPassword(@Field("phone") String mobile,
                                         @Field("hashcode") String hashcode);
 
@@ -187,6 +191,9 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/dietitian/assign/chef")
     Call<MessageResponse> assignChefPost(@FieldMap HashMap<String, String> params);
+    @FormUrlEncoded
+    @POST("api/dietitian/diet/cancel/order")
+    Call<MessageResponse> cancelOrderPost(@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
     @POST("api/dietitian/reset/password")

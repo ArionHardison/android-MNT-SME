@@ -358,6 +358,8 @@ public class DietitianMainActivity extends AppCompatActivity
         } else if (id == R.id.nav_chef_list) {
         } else if (id == R.id.nav_subscribe_members) {
             startActivity(new Intent(DietitianMainActivity.this, SubscribedMembersActivity.class));
+        }else if (id == R.id.nav_wallet) {
+            startActivity(new Intent(DietitianMainActivity.this, WalletActivity.class));
         } else if (id == R.id.nav_subscription_plans) {
             startActivity(new Intent(DietitianMainActivity.this, SubscribePlansActivity.class));
         } else if (id == R.id.nav_invite_link) {

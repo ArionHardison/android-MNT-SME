@@ -191,6 +191,10 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.WalletActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.ForgotPassword"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />

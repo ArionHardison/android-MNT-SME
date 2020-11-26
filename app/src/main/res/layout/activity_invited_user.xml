@@ -43,7 +43,7 @@
                 android:textSize="@dimen/_13sdp"
                 android:fontFamily="@font/nunito_semibold"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:text="@string/chef_not_found"/>
+                android:text="@string/invited_user_not_found"/>
 
         </LinearLayout>
     </RelativeLayout>

@@ -56,7 +56,6 @@ public class UserRequestActivity extends AppCompatActivity implements UserReques
             }
         });
         setupAdapter();
-        getUserRequestList();
     }
 
     private void setupAdapter() {
@@ -103,4 +102,9 @@ public class UserRequestActivity extends AppCompatActivity implements UserReques
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserRequestList();
+    }
 }

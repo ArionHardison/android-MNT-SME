@@ -23,21 +23,29 @@ import com.dietmanager.dietician.adapter.SubscribedPlanAdapter;
 import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.helper.GlobalData;
+import com.dietmanager.dietician.model.MessageResponse;
+import com.dietmanager.dietician.model.ServerError;
 import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.model.userrequest.OrderingredientItem;
 import com.dietmanager.dietician.model.userrequest.UserRequestItem;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrderRequestDetailActivity extends AppCompatActivity {
 
@@ -131,7 +139,42 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
         ingredientsAdapter.notifyDataSetChanged();
     }
 
-    @OnClick({R.id.back_img, R.id.call_img, R.id.navigation_img, R.id.assign_chef_btn})
+
+    private void cancelOrder(HashMap<String, String> map) {
+        customDialog.show();
+        Call<MessageResponse> call = apiInterface.cancelOrderPost(map);
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                customDialog.dismiss();
+                if (response.isSuccessful()) {
+                    Utils.displayMessage(OrderRequestDetailActivity.this, response.body().getMessage());
+                    finish();
+                } else {
+                    try {
+                        ServerError serverError = new Gson().fromJson(response.errorBody().charStream(), ServerError.class);
+                        Utils.displayMessage(OrderRequestDetailActivity.this, serverError.getError());
+                        if (response.code() == 401) {
+                            startActivity(new Intent(OrderRequestDetailActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            finish();
+                        }
+                    } catch (JsonSyntaxException e) {
+                        Utils.displayMessage(OrderRequestDetailActivity.this, getString(R.string.something_went_wrong));
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                customDialog.dismiss();
+                Utils.displayMessage(OrderRequestDetailActivity.this, getString(R.string.something_went_wrong));
+            }
+        });
+
+    }
+
+    @OnClick({R.id.back_img, R.id.call_img, R.id.navigation_img, R.id.assign_chef_btn,R.id.cancel_btn,})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -148,6 +191,11 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
                     startActivity(dialIntent);
                 else
                     Utils.displayMessage(this, "Call feature not supported");
+                break;
+            case R.id.cancel_btn:
+                HashMap<String, String> params = new HashMap<>();
+                params.put("order_id", String.valueOf(userRequestItem.getId()));
+                cancelOrder(params);
                 break;
             case R.id.navigation_img:
                 if (userRequestItem.getUser().getLatitude() != null && userRequestItem.getUser().getLongitude() != null) {

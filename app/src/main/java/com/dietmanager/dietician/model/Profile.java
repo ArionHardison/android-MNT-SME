@@ -68,6 +68,9 @@ public class Profile {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("wallet_balance")
+    @Expose
+    private String walletBalance;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -183,6 +186,14 @@ public class Profile {
 
     public Integer getOfferMinAmount() {
         return offerMinAmount;
+    }
+
+    public String getWalletBalance() {
+        return walletBalance;
+    }
+
+    public void setWalletBalance(String walletBalance) {
+        this.walletBalance = walletBalance;
     }
 
     public void setOfferMinAmount(Integer offerMinAmount) {
