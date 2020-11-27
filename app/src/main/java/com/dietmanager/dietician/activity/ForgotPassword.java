@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -77,7 +78,7 @@ public class ForgotPassword extends AppCompatActivity {
                     if (connectionHelper.isConnectingToInternet()) {
                         HashMap<String, String> params = new HashMap<>();
                         params.put("email", strEmail);
-                        getOTP(params);
+                        getApi(params);
                     } else
                         Utils.displayMessage(this, getString(R.string.oops_no_internet));
                 }
@@ -89,7 +90,7 @@ public class ForgotPassword extends AppCompatActivity {
         }
     }
 
-    private void getOTP(HashMap<String, String> map) {
+    private void getApi(HashMap<String, String> map) {
         customDialog.show();
         Call<ForgotPasswordResponse> call = apiInterface.forgotPassword(map);
         call.enqueue(new Callback<ForgotPasswordResponse>() {
@@ -98,7 +99,19 @@ public class ForgotPassword extends AppCompatActivity {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
                     if (response.body().getMessage() != null) {
-                        redirectToOtpScreen(response.body().getMessage());
+
+                        //Toast.makeText(ForgotPassword.this,  response.body().getMessage(), Toast.LENGTH_LONG).show();
+                       // redirectToOtpScreen(response.body().getMessage());
+                        androidx.appcompat.app.AlertDialog.Builder builder =
+                                new androidx.appcompat.app.AlertDialog.Builder(ForgotPassword.this, R.style.AppCompatAlertDialogStyle);
+                        builder.setTitle(getString(R.string.app_name));
+                        builder.setMessage(response.body().getMessage());
+                        builder.setPositiveButton(getResources().getString(R.string.okay), (dialog, which) -> {
+                            dialog.dismiss();
+                            finish();
+                        });
+                        //builder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
+                        builder.show();
                     } else if (response.body().getError() != null)
                         Utils.displayMessage(ForgotPassword.this, response.body().getError());
                 } else {
