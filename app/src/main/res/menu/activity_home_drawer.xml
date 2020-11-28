@@ -12,8 +12,8 @@
             android:id="@+id/nav_history"
             android:title="@string/history" />
         <item
-            android:id="@+id/nav_wallet"
-            android:title="@string/wallet" />
+            android:id="@+id/nav_earnings"
+            android:title="@string/earnings" />
         <item
             android:id="@+id/nav_chef_list"
             android:title="@string/chef_list"

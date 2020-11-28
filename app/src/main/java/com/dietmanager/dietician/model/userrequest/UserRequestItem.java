@@ -2,6 +2,8 @@ package com.dietmanager.dietician.model.userrequest;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.dietmanager.dietician.model.CustomerAddress;
 import com.google.gson.annotations.SerializedName;
 
 public class UserRequestItem implements Serializable {
@@ -14,7 +16,16 @@ public class UserRequestItem implements Serializable {
 
 	@SerializedName("discount")
 	private String discount;
+	@SerializedName("customer_address")
+	private CustomerAddress customerAddress;
 
+	public CustomerAddress getCustomerAddress() {
+		return customerAddress;
+	}
+
+	public void setCustomerAddress(CustomerAddress customerAddress) {
+		this.customerAddress = customerAddress;
+	}
 	@SerializedName("orderingredient")
 	private List<OrderingredientItem> orderingredient;
 

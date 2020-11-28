@@ -80,7 +80,7 @@ public class WalletActivity extends AppCompatActivity {
         customDialog = new CustomDialog(context);
 
 
-        title.setText(context.getResources().getString(R.string.wallet));
+        title.setText(context.getResources().getString(R.string.earnings));
         walletHistoryHistoryList = new ArrayList<>();
         walletHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         walletHistoryRecyclerView.setItemAnimator(new DefaultItemAnimator());

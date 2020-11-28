@@ -42,17 +42,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         UserRequestItem order = list.get(position);
-     /*   if (order.getAddress() != null) {
-            if (order.getAddress().getMapAddress() != null) {
-                holder.address.setText((order.getAddress().getBuilding() != null ? order.getAddress().getBuilding() + ", " : "") +
-                        order.getAddress().getMapAddress());
+        if (order.getCustomerAddress() != null) {
+            if (order.getCustomerAddress().getMapAddress() != null) {
+                holder.address.setText((order.getCustomerAddress().getBuilding() != null ? order.getCustomerAddress().getBuilding() + ", " : "") +
+                        order.getCustomerAddress().getMapAddress());
             }
-        } else {
-            if (order.getShop().getMapsAddress() != null) {
-                holder.address.setText(order.getShop().getMapsAddress());
-            }
-
-        }*/
+        }
         holder.price.setText(/*context.getString(R.string.currency_value)*/GlobalData.profile.getCurrency() + "" + order.getTotal());
 
         if (order.getUser() != null) {

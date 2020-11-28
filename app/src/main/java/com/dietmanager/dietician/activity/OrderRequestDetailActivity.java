@@ -198,8 +198,8 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
                 cancelOrder(params);
                 break;
             case R.id.navigation_img:
-                if (userRequestItem.getUser().getLatitude() != null && userRequestItem.getUser().getLongitude() != null) {
-                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", userRequestItem.getUser().getLatitude(), userRequestItem.getUser().getLatitude());
+                if (userRequestItem.getCustomerAddress().getLatitude() != 0.0 && userRequestItem.getCustomerAddress().getLongitude() != 0.0) {
+                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", userRequestItem.getCustomerAddress().getLatitude(), userRequestItem.getCustomerAddress().getLatitude());
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                     startActivity(intent);
                 } else

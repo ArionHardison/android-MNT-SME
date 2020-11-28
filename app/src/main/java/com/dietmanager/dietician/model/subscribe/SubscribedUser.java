@@ -16,7 +16,7 @@ public class SubscribedUser {
 	private String latitude;
 
 	@SerializedName("wallet_balance")
-	private int walletBalance;
+	private Double walletBalance;
 
 	@SerializedName("device_type")
 	private String deviceType;
@@ -82,7 +82,7 @@ public class SubscribedUser {
 		return latitude;
 	}
 
-	public int getWalletBalance(){
+	public Double getWalletBalance(){
 		return walletBalance;
 	}
 

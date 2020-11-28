@@ -19,7 +19,7 @@ public class User implements Serializable {
 	private String deviceId;
 
 	@SerializedName("wallet_balance")
-	private int walletBalance;
+	private Double walletBalance;
 
 	@SerializedName("subscribe_plans")
 	private SubscribePlans subscribePlans;
@@ -112,7 +112,7 @@ public class User implements Serializable {
 		return deviceId;
 	}
 
-	public int getWalletBalance(){
+	public Double getWalletBalance(){
 		return walletBalance;
 	}
 
