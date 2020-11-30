@@ -17,7 +17,7 @@ public class User{
 	private Object latitude;
 
 	@SerializedName("wallet_balance")
-	private int walletBalance;
+	private double walletBalance;
 
 	@SerializedName("subscribe_plans")
 	private SubscribePlans subscribePlans;
@@ -89,7 +89,7 @@ public class User{
 		return latitude;
 	}
 
-	public int getWalletBalance(){
+	public double getWalletBalance(){
 		return walletBalance;
 	}
 

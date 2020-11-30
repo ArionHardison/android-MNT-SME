@@ -49,7 +49,7 @@ public class SubscribedMemberAdapter extends RecyclerView.Adapter<SubscribedMemb
             holder.userName.setText(item.getUser().getName());
             if (item.getUser().getAvatar() != null) {
                 Glide.with(context)
-                        .load(AppConfigure.BASE_URL + item.getUser().getAvatar())
+                        .load(item.getUser().getAvatar())
                         .apply(new RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .placeholder(R.drawable.man)

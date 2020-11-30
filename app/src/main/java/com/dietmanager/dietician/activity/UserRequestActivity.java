@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.UserRequestAdapter;
+import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.model.userrequest.UserRequestItem;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
@@ -48,6 +49,7 @@ public class UserRequestActivity extends AppCompatActivity implements UserReques
         setContentView(R.layout.activity_user_request);
 
         ButterKnife.bind(this);
+        customDialog = new CustomDialog(this);
         ((TextView) findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.user_requests);
         findViewById(R.id.toolbar).findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,11 +74,14 @@ public class UserRequestActivity extends AppCompatActivity implements UserReques
         startActivity(intent);
     }
 
+    CustomDialog customDialog;
     private void getUserRequestList() {
+        customDialog.show();
         Call<List<UserRequestItem>> call = apiInterface.getUserRequests();
         call.enqueue(new Callback<List<UserRequestItem>>() {
             @Override
             public void onResponse(Call<List<UserRequestItem>> call, Response<List<UserRequestItem>> response) {
+                customDialog.dismiss();
                 if (response.isSuccessful()) {
                     userRequestItems.clear();
                     List<UserRequestItem> subscribedModel = response.body();
@@ -98,6 +103,7 @@ public class UserRequestActivity extends AppCompatActivity implements UserReques
             @Override
             public void onFailure(Call<List<UserRequestItem>> call, Throwable t) {
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
+                customDialog.dismiss();
             }
         });
     }

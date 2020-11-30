@@ -148,10 +148,12 @@ public class AssignChefListActivity extends AppCompatActivity implements AssignC
     }
 
     private void getAssignChefList() {
+        customDialog.show();
         Call<List<AssignChefItem>> call = apiInterface.getAssignChefList();
         call.enqueue(new Callback<List<AssignChefItem>>() {
             @Override
             public void onResponse(Call<List<AssignChefItem>> call, Response<List<AssignChefItem>> response) {
+                customDialog.dismiss();
                 if (response.isSuccessful()) {
                     assignChefItems.clear();
                     List<AssignChefItem> subscribedModel = response.body();
@@ -172,6 +174,7 @@ public class AssignChefListActivity extends AppCompatActivity implements AssignC
 
             @Override
             public void onFailure(Call<List<AssignChefItem>> call, Throwable t) {
+                customDialog.dismiss();
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
         });

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.model.MessageResponse;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
@@ -34,6 +35,8 @@ public class InviteLinkActivity extends AppCompatActivity {
     EditText email;
     @BindView(R.id.submit_btn)
     Button submit_btn;
+    public CustomDialog customDialog;
+
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     @Override
@@ -42,6 +45,7 @@ public class InviteLinkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_invite_link);
 
         ButterKnife.bind(this);
+        customDialog=new CustomDialog(this);
         ((TextView) findViewById(R.id.toolbar).findViewById(R.id.title)).setText(R.string.invite_link);
         findViewById(R.id.toolbar).findViewById(R.id.back_img).setVisibility(View.VISIBLE);
         findViewById(R.id.toolbar).findViewById(R.id.back_img).setOnClickListener(new View.OnClickListener() {
@@ -74,10 +78,12 @@ public class InviteLinkActivity extends AppCompatActivity {
     }
 
     private void inviteUser(HashMap<String, String> map) {
+        customDialog.show();
         Call<MessageResponse> call = apiInterface.inviteUser(map);
         call.enqueue(new Callback<MessageResponse>() {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                customDialog.cancel();
                 if (response.isSuccessful()) {
                     Toast.makeText(InviteLinkActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     finish();
@@ -98,6 +104,7 @@ public class InviteLinkActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MessageResponse> call, Throwable t) {
+                customDialog.cancel();
                 Utils.displayMessage(InviteLinkActivity.this, getString(R.string.something_went_wrong));
             }
         });
