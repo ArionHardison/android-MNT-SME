@@ -96,6 +96,7 @@ public class OngoingFragment extends BaseFragment implements HistoryAdapter.IUse
     public void onUserRequestItemClicked(UserRequestItem userRequestItem) {
         Intent intent = new Intent(activity, OrderRequestDetailActivity.class);
         intent.putExtra("userRequestItem", (Serializable)userRequestItem);
+        intent.putExtra("hideAssignChef", true);
         startActivity(intent);
     }
 

@@ -50,13 +50,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         }
         holder.price.setText(/*context.getString(R.string.currency_value)*/GlobalData.profile.getCurrency() + "" + order.getTotal());
 
+        holder.status.setText(order.getStatus());
         if (order.getUser() != null) {
             String name = Utils.toFirstCharUpperAll(order.getUser().getName());
             holder.userName.setText(name);
             Glide.with(context).load(order.getUser().getAvatar())
                     .apply(new RequestOptions().placeholder(R.drawable.man).error(R.drawable.man).dontAnimate()).into(holder.userImg);
         }
-        String payment_mode="Cash";
+        String payment_mode="Card";
         /*if (order.getInvoice().getPaymentMode().equalsIgnoreCase("stripe")) {
             payment_mode = context.getString(R.string.credit_card);
         } else {
@@ -102,7 +103,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address, paymentMode, price;
+        TextView userName, address, paymentMode, price,status;
         CardView itemLayout;
         ImageView userImg;
 
@@ -113,8 +114,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             address = view.findViewById(R.id.address);
             paymentMode = view.findViewById(R.id.payment_mode);
             itemLayout = view.findViewById(R.id.item_layout);
+            status = view.findViewById(R.id.status);
             userImg = view.findViewById(R.id.user_img);
         }
+
     }
 
     public interface IUserRequestListener{

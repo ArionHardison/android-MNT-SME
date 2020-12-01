@@ -108,6 +108,9 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             tvUserName.setText(userRequestItem.getUser().getName());
+
+            if(userRequestItem.getCustomerAddress()!=null)
+                tvUserAddress.setText(userRequestItem.getCustomerAddress().getMapAddress());
             if (userRequestItem.getFood().getAvatar() != null)
                 Glide.with(this).load(AppConfigure.BASE_URL + userRequestItem.getFood().getAvatar())
                         .apply(new RequestOptions().centerCrop().placeholder(R.drawable.man).error(R.drawable.man).dontAnimate()).into(userImg);
@@ -118,12 +121,14 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             service_tax.setText(GlobalData.profile.getCurrency() + userRequestItem.getTax());
             total.setText(GlobalData.profile.getCurrency() + userRequestItem.getTotal());
 
-            if(userRequestItem.getUser()!=null&&userRequestItem.getUser().getSubscribePlans()!=null&&userRequestItem.getUser().getSubscribePlans().getSubscription().getAutoAssign()==1)
+            if(userRequestItem.getUser()!=null&&userRequestItem.getUser().getSubscribePlans()!=null&&userRequestItem.getUser().getSubscribePlans().getSubscription()!=null&&userRequestItem.getUser().getSubscribePlans().getSubscription().getAutoAssign()==1)
                 llAssignChef.setVisibility(View.GONE);
 
             if(bundle.getBoolean("hideAssignChef",false))
                 llAssignChef.setVisibility(View.GONE);
 
+            if(!userRequestItem.getStatus().equalsIgnoreCase("ORDERED"))
+                llAssignChef.setVisibility(View.GONE);
         }
         context = OrderRequestDetailActivity.this;
         activity = OrderRequestDetailActivity.this;

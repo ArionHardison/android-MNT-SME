@@ -49,12 +49,12 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
         else
             holder.tvHeader.setVisibility(View.GONE);
 
-        holder.tvFoodName.setText(item.getFood().getName());
-        if(item.getUser().getMapAddress()!=null)
-            holder.tvFoodDescription.setText(item.getUser().getMapAddress());
-        if(item.getFood().getAvatar()!=null){
+        holder.tvFoodName.setText(item.getUser().getName());
+        if(item.getCustomerAddress()!=null)
+            holder.tvFoodDescription.setText(item.getCustomerAddress().getMapAddress());
+        if(item.getUser().getAvatar()!=null){
             Glide.with(context)
-                    .load(AppConfigure.BASE_URL+item.getFood().getAvatar())
+                    .load(item.getUser().getAvatar())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.shimmer_bg)
