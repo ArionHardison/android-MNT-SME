@@ -14,6 +14,13 @@ public class UserRequestItem implements Serializable {
 	@SerializedName("created_at")
 	private String createdAt;
 
+	@SerializedName("payment_mode")
+	private String payment_mode;
+
+	public String getPaymentMode() {
+		return payment_mode;
+	}
+
 	@SerializedName("discount")
 	private String discount;
 	@SerializedName("customer_address")

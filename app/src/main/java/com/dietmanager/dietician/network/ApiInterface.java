@@ -244,8 +244,8 @@ public interface ApiInterface {
     @GET("api/dietitian/subscribers/list")
     Call<List<SubscribeItem>> getSubscribedList();
 
-    @GET("api/dietitian/diet/get/chef")
-    Call<List<AssignChefItem>> getAssignChefList();
+    @GET("api/dietitian/diet-order/{id}/chef")
+    Call<List<AssignChefItem>> getAssignChefList(@Path("id")int id);
 
     @GET("api/dietitian/invited/users/lists")
     Call<List<InvitedUserItem>> getInvitedUser();

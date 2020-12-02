@@ -149,7 +149,7 @@ public class AssignChefListActivity extends AppCompatActivity implements AssignC
 
     private void getAssignChefList() {
         customDialog.show();
-        Call<List<AssignChefItem>> call = apiInterface.getAssignChefList();
+        Call<List<AssignChefItem>> call = apiInterface.getAssignChefList(orderId);
         call.enqueue(new Callback<List<AssignChefItem>>() {
             @Override
             public void onResponse(Call<List<AssignChefItem>> call, Response<List<AssignChefItem>> response) {

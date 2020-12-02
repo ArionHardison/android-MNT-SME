@@ -58,11 +58,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                     .apply(new RequestOptions().placeholder(R.drawable.man).error(R.drawable.man).dontAnimate()).into(holder.userImg);
         }
         String payment_mode="Card";
-        /*if (order.getInvoice().getPaymentMode().equalsIgnoreCase("stripe")) {
-            payment_mode = context.getString(R.string.credit_card);
-        } else {
-            payment_mode = Utils.toFirstCharUpperAll(order.getInvoice().getPaymentMode());
-        }*/
+        if (order.getPaymentMode()!=null) {
+            payment_mode = order.getPaymentMode();
+        }
         holder.paymentMode.setText(payment_mode);
         /*holder.itemLayout.setOnClickListener(v -> {
             GlobalData.selectedOrder = order;
