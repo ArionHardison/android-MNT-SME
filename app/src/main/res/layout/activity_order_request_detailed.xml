@@ -137,6 +137,13 @@
                                 android:tint="@color/colorAccent"
                                 android:layout_marginEnd="@dimen/_16sdp"
                                 android:src="@drawable/ic_call_24px"/>
+                            <ImageView
+                                android:id="@+id/message_img"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:tint="@color/colorAccent"
+                                android:layout_marginEnd="@dimen/_16sdp"
+                                android:src="@drawable/ic_chat_outline"/>
 
                             <ImageView
                                 android:id="@+id/navigation_img"
@@ -144,7 +151,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/_16sdp"
                                 android:tint="@color/colorAccent"
-
                                 android:src="@drawable/ic_navigation_24px"/>
                         </LinearLayout>
                         </LinearLayout>

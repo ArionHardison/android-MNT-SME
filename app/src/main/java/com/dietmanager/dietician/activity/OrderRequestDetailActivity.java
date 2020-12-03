@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.activity.fcm_chat.ChatActivity;
 import com.dietmanager.dietician.adapter.IngredientsInvoiceAdapter;
 import com.dietmanager.dietician.adapter.SubscribedPlanAdapter;
 import com.dietmanager.dietician.config.AppConfigure;
@@ -179,7 +180,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.back_img, R.id.call_img, R.id.navigation_img, R.id.assign_chef_btn,R.id.cancel_btn,})
+    @OnClick({R.id.back_img, R.id.call_img, R.id.navigation_img, R.id.assign_chef_btn,R.id.cancel_btn,R.id.message_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -201,6 +202,14 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("order_id", String.valueOf(userRequestItem.getId()));
                 cancelOrder(params);
+                break;
+            case R.id.message_img:
+                Intent intentMessage = new Intent(this, ChatActivity.class);
+                intentMessage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intentMessage.putExtra("channel_name", "" + userRequestItem.getId());
+                intentMessage.putExtra("channel_sender_id", "" + userRequestItem.getDietitian().getId());
+                intentMessage.putExtra("is_push", false);
+                startActivity(intentMessage);
                 break;
             case R.id.navigation_img:
                 if (userRequestItem.getCustomerAddress().getLatitude() != 0.0 && userRequestItem.getCustomerAddress().getLongitude() != 0.0) {

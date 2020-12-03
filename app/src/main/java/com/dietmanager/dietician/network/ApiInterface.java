@@ -74,6 +74,10 @@ public interface ApiInterface {
 
 
     @FormUrlEncoded
+    @POST("api/dietitian/chat/push")
+    Call<Object> chatPost(@FieldMap HashMap<String, String> paramss);
+
+    @FormUrlEncoded
     @POST("api/dietitian/add/food")
     Call<MessageResponse> addAdminFood(@FieldMap HashMap<String, String> params);
 
