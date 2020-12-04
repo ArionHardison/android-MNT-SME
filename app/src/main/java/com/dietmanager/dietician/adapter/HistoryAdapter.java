@@ -61,7 +61,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         if (order.getPaymentMode()!=null) {
             payment_mode = order.getPaymentMode();
         }
-        holder.paymentMode.setText(payment_mode);
+        holder.paymentMode.setText(Utils.toFirstCharUpperAll(payment_mode));
         /*holder.itemLayout.setOnClickListener(v -> {
             GlobalData.selectedOrder = order;
             Intent intent = new Intent(context, OrderRequestDetailActivity.class);

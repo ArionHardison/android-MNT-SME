@@ -18,6 +18,7 @@ import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.userrequest.UserRequestItem;
+import com.dietmanager.dietician.utils.Utils;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
         else
             holder.tvHeader.setVisibility(View.GONE);
 
-        holder.tvFoodName.setText(item.getUser().getName());
+        holder.tvFoodName.setText(Utils.toFirstCharUpperAll(item.getUser().getName()));
         if(item.getCustomerAddress()!=null)
             holder.tvFoodDescription.setText(item.getCustomerAddress().getMapAddress());
         if(item.getUser().getAvatar()!=null){

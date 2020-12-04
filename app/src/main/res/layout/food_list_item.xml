@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:focusable="false"
+    android:clickable="false"
     android:orientation="vertical">
 
 
@@ -15,6 +17,8 @@
         android:layout_marginStart="@dimen/_4sdp"
         android:layout_marginTop="@dimen/_4sdp"
         android:layout_marginBottom="@dimen/_8sdp"
+        android:focusable="false"
+        android:clickable="false"
         app:cardBackgroundColor="@color/colorWhite"
         app:cardCornerRadius="@dimen/_5sdp"
         app:cardElevation="@dimen/_1sdp">

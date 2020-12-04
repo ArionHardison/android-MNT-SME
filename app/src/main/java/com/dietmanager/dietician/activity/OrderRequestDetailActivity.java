@@ -108,7 +108,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            tvUserName.setText(userRequestItem.getUser().getName());
+            tvUserName.setText(Utils.toFirstCharUpperAll(userRequestItem.getUser().getName()));
 
             if(userRequestItem.getCustomerAddress()!=null)
                 tvUserAddress.setText(userRequestItem.getCustomerAddress().getMapAddress());
