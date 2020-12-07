@@ -13,6 +13,9 @@ public class Chat {
     @SerializedName("sender")
     @Expose
     private String sender;
+    @SerializedName("name")
+    @Expose
+    private String name="";
     @SerializedName("timestamp")
     @Expose
     private Long timestamp;
@@ -28,7 +31,13 @@ public class Chat {
     @SerializedName("readedMembers")
     @Expose
     private ArrayList<Integer> readedMembers;
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
     public String getSender() {
         return sender;
     }

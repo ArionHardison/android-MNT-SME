@@ -55,6 +55,10 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
 
     @BindView(R.id.rbAutoAssign)
     RadioButton rbAutoAssign;
+    @BindView(R.id.rbPrivate)
+    RadioButton rbPrivate;
+    @BindView(R.id.rbPublic)
+    RadioButton rbPublic;
 
     Context context;
     Activity activity;
@@ -89,6 +93,10 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
             etNoOfDays.setText(String.valueOf(subscriptionPlan.getNoOfDays()));
             if(subscriptionPlan.getAutoAssign()==1)
                 rbAutoAssign.setChecked(true);
+            if(subscriptionPlan.getAccess_method().equalsIgnoreCase("PRIVATE"))
+                rbPrivate.setChecked(true);
+            if(subscriptionPlan.getAccess_method().equalsIgnoreCase("PUBLIC"))
+                rbPublic.setChecked(true);
         }else {
             title.setText(getString(R.string.add_subscription_plan));
         }
@@ -135,8 +143,12 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
         map.put("no_of_days", String.valueOf(strPlanNoOfDays));
         map.put("price", String.valueOf(strPlanPrice));
         if (rbAutoAssign.isChecked()) {
-            map.put("auto_assign", "1");
+            map.put("access_method", "1");
         }
+        if (rbPrivate.isChecked())
+            map.put("access_method", "PRIVATE");
+        else
+            map.put("access_method", "PUBLIC");
         if(isEdit){
             map.put("_method","PATCH");
             Call<MessageResponse> call = apiInterface.editSubscriptionPlan(map,subscriptionPlan.getId());

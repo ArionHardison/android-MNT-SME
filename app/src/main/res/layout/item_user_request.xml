@@ -69,6 +69,13 @@
                         android:ellipsize="end"
                         android:textColor="@color/colorSecondaryText"
                         android:textSize="@dimen/_9sdp" />
+                    <TextView
+                        android:id="@+id/tv_subscription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:textColor="@color/colorSecondaryText"
+                        android:textSize="@dimen/_9sdp" />
 
 
                 </LinearLayout>

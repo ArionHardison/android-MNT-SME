@@ -10,6 +10,16 @@ public class SubscriptionPlanItem implements Serializable {
 	private int dietitianId;
 	@SerializedName("auto_assign")
 	private int autoAssign;
+	@SerializedName("access_method")
+	private String access_method;
+
+	public String getAccess_method() {
+		return access_method;
+	}
+
+	public void setAccess_method(String access_method) {
+		this.access_method = access_method;
+	}
 
 	public int getAutoAssign() {
 		return autoAssign;

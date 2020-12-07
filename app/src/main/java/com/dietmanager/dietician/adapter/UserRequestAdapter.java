@@ -51,6 +51,8 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
             holder.tvHeader.setVisibility(View.GONE);
 
         holder.tvFoodName.setText(Utils.toFirstCharUpperAll(item.getUser().getName()));
+        if(item.getUser().getSubscribePlans()!=null&&item.getUser().getSubscribePlans().getSubscription()!=null)
+            holder.tvSubscription.setText(Utils.toFirstCharUpperAll(item.getUser().getSubscribePlans().getSubscription().getTitle()));
         if(item.getCustomerAddress()!=null)
             holder.tvFoodDescription.setText(item.getCustomerAddress().getMapAddress());
         if(item.getUser().getAvatar()!=null){
@@ -90,7 +92,7 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvFoodName, tvFoodDescription,tvHeader;
+        TextView tvFoodName, tvFoodDescription,tvHeader,tvSubscription;
         CardView itemLayout;
         ImageView foodImg;
 
@@ -100,6 +102,7 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
             tvFoodDescription = view.findViewById(R.id.tv_food_description);
             itemLayout = view.findViewById(R.id.item_layout);
             foodImg = view.findViewById(R.id.food_img);
+            tvSubscription = view.findViewById(R.id.tv_subscription);
             tvHeader = view.findViewById(R.id.tvHeader);
         }
     }

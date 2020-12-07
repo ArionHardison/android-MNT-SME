@@ -565,4 +565,7 @@
     <string name="pending_contact_admin">Please contact the admin.</string>
     <string name="earnings">Earnings</string>
     <string name="chat">Chat</string>
+    <string name="select_private_or_public">Select Private or Public</string>
+    <string name="private_name">Private</string>
+    <string name="public_name">Public</string>
 </resources>
