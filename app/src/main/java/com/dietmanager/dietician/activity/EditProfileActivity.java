@@ -2,6 +2,8 @@ package com.dietmanager.dietician.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,7 +49,10 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,13 +78,27 @@ public class EditProfileActivity extends AppCompatActivity {
     EditText mobileNo;
     @BindView(R.id.email)
     EditText email;
+    @BindView(R.id.experience)
+    EditText experience;
+    @BindView(R.id.title)
+    TextView title;
+/*    @BindView(R.id.fb_link)
+    EditText fb_link;
+    @BindView(R.id.twitter_link)
+    EditText twitter_link;
+    @BindView(R.id.flickr_link)
+    EditText flickr_link;*/
     @BindView(R.id.update)
     Button update;
+    @BindView(R.id.dob)
+    TextView dob;
     CustomDialog customDialog;
     @BindView(R.id.back_img)
     ImageView back;
-    @BindView(R.id.title)
-    TextView title;
+    @BindView(R.id.etTitle)
+    TextView etTitle;
+    @BindView(R.id.etDescription)
+    TextView etDescription;
     @BindView(R.id.upload_profile)
     ImageView uploadProfile;
     File imgFile;
@@ -86,6 +106,9 @@ public class EditProfileActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 1;
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
+    String selectedDob="";
+    Calendar myCalendar = Calendar.getInstance();
+    DatePickerDialog.OnDateSetListener dateSetListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +130,21 @@ public class EditProfileActivity extends AppCompatActivity {
                 LocaleUtils.setLocale(this, "en");
                 break;
         }
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDob=year + "-" +(monthOfYear + 1) +"-" +dayOfMonth;
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                dob.setText(sdf.format(myCalendar.getTime()));
+            }
+
+        };
         initView();
         getProfile();
     }
@@ -116,13 +154,29 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onResume();
 
     }
+    private void openDatePicker() {
+        DatePickerDialog dialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, dateSetListener, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH));
+        //dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
 
+    }
     private void initView() {
         if (GlobalData.profile != null) {
             name.setText(GlobalData.profile.getName());
             email.setText(GlobalData.profile.getEmail());
             mobileNo.setText(GlobalData.profile.getPhone());
             userId.setText(String.valueOf(GlobalData.profile.getId()));
+            dob.setText(GlobalData.profile.getDob());
+            selectedDob=GlobalData.profile.getDob();
+            experience.setText(GlobalData.profile.getExperience());
+            etTitle.setText(GlobalData.profile.getTitle());
+            etDescription.setText(GlobalData.profile.getDescription());
+/*            fb_link.setText(GlobalData.profile.getFb_link());
+            twitter_link.setText(GlobalData.profile.getTwitter_link());
+            flickr_link.setText(GlobalData.profile.getFlickr_link());*/
             Glide.with(this)
                     .load(GlobalData.profile.getAvatar())
                     .apply(new RequestOptions()
@@ -192,6 +246,20 @@ public class EditProfileActivity extends AppCompatActivity {
                 email.getText().toString()));
         map.put("mobile", RequestBody.create(MediaType.parse("text/plain"),
                 mobileNo.getText().toString()));
+        map.put("dob", RequestBody.create(MediaType.parse("text/plain"),
+                selectedDob));
+        map.put("experience", RequestBody.create(MediaType.parse("text/plain"),
+                experience.getText().toString()));
+        map.put("title", RequestBody.create(MediaType.parse("text/plain"),
+                etTitle.getText().toString()));
+        map.put("description", RequestBody.create(MediaType.parse("text/plain"),
+                etDescription.getText().toString()));
+/*        map.put("fb_link", RequestBody.create(MediaType.parse("text/plain"),
+                fb_link.getText().toString()));
+        map.put("twitter_link", RequestBody.create(MediaType.parse("text/plain"),
+                twitter_link.getText().toString()));
+        map.put("flickr_link", RequestBody.create(MediaType.parse("text/plain"),
+                flickr_link.getText().toString()));*/
         MultipartBody.Part filePart = null;
 
         if (imgFile != null)
@@ -298,7 +366,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    @OnClick({R.id.back_img, R.id.upload_profile, R.id.update})
+    @OnClick({R.id.back_img, R.id.upload_profile, R.id.update, R.id.dob})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_img:
@@ -318,6 +386,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 break;
             case R.id.update:
                 updateProfile();
+                break;
+            case R.id.dob:
+                openDatePicker();
                 break;
         }
     }

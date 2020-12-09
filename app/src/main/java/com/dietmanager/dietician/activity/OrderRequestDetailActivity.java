@@ -76,6 +76,8 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
     ImageView backImg;
     @BindView(R.id.user_img)
     ImageView userImg;
+    @BindView(R.id.llContactUser)
+    LinearLayout llContactUser;
     @BindView(R.id.ingredients_rv)
     RecyclerView ingredients_rv;
     Context context;
@@ -110,6 +112,8 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             }
             tvUserName.setText(Utils.toFirstCharUpperAll(userRequestItem.getUser().getName()));
 
+            if(userRequestItem.getStatus().equalsIgnoreCase("COMPLETED"))
+                llContactUser.setVisibility(View.GONE);
             if(userRequestItem.getCustomerAddress()!=null)
                 tvUserAddress.setText(userRequestItem.getCustomerAddress().getMapAddress());
             if (userRequestItem.getFood().getAvatar() != null)

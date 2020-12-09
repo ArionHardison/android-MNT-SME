@@ -125,6 +125,7 @@
                                 android:textColor="@color/colorSecondaryText"
                                 android:textSize="@dimen/_12sdp" />
                             <LinearLayout
+                                android:id="@+id/llContactUser"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_4sdp"

@@ -143,7 +143,7 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
         map.put("no_of_days", String.valueOf(strPlanNoOfDays));
         map.put("price", String.valueOf(strPlanPrice));
         if (rbAutoAssign.isChecked()) {
-            map.put("access_method", "1");
+            map.put("auto_assign", "1");
         }
         if (rbPrivate.isChecked())
             map.put("access_method", "PRIVATE");

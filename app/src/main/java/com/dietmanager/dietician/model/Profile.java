@@ -31,7 +31,25 @@ public class Profile {
     private String defaultBanner;
     @SerializedName("description")
     @Expose
-    private String description;
+    private String description="";
+    @SerializedName("dob")
+    @Expose
+    private String dob="";
+    @SerializedName("experience")
+    @Expose
+    private String experience="";
+    @SerializedName("title")
+    @Expose
+    private String title="";
+    @SerializedName("fb_link")
+    @Expose
+    private String fb_link="";
+    @SerializedName("twitter_link")
+    @Expose
+    private String twitter_link="";
+    @SerializedName("flickr_link")
+    @Expose
+    private String flickr_link="";
     @SerializedName("offer_min_amount")
     @Expose
     private Integer offerMinAmount;
@@ -262,6 +280,54 @@ public class Profile {
 
     public void setPopular(Integer popular) {
         this.popular = popular;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getFb_link() {
+        return fb_link;
+    }
+
+    public void setFb_link(String fb_link) {
+        this.fb_link = fb_link;
+    }
+
+    public String getTwitter_link() {
+        return twitter_link;
+    }
+
+    public void setTwitter_link(String twitter_link) {
+        this.twitter_link = twitter_link;
+    }
+
+    public String getFlickr_link() {
+        return flickr_link;
+    }
+
+    public void setFlickr_link(String flickr_link) {
+        this.flickr_link = flickr_link;
     }
 
     public Integer getRating() {

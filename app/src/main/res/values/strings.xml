@@ -568,4 +568,10 @@
     <string name="select_private_or_public">Select Private or Public</string>
     <string name="private_name">Private</string>
     <string name="public_name">Public</string>
+    <string name="dob">DOB</string>
+    <string name="experience">Experience</string>
+    <string name="title">Title</string>
+    <string name="fb_link">FB Link</string>
+    <string name="twitter_link">Twitter Link</string>
+    <string name="flickr_link">Flickr Link</string>
 </resources>

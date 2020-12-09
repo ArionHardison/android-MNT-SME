@@ -447,7 +447,7 @@ public class SignUpActivity extends AppCompatActivity {
         map.put("mobile", etMobileNumber.getText().toString());
         map.put("password", password);
         map.put("password_confirmation", strConfirmPassword);
-        map.put("dial_code",country_code);
+        map.put("country_code",country_code);
         map.put("device_id", device_UDID);
         map.put("device_token", device_token);
         map.put("device_type", AppConstants.DEVICE_TYPE);
