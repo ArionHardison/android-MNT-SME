@@ -112,7 +112,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             }
             tvUserName.setText(Utils.toFirstCharUpperAll(userRequestItem.getUser().getName()));
 
-            if(userRequestItem.getStatus().equalsIgnoreCase("COMPLETED"))
+            if(userRequestItem.getStatus().equalsIgnoreCase("COMPLETED")||userRequestItem.getStatus().equalsIgnoreCase("CANCELLED"))
                 llContactUser.setVisibility(View.GONE);
             if(userRequestItem.getCustomerAddress()!=null)
                 tvUserAddress.setText(userRequestItem.getCustomerAddress().getMapAddress());

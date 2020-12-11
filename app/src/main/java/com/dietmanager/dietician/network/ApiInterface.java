@@ -23,6 +23,7 @@ import com.dietmanager.dietician.model.Transporter;
 import com.dietmanager.dietician.model.WalletHistory;
 import com.dietmanager.dietician.model.assignchef.AssignChefItem;
 import com.dietmanager.dietician.model.currentfood.CurrentFoodItem;
+import com.dietmanager.dietician.model.followers.Followers;
 import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.food.FoodResponse;
 import com.dietmanager.dietician.model.ingredients.IngredientsItem;
@@ -114,9 +115,9 @@ public interface ApiInterface {
     @POST("api/dietitian/oauth/token")
     Call<AuthToken> login(@FieldMap HashMap<String, String> params);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("api/dietitian/register")
-    Call<RegisterResponse> postRegister(@FieldMap HashMap<String, String> params);
+    Call<RegisterResponse> postRegister(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
 
     @Multipart
     @POST("api/dietitian/register")
@@ -134,6 +135,9 @@ public interface ApiInterface {
 
     @GET("api/dietitian/products")
     Call<List<ProductResponse>> getProductList();
+
+    @GET("api/dietitian/followers")
+    Call<List<Followers>> getFollowersList();
 
     @GET("api/dietitian/reasons")
     Call<CancelReasons> getCancelReasonList();

@@ -22,6 +22,9 @@
             android:id="@+id/nav_subscribe_members"
             android:title="@string/subscribed_members" />
         <item
+            android:id="@+id/nav_followers"
+            android:title="@string/followers" />
+        <item
             android:id="@+id/nav_subscription_plans"
             android:title="@string/subscription_plans" />
         <item

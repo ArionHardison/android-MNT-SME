@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.helper.CustomDialog;
 import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.helper.SharedHelper;
@@ -49,8 +50,11 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -169,8 +173,17 @@ public class EditProfileActivity extends AppCompatActivity {
             email.setText(GlobalData.profile.getEmail());
             mobileNo.setText(GlobalData.profile.getPhone());
             userId.setText(String.valueOf(GlobalData.profile.getId()));
-            dob.setText(GlobalData.profile.getDob());
-            selectedDob=GlobalData.profile.getDob();
+            if(GlobalData.profile.getDob()!=null&& !GlobalData.profile.getDob().equals("")) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                DateFormat dateStringFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date date = dateFormat.parse(GlobalData.profile.getDob());
+                    selectedDob = dateStringFormat.format(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                };
+            }
+            dob.setText(selectedDob);
             experience.setText(GlobalData.profile.getExperience());
             etTitle.setText(GlobalData.profile.getTitle());
             etDescription.setText(GlobalData.profile.getDescription());
@@ -178,7 +191,7 @@ public class EditProfileActivity extends AppCompatActivity {
             twitter_link.setText(GlobalData.profile.getTwitter_link());
             flickr_link.setText(GlobalData.profile.getFlickr_link());*/
             Glide.with(this)
-                    .load(GlobalData.profile.getAvatar())
+                    .load(AppConfigure.BASE_URL+GlobalData.profile.getAvatar())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.man)

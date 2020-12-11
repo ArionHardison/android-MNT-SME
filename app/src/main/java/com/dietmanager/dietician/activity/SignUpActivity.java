@@ -1,5 +1,6 @@
 package com.dietmanager.dietician.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -7,7 +8,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Base64;
@@ -27,6 +32,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.AppConstants;
 import com.dietmanager.dietician.countrypicker.Country;
@@ -49,12 +57,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -64,12 +82,21 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignUpActivity extends AppCompatActivity {
-
+    private static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 0;
+    @BindView(R.id.user_avatar)
+    CircleImageView userAvatar;
     @BindView(R.id.email)
     EditText emailEdit;
     @BindView(R.id.name)
@@ -78,9 +105,14 @@ public class SignUpActivity extends AppCompatActivity {
     EditText passwordEdit;
     @BindView(R.id.sign_up)
     Button signUpBtn;
+
+    @BindView(R.id.address_lay)
+    RelativeLayout addressLay;
+    @BindView(R.id.txt_address)
+    TextView txtAddress;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-    @BindView(R.id.app_logo)
-    ImageView appLogo;
+ /*   @BindView(R.id.app_logo)
+    ImageView appLogo;*/
 
     String name, email, password, strConfirmPassword;
     String GRANT_TYPE = "password";
@@ -96,7 +128,10 @@ public class SignUpActivity extends AppCompatActivity {
     ImageView confirmPasswordEyeImg;
     ConnectionHelper connectionHelper;
     Activity activity;
+    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 333;
 
+    LatLng location;
+    private int PICK_IMAGE_REQUEST = 145;
     String device_token, device_UDID;
     Utils utils = new Utils();
     String TAG = "Login";
@@ -120,6 +155,9 @@ public class SignUpActivity extends AppCompatActivity {
     GoogleApiClient mGoogleApiClient;
     private String hashcode = "";
 
+    @BindView(R.id.upload_profile)
+    ImageView uploadProfile;
+    File imgFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
+        Places.initialize(SignUpActivity.this, getResources().getString(R.string.google_maps_key));
         context = SignUpActivity.this;
         activity = SignUpActivity.this;
         connectionHelper = new ConnectionHelper(context);
@@ -263,7 +302,14 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.sign_up, R.id.back_img, R.id.password_eye_img, R.id.confirm_password_eye_img})
+    public void goToImageIntent() {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+
+    @OnClick({R.id.sign_up, R.id.back_img, R.id.password_eye_img, R.id.confirm_password_eye_img, R.id.upload_profile, R.id.address_lay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.sign_up:
@@ -271,6 +317,25 @@ public class SignUpActivity extends AppCompatActivity {
                 break;
             case R.id.back_img:
                 onBackPressed();
+                break;
+            case R.id.address_lay:
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ADDRESS);
+                // Start the autocomplete intent.
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(this);
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                break;
+            case R.id.upload_profile:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        goToImageIntent();
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
+                    }
+                } else {
+                    goToImageIntent();
+                }
                 break;
             case R.id.password_eye_img:
                 if (passwordEyeImg.getTag().equals(1)) {
@@ -298,9 +363,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    public void signup(HashMap<String, String> map) {
+    public void signup(HashMap<String, RequestBody> map, MultipartBody.Part filename) {
         customDialog.show();
-        Call<RegisterResponse> call = apiInterface.postRegister(map);
+        Call<RegisterResponse> call = apiInterface.postRegister(map, filename);
         call.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(@NonNull Call<RegisterResponse> call, @NonNull Response<RegisterResponse> response) {
@@ -309,7 +374,7 @@ public class SignUpActivity extends AppCompatActivity {
                     /*map.put("mobile",etMobileNumber.getText().toString());
                     map.put("dial_code",country_code);*/
 
-                    map.put("username",email);
+                    map.put("username", email);
                     map.put("password", password);
                     //map.put("grant_type", "password");
                     //map.put("client_id", AppConfigure.CLIENT_ID);
@@ -347,6 +412,84 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void getAddress(final double latitude, final double longitude) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/maps/api/geocode/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Call<ResponseBody> call = retrofit.create(ApiInterface.class)
+                .getResponse(latitude + "," + longitude, getString(R.string.google_maps_key));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                Log.e("SUCCESS", "SUCCESS" + response.body());
+                if (response.body() != null) {
+                    try {
+                        String bodyString = new String(response.body().bytes());
+                        Log.e("SUCCESS", "bodyString" + bodyString);
+                        JSONObject jsonObj = new JSONObject(bodyString);
+                        JSONArray jsonArray = jsonObj.optJSONArray("results");
+                        if (jsonArray != null && jsonArray.length() > 0) {
+                            txtAddress.setText(jsonArray.optJSONObject(0).optString("formatted_address"));
+                        }
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                Log.e("onFailure", "onFailure" + call.request().url());
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == 111) {
+            signUp();
+        } else if (resultCode == RESULT_OK&&requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                getAddress(place.getLatLng().latitude, place.getLatLng().longitude);
+                location = place.getLatLng();
+        } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            // Get the cursor
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            // Move to first row
+            assert cursor != null;
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String imgDecodableString = cursor.getString(columnIndex);
+            cursor.close();
+
+            Glide.with(this)
+                    .load(imgDecodableString)
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.man)
+                            .error(R.drawable.man))
+                    .into(userAvatar);
+//            imgFile = new File(imgDecodableString);
+
+            try {
+                imgFile =
+                        new id.zelory.compressor.Compressor(SignUpActivity.this).compressToFile(new File(imgDecodableString));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if (resultCode == Activity.RESULT_CANCELED)
+            Toast.makeText(this, getResources().getString(R.string.dont_pick_image),
+                    Toast.LENGTH_SHORT).show();
     }
 
     private void signOut() {
@@ -428,30 +571,42 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(this, getResources().getString(R.string.please_enter_your_confirm_password), Toast.LENGTH_SHORT).show();
         } else if (!strConfirmPassword.equalsIgnoreCase(password) && GlobalData.loginBy.equals("manual")) {
             Toast.makeText(this, getResources().getString(R.string.password_and_confirm_password_doesnot_match), Toast.LENGTH_SHORT).show();
+        } else if (imgFile == null) {
+            Toast.makeText(this, getResources().getString(R.string.please_upload_profile_picture), Toast.LENGTH_SHORT).show();
+        } else if (location == null) {
+            Toast.makeText(this, getResources().getString(R.string.please_select_address), Toast.LENGTH_SHORT).show();
         } else {
-
-                    HashMap<String, String> map1 = new HashMap<>();
-                    map1.put("dial_code",country_code );
+            HashMap<String, String> map1 = new HashMap<>();
+            map1.put("dial_code", country_code);
             map1.put("mobile", etMobileNumber.getText().toString());
-                    //map1.put("login_by", GlobalData.loginBy);
-                    //map1.put("accessToken", GlobalData.access_token);
-                    getOtpVerification(map1);
+            //map1.put("login_by", GlobalData.loginBy);
+            //map1.put("accessToken", GlobalData.access_token);
+            getOtpVerification(map1);
         }
     }
 
 
-    private void signUp(){
-        HashMap<String, String> map = new HashMap<>();
-        map.put("name", name);
-        map.put("email", email);
-        map.put("mobile", etMobileNumber.getText().toString());
-        map.put("password", password);
-        map.put("password_confirmation", strConfirmPassword);
-        map.put("country_code",country_code);
-        map.put("device_id", device_UDID);
-        map.put("device_token", device_token);
-        map.put("device_type", AppConstants.DEVICE_TYPE);
-        signup(map);
+    private void signUp() {
+        HashMap<String, RequestBody> map = new HashMap<>();
+        map.put("name", RequestBody.create(MediaType.parse("text/plain"), name));
+        map.put("email", RequestBody.create(MediaType.parse("text/plain"), email));
+        map.put("mobile", RequestBody.create(MediaType.parse("text/plain"), etMobileNumber.getText().toString()));
+        map.put("password", RequestBody.create(MediaType.parse("text/plain"), password));
+        map.put("password_confirmation", RequestBody.create(MediaType.parse("text/plain"), strConfirmPassword));
+        map.put("country_code", RequestBody.create(MediaType.parse("text/plain"), country_code));
+        map.put("device_id", RequestBody.create(MediaType.parse("text/plain"), device_UDID));
+        map.put("device_token", RequestBody.create(MediaType.parse("text/plain"), device_token));
+        map.put("device_type", RequestBody.create(MediaType.parse("text/plain"), AppConstants.DEVICE_TYPE));
+        if (location != null) {
+            map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
+            map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
+        }
+        MultipartBody.Part filePart = null;
+
+        if (imgFile != null)
+            filePart = MultipartBody.Part.createFormData("avatar", imgFile.getName(),
+                    RequestBody.create(MediaType.parse("image/*"), imgFile));
+        signup(map, filePart);
     }
 
     public void getOtpVerification(HashMap<String, String> map) {
@@ -543,14 +698,6 @@ public class SignUpActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.anim_nothing, R.anim.slide_out_right);
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == 111) {
-            signUp();
-        }
-    }
 
     private boolean isValidMobile(String phone) {
         boolean check = false;

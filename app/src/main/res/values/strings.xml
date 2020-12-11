@@ -213,6 +213,8 @@
     <string name="please_enter_minimum_length_password">Please enter atleast 6 characters in password</string>
     <string name="please_enter_name">Please enter name</string>
     <string name="please_enter_phone_number">Please enter valid phone number</string>
+    <string name="please_upload_profile_picture">Please upload profile picture</string>
+    <string name="please_select_address">Please select address</string>
     <string name="please_enter_confirm_password">Please enter confirm password</string>
     <string name="password_and_confirm_password_doesnot_match">Password and Confirm Password doesn\'t match!</string>
     <string name="please_fill_your_address">Please fill your address</string>
@@ -574,4 +576,6 @@
     <string name="fb_link">FB Link</string>
     <string name="twitter_link">Twitter Link</string>
     <string name="flickr_link">Flickr Link</string>
+    <string name="followers">Followers</string>
+    <string name="followers_not_found">Followers not found</string>
 </resources>

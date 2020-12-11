@@ -31,6 +31,7 @@ import com.dietmanager.dietician.adapter.DaysAdapter;
 import com.dietmanager.dietician.adapter.FoodAdapter;
 import com.dietmanager.dietician.adapter.TimeCategoryAdapter;
 import com.dietmanager.dietician.application.MyApplication;
+import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.controller.GetProfile;
 import com.dietmanager.dietician.controller.ProfileListener;
 import com.dietmanager.dietician.helper.ConnectionHelper;
@@ -258,7 +259,7 @@ public class DietitianMainActivity extends AppCompatActivity
             name.setText(GlobalData.profile.getName());
             //userId.setText(String.valueOf(GlobalData.profile.getId()));
             Glide.with(this)
-                    .load(GlobalData.profile.getAvatar())
+                    .load(AppConfigure.BASE_URL+GlobalData.profile.getAvatar())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .placeholder(R.drawable.man)
@@ -358,6 +359,8 @@ public class DietitianMainActivity extends AppCompatActivity
         } else if (id == R.id.nav_chef_list) {
         } else if (id == R.id.nav_subscribe_members) {
             startActivity(new Intent(DietitianMainActivity.this, SubscribedMembersActivity.class));
+        } else if (id == R.id.nav_followers) {
+            startActivity(new Intent(DietitianMainActivity.this, FollowersActivity.class));
         }else if (id == R.id.nav_earnings) {
             startActivity(new Intent(DietitianMainActivity.this, WalletActivity.class));
         } else if (id == R.id.nav_subscription_plans) {
