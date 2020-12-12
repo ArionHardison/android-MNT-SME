@@ -26,7 +26,7 @@ public class Followers{
 	private String otp;
 
 	@SerializedName("avatar")
-	private String avatar;
+	private String avatar="";
 
 	@SerializedName("is_verified")
 	private int isVerified;

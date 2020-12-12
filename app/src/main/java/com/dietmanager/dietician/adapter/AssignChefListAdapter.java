@@ -32,8 +32,9 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
     private Context context;
     private IAssignChefListener listener;
     private List<AssignChefItem> list;
-    private List<AssignChefItem> filterItems =new ArrayList<>();
-    public AssignChefListAdapter(List<AssignChefItem> list, Context con,IAssignChefListener listener) {
+    private List<AssignChefItem> filterItems = new ArrayList<>();
+
+    public AssignChefListAdapter(List<AssignChefItem> list, Context con, IAssignChefListener listener) {
         this.list = list;
         filterItems.clear();
         filterItems.addAll(list);
@@ -52,15 +53,13 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
     public void onBindViewHolder(AssignChefListAdapter.MyViewHolder holder, final int position) {
         AssignChefItem item = list.get(position);
         holder.userName.setText(item.getName());
-        if(item.getAvatar()!=null){
-            Glide.with(context)
-                    .load(AppConfigure.BASE_URL+item.getAvatar())
-                    .apply(new RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .placeholder(R.drawable.man)
-                            .error(R.drawable.man))
-                    .into(holder.userImg);
-        }
+        Glide.with(context)
+                .load(AppConfigure.BASE_URL + item.getAvatar())
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.man)
+                        .error(R.drawable.man))
+                .into(holder.userImg);
         holder.address.setText(item.getAddress());
         holder.rating.setText(item.getRating());
 
@@ -81,12 +80,13 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
     public Filter getFilter() {
         return exampleFilter;
     }
+
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             String charString = constraint.toString();
             if (charString.isEmpty()) {
-                list=filterItems;
+                list = filterItems;
                 FilterResults filterResults = new Filter.FilterResults();
                 filterResults.values = list;
                 return filterResults;
@@ -104,9 +104,10 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
             filterResults.values = list;
             return filterResults;
         }
+
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            list = (ArrayList<AssignChefItem>)results.values;
+            list = (ArrayList<AssignChefItem>) results.values;
             notifyDataSetChanged();
         }
     };
@@ -126,7 +127,7 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, address,rating;
+        TextView userName, address, rating;
         LinearLayout itemLayout;
         ImageView userImg;
         Button btnAssign;
@@ -142,7 +143,7 @@ public class AssignChefListAdapter extends RecyclerView.Adapter<AssignChefListAd
         }
     }
 
-    public interface IAssignChefListener{
+    public interface IAssignChefListener {
         void onAssignChefClicked(AssignChefItem assignChefItem);
     }
 }

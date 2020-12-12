@@ -26,7 +26,7 @@ public class User{
 	private String otp;
 
 	@SerializedName("avatar")
-	private Object avatar;
+	private String avatar="";
 
 	@SerializedName("is_verified")
 	private int isVerified;
@@ -136,11 +136,11 @@ public class User{
 		return otp;
 	}
 
-	public void setAvatar(Object avatar){
+	public void setAvatar(String avatar){
 		this.avatar = avatar;
 	}
 
-	public Object getAvatar(){
+	public String getAvatar(){
 		return avatar;
 	}
 

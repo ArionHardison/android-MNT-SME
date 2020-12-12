@@ -86,7 +86,7 @@ public class AddSubscriptionPlanActivity  extends AppCompatActivity {
         if(isEdit){
             subscriptionPlan = (SubscriptionPlanItem) bundle.getSerializable("subscriptionPlan");
             title.setText(getString(R.string.edit_subscription_plan));
-            addBtn.setText(getString(R.string.edit));
+            addBtn.setText(getString(R.string.save));
             etPlanName.setText(subscriptionPlan.getTitle());
             etDescription.setText(subscriptionPlan.getDescription());
             etPrice.setText(subscriptionPlan.getPrice());

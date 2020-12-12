@@ -28,7 +28,7 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
     private IUserRequestListener listener;
     private List<UserRequestItem> list;
 
-    public UserRequestAdapter(List<UserRequestItem> list, Context con,IUserRequestListener listener) {
+    public UserRequestAdapter(List<UserRequestItem> list, Context con, IUserRequestListener listener) {
         this.list = list;
         this.context = con;
         this.listener = listener;
@@ -45,25 +45,23 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
     public void onBindViewHolder(UserRequestAdapter.MyViewHolder holder, final int position) {
         UserRequestItem item = list.get(position);
 
-        if(item.getStatus().equalsIgnoreCase("ORDERED"))
+        if (item.getStatus().equalsIgnoreCase("ORDERED"))
             holder.tvHeader.setVisibility(View.VISIBLE);
         else
             holder.tvHeader.setVisibility(View.GONE);
 
         holder.tvFoodName.setText(Utils.toFirstCharUpperAll(item.getUser().getName()));
-        if(item.getUser().getSubscribePlans()!=null&&item.getUser().getSubscribePlans().getSubscription()!=null)
+        if (item.getUser().getSubscribePlans() != null && item.getUser().getSubscribePlans().getSubscription() != null)
             holder.tvSubscription.setText(Utils.toFirstCharUpperAll(item.getUser().getSubscribePlans().getSubscription().getTitle()));
-        if(item.getCustomerAddress()!=null)
+        if (item.getCustomerAddress() != null)
             holder.tvFoodDescription.setText(item.getCustomerAddress().getMapAddress());
-        if(item.getUser().getAvatar()!=null){
-            Glide.with(context)
-                    .load(AppConfigure.BASE_URL+item.getUser().getAvatar())
-                    .apply(new RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .placeholder(R.drawable.shimmer_bg)
-                            .error(R.drawable.shimmer_bg))
-                    .into(holder.foodImg);
-        }
+        Glide.with(context)
+                .load(AppConfigure.BASE_URL + item.getUser().getAvatar())
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.man)
+                        .error(R.drawable.man))
+                .into(holder.foodImg);
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +90,7 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvFoodName, tvFoodDescription,tvHeader,tvSubscription;
+        TextView tvFoodName, tvFoodDescription, tvHeader, tvSubscription;
         CardView itemLayout;
         ImageView foodImg;
 
@@ -107,7 +105,7 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
         }
     }
 
-    public interface IUserRequestListener{
+    public interface IUserRequestListener {
         void onUserRequestItemClicked(UserRequestItem userRequestItem);
     }
 }

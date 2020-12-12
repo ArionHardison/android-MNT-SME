@@ -44,7 +44,6 @@ public class InvitedUserAdapter extends RecyclerView.Adapter<InvitedUserAdapter.
     public void onBindViewHolder(InvitedUserAdapter.MyViewHolder holder, final int position) {
         InvitedUserItem item = list.get(position);
         holder.userName.setText(item.getUser().getName());
-        if(item.getUser().getAvatar()!=null){
             Glide.with(context)
                     .load(AppConfigure.BASE_URL+item.getUser().getAvatar())
                     .apply(new RequestOptions()
@@ -52,7 +51,6 @@ public class InvitedUserAdapter extends RecyclerView.Adapter<InvitedUserAdapter.
                             .placeholder(R.drawable.man)
                             .error(R.drawable.man))
                     .into(holder.userImg);
-        }
         if(item.getUser().getMapAddress()!=null)
             holder.address.setText(item.getUser().getMapAddress());
         holder.rating.setText(item.getUser().getRating());

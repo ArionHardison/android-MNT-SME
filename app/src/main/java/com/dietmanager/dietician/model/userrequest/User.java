@@ -45,7 +45,7 @@ public class User implements Serializable {
 	private String otp;
 
 	@SerializedName("avatar")
-	private Object avatar;
+	private String avatar="";
 
 	@SerializedName("cuisines")
 	private Object cuisines;
@@ -124,7 +124,7 @@ public class User implements Serializable {
 		return otp;
 	}
 
-	public Object getAvatar(){
+	public String getAvatar(){
 		return avatar;
 	}
 

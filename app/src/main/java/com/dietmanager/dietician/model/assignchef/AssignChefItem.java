@@ -29,7 +29,7 @@ public class AssignChefItem{
 	private String deviceType;
 
 	@SerializedName("avatar")
-	private Object avatar;
+	private String avatar="";
 
 	@SerializedName("deleted_at")
 	private Object deletedAt;
@@ -133,11 +133,11 @@ public class AssignChefItem{
 		return deviceType;
 	}
 
-	public void setAvatar(Object avatar){
+	public void setAvatar(String avatar){
 		this.avatar = avatar;
 	}
 
-	public Object getAvatar(){
+	public String getAvatar(){
 		return avatar;
 	}
 
