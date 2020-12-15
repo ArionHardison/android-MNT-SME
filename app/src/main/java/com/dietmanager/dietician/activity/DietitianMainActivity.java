@@ -314,6 +314,13 @@ public class DietitianMainActivity extends AppCompatActivity
             purchasedDialog.setCancelable(false);
             LayoutInflater inflater = purchasedDialog.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.waiting_for_admin_approval_popup, frameView);
+            dialogView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //finish();
+                    showLogoutAlertDialog();
+                }
+            });
             purchasedDialog.show();
             isWaitingForAdminShowing=true;
         } catch (Exception e) {

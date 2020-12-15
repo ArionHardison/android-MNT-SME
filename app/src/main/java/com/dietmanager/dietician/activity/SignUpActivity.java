@@ -487,7 +487,7 @@ public class SignUpActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        } else if (resultCode == Activity.RESULT_CANCELED)
+        } else if (requestCode == PICK_IMAGE_REQUEST&&resultCode == Activity.RESULT_CANCELED)
             Toast.makeText(this, getResources().getString(R.string.dont_pick_image),
                     Toast.LENGTH_SHORT).show();
     }
@@ -600,6 +600,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (location != null) {
             map.put("latitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.latitude)));
             map.put("longitude", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(location.longitude)));
+            map.put("address", RequestBody.create(MediaType.parse("text/plain"), txtAddress.getText().toString()));
         }
         MultipartBody.Part filePart = null;
 
