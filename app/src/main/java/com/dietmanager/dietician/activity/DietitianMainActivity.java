@@ -376,7 +376,14 @@ public class DietitianMainActivity extends AppCompatActivity
             startActivity(new Intent(DietitianMainActivity.this, InviteLinkActivity.class));
         } else if (id == R.id.nav_invited_user) {
             startActivity(new Intent(DietitianMainActivity.this, InvitedUserActivity.class));
-        } else if (id == R.id.nav_guide_lines) {
+        }
+        else if (id == R.id.nav_bank_details) {
+            startActivity(new Intent(DietitianMainActivity.this, BankDetailsActivity.class));
+        }
+        else if (id == R.id.nav_payment) {
+            startActivity(new Intent(DietitianMainActivity.this, PaymentActivity.class));
+        }
+        else if (id == R.id.nav_guide_lines) {
             startActivity(new Intent(DietitianMainActivity.this, GuideLinesActivity.class));
         } /*else if (id == R.id.nav_portfolio) {
             startActivity(new Intent(DietitianMainActivity.this, PortfolioActivity.class));

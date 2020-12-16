@@ -18,6 +18,7 @@ import com.dietmanager.dietician.model.Profile;
 import com.dietmanager.dietician.model.RegisterResponse;
 import com.dietmanager.dietician.model.ResetPasswordResponse;
 import com.dietmanager.dietician.model.RevenueResponse;
+import com.dietmanager.dietician.model.SmallMessageResponse;
 import com.dietmanager.dietician.model.StripeResponse;
 import com.dietmanager.dietician.model.Transporter;
 import com.dietmanager.dietician.model.WalletHistory;
@@ -33,6 +34,7 @@ import com.dietmanager.dietician.model.product.ProductResponse;
 import com.dietmanager.dietician.model.subscribe.SubscribeItem;
 import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.model.timecategory.TimeCategoryItem;
+import com.dietmanager.dietician.model.transaction.TransactionResponse;
 import com.dietmanager.dietician.model.userrequest.UserRequestItem;
 
 import java.util.HashMap;
@@ -48,6 +50,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -67,7 +70,12 @@ public interface ApiInterface {
     @POST("api/dietitian/profile")
     Call<Profile> updateProfileWithImage(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
 
+    @GET("api/dietitian/wallet/request")
+    Call<TransactionResponse> fetchTransactions();
 
+    @FormUrlEncoded
+    @POST("api/dietitian/wallet/request")
+    Call<SmallMessageResponse> requestAmount(@Field("amount") String amount);
 
     @Multipart
     @POST("api/dietitian/add/food")
@@ -335,6 +343,6 @@ public interface ApiInterface {
 //    Call<ChangePassword> deleteCard(@Path("id") int id);
 
     @FormUrlEncoded
-    @POST("api/dietitian/stripe/connect")
+    @POST("api/dietitian/stripe/callback")
     Call<StripeResponse> updateBankDetails(@Field("code") String stripeToken);
 }

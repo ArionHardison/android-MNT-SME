@@ -458,6 +458,8 @@
     <string name="cant_find_image">Can\'t find your desired image</string>
     <string name="bank_details">Bank Details</string>
     <string name="library">Library</string>
+    <string name="menu_payment">Payment</string>
+    <string name="enter_the_amount">Enter amount</string>
     <string name="existing_image">Existing Image</string>
     <string name="existing_shop_image">Existing Shop Image</string>
     <string name="existing_banner_image">Existing Banner Image</string>

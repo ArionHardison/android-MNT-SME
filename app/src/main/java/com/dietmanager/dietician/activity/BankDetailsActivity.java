@@ -17,7 +17,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.adapter.AppConstants;
+import com.dietmanager.dietician.config.AppConfigure;
 import com.dietmanager.dietician.helper.CustomDialog;
+import com.dietmanager.dietician.helper.SharedHelper;
 import com.dietmanager.dietician.model.StripeResponse;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
@@ -46,8 +49,15 @@ public class BankDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_details);
         ButterKnife.bind(this);
+        findViewById(R.id.include2).findViewById(R.id.back_img).setVisibility(View.VISIBLE);
+        findViewById(R.id.include2).findViewById(R.id.back_img).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         title.setText(getResources().getString(R.string.bank_details));
-        String url = "https://dashboard.stripe.com/express/oauth/authorize?response_type=code&client_id=ca_GCqVbp3vX9JZsAk0XeOs8aWraIUCgFOA&scope=read_write";
+        String url = SharedHelper.getKey(BankDetailsActivity.this, AppConstants.STRIPE_URL);
         customDialog = new CustomDialog(this);
         loadWebView(url);
     }
@@ -87,13 +97,13 @@ public class BankDetailsActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Log.e("Params Url:", "" + request.getUrl());
-                if (request.getUrl().toString().contains("https://oyola.co/shop/stripe")) {
+                if (request.getUrl().toString().contains(AppConfigure.BASE_URL+"dietitian/stripe/callback")) {
                     tokenUrl = request.getUrl().toString();
                 }
                 if (!TextUtils.isEmpty(tokenUrl) & !isUpdating) {
                     isUpdating = true;
                     String tempUrl = tokenUrl;
-                    String code = tempUrl.replace("https://oyola.co/shop/stripe/connect?code=", "");
+                    String code = tempUrl.replace(AppConfigure.BASE_URL+"dietitian/stripe/callback?code=", "");
                     Log.e("Final Url", code);
                     updateBankDetails(code);
                 }
@@ -130,6 +140,7 @@ public class BankDetailsActivity extends AppCompatActivity {
                     String message = response.body() != null && !TextUtils.isEmpty(response.body().getMessage()) ?
                             response.body().getMessage() : "Bank Details updated successfully...";
                     Utils.showToast(BankDetailsActivity.this, message);
+                    finish();
                 } else {
                     Utils.showToast(BankDetailsActivity.this, "Something went wrong...");
                 }

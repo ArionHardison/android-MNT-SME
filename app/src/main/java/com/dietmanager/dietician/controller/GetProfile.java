@@ -1,8 +1,11 @@
 package com.dietmanager.dietician.controller;
 
 import android.provider.Settings;
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
+import com.dietmanager.dietician.adapter.AppConstants;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.dietmanager.dietician.application.MyApplication;
@@ -40,6 +43,8 @@ public class GetProfile {
             @Override
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
                 if (response.isSuccessful()) {
+                    String stripeUrl = response.body() != null && !TextUtils.isEmpty(response.body().getStripeConnectUrl()) ? response.body().getStripeConnectUrl() : "";
+                    SharedHelper.putKey(MyApplication.getInstance(), AppConstants.STRIPE_URL, stripeUrl);
                     SharedHelper.putKey(MyApplication.getInstance(), Constants.PREF.PROFILE_ID, "" + response.body().getId());
                     SharedHelper.putKey(MyApplication.getInstance(), Constants.PREF.CURRENCY, "" + response.body().getCurrency());
                     profileListener.onSuccess(response.body());

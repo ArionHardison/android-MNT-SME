@@ -17,6 +17,9 @@ public class Profile {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("stripe_connect_url")
+    @Expose
+    private String stripeConnectUrl;
     @SerializedName("email")
     @Expose
     private String email;
@@ -454,6 +457,13 @@ public class Profile {
         return trainingModules;
     }
 
+    public String getStripeConnectUrl() {
+        return stripeConnectUrl;
+    }
+
+    public void setStripeConnectUrl(String stripeConnectUrl) {
+        this.stripeConnectUrl = stripeConnectUrl;
+    }
     public void setTrainingModules(List<TrainingModule> trainingModules) {
         this.trainingModules = trainingModules;
     }

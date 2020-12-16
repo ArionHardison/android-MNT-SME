@@ -105,6 +105,11 @@
             android:name=".activity.BankDetailsActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.PaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.EditProfileActivity"
             android:configChanges="screenSize"
