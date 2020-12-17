@@ -97,7 +97,7 @@ public class BankDetailsActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Log.e("Params Url:", "" + request.getUrl());
-                if (request.getUrl().toString().contains(AppConfigure.BASE_URL+"dietitian/stripe/callback")) {
+                if (request.getUrl().toString().contains(AppConfigure.BASE_URL+"dietitian/stripe/callback?code=")) {
                     tokenUrl = request.getUrl().toString();
                 }
                 if (!TextUtils.isEmpty(tokenUrl) & !isUpdating) {
@@ -129,7 +129,7 @@ public class BankDetailsActivity extends AppCompatActivity {
             customDialog.show();
         }
         ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-        Call<StripeResponse> call = apiInterface.updateBankDetails(token);
+        Call<StripeResponse> call = apiInterface.updateBankDetails(token,"dietitian");
         call.enqueue(new Callback<StripeResponse>() {
             @Override
             public void onResponse(Call<StripeResponse> call, Response<StripeResponse> response) {
@@ -138,7 +138,7 @@ public class BankDetailsActivity extends AppCompatActivity {
                 }
                 if (response.isSuccessful()) {
                     String message = response.body() != null && !TextUtils.isEmpty(response.body().getMessage()) ?
-                            response.body().getMessage() : "Bank Details updated successfully...";
+                            response.body().getMessage() : "Bank Details updated successfully";
                     Utils.showToast(BankDetailsActivity.this, message);
                     finish();
                 } else {

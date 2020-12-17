@@ -75,7 +75,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/dietitian/wallet/request")
-    Call<SmallMessageResponse> requestAmount(@Field("amount") String amount);
+    Call<SmallMessageResponse> requestAmount(@Field("amount") String amount,@Field("comment") String comment);
 
     @Multipart
     @POST("api/dietitian/add/food")
@@ -344,5 +344,5 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/dietitian/stripe/callback")
-    Call<StripeResponse> updateBankDetails(@Field("code") String stripeToken);
+    Call<StripeResponse> updateBankDetails(@Field("code") String stripeToken,@Field("type") String type);
 }

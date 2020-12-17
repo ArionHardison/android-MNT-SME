@@ -1,26 +1,44 @@
 package com.dietmanager.dietician.fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.dietmanager.dietician.R;
+import com.dietmanager.dietician.activity.BankDetailActivity;
+import com.dietmanager.dietician.activity.BankDetailsActivity;
+import com.dietmanager.dietician.activity.EditProfileActivity;
+import com.dietmanager.dietician.activity.LoginActivity;
+import com.dietmanager.dietician.activity.SubscribedMembersActivity;
 import com.dietmanager.dietician.helper.CustomDialog;
+import com.dietmanager.dietician.helper.GlobalData;
 import com.dietmanager.dietician.helper.SharedHelper;
 import com.dietmanager.dietician.model.MessageResponse;
+import com.dietmanager.dietician.model.Profile;
 import com.dietmanager.dietician.model.SmallMessageResponse;
+import com.dietmanager.dietician.network.APIError;
 import com.dietmanager.dietician.network.APISingleError;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
+import com.dietmanager.dietician.network.ErrorUtils;
 import com.dietmanager.dietician.network.SingleErrorUtils;
 import com.dietmanager.dietician.utils.Utils;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,13 +55,54 @@ public class AddWalletAmountFragment extends BaseFragment {
 
     @BindView(R.id.edt_amount)
     EditText edtAmount;
+    @BindView(R.id.etComment)
+    EditText etComment;
 
+    @BindView(R.id.wallet_amount_txt)
+    TextView walletAmountTxt;
+
+    private Context context;
+    private Activity activity;
+    String device_token, device_UDID;
     private CustomDialog customDialog;
 
+    Double walletMoney = 0.0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         customDialog = new CustomDialog(getContext());
+        getDeviceToken();
+    }
+
+
+    public void getDeviceToken() {
+        String TAG = "FCM";
+        try {
+            if (!SharedHelper.getKey(context, "device_token").equals("") && SharedHelper.getKey(context
+                    , "device_token") != null) {
+                device_token = SharedHelper.getKey(context, "device_token");
+                Log.d(TAG, "GCM Registration Token: " + device_token);
+            } else {
+                device_token = FirebaseInstanceId.getInstance().getToken();
+                SharedHelper.putKey(context, "device_token",
+                        "" + FirebaseInstanceId.getInstance().getToken());
+                Log.d(TAG, "Failed to complete token refresh: " + device_token);
+            }
+        } catch (Exception e) {
+            device_token = "COULD NOT GET FCM TOKEN";
+            Log.d(TAG, "Failed to complete token refresh");
+        }
+
+        try {
+            device_UDID = android.provider.Settings.Secure.getString(context.getContentResolver(),
+                    android.provider.Settings.Secure.ANDROID_ID);
+            Log.d(TAG, "Device UDID:" + device_UDID);
+            SharedHelper.putKey(context, "device_id", "" + device_UDID);
+        } catch (Exception e) {
+            device_UDID = "COULD NOT GET UDID";
+            e.printStackTrace();
+            Log.d(TAG, "Failed to complete device UDID");
+        }
     }
 
     @Nullable
@@ -72,13 +131,51 @@ public class AddWalletAmountFragment extends BaseFragment {
                 break;
             case R.id.btn_add_amount:
                 if (TextUtils.isEmpty(edtAmount.getText().toString())) {
-                    Utils.showToast(getContext(), "Please enter amount...");
+                    Utils.showToast(context, "Please enter amount");
                     return;
                 }
 
                 requestAmount(edtAmount.getText().toString());
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getProfile();
+    }
+
+    private void getProfile() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("device_type", "android");
+        map.put("device_id", device_UDID);
+        map.put("device_token", device_token);
+        String header = SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context,
+                "access_token");
+        System.out.println("getProfile Header " + header);
+        ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
+        Call<Profile> call = apiInterface.getProfile(map);
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(@NonNull Call<Profile> call,
+                                   @NonNull Response<Profile> response) {
+                if (response.isSuccessful()) {
+                    GlobalData.profile = response.body();
+
+                    if (GlobalData.profile.getWalletBalance() != null) {
+                        walletMoney = GlobalData.profile.getWalletBalance();
+                    }
+                    walletAmountTxt.setText(GlobalData.profile.getCurrency() + " " + String.valueOf(walletMoney));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Profile> call, @NonNull Throwable t) {
+                Toast.makeText(context, R.string.something_went_wrong,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
     private void showLoading() {
         if (customDialog != null && !customDialog.isShowing()) {
@@ -91,11 +188,24 @@ public class AddWalletAmountFragment extends BaseFragment {
             customDialog.dismiss();
         }
     }
+
     private void requestAmount(String amount) {
+        if(GlobalData.profile.getStripe_cust_id()==null){
+            showDialog();
+            return;
+        }
+        else if(etComment.getText().toString().isEmpty()){
+            Utils.showToast(context, "Please enter comment");
+            return;
+        }
+        else if (Double.parseDouble(amount)>walletMoney) {
+            Utils.showToast(context, "Please choose less than wallet amount");
+            return;
+        }
         showLoading();
-        String header = SharedHelper.getKey(getContext(), "token_type") + " " + SharedHelper.getKey(getContext(), "access_token");
+        String header = SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token");
         ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
-        Call<SmallMessageResponse> call = apiInterface.requestAmount( amount);
+        Call<SmallMessageResponse> call = apiInterface.requestAmount(amount,etComment.getText().toString());
         call.enqueue(new Callback<SmallMessageResponse>() {
             @Override
             public void onResponse(@NonNull Call<SmallMessageResponse> call,
@@ -103,20 +213,57 @@ public class AddWalletAmountFragment extends BaseFragment {
                 hideLoading();
                 if (response.isSuccessful()) {
                     edtAmount.setText("");
-                    Utils.showToast(getContext(), "Amount requested...");
+                    etComment.setText("");
+                    Utils.showToast(context, "Amount requested");
                 } else {
                     APISingleError error = SingleErrorUtils.parseError(response);
-                    String message = error != null && !TextUtils.isEmpty(error.getError()) ? error.getError() : "You cannot request amount at this time...";
-                    Utils.showToast(getContext(), message);
+                    String message = error != null && !TextUtils.isEmpty(error.getError()) ? error.getError() : "You cannot request amount at context time";
+                    Utils.showToast(context, message);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<SmallMessageResponse> call, @NonNull Throwable t) {
                 hideLoading();
-                Toast.makeText(getContext(), R.string.something_went_wrong,
+                Toast.makeText(context, R.string.something_went_wrong,
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+        }
+    }
+
+
+    private void showDialog() {
+        AlertDialog dialogBuilder = new AlertDialog.Builder(context).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.custom_yes_no_dialog, null);
+        TextView yes = dialogView.findViewById(R.id.tvYes);
+        TextView no = dialogView.findViewById(R.id.tvNo);
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.cancel();
+            }
+        });
+        
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.startActivity(new Intent(activity, BankDetailsActivity.class));
+                dialogBuilder.cancel();
+            }
+        });
+        dialogBuilder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
+
     }
 }

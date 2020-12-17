@@ -23,6 +23,9 @@ public class Profile {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("stripe_cust_id")
+    @Expose
+    private String stripe_cust_id;
     @SerializedName("mobile")
     @Expose
     private String phone;
@@ -91,7 +94,7 @@ public class Profile {
     private String status;
     @SerializedName("wallet_balance")
     @Expose
-    private String walletBalance;
+    private Double walletBalance;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -197,6 +200,14 @@ public class Profile {
         this.defaultBanner = defaultBanner;
     }
 
+    public String getStripe_cust_id() {
+        return stripe_cust_id;
+    }
+
+    public void setStripe_cust_id(String stripe_cust_id) {
+        this.stripe_cust_id = stripe_cust_id;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -209,11 +220,11 @@ public class Profile {
         return offerMinAmount;
     }
 
-    public String getWalletBalance() {
+    public Double getWalletBalance() {
         return walletBalance;
     }
 
-    public void setWalletBalance(String walletBalance) {
+    public void setWalletBalance(Double walletBalance) {
         this.walletBalance = walletBalance;
     }
 
