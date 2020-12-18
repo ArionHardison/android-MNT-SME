@@ -28,6 +28,7 @@ import com.dietmanager.dietician.model.followers.Followers;
 import com.dietmanager.dietician.model.food.FoodItem;
 import com.dietmanager.dietician.model.food.FoodResponse;
 import com.dietmanager.dietician.model.ingredients.IngredientsItem;
+import com.dietmanager.dietician.model.ingredients.UnitType;
 import com.dietmanager.dietician.model.initeduser.InvitedUserItem;
 import com.dietmanager.dietician.model.ordernew.OrderResponse;
 import com.dietmanager.dietician.model.product.ProductResponse;
@@ -90,6 +91,9 @@ public interface ApiInterface {
     @POST("api/dietitian/add/food")
     Call<MessageResponse> addAdminFood(@FieldMap HashMap<String, String> params);
 
+    @Multipart
+    @POST("api/dietitian/ingredient")
+    Call<SmallMessageResponse> addIngredient(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
 
     @FormUrlEncoded
     @POST("api/dietitian/subscription")
@@ -98,6 +102,11 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/dietitian/subscription/{id}")
     Call<MessageResponse> editSubscriptionPlan(@FieldMap HashMap<String, String> params,@Path("id")int id);
+
+
+    @Multipart
+    @POST("api/dietitian/ingredient/{id}")
+    Call<SmallMessageResponse> editIngredient(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename,@Path("id")int id);
 
     @Multipart
     @POST("api/dietitian/profile/{id}")
@@ -157,6 +166,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("api/dietitian/addons")
     Call<Addon> addAddon(@Field("name") String name, @Field("calories") String mCalories, @Field("shop_id") String shop_id);
+
+
+    @DELETE("api/dietitian/ingredient/{id}")
+    Call<SmallMessageResponse> deleteIngredient(@Path("id") int id);
 
     @FormUrlEncoded
     @PATCH("api/dietitian/addons/{id}")
@@ -271,6 +284,12 @@ public interface ApiInterface {
 
     @GET("api/dietitian/subscription")
     Call<List<SubscriptionPlanItem>> getSubscribePlanList();
+
+    @GET("api/dietitian/unittype")
+    Call<List<UnitType>> getUnitTypeList();
+
+    @GET("api/dietitian/ingredient")
+    Call<List<IngredientsItem>> getDietitianIngredientList();
 
     @GET("api/dietitian/history")
     Call<HistoryModel> getFilterHistory(@QueryMap HashMap<String, String> params);

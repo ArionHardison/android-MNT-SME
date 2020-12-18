@@ -63,6 +63,14 @@
             android:configChanges="screenSize"
             android:screenOrientation="portrait"  />
         <activity
+            android:name=".activity.IngredientsActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait"  />
+        <activity
+            android:name=".activity.AddIngredientActivity"
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait"  />
+        <activity
             android:name=".activity.OrderRequestDetailActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"  />

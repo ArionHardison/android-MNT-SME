@@ -2,7 +2,9 @@ package com.dietmanager.dietician.model.ingredients;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UnitType{
+import java.io.Serializable;
+
+public class UnitType implements Serializable {
 
 	@SerializedName("name")
 	private String name;
@@ -15,6 +17,17 @@ public class UnitType{
 
 	@SerializedName("status")
 	private String status;
+
+	@SerializedName("code")
+	private String code;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	public String getName(){
 		return name;

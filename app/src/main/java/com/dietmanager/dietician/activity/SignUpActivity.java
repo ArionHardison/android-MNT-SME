@@ -660,6 +660,9 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     SharedHelper.putKey(context, "logged", "true");
                     GlobalData.profile = response.body();
+                    SharedHelper.putKey(SignUpActivity.this, "logged_in", "1");
+                    String stripeUrl = response.body() != null && !android.text.TextUtils.isEmpty(response.body().getStripeConnectUrl()) ? response.body().getStripeConnectUrl() : "";
+
                     startActivity(new Intent(context, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     finish();
                 } else {

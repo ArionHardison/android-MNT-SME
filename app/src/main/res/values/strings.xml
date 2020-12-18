@@ -244,6 +244,7 @@
     <string name="addons_added_successfully">Addons added Successfully</string>
     <string name="addons_updated_successfully">Addons updated Successfully</string>
     <string name="are_you_sure_want_to_delete_addon">Are you sure want to delete this addon?</string>
+    <string name="are_you_sure_want_to_delete_ingredient">Are you sure want to delete this ingredient?</string>
     <string name="are_you_sure_want_to_delete_category">Are you sure want to delete this category?</string>
     <string name="are_you_sure_want_to_delete_product">Are you sure want to delete this product?</string>
     <string name="update_add_ons">Update AddOns</string>
@@ -474,6 +475,7 @@
     <string name="halal">Halal</string>
     <string name="offer_free_delivery">Offer\'s Free Delivery</string>
     <string name="ingredients">Ingredients</string>
+    <string name="ingredient">Ingredient</string>
     <string name="error_msg_ingredients">Please enter ingredient details</string>
     <string name="please_select_meal_time">Please select meal time</string>
     <string name="please_enter_calories">Please enter calorie details</string>
@@ -521,12 +523,14 @@
     <string name="select_ingredients">Select Ingredients</string>
     <string name="veggie_friend_rice">Veggie Friend Rice</string>
     <string name="add">Add</string>
-    <string name="please_upload_image">please_upload_image</string>
+    <string name="please_upload_image">Please upload image</string>
     <string name="plan_name">Plan Name</string>
     <string name="plan_description">Plan Description</string>
     <string name="no_of_days">No of days</string>
     <string name="add_subscription_plan">Add Subscription Plan</string>
+    <string name="add_ingredient">Add Ingredient</string>
     <string name="edit_subscription_plan">Edit Subscription Plan</string>
+    <string name="edit_ingredient">Edit Ingredient</string>
     <string name="edit">Edit</string>
     <string name="new_order_request">New Order Request</string>
     <string name="live_task">Live Task</string>
@@ -541,6 +545,7 @@
     <string name="food_name">Food Name</string>
     <string name="food_description">Food Description</string>
     <string name="food_image">Food Image</string>
+    <string name="ingredient_image">Ingredient Image</string>
     <string name="proteins">Proteins</string>
     <string name="fat">Fat</string>
     <string name="carb">Carb</string>
@@ -555,11 +560,14 @@
     <string name="username">Username</string>
     <string name="mail_id">Mail id</string>
     <string name="food_item">Food item</string>
+    <string name="ingredient_name">Ingredient Name</string>
     <string name="invited_user_not_found">Invited_user not found</string>
     <string name="chef_not_found">Chef not found</string>
     <string name="assign">Assign</string>
     <string name="select_subscription_plan">Select Subscription Plan</string>
+    <string name="select_unit_type">Select Unit Type</string>
     <string name="please_add_subscription">Please add subscription</string>
+    <string name="please_add_unit_type">Please add unit type</string>
     <string name="select_auto_assign_or_manual_assign">Select Auto assign or Manual assign</string>
     <string name="auto_assign">Auto Assign</string>
     <string name="manual_assign">Manual Assign</string>

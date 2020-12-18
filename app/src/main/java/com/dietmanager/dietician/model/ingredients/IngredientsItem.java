@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class IngredientsItem implements Serializable {
 
 	@SerializedName("dietitian_id")
-	private Object dietitianId;
+	private int dietitianId;
 
 	@SerializedName("price")
 	private String price;
@@ -39,7 +39,7 @@ public class IngredientsItem implements Serializable {
 	private int id;
 
 	@SerializedName("avatar")
-	private Object avatar;
+	private String avatar;
 
 	@SerializedName("unit_type")
 	private UnitType unitType;
@@ -51,7 +51,7 @@ public class IngredientsItem implements Serializable {
 		return dietitianId;
 	}
 
-	public void setDietitianId(Object dietitianId) {
+	public void setDietitianId(int dietitianId) {
 		this.dietitianId = dietitianId;
 	}
 
@@ -83,7 +83,7 @@ public class IngredientsItem implements Serializable {
 		this.id = id;
 	}
 
-	public void setAvatar(Object avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
 

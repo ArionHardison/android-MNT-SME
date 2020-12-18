@@ -440,7 +440,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 customDialog.dismiss();
             }
         });
-
     }
 
     private void getProfile() {
@@ -454,6 +453,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onResponse(@NonNull Call<Profile> call, @NonNull Response<Profile> response) {
                 customDialog.dismiss();
                 SharedHelper.putKey(context, "logged", "true");
+                String stripeUrl = response.body() != null && !android.text.TextUtils.isEmpty(response.body().getStripeConnectUrl()) ? response.body().getStripeConnectUrl() : "";
+
                 GlobalData.profile = response.body();
                 /*GlobalData.addCart = new AddCart();
                 GlobalData.addCart.setProductList(response.body().getCart());

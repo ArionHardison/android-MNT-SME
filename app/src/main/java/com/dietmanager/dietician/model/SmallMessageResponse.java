@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class SmallMessageResponse implements Serializable {
 
-    @SerializedName("Message")
+    @SerializedName("message")
     @Expose
     private String message;
 
