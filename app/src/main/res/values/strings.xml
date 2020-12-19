@@ -382,12 +382,13 @@
     <string name="please_enter_discount_amount">Please enter discount amount</string>
     <string name="no_products_added">No Products Added</string>
     <string name="no_addons_added">No addons added</string>
-    <string name="no_upcoming_orders_found">No upcoming orders found.</string>
+    <string name="no_upcoming_orders_found">No upcoming orders found</string>
     <string name="no_past_orders_found">No past orders found</string>
     <string name="no_ongoing_orders_found">No Ongoing orders found</string>
     <string name="no_subscribed_members_found">No new subscribed members</string>
     <string name="no_request_found">No request found</string>
     <string name="no_subscription_plan_found">Subscription plan not found</string>
+    <string name="no_ingredients_found">Ingredients not found</string>
     <string name="no_subscribed_plans_found">No new subscribe plans yet</string>
     <string name="no_cancelled_orders_found">No cancelled orders found</string>
     <string name="please_enter_description">Please enter description</string>

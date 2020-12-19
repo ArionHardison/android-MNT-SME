@@ -69,6 +69,8 @@ public class AddIngredientActivity extends AppCompatActivity {
     TextView title;
     @BindView(R.id.back_img)
     ImageView backImg;
+    @BindView(R.id.imgDelete)
+    ImageView imgDelete;
     @BindView(R.id.et_ingrdient_name)
     EditText etIngredientName;
     @BindView(R.id.et_price)
@@ -171,8 +173,10 @@ public class AddIngredientActivity extends AppCompatActivity {
                             .placeholder(R.drawable.shimmer_bg)
                             .error(R.drawable.shimmer_bg))
                     .into(ingredientImg);
+            imgDelete.setVisibility(View.VISIBLE);
 
         }else {
+            imgDelete.setVisibility(View.GONE);
             title.setText(getString(R.string.add_ingredient));
         }
         backImg.setVisibility(View.VISIBLE);

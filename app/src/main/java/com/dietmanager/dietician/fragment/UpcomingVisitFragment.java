@@ -2,6 +2,7 @@ package com.dietmanager.dietician.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,47 +11,44 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dietmanager.dietician.activity.LoginActivity;
+import com.dietmanager.dietician.activity.OrderRequestDetailActivity;
+import com.dietmanager.dietician.adapter.HistoryAdapter;
+import com.dietmanager.dietician.model.userrequest.UserRequestItem;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.activity.HistoryActivity;
-import com.dietmanager.dietician.adapter.OnGoingStickyAdapter;
-import com.dietmanager.dietician.helper.stickyadapter.StickyHeaderLayoutManager;
-import com.dietmanager.dietician.model.IncomingOrders;
-import com.dietmanager.dietician.model.OngoingHistoryModel;
-import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.ServerError;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UpcomingVisitFragment extends BaseFragment {
+public class UpcomingVisitFragment extends BaseFragment implements HistoryAdapter.IUserRequestListener {
 
+    public static PastVisitFragment.CancelledListListener cancelledListListener;
     @BindView(R.id.upcoming_rv)
     RecyclerView upcomingRv;
-
     @BindView(R.id.llNoRecords)
     LinearLayout llNoRecords;
 
-    private Unbinder unbinder;
+    private List<UserRequestItem> orderList = new ArrayList<>();
+    private HistoryAdapter historyAdapter;
     private Context context;
     private Activity activity;
-
-    private OnGoingStickyAdapter adapter;
-    private List<Order> orderList = new ArrayList<>();
     private ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
 
     public UpcomingVisitFragment() {
@@ -76,78 +74,70 @@ public class UpcomingVisitFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_upcoming_visit, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
+        return inflater.inflate(R.layout.fragment_upcoming_visit, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new OnGoingStickyAdapter(getContext());
-        upcomingRv.setLayoutManager(new StickyHeaderLayoutManager());
-        upcomingRv.setItemAnimator(new DefaultItemAnimator());
-        upcomingRv.setAdapter(adapter);
-        getOnGoingOrders();
+        ButterKnife.bind(this, view);
+        setupAdapter();
+        getHistory();
     }
 
-    private void splitUpList(List<Order> orderList) {
-        List<OngoingHistoryModel> onGoingHistoryList = new ArrayList<>();
-
-        List<Order> scheduledOrders = new ArrayList<>();
-        List<Order> onGoingOrders = new ArrayList<>();
-
-        for (int i = 0, size = orderList.size(); i < size; i++) {
-            Order order = orderList.get(i);
-            if (order != null) {
-                if (order.getScheduleStatus() != null && order.getScheduleStatus() == 1 &&
-                        (order.getStatus().equalsIgnoreCase("RECEIVED") ||
-                                order.getStatus().equalsIgnoreCase("SCHEDULED") ||
-                                order.getStatus().equalsIgnoreCase("PICKUP_USER"))) {
-                    scheduledOrders.add(order);
-                } else {
-                    onGoingOrders.add(order);
-                }
-            }
-        }
-
- /*       if (scheduledOrders.size() > 0) {
-            sortOrdersToDescending(scheduledOrders);
-            onGoingHistoryList.add(new OngoingHistoryModel("SCHEDULED ORDERS", scheduledOrders));
-        }
-        if (onGoingOrders.size() > 0) {
-            sortOrdersToDescending(onGoingOrders);
-            onGoingHistoryList.add(new OngoingHistoryModel("ASAP ORDERS", onGoingOrders));
-        }*/
-        adapter.setStickyItemList(onGoingHistoryList);
+    private void setupAdapter() {
+        historyAdapter = new HistoryAdapter(orderList, context,this);
+        upcomingRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        upcomingRv.setHasFixedSize(true);
+        upcomingRv.setAdapter(historyAdapter);
     }
 
-    private void getOnGoingOrders() {
+    @Override
+    public void onUserRequestItemClicked(UserRequestItem userRequestItem) {
+        Intent intent = new Intent(activity, OrderRequestDetailActivity.class);
+        intent.putExtra("userRequestItem", (Serializable)userRequestItem);
+        intent.putExtra("hideAssignChef", true);
+        startActivity(intent);
+    }
+
+    private void getHistory() {
         HistoryActivity.showDialog();
-        Call<IncomingOrders> call = apiInterface.getIncomingOrders("processing");
-        call.enqueue(new Callback<IncomingOrders>() {
+        Call<List<UserRequestItem>> call = apiInterface.getHistory("SCHEDULED");
+        call.enqueue(new Callback<List<UserRequestItem>>() {
             @Override
-            public void onResponse(Call<IncomingOrders> call, Response<IncomingOrders> response) {
+            public void onResponse(Call<List<UserRequestItem>> call, Response<List<UserRequestItem>> response) {
                 HistoryActivity.dismissDialog();
                 if (response.isSuccessful()) {
                     orderList.clear();
-                    if (response.body() != null) {
-                        IncomingOrders incomingOrders = response.body();
-                        if (incomingOrders.getOrders() != null && incomingOrders.getOrders().size() > 0) {
+                    List<UserRequestItem> historyModel = response.body();
+                    if (historyModel != null) {
+                        if (historyModel.size() > 0) {
                             llNoRecords.setVisibility(View.GONE);
                             upcomingRv.setVisibility(View.VISIBLE);
-                            orderList.addAll(incomingOrders.getOrders());
-                            splitUpList(orderList);
+                            orderList = historyModel;
+                            sortOrdersToDescending(orderList);
+                            historyAdapter.setList(orderList);
+                            historyAdapter.notifyDataSetChanged();
                         } else {
                             llNoRecords.setVisibility(View.VISIBLE);
                             upcomingRv.setVisibility(View.GONE);
                         }
+                        if (cancelledListListener != null)
+                            if (historyModel != null && historyModel.size() > 0) {
+                                cancelledListListener.setCancelledListener(historyModel);
+                            } else {
+                                cancelledListListener.setCancelledListener(new ArrayList<UserRequestItem>());
+                            }
                     }
                 } else {
                     Gson gson = new Gson();
                     try {
                         ServerError serverError = gson.fromJson(response.errorBody().charStream(), ServerError.class);
                         Utils.displayMessage(activity, serverError.getError());
+                        if (response.code() == 401) {
+                            context.startActivity(new Intent(context, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            activity.finish();
+                        }
                     } catch (JsonSyntaxException e) {
                         Utils.displayMessage(activity, getString(R.string.something_went_wrong));
                     }
@@ -155,16 +145,10 @@ public class UpcomingVisitFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<IncomingOrders> call, Throwable t) {
+            public void onFailure(Call<List<UserRequestItem>> call, Throwable t) {
                 HistoryActivity.dismissDialog();
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

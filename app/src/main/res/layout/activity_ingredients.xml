@@ -87,7 +87,7 @@
                 android:textSize="@dimen/_13sdp"
                 android:fontFamily="@font/nunito_semibold"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:text="@string/no_subscription_plan_found"/>
+                android:text="@string/no_ingredients_found"/>
 
         </LinearLayout>
     </RelativeLayout>

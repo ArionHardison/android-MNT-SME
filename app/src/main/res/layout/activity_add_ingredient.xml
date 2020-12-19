@@ -51,6 +51,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_8sdp"
                 android:tint="@color/colorAccent"
+                android:visibility="gone"
                 android:src="@drawable/ic_delete_24px"/>
         </LinearLayout>
 
@@ -158,7 +159,7 @@
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:background="@drawable/bg_color_grey_border"
                 android:imeOptions="actionNext"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:padding="@dimen/_8sdp"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/text_medium" />

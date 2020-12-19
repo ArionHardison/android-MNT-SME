@@ -60,6 +60,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         adapter.addFragment(new OngoingFragment(), getString(R.string.ongoing_order));
+        adapter.addFragment(new UpcomingVisitFragment(), getString(R.string.upcoming_order));
         adapter.addFragment(new PastVisitFragment(), getString(R.string.past_order));
         adapter.addFragment(new CancelOrderFragment(), getString(R.string.cancelled_order));
         viewPager.setAdapter(adapter);
