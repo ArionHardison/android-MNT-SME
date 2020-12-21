@@ -31,7 +31,7 @@ public class GetProfile {
     public GetProfile(ApiInterface api, final ProfileListener profileListener) {
         ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);;
         String device_id = Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID);
-        String device_type = "Android";
+        String device_type = "android";
         String device_token = SharedHelper.getKey(MyApplication.getInstance(), "device_token");
 
         HashMap<String, String> params = new HashMap<>();
