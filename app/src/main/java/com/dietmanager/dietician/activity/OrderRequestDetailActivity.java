@@ -48,6 +48,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dietmanager.dietician.utils.Utils.getTimeFromString;
+
 public class OrderRequestDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.title)
@@ -105,11 +107,12 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
         }
         if (userRequestItem != null) {
             tvOrderId.setText("#" + userRequestItem.getId());
-            try {
-                tvOrderTime.setText(Utils.getTime(userRequestItem.getCreatedAt()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
+            if (userRequestItem.getScheduleAt() != null)
+                tvOrderTime.setText(getTimeFromString(userRequestItem.getScheduleAt()));
+            else
+                tvOrderTime.setText(getTimeFromString(userRequestItem.getCreatedAt()));
+
             tvUserName.setText(Utils.toFirstCharUpperAll(userRequestItem.getUser().getName()));
 
             if(userRequestItem.getStatus().equalsIgnoreCase("COMPLETED")||userRequestItem.getStatus().equalsIgnoreCase("CANCELLED"))
