@@ -14,6 +14,16 @@ public class UserRequestItem implements Serializable {
 	@SerializedName("created_at")
 	private String createdAt;
 
+	@SerializedName("request_filter")
+	private List<RequestFilterItem> requestFilter;
+
+	public void setRequestFilter(List<RequestFilterItem> requestFilter){
+		this.requestFilter = requestFilter;
+	}
+
+	public List<RequestFilterItem> getRequestFilter(){
+		return requestFilter;
+	}
 	@SerializedName("payment_mode")
 	private String payment_mode;
 

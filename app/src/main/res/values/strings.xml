@@ -591,4 +591,6 @@
     <string name="followers">Followers</string>
     <string name="followers_not_found">Followers not found</string>
     <string name="comment">Comment</string>
+    <string name="please_enter_cancel_reason">Please enter cancel reason</string>
+    <string name="enter_reason_here">Enter reason here</string>
 </resources>
