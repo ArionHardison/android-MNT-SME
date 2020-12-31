@@ -25,10 +25,17 @@ import androidx.core.content.ContextCompat;
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.activity.DietitianMainActivity;
 import com.dietmanager.dietician.activity.HomeActivity;
+import com.dietmanager.dietician.activity.LoginActivity;
 import com.dietmanager.dietician.activity.SplashActivity;
 import com.dietmanager.dietician.application.MyApplication;
+import com.dietmanager.dietician.model.PushCustomObject;
+import com.dietmanager.dietician.model.ServerError;
+import com.dietmanager.dietician.utils.Utils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import java.util.List;
 
@@ -37,6 +44,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     public static Ringtone mRingtone;
+    private String page="main";
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -45,6 +53,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData() != null) {
             Log.d(TAG, "From: " + remoteMessage.getFrom());
             Log.d(TAG, "Notification Message Body: " + remoteMessage.getData());
+
+            if(remoteMessage.getData().get("custom")!=null&&remoteMessage.getData().get("custom").contains("page")){
+                Gson gson = new Gson();
+                try {
+                    PushCustomObject pushCustomObject = gson.fromJson(remoteMessage.getData().get("custom"), PushCustomObject.class);
+                    page=pushCustomObject.getPage();
+                } catch (JsonSyntaxException e) {
+                }
+            }
             //Calling method to generate notification
             sendNotification(remoteMessage.getData().get("message"));
         } else {
@@ -68,6 +85,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("Notification", messageBody);
+        intent.putExtra("page", page);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

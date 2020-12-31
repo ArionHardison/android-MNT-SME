@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.FollowersListAdapter;
 import com.dietmanager.dietician.helper.CustomDialog;
@@ -22,15 +24,17 @@ import com.dietmanager.dietician.model.followers.Followers;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
 import com.dietmanager.dietician.utils.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FollowersActivity extends AppCompatActivity  {
+public class FollowersActivity extends AppCompatActivity {
 
     @BindView(R.id.dietitian_list_rv)
     RecyclerView dietitianListRv;
@@ -73,7 +77,7 @@ public class FollowersActivity extends AppCompatActivity  {
         findViewById(R.id.toolbar).findViewById(R.id.back_img).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         setupAdapter();
@@ -150,6 +154,13 @@ public class FollowersActivity extends AppCompatActivity  {
         getFollowingsList();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(FollowersActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        overridePendingTransition(R.anim.anim_nothing, R.anim.slide_out_right);
+    }
+
     private void getFollowingsList() {
         customDialog.show();
         Call<List<Followers>> call = apiInterface.getFollowersList();
@@ -160,7 +171,7 @@ public class FollowersActivity extends AppCompatActivity  {
                 if (customDialog.isShowing())
                     customDialog.dismiss();
                 if (response.isSuccessful()) {
-                        dietitianItems.clear();
+                    dietitianItems.clear();
                     List<Followers> subscribedModel = response.body();
                     if (subscribedModel != null) {
                         if (subscribedModel.size() > 0) {
@@ -169,7 +180,7 @@ public class FollowersActivity extends AppCompatActivity  {
                             dietitianItems.addAll(subscribedModel);
                             FollowersListAdapter.setList(dietitianItems);
                             FollowersListAdapter.notifyDataSetChanged();
-                        }else {
+                        } else {
                             llNoRecords.setVisibility(View.VISIBLE);
                             dietitianListRv.setVisibility(View.GONE);
                         }

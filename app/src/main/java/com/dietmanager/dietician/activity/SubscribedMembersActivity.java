@@ -2,6 +2,7 @@ package com.dietmanager.dietician.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,7 @@ public class SubscribedMembersActivity extends AppCompatActivity {
         findViewById(R.id.toolbar).findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         findViewById(R.id.btnInvite).setOnClickListener(new View.OnClickListener() {
@@ -70,6 +71,12 @@ public class SubscribedMembersActivity extends AppCompatActivity {
         });
         setupAdapter();
         getSubscribedMembersList();
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(SubscribedMembersActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        overridePendingTransition(R.anim.anim_nothing, R.anim.slide_out_right);
     }
 
     private void setupAdapter() {

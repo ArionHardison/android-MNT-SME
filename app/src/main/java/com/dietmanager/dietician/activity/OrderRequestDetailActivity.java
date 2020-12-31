@@ -265,6 +265,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
                     params.put("_method", "DELETE");
                     params.put("status", "CANCELLED");
                     params.put("cancel_message", etReason.getText().toString().toString());
+                    alertDialog.dismiss();
                     cancelOrder(userRequestItem.getId(),params);
                 }
             }

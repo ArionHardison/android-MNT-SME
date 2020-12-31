@@ -54,10 +54,17 @@ public class UserRequestActivity extends AppCompatActivity implements UserReques
         findViewById(R.id.toolbar).findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         setupAdapter();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(UserRequestActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        overridePendingTransition(R.anim.anim_nothing, R.anim.slide_out_right);
     }
 
     private void setupAdapter() {

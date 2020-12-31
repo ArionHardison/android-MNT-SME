@@ -2,6 +2,7 @@ package com.dietmanager.dietician.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -50,14 +51,19 @@ public class InvitedUserActivity extends AppCompatActivity {
         findViewById(R.id.toolbar).findViewById(R.id.back_img).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         setupAdapter();
         getInvitedUserList();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(InvitedUserActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        overridePendingTransition(R.anim.anim_nothing, R.anim.slide_out_right);
+    }
     private void setupAdapter() {
         invitedUserAdapter = new InvitedUserAdapter(assignChefItems, this);
         invitedUserRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));

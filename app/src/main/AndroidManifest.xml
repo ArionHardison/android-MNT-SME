@@ -87,6 +87,7 @@
         <activity
             android:name=".activity.FollowersActivity"
             android:screenOrientation="portrait"
+            android:parentActivityName=".activity.DietitianMainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.MobileNumberActivity"

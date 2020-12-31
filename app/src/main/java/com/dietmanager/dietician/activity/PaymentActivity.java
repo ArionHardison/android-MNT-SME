@@ -1,5 +1,6 @@
 package com.dietmanager.dietician.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -34,13 +35,20 @@ public class PaymentActivity extends AppCompatActivity {
         findViewById(R.id.include2).findViewById(R.id.back_img).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         title.setText(getResources().getString(R.string.menu_payment));
         PaymentPagerAdapter pagerAdapter = new PaymentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(pager);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(PaymentActivity.this, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        overridePendingTransition(R.anim.anim_nothing, R.anim.slide_out_right);
     }
 
 }

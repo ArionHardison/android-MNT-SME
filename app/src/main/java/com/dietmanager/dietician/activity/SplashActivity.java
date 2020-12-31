@@ -90,6 +90,8 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
     }
 
 
+
+
     public void getDeviceToken() {
         try {
             if (!SharedHelper.getKey(context, "device_token").equals("")
@@ -122,15 +124,46 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
         }
     }
 
+    private void checkActivity() {
+        Intent intent = getIntent();
+        if (intent.getStringExtra("page") == null || intent.getStringExtra("page").equalsIgnoreCase("main")) {
+            startActivity(new Intent(context, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        } else {
+            String page=intent.getStringExtra("page");
+            if (page.equalsIgnoreCase("order")) {
+                        startActivity(new Intent(context, UserRequestActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            } else if (page.equalsIgnoreCase("follow")||page.equalsIgnoreCase("unfollow")) {
+                startActivity(new Intent(context, FollowersActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }  else if (page.equalsIgnoreCase("subscription")) {
+                startActivity(new Intent(context, SubscribedMembersActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }  else if (page.equalsIgnoreCase("wallet")) {
+                startActivity(new Intent(context, PaymentActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            } else if (page.equalsIgnoreCase("invite")) {
+                startActivity(new Intent(context, InvitedUserActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            } else {
+                startActivity(new Intent(context, DietitianMainActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
+        }
+
+        finishAffinity();
+    }
+
     @Override
     public void onSuccess(Profile profile) {
         GlobalData.profile = profile;
-        //if (profile.getBank()!=null) {
+/*        //if (profile.getBank()!=null) {
             startActivity(new Intent(context, DietitianMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         //}else {
             //startActivity(new Intent(context, BankDetailActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         //}
-        finish();
+        finish();*/
+        checkActivity();
     }
 
     @Override

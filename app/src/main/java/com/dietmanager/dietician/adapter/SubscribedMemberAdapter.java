@@ -63,10 +63,10 @@ public class SubscribedMemberAdapter extends RecyclerView.Adapter<SubscribedMemb
             DateFormat dateStringFormat = new SimpleDateFormat("dd/MM/yyyy");
             //Parsing the given String to Date object
             try {
-                if (item.getUser().getSubscribePlans() != null && item.getUser().getSubscribePlans().getCreatedAt() != null && item.getUser().getSubscribePlans().getExpiryDate() != null) {
-                    Date dateStart = formatter.parse(item.getUser().getSubscribePlans().getCreatedAt());
+                if ( item.getCreatedAt() != null && item.getExpiryDate() != null) {
+                    Date dateStart = formatter.parse(item.getCreatedAt());
                     holder.tvStartDate.setText(dateStringFormat.format(dateStart));
-                    Date dateExpiry = formatter.parse(item.getUser().getSubscribePlans().getExpiryDate());
+                    Date dateExpiry = formatter.parse(item.getExpiryDate());
                     holder.tvEndDate.setText(dateStringFormat.format(dateExpiry));
                 }
             } catch (ParseException e) {
