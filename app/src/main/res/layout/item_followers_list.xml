@@ -48,7 +48,7 @@
                 android:textSize="@dimen/_13sdp" />
 
             <TextView
-                android:id="@+id/adress"
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_2sdp"

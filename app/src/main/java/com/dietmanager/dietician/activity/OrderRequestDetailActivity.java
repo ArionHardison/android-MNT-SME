@@ -39,6 +39,7 @@ import com.dietmanager.dietician.model.Invoice;
 import com.dietmanager.dietician.model.MessageResponse;
 import com.dietmanager.dietician.model.Order;
 import com.dietmanager.dietician.model.ServerError;
+import com.dietmanager.dietician.model.SmallMessageResponse;
 import com.dietmanager.dietician.model.subscriptionplan.SubscriptionPlanItem;
 import com.dietmanager.dietician.model.userrequest.OrderingredientItem;
 import com.dietmanager.dietician.model.userrequest.UserRequestItem;
@@ -171,13 +172,13 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
 
     private void cancelOrder(int id, HashMap<String, String> map) {
         customDialog.show();
-        Call<MessageResponse> call = apiInterface.cancelOrderPost(id,map);
-        call.enqueue(new Callback<MessageResponse>() {
+        Call<SmallMessageResponse> call = apiInterface.cancelOrderPost(id,map);
+        call.enqueue(new Callback<SmallMessageResponse>() {
             @Override
-            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+            public void onResponse(Call<SmallMessageResponse> call, Response<SmallMessageResponse> response) {
                 customDialog.dismiss();
                 if (response.isSuccessful()) {
-                    Utils.displayMessage(OrderRequestDetailActivity.this, response.body().getMessage());
+                    Toast.makeText(OrderRequestDetailActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     try {
@@ -195,7 +196,7 @@ public class OrderRequestDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MessageResponse> call, Throwable t) {
+            public void onFailure(Call<SmallMessageResponse> call, Throwable t) {
                 customDialog.dismiss();
                 Utils.displayMessage(OrderRequestDetailActivity.this, getString(R.string.something_went_wrong));
             }

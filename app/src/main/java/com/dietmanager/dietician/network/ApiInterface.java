@@ -223,7 +223,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("api/dietitian/diet-order/{id}")
-    Call<MessageResponse> cancelOrderPost(@Path("id")int id,@FieldMap HashMap<String, String> params);
+    Call<SmallMessageResponse> cancelOrderPost(@Path("id")int id,@FieldMap HashMap<String, String> params);
 
     @FormUrlEncoded
     @POST("api/dietitian/reset/password")

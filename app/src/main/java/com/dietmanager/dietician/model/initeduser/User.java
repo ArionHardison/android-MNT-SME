@@ -17,7 +17,7 @@ public class User{
 	private Object latitude;
 
 	@SerializedName("wallet_balance")
-	private int walletBalance;
+	private Double walletBalance;
 
 	@SerializedName("device_type")
 	private String deviceType;
@@ -112,11 +112,11 @@ public class User{
 		return latitude;
 	}
 
-	public void setWalletBalance(int walletBalance){
+	public void setWalletBalance(Double walletBalance){
 		this.walletBalance = walletBalance;
 	}
 
-	public int getWalletBalance(){
+	public Double getWalletBalance(){
 		return walletBalance;
 	}
 
