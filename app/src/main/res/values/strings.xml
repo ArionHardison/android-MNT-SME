@@ -121,6 +121,7 @@
     <string name="add_categories">Add Categories</string>
 
     <string name="subscribed_members">Subscribed members</string>
+    <string name="subscribe_request">Subscribe requests</string>
     <string name="subscription_plans">Subscription plans</string>
     <string name="portfolio">Portfolio</string>
 
@@ -386,6 +387,7 @@
     <string name="no_past_orders_found">No past orders found</string>
     <string name="no_ongoing_orders_found">No Ongoing orders found</string>
     <string name="no_subscribed_members_found">No new subscribed members</string>
+    <string name="no_subscribe_request_found">No new subscribe request</string>
     <string name="no_request_found">No request found</string>
     <string name="no_subscription_plan_found">Subscription plan not found</string>
     <string name="no_ingredients_found">Ingredients not found</string>

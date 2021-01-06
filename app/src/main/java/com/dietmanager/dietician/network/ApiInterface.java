@@ -20,6 +20,7 @@ import com.dietmanager.dietician.model.ResetPasswordResponse;
 import com.dietmanager.dietician.model.RevenueResponse;
 import com.dietmanager.dietician.model.SmallMessageResponse;
 import com.dietmanager.dietician.model.StripeResponse;
+import com.dietmanager.dietician.model.SubscribeRequestResponse;
 import com.dietmanager.dietician.model.Transporter;
 import com.dietmanager.dietician.model.WalletHistory;
 import com.dietmanager.dietician.model.assignchef.AssignChefItem;
@@ -273,6 +274,9 @@ public interface ApiInterface {
 
     @GET("api/dietitian/subscribers/list")
     Call<List<SubscribeItem>> getSubscribedList();
+
+    @GET("api/dietitian/requesters")
+    Call<List<SubscribeRequestResponse>> getSubscribeRequestList(@Query("page")int page);
 
     @GET("api/dietitian/diet-order/{id}/chef")
     Call<List<AssignChefItem>> getAssignChefList(@Path("id")int id);

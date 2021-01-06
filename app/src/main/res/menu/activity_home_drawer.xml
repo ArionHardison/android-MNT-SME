@@ -31,6 +31,9 @@
             android:id="@+id/nav_subscription_plans"
             android:title="@string/subscription_plans" />
         <item
+            android:id="@+id/nav_subscribe_request"
+            android:title="@string/subscribe_request" />
+        <item
             android:id="@+id/nav_invite_link"
             android:title="@string/invite_link" />
         <item
