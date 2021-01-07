@@ -121,6 +121,10 @@ public interface ApiInterface {
     @POST("api/dietitian/follower/create")
     Call<MessageResponse> inviteUser( @FieldMap HashMap<String, String> params);
 //
+    @FormUrlEncoded
+    @POST("api/dietitian/requesters/{id}")
+    Call<SmallMessageResponse> acceptOrRejectSubscribeRequest(@Path("id")int id,@Field("status") String status);
+//
 //    @Multipart
 //    @POST("api/user/profile")
 //    Call<User> updateProfileWithImage(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);

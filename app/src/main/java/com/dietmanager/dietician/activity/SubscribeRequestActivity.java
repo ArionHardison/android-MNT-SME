@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,17 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dietmanager.dietician.R;
 import com.dietmanager.dietician.adapter.SubscribeRequestAdapter;
 import com.dietmanager.dietician.helper.CustomDialog;
-import com.dietmanager.dietician.model.MessageResponse;
+import com.dietmanager.dietician.model.SmallMessageResponse;
 import com.dietmanager.dietician.model.SubscribeRequestResponse;
 import com.dietmanager.dietician.network.ApiClient;
 import com.dietmanager.dietician.network.ApiInterface;
-import com.dietmanager.dietician.utils.TextUtils;
 import com.dietmanager.dietician.utils.Utils;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SubscribeRequestActivity extends AppCompatActivity {
+public class SubscribeRequestActivity extends AppCompatActivity implements SubscribeRequestAdapter.ISubscribeRequestListener  {
 
     @BindView(R.id.subscribe_request_rv)
     RecyclerView subscribeRequestRv;
@@ -68,7 +63,8 @@ public class SubscribeRequestActivity extends AppCompatActivity {
             }
         });
         setupAdapter();
-        getSubscribedMembersList();
+        customDialog.show();
+        getSubscribeRequestsList(false);
     }
     @Override
     public void onBackPressed() {
@@ -86,7 +82,7 @@ public class SubscribeRequestActivity extends AppCompatActivity {
     @BindView(R.id.mNestedScrollView)
     NestedScrollView mNestedScrollView;
     private void setupAdapter() {
-        subscribedRequestAdapter = new SubscribeRequestAdapter(subscribedRequestList, this);
+        subscribedRequestAdapter = new SubscribeRequestAdapter(subscribedRequestList, this,this);
         subscribeRequestRv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
@@ -109,7 +105,7 @@ public class SubscribeRequestActivity extends AppCompatActivity {
                             loading = true;
                             mNestedScrollView.fullScroll(View.FOCUS_DOWN);
                             customDialog.show();
-                            getSubscribedMembersList();
+                            getSubscribeRequestsList(false);
                         }
                     }
                 }
@@ -119,13 +115,22 @@ public class SubscribeRequestActivity extends AppCompatActivity {
         subscribeRequestRv.setAdapter(subscribedRequestAdapter);
     }
 
-    private void inviteUser(HashMap<String, String> map) {
-        Call<MessageResponse> call = apiInterface.inviteUser(map);
-        call.enqueue(new Callback<MessageResponse>() {
+    @Override
+    public void onSubscribeRequestClicked(int id, String status) {
+        acceptOrRejectSubscribeRequest(id,status);
+    }
+
+    private void acceptOrRejectSubscribeRequest(int id, String status) {
+        customDialog.show();
+        Call<SmallMessageResponse> call = apiInterface.acceptOrRejectSubscribeRequest(id,status);
+        call.enqueue(new Callback<SmallMessageResponse>() {
             @Override
-            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+            public void onResponse(Call<SmallMessageResponse> call, Response<SmallMessageResponse> response) {
+                customDialog.cancel();
                 if (response.isSuccessful()) {
+                    customDialog.show();
                     Utils.displayMessage(SubscribeRequestActivity.this, response.body().getMessage());
+                    getSubscribeRequestsList(true);
                 } else if (response.errorBody() != null) {
                     try {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
@@ -142,19 +147,22 @@ public class SubscribeRequestActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MessageResponse> call, Throwable t) {
+            public void onFailure(Call<SmallMessageResponse> call, Throwable t) {
+                customDialog.cancel();
                 Utils.displayMessage(SubscribeRequestActivity.this, getString(R.string.something_went_wrong));
             }
         });
     }
 
-    private void getSubscribedMembersList() {
+    private void getSubscribeRequestsList(final boolean clear) {
         Call<List<SubscribeRequestResponse>> call = apiInterface.getSubscribeRequestList(currentPage);
         call.enqueue(new Callback<List<SubscribeRequestResponse>>() {
             @Override
             public void onResponse(Call<List<SubscribeRequestResponse>> call, Response<List<SubscribeRequestResponse>> response) {
+                customDialog.cancel();
                 if (response.isSuccessful()) {
-                    subscribedRequestList.clear();
+                    if (clear)
+                        subscribedRequestList.clear();
                     List<SubscribeRequestResponse> subscribedModel = response.body();
                     if (subscribedModel != null) {
                         if (subscribedModel.size() > 0) {
@@ -162,17 +170,19 @@ public class SubscribeRequestActivity extends AppCompatActivity {
                             subscribeRequestRv.setVisibility(View.VISIBLE);
                             subscribedRequestList.addAll(subscribedModel);
                             subscribedRequestAdapter.setList(subscribedRequestList);
-                            subscribedRequestAdapter.notifyDataSetChanged();
-                        } else {
+                        }
+                        subscribedRequestAdapter.notifyDataSetChanged();
+                        /*else {
                             llNoRecords.setVisibility(View.VISIBLE);
                             subscribeRequestRv.setVisibility(View.GONE);
-                        }
+                        }*/
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<List<SubscribeRequestResponse>> call, Throwable t) {
+                customDialog.cancel();
                 Utils.displayMessage(activity, getString(R.string.something_went_wrong));
             }
         });

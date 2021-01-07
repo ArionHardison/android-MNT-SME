@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -28,11 +30,13 @@ import java.util.List;
 public class SubscribeRequestAdapter extends RecyclerView.Adapter<SubscribeRequestAdapter.MyViewHolder> {
 
     private Context context;
+    private ISubscribeRequestListener listener;
     private List<SubscribeRequestResponse> list;
 
-    public SubscribeRequestAdapter(List<SubscribeRequestResponse> list, Context con) {
+    public SubscribeRequestAdapter(List<SubscribeRequestResponse> list, Context con, ISubscribeRequestListener listener) {
         this.list = list;
         this.context = con;
+        this.listener = listener;
     }
 
     @Override
@@ -45,9 +49,26 @@ public class SubscribeRequestAdapter extends RecyclerView.Adapter<SubscribeReque
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         SubscribeRequestResponse item = list.get(position);
-            holder.userName.setText(item.getName());
-            holder.email.setText(item.getEmail());
-            holder.mobile.setText("+"+item.getCountryCode()+item.getMobile());
+        holder.userName.setText(item.getName());
+        holder.email.setText(item.getEmail());
+        holder.status.setText(item.getStatus());
+        if (item.getStatus().equalsIgnoreCase("REQUESTED"))
+            holder.buttonLay.setVisibility(View.VISIBLE);
+        else
+            holder.buttonLay.setVisibility(View.GONE);
+
+        holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onSubscribeRequestClicked(item.getId(), "ACCEPTED");
+            }
+        });
+        holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onSubscribeRequestClicked(item.getId(), "REJECTED");
+            }
+        });
     }
 
     @Override
@@ -69,13 +90,24 @@ public class SubscribeRequestAdapter extends RecyclerView.Adapter<SubscribeReque
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView userName, email,mobile;
+        TextView userName, email, status;
+        Button cancelBtn;
+        Button acceptBtn;
+        LinearLayout buttonLay;
 
         public MyViewHolder(View view) {
             super(view);
             userName = view.findViewById(R.id.user_name);
             email = view.findViewById(R.id.email);
-            mobile = view.findViewById(R.id.mobile);
+            status = view.findViewById(R.id.status);
+            cancelBtn = view.findViewById(R.id.cancel_btn);
+            acceptBtn = view.findViewById(R.id.accept_btn);
+            buttonLay = view.findViewById(R.id.button_lay);
         }
     }
+
+    public interface ISubscribeRequestListener {
+        void onSubscribeRequestClicked(int id, String status);
+    }
+
 }
