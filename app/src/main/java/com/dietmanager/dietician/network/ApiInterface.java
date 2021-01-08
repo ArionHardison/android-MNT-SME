@@ -84,8 +84,13 @@ public interface ApiInterface {
     Call<MessageResponse> addFood(@PartMap() Map<String, RequestBody> partMap, @Part MultipartBody.Part filename);
 
 
+
+    @POST("api/dietitian/diet-order/{id}/chat")
+    Call<SmallMessageResponse> chatPost(@Path("id") String id);
+
+
     @FormUrlEncoded
-    @POST("api/dietitian/chat/push")
+    @POST("api//chat/push")
     Call<Object> chatPost(@FieldMap HashMap<String, String> paramss);
 
     @FormUrlEncoded
