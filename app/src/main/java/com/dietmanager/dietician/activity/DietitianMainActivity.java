@@ -348,7 +348,6 @@ public class DietitianMainActivity extends AppCompatActivity
 
     @Override
     public void onFailure(String error) {
-        Log.e("Main", error);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

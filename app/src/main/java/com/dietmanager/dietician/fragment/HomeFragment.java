@@ -257,6 +257,6 @@ public class HomeFragment extends Fragment implements ProfileListener {
 
     @Override
     public void onFailure(String error) {
-        Log.e(TAG, error);
+        //Log.e(TAG, error);
     }
 }

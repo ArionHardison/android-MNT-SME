@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Dietitian - DietManager</string>
+    <string name="app_name" translatable="false">DietManager - Pro</string>
     <string name="facebook_app_id" translatable="false">609822126337013</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb609822126337013</string>
     <string name="google_client_id" translatable="false">925783581218-fj27e85rq3ehv23t1bij0fs01ngtupd5.apps.googleusercontent.com</string>

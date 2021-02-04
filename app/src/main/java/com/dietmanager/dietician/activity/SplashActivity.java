@@ -169,7 +169,7 @@ public class SplashActivity extends AppCompatActivity implements ProfileListener
     @Override
     public void onFailure(String error) {
         customDialog.dismiss();
-        if (error.isEmpty())
+        if (error!=null&&error.isEmpty())
             Utils.displayMessage(activity, getString(R.string.something_went_wrong));
         else
             Utils.displayMessage(activity, getString(R.string.something_went_wrong));

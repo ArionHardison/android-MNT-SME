@@ -681,7 +681,7 @@ public class RestaurantTimingActivity extends AppCompatActivity implements Compo
     @Override
     public void onFailure(String error) {
         customDialog.dismiss();
-        if (error.isEmpty())
+        if (error!=null&&error.isEmpty())
             Utils.displayMessage(RestaurantTimingActivity.this, getString(R.string.something_went_wrong));
         else Utils.displayMessage(RestaurantTimingActivity.this, error);
     }

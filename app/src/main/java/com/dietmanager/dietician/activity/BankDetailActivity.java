@@ -186,7 +186,7 @@ public class BankDetailActivity extends AppCompatActivity implements ProfileList
     @Override
     public void onFailure(String error) {
         hideLoading();
-        if (error.isEmpty())
+        if (error!=null&&error.isEmpty())
             Utils.displayMessage(BankDetailActivity.this, getString(R.string.something_went_wrong));
         else Utils.displayMessage(BankDetailActivity.this, error);
     }
